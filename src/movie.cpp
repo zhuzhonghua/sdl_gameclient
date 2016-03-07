@@ -49,11 +49,9 @@ void Movie::readTags()
 	{
 		_l->align();
 
-		int	tag_header = _l->readU16();
-		int	tag_type = tag_header >> 6;
-		int	tag_length = tag_header & 0x3F;
+		TagHeader th = _l->openTag();
 
-		switch (tag_type)
+		switch ((SWFTAG::TAG)th.tagType)
 		{
 		case SWFTAG::END:
 			end = true;
@@ -72,6 +70,8 @@ void Movie::readTags()
 		case SWFTAG::SHOWFRAME :
 			break;
 		}
+
+		_l->closeTag();
 	}
 }
 

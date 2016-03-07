@@ -4,6 +4,7 @@ Loader::Loader()
 {
 	_compressed = false;
 	_ops = NULL;
+	_tagOpen = false;
 }
 
 Loader::~Loader()
@@ -97,6 +98,11 @@ int Loader::_readBytes(void* bytes, int numBytes)
 }
 int Loader::readBytes(void* bytes, int numBytes)
 {
+	if (_tagOpen)
+	{
+		numBytes = Min(numBytes, _tagLeftLength);
+		_tagLeftLength -= numBytes;
+	}
 	if (!_compressed)
 	{
 		return _readBytes(bytes, numBytes);
@@ -167,5 +173,31 @@ void Loader::setCompressed(bool flag)
 
 		int	err = inflateInit(&_zstream);
 		Assert(err == Z_OK);
+	}
+}
+TagHeader Loader::openTag()
+{
+	TagHeader th;
+	int	tag_header = readU16();
+	th.tagType = tag_header >> 6;
+	th.tagLength = tag_header & 0x3F;
+	if (th.tagLength == 0x3F) {
+		th.tagLength = readU32();
+	}
+	_tagLeftLength = th.tagLength;
+	_tagOpen = true;
+
+	return th;
+}
+
+void Loader::closeTag()
+{
+	_tagOpen = false;
+
+	while (_tagLeftLength > 0)
+	{
+		int num = Min(_tagLeftLength, TEMP_SIZE);
+		_tagLeftLength -= num;
+		readBytes(_tempData, num);
 	}
 }
