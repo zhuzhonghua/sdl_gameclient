@@ -11,7 +11,43 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="deps\zlib\adler32.c" />
+    <ClCompile Include="deps\zlib\compress.c" />
+    <ClCompile Include="deps\zlib\crc32.c" />
+    <ClCompile Include="deps\zlib\deflate.c" />
+    <ClCompile Include="deps\zlib\gzio.c" />
+    <ClCompile Include="deps\zlib\infback.c" />
+    <ClCompile Include="deps\zlib\inffast.c" />
+    <ClCompile Include="deps\zlib\inflate.c" />
+    <ClCompile Include="deps\zlib\inftrees.c" />
+    <ClCompile Include="deps\zlib\trees.c" />
+    <ClCompile Include="deps\zlib\uncompr.c" />
+    <ClCompile Include="deps\zlib\zutil.c" />
+    <ClCompile Include="src\loader.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\movie.cpp" />
+    <ClCompile Include="src\root.cpp" />
+    <ClCompile Include="src\swftypes.cpp" />
+    <ClCompile Include="src\test.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="deps\zlib\crc32.h" />
+    <ClInclude Include="deps\zlib\deflate.h" />
+    <ClInclude Include="deps\zlib\inffast.h" />
+    <ClInclude Include="deps\zlib\inffixed.h" />
+    <ClInclude Include="deps\zlib\inflate.h" />
+    <ClInclude Include="deps\zlib\inftrees.h" />
+    <ClInclude Include="deps\zlib\mozzconf.h" />
+    <ClInclude Include="deps\zlib\trees.h" />
+    <ClInclude Include="deps\zlib\zconf.h" />
+    <ClInclude Include="deps\zlib\zlib.h" />
+    <ClInclude Include="deps\zlib\zutil.h" />
+    <ClInclude Include="include\loader.h" />
+    <ClInclude Include="include\movie.h" />
+    <ClInclude Include="include\root.h" />
+    <ClInclude Include="include\swftypes.h" />
+    <ClInclude Include="include\types.h" />
+    <ClInclude Include="src\test.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{92B1ABC6-BDD8-4A44-AF57-9085F9645941}</ProjectGuid>
@@ -50,7 +86,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)deps\include\SDL2_Image;$(ProjectDir)deps\include\SDL2;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)deps\include\SDL2_Image;$(ProjectDir)deps\zlib;$(ProjectDir)deps\include\SDL2;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
