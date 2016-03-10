@@ -23,11 +23,13 @@
     <ClCompile Include="deps\zlib\trees.c" />
     <ClCompile Include="deps\zlib\uncompr.c" />
     <ClCompile Include="deps\zlib\zutil.c" />
+    <ClCompile Include="src\character.cpp" />
     <ClCompile Include="src\loader.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\movie.cpp" />
     <ClCompile Include="src\root.cpp" />
     <ClCompile Include="src\swftypes.cpp" />
+    <ClCompile Include="src\tagloader.cpp" />
     <ClCompile Include="src\test.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -42,10 +44,12 @@
     <ClInclude Include="deps\zlib\zconf.h" />
     <ClInclude Include="deps\zlib\zlib.h" />
     <ClInclude Include="deps\zlib\zutil.h" />
+    <ClInclude Include="include\character.h" />
     <ClInclude Include="include\loader.h" />
     <ClInclude Include="include\movie.h" />
     <ClInclude Include="include\root.h" />
     <ClInclude Include="include\swftypes.h" />
+    <ClInclude Include="include\tagloader.h" />
     <ClInclude Include="include\types.h" />
     <ClInclude Include="src\test.h" />
   </ItemGroup>

@@ -34,6 +34,7 @@ public:
 public:
 	TagHeader	openTag();
 	void		closeTag();
+	int			getTagLeftSize() { return _tagLeftLength; }
 private:
 	int		_readBytes(void* bytes, int numBytes);
 private:	

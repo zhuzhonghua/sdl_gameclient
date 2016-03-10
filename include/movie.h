@@ -2,8 +2,12 @@
 #define __MOVIE_H__
 #include "swftypes.h"
 
+#include <map>
+
 class Root;
 class Loader;
+class Character;
+struct SDL_Renderer;
 
 using namespace swftypes;
 
@@ -19,6 +23,10 @@ public:
 
 	int		get_frame_count() const { return _frame_count; }
 	void	set_frame_count(int frames) { _frame_count = Max(frames, 1); }
+
+	void	addCharacter(int id, Character* ch);
+	Loader* getLoader() { return _l; }
+	SDL_Renderer*	getRender();
 private:
 	void readHeader();
 	void readTags();
@@ -32,5 +40,8 @@ private:
 private:
 	Root*	_r;
 	Loader* _l;
+
+	std::map<int, Character*>	_chs;
 };
+
 #endif

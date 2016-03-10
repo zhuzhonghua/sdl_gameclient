@@ -1,6 +1,7 @@
 #include "movie.h"
 #include "root.h"
 #include "loader.h"
+#include "tagloader.h"
 
 Movie::Movie(Root* r)
 {
@@ -19,6 +20,18 @@ bool Movie::load(const char* name)
 	readHeader();
 	readTags();
 	return true;
+}
+
+SDL_Renderer* Movie::getRender()
+{
+	return _r->_renderer;
+}
+
+void Movie::addCharacter(int id, Character* ch)
+{
+	std::map<int, Character*>::iterator iter = _chs.find(id);
+	Assert(iter == _chs.end());
+	_chs.insert(std::make_pair(id, ch));
 }
 
 void Movie::readHeader()
@@ -62,8 +75,10 @@ void Movie::readTags()
 			_bg.read_rgb(_l);
 			break;
 		case SWFTAG::DEFINEBITSJPEG2:
+			TagLoader::loadDefineBitsJPEG(this, &th);
 			break;
 		case SWFTAG::DEFINESHAPE:
+			TagLoader::loadDefineShape(this, &th);
 			break;
 		case SWFTAG::PLACEOBJECT2:
 			break;

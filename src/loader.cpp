@@ -181,7 +181,8 @@ TagHeader Loader::openTag()
 	int	tag_header = readU16();
 	th.tagType = tag_header >> 6;
 	th.tagLength = tag_header & 0x3F;
-	if (th.tagLength == 0x3F) {
+	if (th.tagLength == 0x3F) 
+	{
 		th.tagLength = readU32();
 	}
 	_tagLeftLength = th.tagLength;
