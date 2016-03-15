@@ -26,11 +26,13 @@ public:
 	void	align() { _unusedBits = 0; }
 	int		readUInt(int bitcount);
 	int		readSInt(int bitcount);
-	UInt16	readU16(){ UInt16 u; readBytes(&u, 2); return u; }
+	UInt16	readU16(){ align(); UInt16 u; readBytes(&u, 2); return u; }
 	UInt8 	readByte() { return read8(); }
 	UInt8	read8() { UInt8 u; readBytes(&u, 1); return u; }
 	UInt8	readU8() { align(); return readByte(); }
 	SInt8	readS8() { align(); return readByte(); }
+	float	readFixed8();
+	float	readFixed();
 public:
 	TagHeader	openTag();
 	void		closeTag();

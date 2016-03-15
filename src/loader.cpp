@@ -24,6 +24,7 @@ bool Loader::load(const char* name)
 
 UInt32 Loader::readU32()
 {
+	align();
 	UInt32 u = 0;
 	readBytes(&u, 4);
 	return u;
@@ -201,4 +202,14 @@ void Loader::closeTag()
 		_tagLeftLength -= num;
 		readBytes(_tempData, num);
 	}
+}
+
+float Loader::readFixed8()
+{
+	return readU16() / 256.0f;
+}
+
+float Loader::readFixed()
+{
+	return readU32() / 65536.0f;
 }

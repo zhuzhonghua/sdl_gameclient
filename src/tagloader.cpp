@@ -3,6 +3,7 @@
 #include "loader.h"
 #include "character.h"
 
+#include <vector>
 #include <SDL.h>
 #include "SDL_image.h"
 
@@ -28,7 +29,9 @@ void TagLoader::loadDefineBitsJPEG(Movie* m, const TagHeader* th)
 		//SDL_RenderPresent(m->getRender());
 		//SDL_Delay(5000);
 
-		Character* ch = new Character(tex, th->tagType);
+		Character* ch = new Character();
+		ch->_tex = tex;
+		ch->_type = th->tagType;
 		m->addCharacter(id, ch);
 
 		delete mem;
@@ -39,9 +42,15 @@ void TagLoader::loadDefineShape(Movie* m, const TagHeader* th)
 {
 	if (th->tagType == SWFTAG::DEFINESHAPE)
 	{
-		int id = m->getLoader()->readU16();
-		swftypes::rect rec;
-		rec.read(m->getLoader());
+		Character* ch = new Character();
+		ch->_type = th->tagType;
+		ch->_id = m->getLoader()->readU16();
+		ch->_bounds.read(m->getLoader());		
 
+		ch->_shape = new ShapeWithStyle();
+		ch->_shape->type = th->tagType;
+		ch->_shape->read(m->getLoader());
+
+		m->addCharacter(ch->_id, ch);
 	}
 }

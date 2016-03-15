@@ -1,14 +1,25 @@
 #include "character.h"
+#include "swftypes.h"
 
 #include <SDL.h>
 
-Character::Character(SDL_Texture* tex, int type)
+Character::Character()
 {
-	_type = type;
-	_tex = tex;
+	_tex = NULL;
+	_id = -1;
+	_type = -1;
+	_shape = NULL;
 }
 
 Character::~Character()
 {
-	SDL_DestroyTexture(_tex);
+	if (_tex)
+	{
+		SDL_DestroyTexture(_tex);
+	}
+
+	if (_shape)
+	{
+		delete _shape;
+	}	
 }

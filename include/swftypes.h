@@ -3,6 +3,8 @@
 
 #include "types.h"
 
+#include <vector>
+
 namespace SWFTAG
 {
 	enum TAG
@@ -12,15 +14,18 @@ namespace SWFTAG
 		DEFINESHAPE = 2,
 		SETBACKGROUNDCOLOR = 9,
 		DEFINEBITSJPEG2 = 21,
+		DEFINESHAPE2 = 22,
 		PLACEOBJECT2 = 26,
+		DEFINESHAPE3 = 32,
 		FILEATTRIBUTE = 69,
+		DEFINESHAPE4 = 83,
 	};
 };
 //
 // rect: rectangle type, used by render handler
 //
 class Loader;
-class SDL_Rect;
+struct SDL_Rect;
 
 namespace swftypes
 {
@@ -171,6 +176,177 @@ namespace swftypes
 		void	set_lerp(const rgba& a, const rgba& b, float f);
 
 		void	print();
+	};
+
+	struct GradRecord
+	{
+		int		ratio;
+		rgba	color;
+		void	read(Loader* in, int type);
+	};
+
+	struct Gradient
+	{
+		int		spreadMode;
+		int		interpolationMode;
+		int		nGrads;
+		std::vector<GradRecord>	gradientRecords;
+
+		void	read(Loader* in, int type);
+	};
+
+	struct FocalGradient : public Gradient
+	{
+		float	focalPoint;
+		void	read(Loader* in, int type);
+	};
+
+	struct FillStyle
+	{
+		int				fillStyleType;
+		rgba			color;
+		matrix			gradientMatrix;
+		Gradient		grad; // depend on type
+		FocalGradient	fgrad;// depend on type
+		int				bitmapId;
+		matrix			bitmapMatrix;
+
+		void			read(Loader* in, int type);
+	};
+
+	struct LineStyle
+	{
+		int		width;
+		rgba	color;
+
+		void	read(Loader* in, int type);
+	};
+
+	struct LineStyle2 : public LineStyle
+	{
+		int		startCapStyle;
+		int		joinStyle;
+		int		hasFillFlag;
+		int		noHScaleFlag;
+		int		noVScaleFlag;
+		int		pixelHintingFlag;
+		int		noClose;
+		int		endCapStyle;
+		int		miterLimitFactor;
+		FillStyle	fillType;
+
+		void	read(Loader* in, int type);
+	};
+
+	struct FillStyleArray
+	{
+		int						type;
+		std::vector<FillStyle>	fillStyles;
+		FillStyleArray(int t);
+		FillStyleArray(){}
+		void					read(Loader* in);
+	};
+
+	struct LineStyleArray
+	{
+		int						type;
+		
+		std::vector<LineStyle>	lineStyles;
+		std::vector<LineStyle2> lineStyles2;
+		LineStyleArray(int t);
+		LineStyleArray(){}
+		void					read(Loader* in);
+		template<typename T>
+		void readLineStyles(std::vector<T> *styleArray, Loader* in);
+	};
+
+	class Shape;
+	struct ShapeRecord
+	{
+		Shape*		 parent;
+		virtual void read(Loader* in) = 0;
+	};
+
+	struct EndShapeRecord : public ShapeRecord
+	{
+		const static bool	typeFlag = 0;
+		const static bool	endOfShape = 0;
+		virtual void read(Loader* in) {}
+	};
+
+	struct StyleChangeRecord : public ShapeRecord
+	{
+		const static bool	typeFlag = 0;
+		
+		bool				stateNewStyles;
+		bool				stateLineStyle;
+		bool				stateFillStyle1;
+		bool				stateFillStyle0;
+		bool				stateMoveTo;
+
+		int					moveBits;
+		int					moveDeltaX;
+		int					moveDeltaY;
+		int					fillStyle0;
+		int					fillStyle1;
+		int					lineStyle;
+		FillStyleArray		fillStyles;
+		LineStyleArray		lineStyles;
+
+		StyleChangeRecord(bool flags[5]);
+		virtual void		read(Loader* in);
+	};
+	struct StraightEdgeRecord : public ShapeRecord
+	{
+		const static bool	typeFlag = 1;
+		const static bool	straightFlag = 1;
+		int					numBits;
+		bool				generalLineFlag;
+		bool				vertLineFlag;
+		int					deltaX;
+		int					deltaY;
+
+		StraightEdgeRecord(int n);
+		virtual void		read(Loader* in);
+	};
+	struct CurvedEdgeRecord : public ShapeRecord
+	{
+		const static bool	typeFlag = 1;
+		const static bool	straightFlag = 0;
+		int					numBits;
+		int					controlDeltaX;
+		int					controlDeltaY;
+		int					anchorDeltaX;
+		int					anchorDeltaY;
+
+		CurvedEdgeRecord(int n);
+		virtual void read(Loader* in);
+	};
+
+	class Shape
+	{
+	public:
+		Shape();
+		virtual ~Shape();
+		virtual void	read(Loader* in);
+	public:
+		int		type;
+		int		id;
+		int		numFillBits;
+		int		numLineBits;
+		std::vector<ShapeRecord*>	shapeRecords;
+	};
+
+	class ShapeWithStyle : public Shape
+	{
+	public:
+		ShapeWithStyle();
+		~ShapeWithStyle();
+
+		virtual void	read(Loader* in);
+	public:
+		swftypes::FillStyleArray fillStyles;
+		swftypes::LineStyleArray lineStyles;
 	};
 }
 #endif

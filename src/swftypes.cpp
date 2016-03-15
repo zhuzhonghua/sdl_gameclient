@@ -1,5 +1,6 @@
 #include "swftypes.h"
 #include "loader.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -512,5 +513,362 @@ void	rgba::set_lerp(const rgba& a, const rgba& b, float f)
 	_g = (UInt8)frnd(flerp(a._g, b._g, f));
 	_b = (UInt8)frnd(flerp(a._b, b._b, f));
 	_a = (UInt8)frnd(flerp(a._a, b._a, f));
+}
+
+void GradRecord::read(Loader* in, int type)
+{
+	ratio = in->readU8();
+	if (type == SWFTAG::DEFINESHAPE || type == SWFTAG::DEFINESHAPE2)
+	{
+		color.read_rgb(in);
+	}
+	else if (type == SWFTAG::DEFINESHAPE3)
+	{
+		color.read_rgba(in);
+	}
+	else
+	{
+		Assert(0);
+	}
+}
+
+void Gradient::read(Loader* in, int type)
+{
+	spreadMode = in->readUInt(2);
+	interpolationMode = in->readUInt(2);
+	nGrads = in->readUInt(4);
+	for (int i = 0; i < nGrads; ++i)
+	{
+		GradRecord gr;
+		gr.read(in, type);
+		gradientRecords.push_back(gr);
+	}
+}
+
+void FocalGradient::read(Loader* in, int type)
+{
+	Gradient::read(in, type);
+	focalPoint = in->readFixed8();
+}
+
+
+void FillStyle::read(Loader* in, int type)
+{
+	fillStyleType = in->readU8();
+	if (fillStyleType == 0x00)
+	{
+		if (type == SWFTAG::DEFINESHAPE3)
+		{
+			color.read_rgba(in);
+		}
+		else if (type == SWFTAG::DEFINESHAPE || type == SWFTAG::DEFINESHAPE2)
+		{
+			color.read_rgb(in);
+		}
+		else
+		{
+			Assert(0);
+		}
+	}
+
+	if (fillStyleType == 0x10 || fillStyleType == 0x12)
+	{
+		gradientMatrix.read(in);
+	}
+
+	if (fillStyleType == 0x10 || fillStyleType == 0x12)
+	{
+		grad.read(in, type);
+	}
+	else if (fillStyleType == 0x13)
+	{
+		fgrad.read(in, type);
+	}
+
+	if (fillStyleType == 0x40 ||
+		fillStyleType == 0x41 ||
+		fillStyleType == 0x42 ||
+		fillStyleType == 0x43)
+	{
+		bitmapId = in->readU16();
+	}
+
+	if (fillStyleType == 0x40 ||
+		fillStyleType == 0x41 ||
+		fillStyleType == 0x42 ||
+		fillStyleType == 0x43)
+	{
+		bitmapMatrix.read(in);
+	}
+}
+
+void LineStyle::read(Loader* in, int type)
+{
+	width = in->readU16();
+	if (type == SWFTAG::DEFINESHAPE || type == SWFTAG::DEFINESHAPE2)
+	{
+		color.read_rgb(in);
+	}
+	else if (type == SWFTAG::DEFINESHAPE3)
+	{
+		color.read_rgba(in);
+	}
+	else
+	{
+		Assert(0);
+	}
+}
+
+void LineStyle2::read(Loader* in, int type)
+{
+	width = in->readU16();
+	startCapStyle = in->readUInt(2);
+	joinStyle = in->readUInt(2);
+	hasFillFlag = in->readUInt(1);
+	noHScaleFlag = in->readUInt(1);
+	noVScaleFlag = in->readUInt(1);
+	pixelHintingFlag = in->readUInt(1);
+	
+	int reserved = in->readUInt(5);
+	noClose = in->readUInt(1);
+	endCapStyle = in->readUInt(2);
+
+	if (joinStyle == 2)
+	{
+		miterLimitFactor = in->readU16();
+	}
+
+	if (hasFillFlag == 0)
+	{
+		color.read_rgba(in);
+	}
+
+	if (hasFillFlag == 1)
+	{
+		fillType.read(in, type);
+	}
+}
+
+FillStyleArray::FillStyleArray(int t)
+:type(t)
+{
+
+}
+
+void FillStyleArray::read(Loader* in)
+{
+	int count = in->readU8();
+	if (count == 0xFF)
+	{
+		count = in->readU16();
+	}
+	fillStyles.resize(count);
+	for (int i = 0; i < count; ++i)
+	{
+		fillStyles[i].read(in, type);
+	}
+}
+
+LineStyleArray::LineStyleArray(int t)
+:type(t)
+{
+
+}
+
+void LineStyleArray::read(Loader* in)
+{
+	if (type == SWFTAG::DEFINESHAPE ||
+		type == SWFTAG::DEFINESHAPE2 ||
+		type == SWFTAG::DEFINESHAPE3)
+	{
+		readLineStyles(&lineStyles, in);
+	}
+	else if (type == SWFTAG::DEFINESHAPE4)
+	{
+		readLineStyles(&lineStyles2, in);
+	}
+}
+
+template<typename T>
+void LineStyleArray::readLineStyles(std::vector<T> *styleArray, Loader* in)
+{
+	int styleCount = in->readU8();
+	if (styleCount == 0xFF)
+	{
+		styleCount = in->readU16();
+	}
+	styleArray->resize(styleCount);
+	for (int i = 0; i < styleCount; ++i)
+	{
+		(*styleArray)[i].read(in, type);
+	}
+}
+
+StraightEdgeRecord::StraightEdgeRecord(int n) 
+:numBits(n),
+generalLineFlag(false),
+vertLineFlag(false),
+deltaX(0),
+deltaY(0)
+{
+}
+
+void StraightEdgeRecord::read(Loader* in)
+{
+	generalLineFlag = in->readUInt(1);
+	if (!generalLineFlag)
+		vertLineFlag = in->readUInt(1);
+
+	if (generalLineFlag || !vertLineFlag)
+	{
+		deltaX = in->readSInt(numBits + 2);
+	}
+	if (generalLineFlag || vertLineFlag)
+	{
+		deltaY = in->readSInt(numBits + 2);
+	}
+}
+
+CurvedEdgeRecord::CurvedEdgeRecord(int n)
+:numBits(n),
+controlDeltaX(0),
+controlDeltaY(0),
+anchorDeltaX(0),
+anchorDeltaY(0)
+{
+
+}
+
+void CurvedEdgeRecord::read(Loader* in)
+{
+	controlDeltaX = in->readSInt(numBits + 2);
+	controlDeltaY = in->readSInt(numBits + 2);
+	anchorDeltaX = in->readSInt(numBits + 2);
+	anchorDeltaY = in->readSInt(numBits + 2);
+}
+
+StyleChangeRecord::StyleChangeRecord(bool flags[5])
+:stateNewStyles(flags[0]),
+stateLineStyle(flags[1]),
+stateFillStyle1(flags[2]),
+stateFillStyle0(flags[3]),
+stateMoveTo(flags[4])
+{
+
+}
+void StyleChangeRecord::read(Loader* in)
+{
+	if (stateMoveTo)
+	{
+		moveBits = in->readUInt(5);
+		moveDeltaX = in->readSInt(moveBits);
+		moveDeltaY = in->readSInt(moveBits);
+	}
+
+	if (stateFillStyle0)
+	{
+		fillStyle0 = in->readUInt(parent->numFillBits);
+	}
+	if (stateFillStyle1)
+	{
+		fillStyle1 = in->readUInt(parent->numFillBits);
+	}
+	if (stateLineStyle)
+	{
+		lineStyle = in->readUInt(parent->numLineBits);
+	}
+
+	if (stateNewStyles)
+	{
+		fillStyles.type = parent->type;
+		fillStyles.read(in);
+
+		lineStyles.type = parent->type;
+		lineStyles.read(in);
+
+		parent->numFillBits = in->readUInt(4);
+		parent->numLineBits = in->readUInt(4);
+	}
+
+}
+
+
+Shape::Shape()
+:type(-1),
+id(-1),
+numFillBits(-1),
+numLineBits(-1)
+{
+}
+Shape::~Shape()
+{
+
+}
+void Shape::read(Loader* in)
+{
+	Assert(this->type != -1);
+	this->numFillBits = in->readUInt(4);
+	this->numLineBits = in->readUInt(4);
+
+	bool endFlag = false;
+	do
+	{
+		ShapeRecord* sr = NULL;
+		bool typeFlag = in->readUInt(1);
+		if (typeFlag)
+		{
+			bool straightFlag = in->readUInt(1);
+			UInt8 numBits = in->readUInt(4);
+			if (straightFlag)
+			{
+				sr = new StraightEdgeRecord(numBits);
+			}
+			else
+			{
+				sr = new CurvedEdgeRecord(numBits);
+			}
+		}
+		else
+		{
+			bool stateNewStyles = in->readUInt(1);
+			bool stateLineStyle = in->readUInt(1);
+			bool stateFillStyle1 = in->readUInt(1);
+			bool stateFillStyle0 = in->readUInt(1);
+			bool stateMoveTo = in->readUInt(1);
+			if (!stateNewStyles && !stateLineStyle && !stateFillStyle1 && !stateFillStyle0 && !stateMoveTo)
+			{
+				sr = new EndShapeRecord();
+				endFlag = true;
+			}
+			else
+			{
+				bool flags[5] = { stateNewStyles, stateLineStyle, stateFillStyle1, stateFillStyle0, stateMoveTo };
+				sr = new StyleChangeRecord(flags);
+			}
+		}
+		sr->parent = this;
+		sr->read(in);
+		shapeRecords.push_back(sr);
+	} while (!endFlag);
+}
+
+ShapeWithStyle::ShapeWithStyle()
+{
+
+}
+
+ShapeWithStyle::~ShapeWithStyle()
+{
+}
+
+void ShapeWithStyle::read(Loader* in)
+{
+	fillStyles.type = this->type;
+	fillStyles.read(in);
+
+	lineStyles.type = this->type;
+	lineStyles.read(in);
+
+	Shape::read(in);
 }
 }
