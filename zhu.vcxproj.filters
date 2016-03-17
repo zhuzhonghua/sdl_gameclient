@@ -61,6 +61,9 @@
     <ClCompile Include="src\tagloader.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\controltag.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -129,6 +132,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="include\tagloader.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\controltag.h">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

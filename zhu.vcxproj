@@ -24,6 +24,7 @@
     <ClCompile Include="deps\zlib\uncompr.c" />
     <ClCompile Include="deps\zlib\zutil.c" />
     <ClCompile Include="src\character.cpp" />
+    <ClCompile Include="src\controltag.cpp" />
     <ClCompile Include="src\loader.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\movie.cpp" />
@@ -45,6 +46,7 @@
     <ClInclude Include="deps\zlib\zlib.h" />
     <ClInclude Include="deps\zlib\zutil.h" />
     <ClInclude Include="include\character.h" />
+    <ClInclude Include="include\controltag.h" />
     <ClInclude Include="include\loader.h" />
     <ClInclude Include="include\movie.h" />
     <ClInclude Include="include\root.h" />

@@ -6,6 +6,7 @@
 Movie::Movie(Root* r)
 {
 	_r = r;
+	_curFrame = 0;
 }
 
 Movie::~Movie()
@@ -34,6 +35,11 @@ void Movie::addCharacter(int id, Character* ch)
 	_chs.insert(std::make_pair(id, ch));
 }
 
+void Movie::addControlTag(ControlTag* ct)
+{
+	_frames[_curFrame].push_back(ct);
+}
+
 void Movie::readHeader()
 {
 	UInt32 header = _l->readU32();
@@ -46,13 +52,18 @@ void Movie::readHeader()
 		Assert(0);
 	}
 
+	_l->swfVersion(_version);
+	
 	bool	compressed = (header & 255) == 'C';
 	_l->setCompressed(compressed);
 
 	_frame_size.read(_l);
 	_frame_rate = _l->readU16() / 256.0f;
 
-	set_frame_count(_l->readU16());
+	_frame_count = _l->readU16();
+	_frame_count = Max(_frame_count, 1);
+
+	_frames.resize(_frame_count);
 }
 
 void Movie::readTags()
@@ -81,6 +92,7 @@ void Movie::readTags()
 			TagLoader::loadDefineShape(this, &th);
 			break;
 		case SWFTAG::PLACEOBJECT2:
+			TagLoader::loadPlaceObject(this, &th);
 			break;
 		case SWFTAG::SHOWFRAME :
 			break;

@@ -515,6 +515,133 @@ void	rgba::set_lerp(const rgba& a, const rgba& b, float f)
 	_a = (UInt8)frnd(flerp(a._a, b._a, f));
 }
 
+
+cxform	cxform::identity;
+cxform::cxform()
+// Initialize to identity transform.
+{
+	m[0][0] = 1;
+	m[1][0] = 1;
+	m[2][0] = 1;
+	m[3][0] = 1;
+	m[0][1] = 0;
+	m[1][1] = 0;
+	m[2][1] = 0;
+	m[3][1] = 0;
+}
+
+void	cxform::concatenate(const cxform& c)
+// Concatenate c's transform onto ours.  When
+// transforming colors, c's transform is applied
+// first, then ours.
+{
+	m[0][1] += m[0][0] * c.m[0][1];
+	m[1][1] += m[1][0] * c.m[1][1];
+	m[2][1] += m[2][0] * c.m[2][1];
+	m[3][1] += m[3][0] * c.m[3][1];
+
+	m[0][0] *= c.m[0][0];
+	m[1][0] *= c.m[1][0];
+	m[2][0] *= c.m[2][0];
+	m[3][0] *= c.m[3][0];
+}
+
+
+rgba	cxform::transform(const rgba in) const
+// Apply our transform to the given color; return the result.
+{
+	rgba	result;
+
+	result._r = (Uint8)fclamp(in._r * m[0][0] + m[0][1], 0, 255);
+	result._g = (Uint8)fclamp(in._g * m[1][0] + m[1][1], 0, 255);
+	result._b = (Uint8)fclamp(in._b * m[2][0] + m[2][1], 0, 255);
+	result._a = (Uint8)fclamp(in._a * m[3][0] + m[3][1], 0, 255);
+
+	return result;
+}
+
+
+void	cxform::read_rgb(Loader* in)
+{
+	in->align();
+
+	int	has_add = in->readUInt(1);
+	int	has_mult = in->readUInt(1);
+	int	nbits = in->readUInt(4);
+
+	if (has_mult) {
+		m[0][0] = in->readSInt(nbits) / 255.0f;
+		m[1][0] = in->readSInt(nbits) / 255.0f;
+		m[2][0] = in->readSInt(nbits) / 255.0f;
+		m[3][0] = 1;
+	}
+	else {
+		for (int i = 0; i < 4; i++) { m[i][0] = 1; }
+	}
+	if (has_add) {
+		m[0][1] = (float)in->readSInt(nbits);
+		m[1][1] = (float)in->readSInt(nbits);
+		m[2][1] = (float)in->readSInt(nbits);
+		m[3][1] = 1;
+	}
+	else {
+		for (int i = 0; i < 4; i++) { m[i][1] = 0; }
+	}
+}
+
+void	cxform::read_rgba(Loader* in)
+{
+	in->align();
+
+	int	has_add = in->readUInt(1);
+	int	has_mult = in->readUInt(1);
+	int	nbits = in->readUInt(4);
+
+	if (has_mult) {
+		m[0][0] = in->readSInt(nbits) / 256.0f;
+		m[1][0] = in->readSInt(nbits) / 256.0f;
+		m[2][0] = in->readSInt(nbits) / 256.0f;
+		m[3][0] = in->readSInt(nbits) / 256.0f;
+	}
+	else {
+		for (int i = 0; i < 4; i++) { m[i][0] = 1; }
+	}
+	if (has_add) {
+		m[0][1] = (float)in->readSInt(nbits);
+		m[1][1] = (float)in->readSInt(nbits);
+		m[2][1] = (float)in->readSInt(nbits);
+		m[3][1] = (float)in->readSInt(nbits);
+	}
+	else {
+		for (int i = 0; i < 4; i++) { m[i][1] = 0; }
+	}
+}
+
+void cxform::clamp()
+// Force component values to be in legal range.
+{
+	m[0][0] = fclamp(m[0][0], 0, 1);
+	m[1][0] = fclamp(m[1][0], 0, 1);
+	m[2][0] = fclamp(m[2][0], 0, 1);
+	m[3][0] = fclamp(m[3][0], 0, 1);
+
+	m[0][1] = fclamp(m[0][1], -255.0f, 255.0f);
+	m[1][1] = fclamp(m[1][1], -255.0f, 255.0f);
+	m[2][1] = fclamp(m[2][1], -255.0f, 255.0f);
+	m[3][1] = fclamp(m[3][1], -255.0f, 255.0f);
+}
+
+
+void	cxform::print() const
+// Debug log.
+{
+	//log_msg("    *         +\n");
+	//log_msg("| %4.4f %4.4f|\n", float(m_[0][0]), float(m_[0][1]));
+	//log_msg("| %4.4f %4.4f|\n", float(m_[1][0]), float(m_[1][1]));
+	//log_msg("| %4.4f %4.4f|\n", float(m_[2][0]), float(m_[2][1]));
+	//log_msg("| %4.4f %4.4f|\n", float(m_[3][0]), float(m_[3][1]));
+}
+
 void GradRecord::read(Loader* in, int type)
 {
 	ratio = in->readU8();
@@ -870,5 +997,168 @@ void ShapeWithStyle::read(Loader* in)
 	lineStyles.read(in);
 
 	Shape::read(in);
+}
+
+ClipEventFlags::ClipEventFlags()
+:swfVersion(-1),
+clipEventKeyUp(false),
+clipEventKeyDown(false),
+clipEventMouseUp(false),
+clipEventMouseDown(false),
+clipEventMouseMove(false),
+clipEventUnload(false),
+clipEventEnterFrame(false),
+clipEventLoad(false),
+clipEventDragOver(false),
+clipEventRollOut(false),
+clipEventRollOver(false),
+clipEventReleaseOutside(false),
+clipEventRelease(false),
+clipEventPress(false),
+clipEventInitialize(false),
+clipEventData(false),
+clipEventConstruct(false),
+clipEventKeyPress(false),
+clipEventDragOut(false)
+{
+
+}
+void ClipEventFlags::read(Loader* in)
+{
+	swfVersion = in->swfVersion();
+
+	clipEventKeyUp = in->readUInt(1);
+	clipEventKeyDown = in->readUInt(1);
+	clipEventMouseUp = in->readUInt(1);
+	clipEventMouseDown = in->readUInt(1);
+	clipEventMouseMove = in->readUInt(1);
+	clipEventUnload = in->readUInt(1);
+	clipEventEnterFrame = in->readUInt(1);
+	clipEventLoad = in->readUInt(1);
+	clipEventDragOver = in->readUInt(1);
+	clipEventRollOut = in->readUInt(1);
+	clipEventRollOver = in->readUInt(1);
+	clipEventReleaseOutside = in->readUInt(1);
+	clipEventRelease = in->readUInt(1);
+	clipEventPress = in->readUInt(1);
+	clipEventInitialize = in->readUInt(1);
+	clipEventData = in->readUInt(1);
+
+	if (swfVersion >= 6)
+	{
+		int reserved = in->readUInt(5);
+		clipEventConstruct = in->readUInt(1);
+		clipEventKeyPress = in->readUInt(1);
+		clipEventDragOut = in->readUInt(1);
+		reserved = in->readUInt(8);
+	}
+}
+
+bool ClipEventFlags::isNull()
+{
+	return clipEventKeyUp == false &&
+		clipEventKeyDown == false &&
+		clipEventMouseUp == false &&
+		clipEventMouseDown == false &&
+		clipEventMouseMove == false &&
+		clipEventUnload == false &&
+		clipEventEnterFrame == false &&
+		clipEventLoad == false &&
+		clipEventDragOver == false &&
+		clipEventRollOut == false &&
+		clipEventRollOver == false &&
+		clipEventReleaseOutside == false &&
+		clipEventRelease == false &&
+		clipEventPress == false &&
+		clipEventInitialize == false &&
+		clipEventData == false &&
+		clipEventConstruct == false &&
+		clipEventKeyPress == false &&
+		clipEventDragOut == false;
+}
+
+ActionRecord::ActionRecord()
+:actionCode(-1),
+len(0),
+data(NULL)
+{
+}
+
+ActionRecord::~ActionRecord()
+{
+	if (data)
+	{
+		delete data;
+	}	
+}
+
+void ActionRecord::read(Loader* in)
+{
+	actionCode = in->readU8();
+	if (actionCode >= 0x80)
+	{
+		len = in->readU16();
+		data = new char[len];
+		in->readBytes(data, len);
+	}
+}
+
+ClipActionRecord::ClipActionRecord()
+{
+
+}
+void ClipActionRecord::read(Loader* in)
+{
+	eventFlags.read(in);
+
+	if (eventFlags.isNull())
+	{
+		return;
+	}
+
+	actionRecordSize = in->readU32();
+
+	int totalSize = 0;
+	if (eventFlags.clipEventKeyPress)
+	{
+		keyCode = in->readU8();
+		totalSize += 1;
+	}
+
+	do 
+	{
+		ActionRecord ar;
+		ar.read(in);
+	
+		totalSize += ar.getLen();
+		
+		actions.push_back(ar);
+	} while (totalSize < actionRecordSize);
+
+	Assert(totalSize == actionRecordSize);
+}
+
+ClipActions::ClipActions()
+{
+
+}
+void ClipActions::read(Loader* in)
+{
+	int reserved = in->readU16();
+	allEventFlags.read(in);
+
+	do 
+	{
+		ClipActionRecord car;
+		car.read(in);
+		if (car.isNull())
+		{
+			break;
+		}
+		else
+		{
+			clipActionRecords.push_back(car);
+		}
+	} while (true);
 }
 }

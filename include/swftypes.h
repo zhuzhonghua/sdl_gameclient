@@ -178,6 +178,21 @@ namespace swftypes
 		void	print();
 	};
 
+	struct cxform
+	{
+		float	m[4][2];	// [RGBA][mult, add]
+
+		cxform();
+		void	concatenate(const cxform& c);
+		rgba	transform(const rgba in) const;
+		void	read_rgb(Loader* in);
+		void	read_rgba(Loader* in);
+		void	clamp();  // Force component values to be in range.
+		void	print() const;
+
+		static cxform	identity;
+	};
+
 	struct GradRecord
 	{
 		int		ratio;
@@ -347,6 +362,73 @@ namespace swftypes
 	public:
 		swftypes::FillStyleArray fillStyles;
 		swftypes::LineStyleArray lineStyles;
+	};
+
+	class ClipEventFlags
+	{
+	public:
+		ClipEventFlags();
+		void read(Loader* in);
+		bool	isNull();
+	public:
+		int		swfVersion;
+
+		bool	clipEventKeyUp;
+		bool	clipEventKeyDown;
+		bool	clipEventMouseUp;
+		bool	clipEventMouseDown;
+		bool	clipEventMouseMove;
+		bool	clipEventUnload;
+		bool	clipEventEnterFrame;
+		bool	clipEventLoad;
+		bool	clipEventDragOver;
+		bool	clipEventRollOut;
+		bool	clipEventRollOver;
+		bool	clipEventReleaseOutside;
+		bool	clipEventRelease;
+		bool	clipEventPress;
+		bool	clipEventInitialize;
+		bool	clipEventData;
+
+		bool	clipEventConstruct;
+		bool	clipEventKeyPress;
+		bool	clipEventDragOut;
+	};
+
+	class ActionRecord
+	{
+	public:
+		ActionRecord();
+		~ActionRecord();
+		void	read(Loader* in);
+		int		getLen() { return 1 + len; }
+	public:
+		int		actionCode;
+		int		len;
+		char*	data;
+	};
+
+	class ClipActionRecord
+	{
+	public:
+		ClipActionRecord();
+		void read(Loader* in);
+		bool isNull() { return eventFlags.isNull(); }
+	public:
+		ClipEventFlags	eventFlags;
+		int				actionRecordSize;
+		int				keyCode;
+		std::vector<ActionRecord>		actions;
+	};
+
+	class ClipActions
+	{
+	public:
+		ClipActions();
+		void read(Loader* in);
+	public:
+		ClipEventFlags	allEventFlags;
+		std::vector<ClipActionRecord>	clipActionRecords;
 	};
 }
 #endif

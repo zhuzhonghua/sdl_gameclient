@@ -2,6 +2,7 @@
 
 Loader::Loader()
 {
+	_swfVersion = -1;
 	_compressed = false;
 	_ops = NULL;
 	_tagOpen = false;
@@ -28,6 +29,16 @@ UInt32 Loader::readU32()
 	UInt32 u = 0;
 	readBytes(&u, 4);
 	return u;
+}
+
+std::string	Loader::readString()
+{
+	std::string str;
+	while (char c = read8())
+	{
+		str.append(1, c);
+	}
+	return str;
 }
 
 int	Loader::readSInt(int bitcount)

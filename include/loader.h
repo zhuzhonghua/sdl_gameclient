@@ -5,6 +5,8 @@
 #include "types.h"
 #include "zlib.h"
 
+#include <string>
+
 const int	ZBUF_SIZE = 4096;
 const int	TEMP_SIZE = 1024;
 
@@ -30,17 +32,22 @@ public:
 	UInt8 	readByte() { return read8(); }
 	UInt8	read8() { UInt8 u; readBytes(&u, 1); return u; }
 	UInt8	readU8() { align(); return readByte(); }
-	SInt8	readS8() { align(); return readByte(); }
+	SInt8	readS8() { align(); return readByte(); }	
 	float	readFixed8();
 	float	readFixed();
+	std::string	readString();
 public:
 	TagHeader	openTag();
 	void		closeTag();
 	int			getTagLeftSize() { return _tagLeftLength; }
+	int			swfVersion() { return _swfVersion; }
+	void		swfVersion(int v) { _swfVersion = v; }
 private:
 	int		_readBytes(void* bytes, int numBytes);
 private:	
 	SDL_RWops*	_ops;
+private:
+	int			_swfVersion;
 private:
 	UInt8		_unusedBits;
 	UInt8		_currentByte;

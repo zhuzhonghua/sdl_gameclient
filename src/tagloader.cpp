@@ -2,6 +2,7 @@
 #include "movie.h"
 #include "loader.h"
 #include "character.h"
+#include "controltag.h"
 
 #include <vector>
 #include <SDL.h>
@@ -52,5 +53,17 @@ void TagLoader::loadDefineShape(Movie* m, const TagHeader* th)
 		ch->_shape->read(m->getLoader());
 
 		m->addCharacter(ch->_id, ch);
+	}
+}
+
+void TagLoader::loadPlaceObject(Movie* m, const TagHeader* th)
+{
+	Loader* in = m->getLoader();
+	if (th->tagType == SWFTAG::PLACEOBJECT2)
+	{
+		PlaceObject2Tag* pot = new PlaceObject2Tag();
+		pot->read(in);
+
+		m->addControlTag(pot);
 	}
 }

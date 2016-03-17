@@ -1,6 +1,7 @@
 #ifndef __MOVIE_H__
 #define __MOVIE_H__
 #include "swftypes.h"
+#include "controltag.h"
 
 #include <map>
 
@@ -22,9 +23,11 @@ public:
 	void update();
 
 	int		get_frame_count() const { return _frame_count; }
-	void	set_frame_count(int frames) { _frame_count = Max(frames, 1); }
+	void	incCurFrame() { _curFrame++; }
 
 	void	addCharacter(int id, Character* ch);
+
+	void	addControlTag(ControlTag* ct);
 	Loader* getLoader() { return _l; }
 	SDL_Renderer*	getRender();
 private:
@@ -42,6 +45,8 @@ private:
 	Loader* _l;
 
 	std::map<int, Character*>	_chs;
+	std::vector<std::vector<ControlTag*> >	_frames;
+	int										_curFrame;
 };
 
 #endif
