@@ -2,6 +2,7 @@
 #define __MOVIE_H__
 #include "swftypes.h"
 #include "controltag.h"
+#include "swfdisplay.h"
 
 #include <map>
 
@@ -25,7 +26,12 @@ public:
 	int		get_frame_count() const { return _frame_count; }
 	void	incCurFrame() { _curFrame++; }
 
-	void	addCharacter(int id, Character* ch);
+	void		addCharacter(int id, Character* ch);
+	Character*	getCharacter(int id);
+
+	void		addDisplayChildAt(int depth, SWFDisplay* sd);
+	SWFDisplay*	getDisplayChildAt(int depth);
+	void		removeDisplayChildAt(int depth);
 
 	void	addControlTag(ControlTag* ct);
 	Loader* getLoader() { return _l; }
@@ -47,6 +53,7 @@ private:
 	std::map<int, Character*>	_chs;
 	std::vector<std::vector<ControlTag*> >	_frames;
 	int										_curFrame;
+	std::vector<SWFDisplay*>				_playList;
 };
 
 #endif

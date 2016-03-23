@@ -3,6 +3,8 @@
 #include "loader.h"
 #include "tagloader.h"
 
+#include <algorithm>
+
 Movie::Movie(Root* r)
 {
 	_r = r;
@@ -35,9 +37,71 @@ void Movie::addCharacter(int id, Character* ch)
 	_chs.insert(std::make_pair(id, ch));
 }
 
+Character* Movie::getCharacter(int id)
+{
+	std::map<int, Character*>::iterator iter = _chs.find(id);
+	if (iter != _chs.end())
+	{
+		return iter->second;
+	}
+	else
+	{
+		return NULL;
+	}
+}
+
 void Movie::addControlTag(ControlTag* ct)
 {
 	_frames[_curFrame].push_back(ct);
+}
+
+void Movie::addDisplayChildAt(int depth, SWFDisplay* sd)
+{
+	std::vector<SWFDisplay*>::iterator itr = _playList.begin();
+	while (itr != _playList.end())
+	{
+		if ((*itr)->depth > depth)
+		{
+			break;
+		}
+	}
+	if (itr == _playList.end())
+	{
+		_playList.push_back(sd);
+	}
+	else
+	{
+		itr--;
+		_playList.insert(itr, sd);
+	}
+	std::sort(_playList.begin(), _playList.end());
+}
+
+SWFDisplay* Movie::getDisplayChildAt(int depth)
+{
+	std::vector<SWFDisplay*>::iterator itr = _playList.begin();
+	while (itr != _playList.end())
+	{
+		if ((*itr)->depth == depth)
+		{
+			return (*itr);
+		}
+	}
+	return NULL;
+}
+
+void Movie::removeDisplayChildAt(int depth)
+{
+	std::vector<SWFDisplay*>::iterator itr = _playList.begin();
+	while (itr != _playList.end())
+	{
+		if ((*itr)->depth == depth)
+		{
+			delete *itr;
+			_playList.erase(itr);
+			break;
+		}
+	}
 }
 
 void Movie::readHeader()
@@ -89,12 +153,15 @@ void Movie::readTags()
 			TagLoader::loadDefineBitsJPEG(this, &th);
 			break;
 		case SWFTAG::DEFINESHAPE:
+		case SWFTAG::DEFINESHAPE2:
+		case SWFTAG::DEFINESHAPE3:
 			TagLoader::loadDefineShape(this, &th);
 			break;
 		case SWFTAG::PLACEOBJECT2:
 			TagLoader::loadPlaceObject(this, &th);
 			break;
 		case SWFTAG::SHOWFRAME :
+			incCurFrame();
 			break;
 		}
 
@@ -105,14 +172,34 @@ void Movie::readTags()
 void Movie::play()
 {
 	_r->addPlayList(this);
+	_curFrame = 0;
 }
 
 void Movie::advance()
-{}
+{
+	if (_curFrame < _frame_count)
+	{
+		std::vector<ControlTag*>& cts = _frames[_curFrame];
+		std::vector<ControlTag*>::iterator itr = cts.begin();
+		for (; itr != cts.end(); ++itr)
+		{
+			(*itr)->execute(this);
+		}
+
+		_curFrame++;
+	}
+}
+
 void Movie::update()
 {
 	SDL_SetRenderDrawColor(_r->_renderer, _bg._r, _bg._g, _bg._b, _bg._a);
 	SDL_Rect size;
 	_frame_size.copy(&size);
 	SDL_RenderFillRect(_r->_renderer, &size);
+
+	std::vector<SWFDisplay*>::iterator itr = _playList.begin();
+	for (; itr != _playList.end(); ++itr)
+	{
+		(*itr)->update(this);
+	}
 }

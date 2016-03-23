@@ -4,10 +4,12 @@
 #include "loader.h"
 #include "swftypes.h"
 
+class Movie;
+
 class ControlTag
 {
 public:
-	virtual void execute() = 0;
+	virtual void execute(Movie* m) = 0;
 };
 
 class PlaceObject2Tag: public ControlTag
@@ -15,7 +17,7 @@ class PlaceObject2Tag: public ControlTag
 public:
 	PlaceObject2Tag();
 	void read(Loader* in);
-	virtual void execute();
+	virtual void execute(Movie* m);	
 public:
 	bool placeFlagHasClipAction;
 	bool placeFlagHasClipDepth;

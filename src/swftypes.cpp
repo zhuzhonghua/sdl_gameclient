@@ -718,13 +718,6 @@ void FillStyle::read(Loader* in, int type)
 		fillStyleType == 0x43)
 	{
 		bitmapId = in->readU16();
-	}
-
-	if (fillStyleType == 0x40 ||
-		fillStyleType == 0x41 ||
-		fillStyleType == 0x42 ||
-		fillStyleType == 0x43)
-	{
 		bitmapMatrix.read(in);
 	}
 }

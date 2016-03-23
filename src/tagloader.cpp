@@ -41,7 +41,9 @@ void TagLoader::loadDefineBitsJPEG(Movie* m, const TagHeader* th)
 
 void TagLoader::loadDefineShape(Movie* m, const TagHeader* th)
 {
-	if (th->tagType == SWFTAG::DEFINESHAPE)
+	if (th->tagType == SWFTAG::DEFINESHAPE || 
+		th->tagType == SWFTAG::DEFINESHAPE2 ||
+		th->tagType == SWFTAG::DEFINESHAPE3)
 	{
 		Character* ch = new Character();
 		ch->_type = th->tagType;

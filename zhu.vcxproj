@@ -29,6 +29,7 @@
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\movie.cpp" />
     <ClCompile Include="src\root.cpp" />
+    <ClCompile Include="src\swfdisplay.cpp" />
     <ClCompile Include="src\swftypes.cpp" />
     <ClCompile Include="src\tagloader.cpp" />
     <ClCompile Include="src\test.cpp" />
@@ -50,6 +51,7 @@
     <ClInclude Include="include\loader.h" />
     <ClInclude Include="include\movie.h" />
     <ClInclude Include="include\root.h" />
+    <ClInclude Include="include\swfdisplay.h" />
     <ClInclude Include="include\swftypes.h" />
     <ClInclude Include="include\tagloader.h" />
     <ClInclude Include="include\types.h" />

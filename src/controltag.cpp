@@ -1,4 +1,6 @@
 #include "controltag.h"
+#include "movie.h"
+#include "swfdisplay.h"
 
 PlaceObject2Tag::PlaceObject2Tag()
 :placeFlagHasClipAction(false),
@@ -59,7 +61,61 @@ void PlaceObject2Tag::read(Loader* in)
 	}
 }
 
-void PlaceObject2Tag::execute()
+void PlaceObject2Tag::execute(Movie* m)
 {
+	SWFDisplay* sd = NULL;
+	if (placeFlagMove == false && placeFlagHasCharacter)
+	{
+		Assert(depth > 0);
+		SWFDisplay* tmp = m->getDisplayChildAt(depth);
+		Assert(tmp == NULL);
 
+		Character* cha = m->getCharacter(ch);
+		Assert(cha);
+
+		sd = new SWFDisplay();
+		sd->depth = depth;
+		sd->ch = cha;
+		
+		m->addDisplayChildAt(depth, sd);
+	}
+	else if (placeFlagMove && placeFlagHasCharacter == false)
+	{
+		sd = m->getDisplayChildAt(depth);
+		Assert(sd);
+	}
+	else if (placeFlagMove && placeFlagHasCharacter)
+	{
+		sd = m->getDisplayChildAt(depth);
+		
+		Character* cha = m->getCharacter(ch);
+		Assert(cha);
+
+		sd->ch = cha;
+	}
+	else
+	{
+		Assert(0);
+	}
+
+	if (placeFlagHasMatrix)
+	{
+		sd->mat = mat;
+	}
+	if (placeFlagHasColorTransform)
+	{
+		sd->cx = cx;
+	}
+	if (placeFlagHasRatio)
+	{
+		sd->ratio = ratio;
+	}
+	if (placeFlagHasName)
+	{
+		sd->name = name;
+	}
+	if (placeFlagHasClipDepth)
+	{
+		sd->clipDepth = clipDepth;
+	}
 }
