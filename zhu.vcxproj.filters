@@ -67,6 +67,9 @@
     <ClCompile Include="src\swfdisplay.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="game\game.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -77,6 +80,9 @@
     </Filter>
     <Filter Include="zlib">
       <UniqueIdentifier>{41f0dc5d-e1ed-4157-945b-26d9861b019a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game">
+      <UniqueIdentifier>{c00eb934-4920-49bd-b8cd-1154cf0c6b07}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +148,9 @@
     </ClInclude>
     <ClInclude Include="include\swfdisplay.h">
       <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="game\game.h">
+      <Filter>game</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

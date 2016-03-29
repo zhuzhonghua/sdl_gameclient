@@ -23,6 +23,7 @@
     <ClCompile Include="deps\zlib\trees.c" />
     <ClCompile Include="deps\zlib\uncompr.c" />
     <ClCompile Include="deps\zlib\zutil.c" />
+    <ClCompile Include="game\game.cpp" />
     <ClCompile Include="src\character.cpp" />
     <ClCompile Include="src\controltag.cpp" />
     <ClCompile Include="src\loader.cpp" />
@@ -46,6 +47,7 @@
     <ClInclude Include="deps\zlib\zconf.h" />
     <ClInclude Include="deps\zlib\zlib.h" />
     <ClInclude Include="deps\zlib\zutil.h" />
+    <ClInclude Include="game\game.h" />
     <ClInclude Include="include\character.h" />
     <ClInclude Include="include\controltag.h" />
     <ClInclude Include="include\loader.h" />
@@ -94,7 +96,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)deps\include\SDL2_Image;$(ProjectDir)deps\zlib;$(ProjectDir)deps\include\SDL2;$(ProjectDir)include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)deps\include\SDL2_Image;$(ProjectDir)deps\zlib;$(ProjectDir)deps\include\SDL2;$(ProjectDir)include;$(ProjectDir)game;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
