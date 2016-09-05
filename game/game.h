@@ -1,22 +1,17 @@
 #ifndef __GAME_H__
 #define __GAME_H__
+#include <list>
 
-#include "SDL.h"
-
-const int SCREEN_WIDTH = 550;
-const int SCREEN_HEIGHT = 400;
+#include "gameobject.h"
 
 class Game
 {
+	SDL_Renderer*	rend;
+	std::list<GameObject*>	_objects;
+
 public:
 	void			init();
-public:	
-	static Game*	get();
-private:
-	static Game*	_inst;
-private:
-	SDL_Texture*	bg_btn;
-protected:
+public:
 	Game();
 	~Game();
 public:

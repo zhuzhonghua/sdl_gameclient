@@ -1,30 +1,27 @@
+#include "stdafx.h"
 #include "game.h"
-#include "SDL_image.h"
+#include "global.h"
 
-SDL_Window* gWindow = NULL;
-SDL_Renderer* renderer = NULL;
-
-Game* Game::_inst;
-Game* Game::get()
-{
-	if (_inst)
-	{
-		return _inst;
-	}
-	else
-	{
-		_inst = new Game();
-		return _inst;
-	}
-}
+#include "ground.h"
+#include "character.h"
+#include "camera.h"
 
 void Game::init()
 {
-	SDL_Init(SDL_INIT_EVERYTHING);
-	gWindow = SDL_CreateWindow("MyGame", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-	renderer = SDL_CreateRenderer(gWindow, -1, 0);
+	Global::init();
 
-	bg_btn = IMG_LoadTexture(renderer, "gllogo.png");
+	rend = Global::getRenderer();
+
+	Ground* g = new Ground();
+	g->setZ(0);
+	_objects.push_back(g);
+
+	Character* me = new Character();
+	me->setPosition(GETWINDOWWIDTH() / 2, GETWINDOWHEIGHT() / 2);
+	me->setZ(1);
+	_objects.push_back(me);	
+
+	MAINCAMERA()->setMe(me);
 }
 
 Game::Game()
@@ -34,28 +31,46 @@ Game::Game()
 
 Game::~Game()
 {
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(gWindow);
+	for (std::list<GameObject*>::iterator itr = _objects.begin();
+		itr != _objects.end(); ++itr)
+	{
+		delete *itr;
+	}
 
 	SDL_Quit();
 }
 
+bool goZOrder(const GameObject* i, const GameObject* j)
+{ 
+	return (const_cast<GameObject*>(i)->getZ() < const_cast<GameObject*>(j)->getZ()); 
+}
+
 void Game::update()
 {
-	int w, h;
-	SDL_QueryTexture(bg_btn, NULL, NULL, &w, &h);
-	SDL_Rect tex_rect;
-	tex_rect.x = SCREEN_WIDTH / 2 - w / 2;
-	tex_rect.y = SCREEN_HEIGHT / 2 - h / 2;
-	tex_rect.w = w;
-	tex_rect.h = h;
+	MAINCAMERA()->update();
 
-	SDL_RenderCopy(renderer, bg_btn, NULL, &tex_rect);
+	_objects.sort(goZOrder);
+
+	for (std::list<GameObject*>::iterator itr = _objects.begin();
+		itr != _objects.end(); ++itr)
+	{
+		(*itr)->update();
+	}
+
+	for (std::list<GameObject*>::iterator itr = _objects.begin();
+		itr != _objects.end(); ++itr)
+	{
+		(*itr)->draw();
+	}
 }
 
 void Game::handleMouseEvent(SDL_Event* e)
 {
-
+	for (std::list<GameObject*>::iterator itr = _objects.begin();
+		itr != _objects.end(); ++itr)
+	{
+		(*itr)->handleEvent(e);
+	}
 }
 
 void Game::run()
@@ -82,7 +97,7 @@ void Game::run()
 				int x = 0, y = 0;
 				SDL_GetMouseState(&x, &y);
 			}
-			else if (e.type == SDL_MOUSEMOTION ||
+			else if (/*e.type == SDL_MOUSEMOTION ||*/
 					 e.type == SDL_MOUSEBUTTONDOWN ||
 					 e.type == SDL_MOUSEBUTTONUP)
 			{
@@ -90,8 +105,9 @@ void Game::run()
 			}
 		}
 
+		SDL_RenderClear(rend);
 		update();
-		SDL_RenderPresent(renderer);
+		SDL_RenderPresent(rend);
 		SDL_Delay(1000.0f / 60.0f);
 	}
 

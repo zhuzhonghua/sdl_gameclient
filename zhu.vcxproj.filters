@@ -1,19 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="src\root.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\test.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\main.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\movie.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\loader.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="deps\zlib\adler32.c">
@@ -52,22 +40,19 @@
     <ClCompile Include="deps\zlib\zutil.c">
       <Filter>zlib</Filter>
     </ClCompile>
-    <ClCompile Include="src\swftypes.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\character.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\tagloader.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\controltag.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\swfdisplay.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="game\game.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\global.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\ground.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\character.cpp">
+      <Filter>game</Filter>
+    </ClCompile>
+    <ClCompile Include="game\camera.cpp">
       <Filter>game</Filter>
     </ClCompile>
   </ItemGroup>
@@ -88,9 +73,6 @@
   <ItemGroup>
     <ClInclude Include="include\root.h">
       <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="src\test.h">
-      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="include\movie.h">
       <Filter>include</Filter>
@@ -150,6 +132,24 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="game\game.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\stdafx.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\global.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\ground.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\character.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\GameObject.h">
+      <Filter>game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\camera.h">
       <Filter>game</Filter>
     </ClInclude>
   </ItemGroup>
