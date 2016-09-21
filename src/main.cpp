@@ -1,6 +1,5 @@
 #include "stdafx.h"
-#include <stdio.h>
-#include <string>
+#include "game.h"
 
 //#include "root.h"
 //#include "movie.h"
@@ -10,8 +9,8 @@
 //const int SCREEN_HEIGHT = 400;
 
 //#include "game.h"
-//int main(int argc, char** args)
-//{
+int main(int argc, char** args)
+{
 	//testLoadIMG();
 
 	//Root r;
@@ -20,13 +19,14 @@
 	//m->play();
 	//r.run();
 
-	//Game game;
+	Game* game = Game::inst();
+	game->init();
+	game->run();
+	game->exit();
+
 	
-	//game.init();
-	//game.run();
-	
-	//return 0;
-//}
+	return 0;
+}
 /*#include <random>
 #include <vector>
 #include <iostream>

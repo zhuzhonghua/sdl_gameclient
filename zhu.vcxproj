@@ -11,44 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="deps\zlib\adler32.c" />
-    <ClCompile Include="deps\zlib\compress.c" />
-    <ClCompile Include="deps\zlib\crc32.c" />
-    <ClCompile Include="deps\zlib\deflate.c" />
-    <ClCompile Include="deps\zlib\gzio.c" />
-    <ClCompile Include="deps\zlib\infback.c" />
-    <ClCompile Include="deps\zlib\inffast.c" />
-    <ClCompile Include="deps\zlib\inflate.c" />
-    <ClCompile Include="deps\zlib\inftrees.c" />
-    <ClCompile Include="deps\zlib\trees.c" />
-    <ClCompile Include="deps\zlib\uncompr.c" />
-    <ClCompile Include="deps\zlib\zutil.c" />
-    <ClCompile Include="game\camera.cpp" />
-    <ClCompile Include="game\character.cpp" />
-    <ClCompile Include="game\game.cpp" />
-    <ClCompile Include="game\global.cpp" />
-    <ClCompile Include="game\ground.cpp" />
+    <ClCompile Include="library\game.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="deps\zlib\crc32.h" />
-    <ClInclude Include="deps\zlib\deflate.h" />
-    <ClInclude Include="deps\zlib\inffast.h" />
-    <ClInclude Include="deps\zlib\inffixed.h" />
-    <ClInclude Include="deps\zlib\inflate.h" />
-    <ClInclude Include="deps\zlib\inftrees.h" />
-    <ClInclude Include="deps\zlib\mozzconf.h" />
-    <ClInclude Include="deps\zlib\trees.h" />
-    <ClInclude Include="deps\zlib\zconf.h" />
-    <ClInclude Include="deps\zlib\zlib.h" />
-    <ClInclude Include="deps\zlib\zutil.h" />
-    <ClInclude Include="game\camera.h" />
-    <ClInclude Include="game\character.h" />
-    <ClInclude Include="game\game.h" />
-    <ClInclude Include="game\global.h" />
-    <ClInclude Include="game\ground.h" />
-    <ClInclude Include="game\gameobject.h" />
-    <ClInclude Include="game\stdafx.h" />
     <ClInclude Include="include\character.h" />
     <ClInclude Include="include\controltag.h" />
     <ClInclude Include="include\loader.h" />
@@ -58,6 +24,8 @@
     <ClInclude Include="include\swftypes.h" />
     <ClInclude Include="include\tagloader.h" />
     <ClInclude Include="include\types.h" />
+    <ClInclude Include="library\game.h" />
+    <ClInclude Include="library\stdafx.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{92B1ABC6-BDD8-4A44-AF57-9085F9645941}</ProjectGuid>
@@ -96,13 +64,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)deps\include\SDL2_mixer;$(ProjectDir)deps\include\SDL2_Image;$(ProjectDir)deps\zlib;$(ProjectDir)deps\include\SDL2;$(ProjectDir)include;$(ProjectDir)game;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)deps\include\SDL2_mixer;$(ProjectDir)deps\include\SDL2_Image;$(ProjectDir)deps\zlib;$(ProjectDir)deps\include\SDL2;$(ProjectDir)include;$(ProjectDir)library;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)deps\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <ProgramDatabaseFile>$(ProjectDir)obj\$(Configuration)\$(TargetName).pdb</ProgramDatabaseFile>
     </Link>

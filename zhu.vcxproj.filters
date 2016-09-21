@@ -4,56 +4,8 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="deps\zlib\adler32.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\zlib\compress.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\zlib\crc32.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\zlib\deflate.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\zlib\gzio.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\zlib\infback.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\zlib\inffast.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\zlib\inflate.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\zlib\inftrees.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\zlib\trees.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\zlib\uncompr.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="deps\zlib\zutil.c">
-      <Filter>zlib</Filter>
-    </ClCompile>
-    <ClCompile Include="game\game.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
-    <ClCompile Include="game\global.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
-    <ClCompile Include="game\ground.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
-    <ClCompile Include="game\character.cpp">
-      <Filter>game</Filter>
-    </ClCompile>
-    <ClCompile Include="game\camera.cpp">
-      <Filter>game</Filter>
+    <ClCompile Include="library\game.cpp">
+      <Filter>library</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -63,11 +15,8 @@
     <Filter Include="src">
       <UniqueIdentifier>{7b4af24d-3dd0-4f5a-8fbc-038f10e32257}</UniqueIdentifier>
     </Filter>
-    <Filter Include="zlib">
-      <UniqueIdentifier>{41f0dc5d-e1ed-4157-945b-26d9861b019a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="game">
-      <UniqueIdentifier>{c00eb934-4920-49bd-b8cd-1154cf0c6b07}</UniqueIdentifier>
+    <Filter Include="library">
+      <UniqueIdentifier>{f0473425-8b17-4bfb-8517-07735cd9e15f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -82,39 +31,6 @@
     </ClInclude>
     <ClInclude Include="include\types.h">
       <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\zlib\crc32.h">
-      <Filter>zlib</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\zlib\deflate.h">
-      <Filter>zlib</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\zlib\inffast.h">
-      <Filter>zlib</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\zlib\inffixed.h">
-      <Filter>zlib</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\zlib\inflate.h">
-      <Filter>zlib</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\zlib\inftrees.h">
-      <Filter>zlib</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\zlib\mozzconf.h">
-      <Filter>zlib</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\zlib\trees.h">
-      <Filter>zlib</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\zlib\zconf.h">
-      <Filter>zlib</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\zlib\zlib.h">
-      <Filter>zlib</Filter>
-    </ClInclude>
-    <ClInclude Include="deps\zlib\zutil.h">
-      <Filter>zlib</Filter>
     </ClInclude>
     <ClInclude Include="include\swftypes.h">
       <Filter>include</Filter>
@@ -131,26 +47,11 @@
     <ClInclude Include="include\swfdisplay.h">
       <Filter>include</Filter>
     </ClInclude>
-    <ClInclude Include="game\game.h">
-      <Filter>game</Filter>
+    <ClInclude Include="library\stdafx.h">
+      <Filter>library</Filter>
     </ClInclude>
-    <ClInclude Include="game\stdafx.h">
-      <Filter>game</Filter>
-    </ClInclude>
-    <ClInclude Include="game\global.h">
-      <Filter>game</Filter>
-    </ClInclude>
-    <ClInclude Include="game\ground.h">
-      <Filter>game</Filter>
-    </ClInclude>
-    <ClInclude Include="game\character.h">
-      <Filter>game</Filter>
-    </ClInclude>
-    <ClInclude Include="game\GameObject.h">
-      <Filter>game</Filter>
-    </ClInclude>
-    <ClInclude Include="game\camera.h">
-      <Filter>game</Filter>
+    <ClInclude Include="library\game.h">
+      <Filter>library</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
