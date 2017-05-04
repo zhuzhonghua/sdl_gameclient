@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "game.h"
+#include "zombie/game.h"
 
 //#include "root.h"
 //#include "movie.h"

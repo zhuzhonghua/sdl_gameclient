@@ -4,54 +4,176 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="library\game.cpp">
+    <ClCompile Include="library\input.cpp">
       <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\toucharea.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\scene.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\button.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\sprite.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\glslprogram.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\iomanager.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\imageloader.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\resourcemanager.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\texturecache.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\window.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\engine.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\camera2d.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\spritebatch.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\inputmanager.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\timing.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="zombie\game.cpp">
+      <Filter>zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="zombie\agent.cpp">
+      <Filter>zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="zombie\human.cpp">
+      <Filter>zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="zombie\zombie.cpp">
+      <Filter>zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="zombie\player.cpp">
+      <Filter>zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="zombie\level.cpp">
+      <Filter>zombie</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="include">
-      <UniqueIdentifier>{6a3df64f-4347-459f-af15-705f1e7e2e95}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src">
       <UniqueIdentifier>{7b4af24d-3dd0-4f5a-8fbc-038f10e32257}</UniqueIdentifier>
     </Filter>
     <Filter Include="library">
       <UniqueIdentifier>{f0473425-8b17-4bfb-8517-07735cd9e15f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="data">
+      <UniqueIdentifier>{ae67e4d9-5eb4-4080-8c4d-c7eaa46f81ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="zombie">
+      <UniqueIdentifier>{88bea487-7e8f-48d6-9ee4-6da4cf351325}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\root.h">
-      <Filter>include</Filter>
+    <ClInclude Include="library\eventlistener.h">
+      <Filter>library</Filter>
     </ClInclude>
-    <ClInclude Include="include\movie.h">
-      <Filter>include</Filter>
+    <ClInclude Include="library\input.h">
+      <Filter>library</Filter>
     </ClInclude>
-    <ClInclude Include="include\loader.h">
-      <Filter>include</Filter>
+    <ClInclude Include="library\toucharea.h">
+      <Filter>library</Filter>
     </ClInclude>
-    <ClInclude Include="include\types.h">
-      <Filter>include</Filter>
+    <ClInclude Include="library\scene.h">
+      <Filter>library</Filter>
     </ClInclude>
-    <ClInclude Include="include\swftypes.h">
-      <Filter>include</Filter>
+    <ClInclude Include="library\button.h">
+      <Filter>library</Filter>
     </ClInclude>
-    <ClInclude Include="include\character.h">
-      <Filter>include</Filter>
+    <ClInclude Include="library\sprite.h">
+      <Filter>library</Filter>
     </ClInclude>
-    <ClInclude Include="include\tagloader.h">
-      <Filter>include</Filter>
+    <ClInclude Include="library\gizmo.h">
+      <Filter>library</Filter>
     </ClInclude>
-    <ClInclude Include="include\controltag.h">
-      <Filter>include</Filter>
+    <ClInclude Include="library\glslprogram.h">
+      <Filter>library</Filter>
     </ClInclude>
-    <ClInclude Include="include\swfdisplay.h">
-      <Filter>include</Filter>
+    <ClInclude Include="library\vertex.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\iomanager.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\imageloader.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\texture.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\resourcemanager.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\texturecache.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\window.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\engine.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\camera2d.h">
+      <Filter>library</Filter>
     </ClInclude>
     <ClInclude Include="library\stdafx.h">
       <Filter>library</Filter>
     </ClInclude>
-    <ClInclude Include="library\game.h">
+    <ClInclude Include="library\spritebatch.h">
       <Filter>library</Filter>
     </ClInclude>
+    <ClInclude Include="library\inputmanager.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\timing.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="zombie\game.h">
+      <Filter>zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="zombie\agent.h">
+      <Filter>zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="zombie\human.h">
+      <Filter>zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="zombie\zombie.h">
+      <Filter>zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="zombie\player.h">
+      <Filter>zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="zombie\level.h">
+      <Filter>zombie</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\Shaders\colorShading.frag">
+      <Filter>data</Filter>
+    </None>
+    <None Include="data\Shaders\colorShading.vert">
+      <Filter>data</Filter>
+    </None>
   </ItemGroup>
 </Project>

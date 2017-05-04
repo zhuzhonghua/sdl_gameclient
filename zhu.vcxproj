@@ -11,21 +11,62 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="library\game.cpp" />
+    <ClCompile Include="library\button.cpp" />
+    <ClCompile Include="library\camera2d.cpp" />
+    <ClCompile Include="library\engine.cpp" />
+    <ClCompile Include="library\glslprogram.cpp" />
+    <ClCompile Include="library\imageloader.cpp" />
+    <ClCompile Include="library\input.cpp" />
+    <ClCompile Include="library\inputmanager.cpp" />
+    <ClCompile Include="library\iomanager.cpp" />
+    <ClCompile Include="library\resourcemanager.cpp" />
+    <ClCompile Include="library\scene.cpp" />
+    <ClCompile Include="library\sprite.cpp" />
+    <ClCompile Include="library\spritebatch.cpp" />
+    <ClCompile Include="library\texturecache.cpp" />
+    <ClCompile Include="library\timing.cpp" />
+    <ClCompile Include="library\toucharea.cpp" />
+    <ClCompile Include="library\window.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="zombie\agent.cpp" />
+    <ClCompile Include="zombie\game.cpp" />
+    <ClCompile Include="zombie\human.cpp" />
+    <ClCompile Include="zombie\level.cpp" />
+    <ClCompile Include="zombie\player.cpp" />
+    <ClCompile Include="zombie\zombie.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="include\character.h" />
-    <ClInclude Include="include\controltag.h" />
-    <ClInclude Include="include\loader.h" />
-    <ClInclude Include="include\movie.h" />
-    <ClInclude Include="include\root.h" />
-    <ClInclude Include="include\swfdisplay.h" />
-    <ClInclude Include="include\swftypes.h" />
-    <ClInclude Include="include\tagloader.h" />
-    <ClInclude Include="include\types.h" />
-    <ClInclude Include="library\game.h" />
+    <ClInclude Include="library\button.h" />
+    <ClInclude Include="library\camera2d.h" />
+    <ClInclude Include="library\engine.h" />
+    <ClInclude Include="library\eventlistener.h" />
+    <ClInclude Include="library\gizmo.h" />
+    <ClInclude Include="library\glslprogram.h" />
+    <ClInclude Include="library\imageloader.h" />
+    <ClInclude Include="library\input.h" />
+    <ClInclude Include="library\inputmanager.h" />
+    <ClInclude Include="library\iomanager.h" />
+    <ClInclude Include="library\resourcemanager.h" />
+    <ClInclude Include="library\scene.h" />
+    <ClInclude Include="library\sprite.h" />
+    <ClInclude Include="library\spritebatch.h" />
     <ClInclude Include="library\stdafx.h" />
+    <ClInclude Include="library\texture.h" />
+    <ClInclude Include="library\texturecache.h" />
+    <ClInclude Include="library\timing.h" />
+    <ClInclude Include="library\toucharea.h" />
+    <ClInclude Include="library\vertex.h" />
+    <ClInclude Include="library\window.h" />
+    <ClInclude Include="zombie\agent.h" />
+    <ClInclude Include="zombie\game.h" />
+    <ClInclude Include="zombie\human.h" />
+    <ClInclude Include="zombie\level.h" />
+    <ClInclude Include="zombie\player.h" />
+    <ClInclude Include="zombie\zombie.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="data\Shaders\colorShading.frag" />
+    <None Include="data\Shaders\colorShading.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{92B1ABC6-BDD8-4A44-AF57-9085F9645941}</ProjectGuid>
@@ -64,13 +105,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)deps\include\SDL2_mixer;$(ProjectDir)deps\include\SDL2_Image;$(ProjectDir)deps\zlib;$(ProjectDir)deps\include\SDL2;$(ProjectDir)include;$(ProjectDir)library;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)deps\include;$(ProjectDir)deps\include\SDL2_mixer;$(ProjectDir)deps\include\SDL2_Image;$(ProjectDir)deps\zlib;$(ProjectDir)deps\include\SDL2;$(ProjectDir)include;$(ProjectDir)library;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)deps\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;opengl32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;opengl32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <ProgramDatabaseFile>$(ProjectDir)obj\$(Configuration)\$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
