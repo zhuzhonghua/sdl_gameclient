@@ -6,5 +6,13 @@ public:
 	Zombie();
 	~Zombie();
 
-	void update();
+	void init(float speed, glm::vec2 pos);
+
+	void update(const std::vector<std::string>& levelData,
+		std::vector<Human*>& humans,
+		std::vector<Zombie*>& zobies,
+		float deltaTime);
+
+private:
+	Human* getNearestHuman(std::vector<Human*>& humans);
 };

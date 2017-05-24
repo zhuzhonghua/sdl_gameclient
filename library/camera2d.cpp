@@ -41,6 +41,29 @@ void Camera2D::update()
 	}
 }
 
+bool Camera2D::isBoxInView(const glm::vec2 position, const glm::vec2 dimension)
+{
+	glm::vec2 scaledScreenDimensions = glm::vec2(_screenWidth, _screenHeight) / (_scale);
+
+	float MIN_DISTANCE_X = dimension.x / 2.0f + scaledScreenDimensions.x/2.0f;
+	float MIN_DISTANCE_Y = dimension.y / 2.0f + scaledScreenDimensions.y / 2.0f;
+
+	glm::vec2 centerPosition = position + dimension / 2.0f;
+	glm::vec2 centerCamPos = _position;
+
+	glm::vec2 distVec = centerPosition - centerCamPos;
+
+	float xDepth = MIN_DISTANCE_X - abs(distVec.x);
+	float yDepth = MIN_DISTANCE_Y - abs(distVec.y);
+
+	if (xDepth > 0 || yDepth > 0)
+	{
+		return true;
+	}
+
+	return false;
+}
+
 glm::vec2 Camera2D::convertScreenToWorld(glm::vec2 screenCoords)
 {
 	screenCoords.y = _screenHeight - screenCoords.y;

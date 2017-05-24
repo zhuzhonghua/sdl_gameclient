@@ -19,6 +19,7 @@ Level::Level(std::string fileName)
 	std::string tmp;
 	file >> tmp >> _numHuman;
 
+	std::getline(file, tmp);
 	while (std::getline(file, tmp))
 	{
 		_levelData.push_back(tmp);
@@ -60,6 +61,7 @@ Level::Level(std::string fileName)
 					Zhu::ResourceManager::getTexture("data/zombie/Textures/glass.png").id,
 					0.0f,
 					whiteColor);
+				break;
 			case 'L':
 				_spriteBatch.draw(destRect,
 					uvRect,
@@ -68,10 +70,12 @@ Level::Level(std::string fileName)
 					whiteColor);
 				break;
 			case '@':
+				_levelData[y][x] = '.';
 				_startPlayerPos.x = x * TILE_WIDTH;
 				_startPlayerPos.y = y*TILE_WIDTH;
 				break;
 			case 'Z':
+				_levelData[y][x] = '.';
 				_zombieStartPosition.emplace_back(x * TILE_WIDTH, y*TILE_WIDTH);
 				break;
 			default:

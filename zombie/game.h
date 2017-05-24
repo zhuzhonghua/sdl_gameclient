@@ -11,6 +11,9 @@
 #include "timing.h"
 #include "level.h"
 #include "player.h"
+#include "zombie.h"
+#include "bullet.h"
+#include "spritefont.h"
 
 enum GameState
 {
@@ -18,16 +21,28 @@ enum GameState
 	EXIT
 };
 
+
+const float HUMAN_SPEED = 1.0f;
+const float ZOMBIE_SPEED = 1.3f;
+const float PLAYER_SPEED = 5.0f;
+
 class Game
 {
 	static Game* _inst;
 	Game();
 	
 	Zhu::SpriteBatch _spriteBatch;
+	Zhu::SpriteBatch _hudSpriteBatch;
+
 	Zhu::Window* _window;
+
 	Zhu::Camera2D* _camera;
+	Zhu::Camera2D* _hudCamera;
+
 	Zhu::InputManager _inputMgr;
 	Zhu::FPSLimiter _fpsLimiter;
+
+	Zhu::SpriteFont* _spriteFont;
 
 	Zhu::GLSLProgram* _colorProgram;
 
@@ -41,10 +56,13 @@ class Game
 
 	Player* _player;
 	std::vector<Human*> _humans;
+	std::vector<Zombie*> _zombies;
+	std::vector<Bullet> _bullets;
+
 public:
 	
-	const int WIN_WIDTH = 960;
-	const int WIN_HEIGHT = 640;
+	const int WIN_WIDTH = 1024;
+	const int WIN_HEIGHT = 768;
 
 	GameState	state;
 public:	
@@ -57,8 +75,11 @@ public:
 	void initShaders();
 	void initLevels();
 
-	void updateAgents();
+	void checkVictory();
+	void updateBullets(float deltaTime);
+	void updateAgents(float deltaTime);
 	void processInput();
 	void drawGame();
+	void drawHud();
 };
 #endif

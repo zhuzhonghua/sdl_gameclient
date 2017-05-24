@@ -14,6 +14,8 @@ namespace Zhu
 		void init(int screenWidth, int screenHeight);
 		void update();
 
+		bool isBoxInView(const glm::vec2 position, const glm::vec2 dimention);
+
 		void setPosition(glm::vec2 newPosition) { _position = newPosition; _needsTransformUpdate = true; }
 		void setScale(float scale) { _scale = scale; _needsTransformUpdate = true; }
 
