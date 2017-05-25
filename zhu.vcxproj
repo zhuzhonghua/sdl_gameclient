@@ -23,13 +23,16 @@
     <ClCompile Include="library\scene.cpp" />
     <ClCompile Include="library\sprite.cpp" />
     <ClCompile Include="library\spritebatch.cpp" />
+    <ClCompile Include="library\spritefont.cpp" />
     <ClCompile Include="library\texturecache.cpp" />
     <ClCompile Include="library\timing.cpp" />
     <ClCompile Include="library\toucharea.cpp" />
     <ClCompile Include="library\window.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="zombie\agent.cpp" />
+    <ClCompile Include="zombie\bullet.cpp" />
     <ClCompile Include="zombie\game.cpp" />
+    <ClCompile Include="zombie\gun.cpp" />
     <ClCompile Include="zombie\human.cpp" />
     <ClCompile Include="zombie\level.cpp" />
     <ClCompile Include="zombie\player.cpp" />
@@ -50,6 +53,7 @@
     <ClInclude Include="library\scene.h" />
     <ClInclude Include="library\sprite.h" />
     <ClInclude Include="library\spritebatch.h" />
+    <ClInclude Include="library\spritefont.h" />
     <ClInclude Include="library\stdafx.h" />
     <ClInclude Include="library\texture.h" />
     <ClInclude Include="library\texturecache.h" />
@@ -58,7 +62,9 @@
     <ClInclude Include="library\vertex.h" />
     <ClInclude Include="library\window.h" />
     <ClInclude Include="zombie\agent.h" />
+    <ClInclude Include="zombie\bullet.h" />
     <ClInclude Include="zombie\game.h" />
+    <ClInclude Include="zombie\gun.h" />
     <ClInclude Include="zombie\human.h" />
     <ClInclude Include="zombie\level.h" />
     <ClInclude Include="zombie\player.h" />
@@ -105,13 +111,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)deps\include;$(ProjectDir)deps\include\SDL2_mixer;$(ProjectDir)deps\include\SDL2_Image;$(ProjectDir)deps\zlib;$(ProjectDir)deps\include\SDL2;$(ProjectDir)include;$(ProjectDir)library;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)deps\include;$(ProjectDir)deps\include\SDL2_mixer;$(ProjectDir)deps\include\SDL2_ttf;$(ProjectDir)deps\include\SDL2_Image;$(ProjectDir)deps\zlib;$(ProjectDir)deps\include\SDL2;$(ProjectDir)include;$(ProjectDir)library;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;WIN32;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(ProjectDir)deps\libs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;opengl32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;SDL2_mixer.lib;SDL2_ttf.lib;opengl32.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <SubSystem>Console</SubSystem>
       <ProgramDatabaseFile>$(ProjectDir)obj\$(Configuration)\$(TargetName).pdb</ProgramDatabaseFile>
     </Link>

@@ -58,6 +58,8 @@ void Game::init()
 {
 	Zhu::init();
 
+	_audioEngine.init();
+
 	_window = new Zhu::Window();
 	_window->create("Game1", WIN_WIDTH, WIN_HEIGHT);
 
@@ -108,9 +110,9 @@ void Game::initLevels()
 
 	const float BULLET_SPEED = 10.0f;
 
-	_player->addGun(new Gun("Magnum", 10, 1, 5.0f, 30, BULLET_SPEED));
-	_player->addGun(new Gun("Shotgun", 30, 12, 20.0f, 4, BULLET_SPEED));
-	_player->addGun(new Gun("MP5", 2, 1, 10.0f, 20, BULLET_SPEED));
+	_player->addGun(new Gun("Magnum", 10, 1, 5.0f, 30, BULLET_SPEED, _audioEngine.loadSoundEffect("data/Sound/shots/pistol.wav")));
+	_player->addGun(new Gun("Shotgun", 30, 12, 20.0f, 4, BULLET_SPEED, _audioEngine.loadSoundEffect("data/Sound/shots/shotgun.wav")));
+	_player->addGun(new Gun("MP5", 2, 1, 10.0f, 20, BULLET_SPEED, _audioEngine.loadSoundEffect("data/Sound/shots/cg1.wav")));
 }
 
 void Game::run()
@@ -123,6 +125,9 @@ void Game::run()
 	int previousTick = SDL_GetTicks();
 
 	_camera->setScale(1.0f/3.0f);
+
+	Zhu::Music music = _audioEngine.loadMusic("data/Sound/XYZ.ogg");
+	music.play();
 
 	SDL_StartTextInput();	
 	while (state == GameState::PLAY)

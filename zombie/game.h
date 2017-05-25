@@ -14,6 +14,7 @@
 #include "zombie.h"
 #include "bullet.h"
 #include "spritefont.h"
+#include "audioengine.h"
 
 enum GameState
 {
@@ -45,6 +46,8 @@ class Game
 	Zhu::SpriteFont* _spriteFont;
 
 	Zhu::GLSLProgram* _colorProgram;
+
+	Zhu::AudioEngine _audioEngine;
 
 	float _fps;
 

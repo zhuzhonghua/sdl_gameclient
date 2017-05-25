@@ -70,6 +70,15 @@
     <ClCompile Include="zombie\level.cpp">
       <Filter>zombie</Filter>
     </ClCompile>
+    <ClCompile Include="zombie\gun.cpp">
+      <Filter>zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="zombie\bullet.cpp">
+      <Filter>zombie</Filter>
+    </ClCompile>
+    <ClCompile Include="library\spritefont.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -166,6 +175,15 @@
     </ClInclude>
     <ClInclude Include="zombie\level.h">
       <Filter>zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="zombie\gun.h">
+      <Filter>zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="zombie\bullet.h">
+      <Filter>zombie</Filter>
+    </ClInclude>
+    <ClInclude Include="library\spritefont.h">
+      <Filter>library</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
