@@ -5,8 +5,10 @@
 
 Agent::Agent()
 {
-
+	_texID = Zhu::ResourceManager::getTexture("data/zombie/Textures/circle.png").id;
+	_direction = glm::vec2(1.0f, 0.0f);
 }
+
 Agent::~Agent()
 {
 
@@ -14,7 +16,7 @@ Agent::~Agent()
 
 void Agent::draw(Zhu::SpriteBatch& spriteBatch)
 {
-	static int texID = Zhu::ResourceManager::getTexture("data/zombie/Textures/circle.png").id;
+	//static int texID = Zhu::ResourceManager::getTexture("data/zombie/Textures/circle.png").id;
 
 	const glm::vec4 uvRect(0.0f, 0.0f, 1.0f, 1.0f);
 
@@ -24,7 +26,7 @@ void Agent::draw(Zhu::SpriteBatch& spriteBatch)
 	destRect.z = AGENT_WIDTH;
 	destRect.w = AGENT_WIDTH;
 
-	spriteBatch.draw(destRect, uvRect, texID, 0, _color);
+	spriteBatch.draw(destRect, uvRect, _texID, 0, _color, _direction);
 }
 
 bool Agent::collideWithLevel(const std::vector<std::string>& levelData)

@@ -1,5 +1,6 @@
 #include "zombie.h"
 #include "human.h"
+#include "resourcemanager.h"
 
 Zombie::Zombie()
 {
@@ -29,9 +30,11 @@ void Zombie::init(float speed, glm::vec2 pos)
 	_speed = speed;
 	_position = pos;
 
-	_color = Zhu::Color(0,160,0,255);
+	_color = Zhu::Color(255, 255, 255, 255);
 
 	_health = 150;
+
+	_texID = Zhu::ResourceManager::getTexture("data/zombie/Textures/zombie.png").id;
 }
 
 Human* Zombie::getNearestHuman(std::vector<Human*>& humans)

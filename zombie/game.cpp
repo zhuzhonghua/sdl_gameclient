@@ -13,6 +13,7 @@
 #include <random>
 #include <ctime>
 #include <algorithm>
+#include "glm/gtx/rotate_vector.hpp"
 
 Game* Game::_inst;
 
@@ -100,7 +101,7 @@ void Game::initLevels()
 	
 		_humans.back()->init(HUMAN_SPEED, pos);
 	}
-
+	
 	const std::vector<glm::vec2>& zombiePositions = _levels[_currentLevel]->getZombieStartPos();
 	for (int i = 0; i < zombiePositions.size(); i++)
 	{
@@ -113,6 +114,10 @@ void Game::initLevels()
 	_player->addGun(new Gun("Magnum", 10, 1, 5.0f, 30, BULLET_SPEED, _audioEngine.loadSoundEffect("data/Sound/shots/pistol.wav")));
 	_player->addGun(new Gun("Shotgun", 30, 12, 20.0f, 4, BULLET_SPEED, _audioEngine.loadSoundEffect("data/Sound/shots/shotgun.wav")));
 	_player->addGun(new Gun("MP5", 2, 1, 10.0f, 20, BULLET_SPEED, _audioEngine.loadSoundEffect("data/Sound/shots/cg1.wav")));
+
+	_bloodParticleBatch = new Zhu::ParticleBatch2D();
+	_bloodParticleBatch->init(1000, 0.05f, Zhu::ResourceManager::getTexture("data/zombie/Textures/particle.png"));
+	_particleEngine.addParticleBatch(_bloodParticleBatch);
 }
 
 void Game::run()
@@ -152,6 +157,7 @@ void Game::run()
 
 			updateAgents(deltaTime);
 			updateBullets(deltaTime);
+			_particleEngine.update(deltaTime);
 		}
 		
 
@@ -237,6 +243,8 @@ void Game::updateBullets(float deltaTime)
 		{
 			if (_bullets[i].collideWithAgent(_zombies[j]))
 			{
+				addBlood(_bullets[i].getPosition(), 5);
+
 				if (_zombies[j]->applyDamage(_bullets[i].getDamage()))
 				{
 					delete _zombies[j];
@@ -267,6 +275,8 @@ void Game::updateBullets(float deltaTime)
 			{
 				if (_bullets[i].collideWithAgent(_humans[j]))
 				{
+					addBlood(_bullets[i].getPosition(), 5);
+
 					if (_humans[j]->applyDamage(_bullets[i].getDamage()))
 					{
 						delete _humans[j];
@@ -380,6 +390,8 @@ void Game::drawGame()
 	_spriteBatch.end();
 	_spriteBatch.renderBatch();
 
+	_particleEngine.draw(&_spriteBatch);
+
 	drawHud();
 
 	glBindTexture(GL_TEXTURE_2D, 0);
@@ -410,4 +422,19 @@ void Game::drawHud()
 
 	_hudSpriteBatch.end();
 	_hudSpriteBatch.renderBatch();
+}
+
+void Game::addBlood(const glm::vec2& position, int num)
+{
+	static std::mt19937 randomEngine(time(NULL));
+	static std::uniform_real_distribution<float> randAngle(0.0f, 2 * M_PI);
+
+	const glm::vec2 vel(2.0f, 0.0f);
+
+	Zhu::Color col(255, 0, 0, 255);
+
+	for (int i = 0; i < num; i++)
+	{
+		_bloodParticleBatch->addParticle(position, glm::rotate(vel, randAngle(randomEngine)), col, 30.0f);
+	}
 }

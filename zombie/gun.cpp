@@ -10,7 +10,7 @@ Gun::Gun(std::string name, int fireRate, int bulletsPerShot, float spread, float
 _name(name),
 _fireRate(fireRate),
 _bulletsPerShot(bulletsPerShot),
-_spread(spread),
+_spread(spread * M_PI / 180.0f),
 _bulletDamage(bulletDamage),
 _bulletSpeed(bulletSpeed),
 _frameCount(0),

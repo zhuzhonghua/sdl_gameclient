@@ -14,6 +14,5 @@ public:
 		float deltaTime);
 
 private:
-	glm::vec2 _direction;
 	int _frames;
 };

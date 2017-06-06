@@ -1,6 +1,6 @@
 #include "player.h"
 
-
+#include "resourcemanager.h"
 #include "gun.h"
 
 #include "SDL.h"
@@ -23,12 +23,14 @@ void Player::init(float speed, glm::vec2 pos, Zhu::InputManager* inputMgr, Zhu::
 	_speed = speed;
 	_position = pos;
 
-	_color.r = 0;
-	_color.g = 0;
-	_color.b = 185;
+	_color.r = 255;
+	_color.g = 255;
+	_color.b = 255;
 	_color.a = 255;
 
 	_health = 150;
+
+	_texID = Zhu::ResourceManager::getTexture("data/zombie/Textures/player.png").id;
 }
 
 void Player::update(const std::vector<std::string>& levelData,
@@ -66,16 +68,16 @@ void Player::update(const std::vector<std::string>& levelData,
 		_currGunIdx = 2;
 	}
 
+	glm::vec2 mouseCoords = _inputMgr->getMouseCoords();
+	mouseCoords = _camera->convertScreenToWorld(mouseCoords);
+
+	glm::vec2 centerPosition = _position + glm::vec2(AGENT_RADIUS);
+
+	_direction = glm::normalize(mouseCoords - centerPosition);
+
 	if (_currGunIdx != -1)
-	{		
-		glm::vec2 mouseCoords = _inputMgr->getMouseCoords();
-		mouseCoords = _camera->convertScreenToWorld(mouseCoords);
-
-		glm::vec2 centerPosition = _position + glm::vec2(AGENT_RADIUS);
-
-		glm::vec2 direction = glm::normalize(mouseCoords - centerPosition);
-
-		_guns[_currGunIdx]->update(_inputMgr->isKeyDown(SDL_BUTTON_LEFT), centerPosition, direction, *_bullets, deltaTime);
+	{
+		_guns[_currGunIdx]->update(_inputMgr->isKeyDown(SDL_BUTTON_LEFT), centerPosition, _direction, *_bullets, deltaTime);
 	}
 
 	collideWithLevel(levelData);

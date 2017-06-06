@@ -15,6 +15,7 @@
 #include "bullet.h"
 #include "spritefont.h"
 #include "audioengine.h"
+#include "particleengine2d.h"
 
 enum GameState
 {
@@ -48,6 +49,8 @@ class Game
 	Zhu::GLSLProgram* _colorProgram;
 
 	Zhu::AudioEngine _audioEngine;
+	Zhu::ParticleEngine2D _particleEngine;
+	Zhu::ParticleBatch2D* _bloodParticleBatch;
 
 	float _fps;
 
@@ -84,5 +87,6 @@ public:
 	void processInput();
 	void drawGame();
 	void drawHud();
+	void addBlood(const glm::vec2& position, int num);
 };
 #endif

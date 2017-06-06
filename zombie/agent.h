@@ -39,8 +39,12 @@ protected:
 	void collideWithTile(glm::vec2 tilePos);
 
 	glm::vec2 _position;
+	glm::vec2 _direction;
+
 	Zhu::Color _color;
 	float _speed;
 
 	int _health;
+
+	GLuint _texID;
 };

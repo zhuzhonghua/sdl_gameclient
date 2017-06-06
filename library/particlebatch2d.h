@@ -9,17 +9,17 @@
 namespace Zhu{
 
 
-class Particle{
+class Particle2D{
 public:
-	Particle();
+	Particle2D();
 	friend class ParticleBatch2D;
 	void update(float deltaTime);
-private:
-	glm::vec2 _position;
-	glm::vec2 _velocity;
-	float _width;
-	Color _color;
-	float _life;
+
+	glm::vec2 position;
+	glm::vec2 velocity;
+	float width;
+	Color color;
+	float life;
 };
 
 class ParticleBatch2D{
@@ -41,7 +41,7 @@ private:
 	int findFreeParticle();
 
 	float _decayRate;
-	std::vector<Particle> _particles;
+	std::vector<Particle2D> _particles;
 	int _lastFreeParticle;
 	Texture _tex;
 };
