@@ -1,5 +1,5 @@
 #include "glslprogram.h"
-
+#include "iomanager.h"
 #include <fstream>
 using namespace Zhu;
 GLSLProgram::GLSLProgram()
@@ -31,27 +31,40 @@ void GLSLProgram::compileShaders(std::string vertexShaderFilePath, std::string f
 	{
 		fatalError("frag shader create fail");
 	}
-	compileShader(vertexShaderFilePath, _vertexShaderID);
-	compileShader(fragmenShaderFilePath, _fragmentShaderID);
+
+	std::string vertexSource;
+	IOManager::readFileToBuffer(vertexShaderFilePath, vertexSource);
+
+	std::string fragSource;
+	IOManager::readFileToBuffer(fragmenShaderFilePath, fragSource);
+
+	compileShader(vertexSource.c_str(), vertexShaderFilePath, _vertexShaderID);
+	compileShader(fragSource.c_str(), fragmenShaderFilePath, _fragmentShaderID);
 }
 
-void GLSLProgram::compileShader(std::string filePath, GLuint id)
+void GLSLProgram::compileShadersFromSource(const char* vertexSource, const char* fragSource)
 {
-	SDL_RWops* fileOP = SDL_RWFromFile(filePath.c_str(), "r");
-	if (fileOP == NULL)
+	_programID = glCreateProgram();
+
+	_vertexShaderID = glCreateShader(GL_VERTEX_SHADER);
+	if (_vertexShaderID == 0)
 	{
-		perror(filePath.c_str());
-		fatalError("Fail to open " + filePath);
+		fatalError("vertex shader create fail");
 	}
 
-	int len = SDL_RWsize(fileOP);
-	
-	std::string fileContents;
-	fileContents.resize(len + 1);
-	SDL_RWread(fileOP, &fileContents[0], len, 1);
-	SDL_RWclose(fileOP);
+	_fragmentShaderID = glCreateShader(GL_FRAGMENT_SHADER);
+	if (_fragmentShaderID == 0)
+	{
+		fatalError("frag shader create fail");
+	}
 
-	const char* contentsPtr = fileContents.c_str();
+	compileShader(vertexSource, "vertex", _vertexShaderID);
+	compileShader(fragSource, "frag", _fragmentShaderID);
+}
+
+void GLSLProgram::compileShader(const char* source, const std::string& name, GLuint id)
+{
+	const char* contentsPtr = source;
 	glShaderSource(id, 1, &contentsPtr, NULL);
 
 	glCompileShader(id);
@@ -69,7 +82,7 @@ void GLSLProgram::compileShader(std::string filePath, GLuint id)
 		glDeleteShader(id);
 
 		std::printf("%s\n", &errLog[0]);
-		fatalError("compile shader " + filePath + " fail");
+		fatalError("compile shader " + name + " fail");
 		return;
 	}
 }
@@ -141,4 +154,9 @@ void GLSLProgram::unuse()
 	{
 		glDisableVertexAttribArray(i);
 	}
+}
+
+void GLSLProgram::dispose()
+{
+	if (_programID) glDeleteProgram(_programID);
 }

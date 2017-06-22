@@ -12,11 +12,13 @@ namespace Zhu{
 		GLuint _fragmentShaderID;
 		int _numAttributes;
 
-		void compileShader(std::string filePath, GLuint id);
+		void compileShader(const char* source, const std::string& name, GLuint id);
 	public:
 		GLSLProgram();
 		~GLSLProgram();
 
+		void dispose();
+		void compileShadersFromSource(const char* vertexSource, const char* fragSource);
 		void compileShaders(std::string vertexShaderFilePath, std::string fragmenShaderFilePath);
 		void linkShaders();
 		void addAttribute(std::string attributeName);

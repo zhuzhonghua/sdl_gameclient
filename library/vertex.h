@@ -18,7 +18,7 @@ namespace Zhu{
 		GLubyte a;
 	};
 
-	struct UI
+	struct UV
 	{
 		float u;
 		float v;
@@ -30,7 +30,7 @@ namespace Zhu{
 
 		Color color;
 
-		UI uv;
+		UV uv;
 
 		void setColor(GLubyte r, GLubyte g, GLubyte b, GLubyte a)
 		{
