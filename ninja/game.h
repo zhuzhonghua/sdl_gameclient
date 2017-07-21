@@ -44,6 +44,7 @@ private:
 	Zhu::Camera2D* _hudCamera;
 
 	Zhu::GLSLProgram* _colorProgram;
+	Zhu::GLSLProgram* _lightProgram;
 	Zhu::SpriteFont* _spriteFont;
 	Zhu::SpriteBatch _spriteBatch;
 	Zhu::SpriteBatch _hudSpriteBatch;

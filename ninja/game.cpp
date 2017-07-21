@@ -7,6 +7,8 @@
 #include <random>
 #include <time.h>
 
+#include "light.h"
+
 Game::Game()
 {
 	state = GameState::PLAY;
@@ -45,6 +47,14 @@ void Game::init()
 	_colorProgram->addAttribute("vertexUV");
 	_colorProgram->linkShaders();
 
+	// light program
+	_lightProgram = new Zhu::GLSLProgram();
+	_lightProgram->compileShaders("data/ninja/lightShading.vert", "data/ninja/lightShading.frag");
+	_lightProgram->addAttribute("vertexPosition");
+	_lightProgram->addAttribute("vertexColor");
+	_lightProgram->addAttribute("vertexUV");
+	_lightProgram->linkShaders();
+
 	//
 	_tex = Zhu::ResourceManager::getTexture("data/ninja/bricks_top.png");
 
@@ -66,7 +76,7 @@ void Game::init()
 	std::uniform_real_distribution<float> size(0.5f, 2.5f);
 	std::uniform_int_distribution<int> color(0, 255);
 
-	const int NUM_BOXES = 50;
+	const int NUM_BOXES = 10;
 	for (int i = 0; i < NUM_BOXES; i++)
 	{
 		Zhu::Color randColor;
@@ -80,7 +90,7 @@ void Game::init()
 		_boxes.push_back(newBox);
 	}
 
-	_player.init(_world, glm::vec2(0.0f, 20.0f), glm::vec2(1.0f, 2.0f), Zhu::Color(255,255,255,255), true);
+	_player.init(_world, glm::vec2(0.0f, 20.0f), glm::vec2(2.0f), glm::vec2(1.0f, 1.8f), Zhu::Color(255, 255, 255, 255), true);
 
 	_debugRenderer.init();
 }
@@ -162,38 +172,36 @@ void Game::drawGame()
 	_spriteBatch.end();
 	_spriteBatch.renderBatch();
 
-	// RenderBox
-	for (int i = 0; i < _boxes.size(); i++)
-	{
-		Box& b = _boxes[i];
-		//glm::vec4 destRect;
-		//destRect.x = b.getBody()->GetPosition().x - b.getDimen().x / 2.0f;
-		//destRect.y = b.getBody()->GetPosition().y - b.getDimen().y / 2.0f;
-		//destRect.z = b.getDimen().x;
-		//destRect.w = b.getDimen().y;
-		//
-		//_debugRenderer.drawBox(destRect, Zhu::Color(255, 255, 255, 255), b.getBody()->GetAngle());
-
-		_debugRenderer.drawCircle(glm::vec2(b.getBody()->GetPosition().x, b.getBody()->GetPosition().y),
-									Zhu::Color(255, 255, 255, 255),
-									std::max(b.getDimen().x / 2.0f, b.getDimen().y/2.0f));
-	}
-	glm::vec4 destRect;
-	destRect.x = _player.getBox().getBody()->GetPosition().x - _player.getBox().getDimen().x / 2.0f;
-	destRect.y = _player.getBox().getBody()->GetPosition().y - _player.getBox().getDimen().y / 2.0f;
-	destRect.z = _player.getBox().getDimen().x;
-	destRect.w = _player.getBox().getDimen().y;
-
-	_debugRenderer.drawBox(destRect, Zhu::Color(255, 255, 255, 255), _player.getBox().getBody()->GetAngle());
-
 	_debugRenderer.end();
 	_debugRenderer.render(cameraMat, 2.0f);
-
 
 	drawHUD();
 
 	glBindTexture(GL_TEXTURE_2D, 0);
 	_colorProgram->unuse();
+
+	_lightProgram->use();
+
+	Light playerLight;
+	playerLight.pos = _player.getPosition();
+	playerLight.color = Zhu::Color(255, 255, 255, 128);
+	playerLight.size = 10.0f;
+
+	Light mouseLight;
+	mouseLight.pos = _camera->convertScreenToWorld(_inputMgr.getMouseCoords());
+	mouseLight.color = Zhu::Color(255, 0, 255, 150);
+	mouseLight.size = 10.0f;
+
+	pLocation = _lightProgram->getUniformLocation("P");
+	glUniformMatrix4fv(pLocation, 1, GL_FALSE, &(cameraMat[0][0]));
+
+	_spriteBatch.begin();
+	playerLight.draw(&_spriteBatch);
+	mouseLight.draw(&_spriteBatch);
+	_spriteBatch.end();
+	_spriteBatch.renderBatch();
+
+	_lightProgram->unuse();
 
 	_window->swapBuffer();
 }
