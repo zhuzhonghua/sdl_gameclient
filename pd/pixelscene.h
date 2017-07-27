@@ -25,7 +25,7 @@ public:
 	PixelScene();
 	~PixelScene();
 
-	void init();
+	virtual void init();
 
 	static float scale;
 

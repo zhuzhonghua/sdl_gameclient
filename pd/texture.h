@@ -21,6 +21,8 @@ public:
 	GLuint id;
 	bool premultiplied;
 
+	SDL_Surface* texSrc;
+
 	Texture();
 	virtual ~Texture();
 
@@ -37,6 +39,7 @@ public:
 	static Texture* create(int width, int height, std::vector<byte> data);
 	static void activate(int index);
 
+	int getPixel(int x, int y);
 protected:
 	static void _getBytesPNG(const std::string& bitmap, std::vector<byte>& data, unsigned long &width, unsigned long &height);
 };

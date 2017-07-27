@@ -17,7 +17,7 @@ Flame::Flame()
 
 void Flame::init()
 {
-	texture(FIREBALL);
+	texture(Assets::FIREBALL);
 
 	frame(Random::Int(0, 2) == 0 ? Fireball_FLAME1 : Fireball_FLAME2);
 	GameMath::PointFSet(&origin, widthf / 2, heightf / 2);
@@ -73,7 +73,7 @@ void Fireball::createChildren()
 	_sparks = new Group();
 	add(_sparks);
 
-	_bLight = new Image(FIREBALL);
+	_bLight = new Image(Assets::FIREBALL);
 	_bLight->frame(Fireball_BLIGHT);	
 	GameMath::PointFSet(&_bLight->origin, _bLight->widthf / 2);
 	//bLight.origin.set( bLight.width / 2 );
@@ -84,7 +84,7 @@ void Fireball::createChildren()
 	_emitter->pour(new EmitterFactory1(), 0.1f);
 	add(_emitter);
 	
-	_fLight = new Image(FIREBALL);
+	_fLight = new Image(Assets::FIREBALL);
 	_fLight->frame(Fireball_FLIGHT);
 	GameMath::PointFSet(&_fLight->origin, _fLight->widthf / 2);
 	//_fLight->origin.set(_fLight.width / 2);

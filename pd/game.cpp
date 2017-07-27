@@ -177,3 +177,9 @@ void Game::draw()
 
 	_scene->draw();
 }
+
+void Game::finish()
+{
+	SDL_Quit();
+	exit(0);
+}

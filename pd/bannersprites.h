@@ -15,7 +15,7 @@ public:
 
 	static Image* get(Type type)
 	{
-		Image* icon = new Image(BANNERS);
+		Image* icon = new Image(Assets::BANNERS);
 		switch (type)
 		{
 		case PIXEL_DUNGEON:

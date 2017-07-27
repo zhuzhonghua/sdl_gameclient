@@ -132,3 +132,29 @@ void NoosaScript::drawQuad(float* buffer)
 	short indices[] = { 0, 1, 2, 0, 2, 3 };
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void*)indices);
 }
+
+void NoosaScript::drawQuadSet(float* buffer, int size)
+{
+	uCamera.valueM4(_lastCamera->mat);
+	aXY.vertexPointer(2, 4 * sizeof(float), buffer);
+	aUV.vertexPointer(2, 4 * sizeof(float), buffer + 2);
+
+	static std::vector<short> indices;
+	if (size*6 > indices.size())
+	{
+		indices.resize(size * 6);
+
+		int pos = 0;
+		int limit = size * 4;
+		for (int ofs = 0; ofs < limit; ofs += 4) 
+		{
+			indices[pos++] = (short)(ofs + 0);
+			indices[pos++] = (short)(ofs + 1);
+			indices[pos++] = (short)(ofs + 2);
+			indices[pos++] = (short)(ofs + 0);
+			indices[pos++] = (short)(ofs + 2);
+			indices[pos++] = (short)(ofs + 3);
+		}
+	}	
+	glDrawElements(GL_TRIANGLES, 6*size, GL_UNSIGNED_SHORT, (void*)&indices[0]);
+}

@@ -3,16 +3,14 @@
 #include "group.h"
 #include "visual.h"
 
-class Emitter;
-
-class Factory {
-public:
-	virtual void emit(Emitter* emitter, int index, float x, float y) = 0;
-
-	virtual bool lightMode() { return false; }
-};
-
 class Emitter :public Group{
+public:
+	class Factory {
+	public:
+		virtual void emit(Emitter* emitter, int index, float x, float y) = 0;
+
+		virtual bool lightMode() { return false; }
+	};
 protected:
 	bool _lightMode = false;
 
@@ -48,4 +46,5 @@ public:
 
 	virtual void update();
 	virtual void draw();
+
 };

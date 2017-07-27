@@ -9,4 +9,5 @@ public:
 
 	static bool landscape();
 	static bool scaleUp();
+	static void switchNoFade(Scene* c);
 };

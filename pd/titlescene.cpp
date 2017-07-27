@@ -8,6 +8,7 @@
 #include "fireball.h"
 #include "pixelparticle.h"
 #include "bpt.h"
+#include "startscene.h"
 
 namespace{
 	class DashboardItemBadge :public DashboardItem{
@@ -36,8 +37,8 @@ namespace{
 	protected:
 		virtual void onClick()
 		{
-			//PixelDungeon.switchNoFade(BadgesScene.class);
-			printf("test3");
+			PixelDungeon::switchNoFade(new StartScene());
+			//printf("test3");
 		}
 	};
 	class DashboardItemHighScores :public DashboardItem{
@@ -151,7 +152,7 @@ void DashboardItem::createChildren()
 {
 	Button::createChildren();
 
-	image = new Image(DASHBOARD);
+	image = new Image(Assets::DASHBOARD);
 	add(image);
 
 	label = TitleScene::createText(9);

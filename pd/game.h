@@ -35,6 +35,8 @@ public:
 	static Scene* scene() { return instance->_scene; }
 
 	static void vibrate(int milliseconds);
+
+	void finish();
 protected:
 	void switchScene();
 	void step();

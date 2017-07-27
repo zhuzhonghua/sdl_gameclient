@@ -21,6 +21,7 @@ public:
 		createChildren();
 	}
 	virtual ~Component() { }
+
 	Component* setPos(float x, float y) 
 	{
 		this->_x = x;

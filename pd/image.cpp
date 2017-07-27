@@ -64,6 +64,11 @@ void Image::frame(const RectF& frame)
 	updateVertices();
 }
 
+void Image::frame(int left, int top, int width, int height)
+{
+	frame(tex->uvRect(left, top, left + width, top + height));
+}
+
 void Image::draw()
 {
 	Visual::draw();

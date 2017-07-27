@@ -17,6 +17,7 @@ public:
 	void copy(const Image& other);
 	RectF frame() { return _frame; }
 	virtual void frame(const RectF& frame);
+	void frame(int left, int top, int width, int height);
 	void draw();
 
 	SmartTexture* tex;

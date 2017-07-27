@@ -15,12 +15,12 @@ Archs::Archs()
 
 void Archs::createChildren()
 {
-	_arcsBg = new SkinnedBlock(1, 1, ARCS_BG);
+	_arcsBg = new SkinnedBlock(1, 1, Assets::ARCS_BG);
 	_arcsBg->autoAdjust = true;
 	_arcsBg->offsetTo(0, _offsB);
 	add(_arcsBg);
 
-	_arcsFg = new SkinnedBlock(1, 1, ARCS_FG);
+	_arcsFg = new SkinnedBlock(1, 1, Assets::ARCS_FG);
 	_arcsFg->autoAdjust = true;
 	_arcsFg->offsetTo(0, _offsF);
 	add(_arcsFg);

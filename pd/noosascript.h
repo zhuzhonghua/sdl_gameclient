@@ -18,6 +18,7 @@ public:
 	void lighting(float rm, float gm, float bm, float am, float ra, float ga, float ba, float aa);
 
 	void drawQuad(float* buffer);
+	void drawQuadSet(float* buffer, int size);
 
 	void camera(Camera* camera);
 	void resetCamera() { _lastCamera = NULL; }

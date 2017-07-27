@@ -10,7 +10,7 @@ const RectF Fireball_FLIGHT(0.25f, 0, 0.5f, 1);
 const RectF Fireball_FLAME1(0.50f, 0, 0.75f, 1);
 const RectF Fireball_FLAME2(0.75f, 0, 1.00f, 1);
 
-class EmitterFactory1 :public Factory{
+class EmitterFactory1 :public Emitter::Factory{
 public:
 	virtual void emit(Emitter* emitter, int index, float x, float y);
 };

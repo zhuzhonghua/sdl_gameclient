@@ -6,6 +6,8 @@
 
 Texture::Texture()
 {
+	texSrc = NULL;
+
 	premultiplied = false;
 
 	glGenTextures(1, &id);
@@ -47,6 +49,10 @@ void Texture::wrap(int s, int t)
 void Texture::destroy()
 {
 	glDeleteTextures(1, &id);
+	if (texSrc != NULL)
+	{
+		SDL_FreeSurface(texSrc);
+	}
 }
 
 void Texture::pixels(int w, int h, std::vector<byte> data)
@@ -76,7 +82,8 @@ void Texture::bitmap(const std::string& bitmap)
 	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &(out[0]));
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img->pixels);
 
-	SDL_FreeSurface(img);
+	//SDL_FreeSurface(img);
+	texSrc = img;
 
 	premultiplied = true;
 }
@@ -93,6 +100,8 @@ void Texture::bitmap(SDL_Surface* img)
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img->pixels);
 
 	premultiplied = true;
+
+	texSrc = img;
 }
 
 void Texture::_getBytesPNG(const std::string& bitmap, std::vector<byte>& data, unsigned long &width, unsigned long &height)
@@ -112,4 +121,35 @@ void Texture::_getBytesPNG(const std::string& bitmap, std::vector<byte>& data, u
 	//{
 	//	fatalError("decodePNG failed with error: " + std::to_string(errorCode));
 	//}
+}
+
+int Texture::getPixel(int x, int y)
+{
+	int bpp = texSrc->format->BytesPerPixel;
+	/* Here p is the address to the pixel we want to retrieve */
+	Uint8 *p = (Uint8 *)texSrc->pixels + y * texSrc->pitch + x * bpp;
+
+	switch (bpp) {
+	case 1:
+		return *p;
+		break;
+
+	case 2:
+		return *(Uint16 *)p;
+		break;
+
+	case 3:
+		if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+			return p[0] << 16 | p[1] << 8 | p[2];
+		else
+			return p[0] | p[1] << 8 | p[2] << 16;
+		break;
+
+	case 4:
+		return *(Uint32 *)p;
+		break;
+
+	default:
+		return 0;       /* shouldn't happen, but avoids warnings */
+	}
 }

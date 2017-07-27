@@ -27,11 +27,27 @@ float Random::Float(float begin, float end)
 	return rand(inst()->randomEngine);
 }
 
+float Random::Float(float end)
+{
+	std::uniform_real_distribution<float> rand(0.0f, end);
+	return rand(inst()->randomEngine);
+}
+
 int Random::Int(int begin, int end)
 {
 	std::uniform_int_distribution<int> rand(begin, end);
 	return rand(inst()->randomEngine);
 }
+
+int Random::Int(int end)
+{
+	std::uniform_int_distribution<int> rand(0, end);
+	return rand(inst()->randomEngine);
+}
+
+const float GameMath::POINTF_PI = 3.1415926f;
+const float GameMath::POINTF_PI2 = GameMath::POINTF_PI * 2;
+const float GameMath::POINTF_G2R = GameMath::POINTF_PI / 180;
 
 float GameMath::speed(float speed, float acc)
 {
@@ -96,6 +112,15 @@ float GameMath::RECTFWidth(const RectF& frame)
 	return std::abs(frame.z-frame.x);
 }
 
+void GameMath::RECTFOffset(RectF& frame, float dx, float dy)
+{
+	frame.x += dx;
+	frame.z += dx;
+
+	frame.y += dy;
+	frame.w += dy;
+}
+
 float GameMath::RECTFHeight(const RectF& frame)
 {
 	return std::abs(frame.w - frame.y);
@@ -138,6 +163,13 @@ PointF* GameMath::PointFSet(PointF* p, float x, float y)
 {
 	p->x = x;
 	p->y = y;
+	return p;
+}
+
+PointF* GameMath::PointFPolar(PointF* p, float a, float l)
+{
+	p->x = l * cos(a);// FloatMath.cos(a);
+	p->y = l * sin(a);// FloatMath.sin(a);
 	return p;
 }
 

@@ -145,3 +145,8 @@ void BitmapText::measure()
 	widthf = w;
 	heightf = h;
 }
+
+float BitmapText::baseLine()
+{
+	return 32 * scale.y;
+}

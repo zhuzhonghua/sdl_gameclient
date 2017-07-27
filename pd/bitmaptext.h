@@ -18,6 +18,8 @@ public:
 	std::string text() {return _text;}
 	void text(const std::string& text);
 	void measure();
+
+	float baseLine();
 protected:
 	bool _dirty;
 	TTF_Font* _font;
