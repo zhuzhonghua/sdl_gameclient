@@ -38,6 +38,8 @@ public:
 	static PointF* PointFSet(PointF* p, float v);
 	static PointF* PointFSet(PointF* p, float x, float y);
 	static PointF* PointFPolar(PointF* p, float a, float l);
+
+	static void splitString(const std::string& s, std::vector<std::string>& v, const std::string& c);
 };
 
 class ColorMath 
@@ -50,7 +52,10 @@ public:
 
 class IOManager
 {
-public:
-	static bool readFileToBuffer(std::string filePath, std::vector<unsigned char> &buffer);
-	static bool readFileToBuffer(std::string filePath, std::string &buffer);
+protected:
+	static std::string _buffer;
+public:	
+	static bool readFileToBuffer(const std::string& filePath, std::vector<unsigned char> &buffer);
+	static bool readFileToBuffer(const std::string& filePath, std::string &buffer);
+	static bool readFileToBuffer(const std::string& filePath, std::stringstream &buffer, bool ignore=false);
 };

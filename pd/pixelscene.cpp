@@ -173,8 +173,32 @@ BitmapText* PixelScene::createText(const std::string& text, float size)
 {
 	BitmapText* result = new BitmapText(text);
 
-	GameMath::PointFSet(&result->scale, scale);
+	float nscale = scale;
+	if (size == 6)
+	{
+		nscale -= 0.1f;
+	}
+
+	GameMath::PointFSet(&result->scale, nscale);
 	//result->scale.set(scale);
 
+	return result;
+}
+
+BitmapTextMultiline* PixelScene::createMultiline(float size)
+{
+	return createMultiline("", size);
+}
+
+BitmapTextMultiline* PixelScene::createMultiline(const std::string& text, float size)
+{
+	BitmapTextMultiline* result = new BitmapTextMultiline(text);
+	float nscale = scale;
+	if (size == 6)
+	{
+		nscale -= 0.1f;
+	}
+	GameMath::PointFSet(&result->scale, nscale);
+	//result->scale.set(scale);
 	return result;
 }

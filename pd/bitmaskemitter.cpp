@@ -10,6 +10,7 @@ BitmaskEmitter::BitmaskEmitter(Image* target)
 	//mapW = map->bitmap.getWidth();
 	//mapH = map->bitmap.getHeight();
 	mapW = map->texSrc->w;
+	mapH = map->texSrc->h;
 }
 
 void BitmaskEmitter::emit(int index)
@@ -19,10 +20,12 @@ void BitmaskEmitter::emit(int index)
 	float ofsY = GameMath::RECTFTop(frame) * mapH;
 
 	float x, y;
-	do {
+	do 
+	{
 		x = Random::Float(0, GameMath::RECTFWidth(frame)) * mapW;
 		y = Random::Float(0, GameMath::RECTFHeight(frame)) * mapH;
-	} while ((map->getPixel((int)(x + ofsX), (int)(y + ofsY)) & 0x000000FF) == 0);
+	} 
+	while ((map->getPixel((int)(x + ofsX), (int)(y + ofsY)) & 0x000000FF) == 0);
 
 	factory->emit(this, index,
 		_target->x + x * _target->scale.x,

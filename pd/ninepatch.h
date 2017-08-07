@@ -22,7 +22,7 @@ public:
 	float innerHeight() { return heightf - _marginTop - _marginBottom; }
 	float innerRight() { return widthf - _marginRight; }
 	float innerBottom() { return heightf - _marginBottom; }
-	void size(float width, float height);
+	virtual void size(float width, float height);
 
 	virtual void draw();
 protected:

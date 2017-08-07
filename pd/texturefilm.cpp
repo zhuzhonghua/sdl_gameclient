@@ -78,7 +78,7 @@ void TextureFilm::add(int id, const RectF& rect)
 RectF TextureFilm::get(int id)
 {
 	std::map<int, RectF>::iterator itr = frames.find(id);
-	if (itr != frames.end()) itr->second;
+	if (itr != frames.end()) return itr->second;
 
 	return RectF();
 }

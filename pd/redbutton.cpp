@@ -1,8 +1,11 @@
 #include "redbutton.h"
 #include "simpleresource.h"
+#include "pixelscene.h"
 
 RedButton::RedButton(const std::string& label)
 {
+	_icon = NULL;
+
 	init();
 
 	_text->text(label);
@@ -11,13 +14,13 @@ RedButton::RedButton(const std::string& label)
 
 void RedButton::createChildren() 
 {
-	Button::createChildren();
+	//Button::createChildren();
 
 	_bg = Chrome::get(Chrome::Type::BUTTON);
 	add(_bg);
 
 	//text = PixelScene.createText(9);
-	_text = new BitmapText();
+	_text = PixelScene::createText(9);
 	add(_text);
 }
 

@@ -22,7 +22,7 @@ protected:
 	int _count;
 	float _time;
 
-	void emit(int index);
+	virtual void emit(int index);
 public:
 	float x;
 	float y;

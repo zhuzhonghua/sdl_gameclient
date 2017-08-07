@@ -35,6 +35,8 @@ public:
 		static const int HEIGHT = 28;
 		static const int SCALE = 2;
 
+		
+
 		HeroClass cl;
 
 		Image* avatar;
@@ -46,8 +48,10 @@ public:
 		int normal;
 		int highlighted;
 
-		void updateBrightness();
+		void updateBrightness();		
 	public:
+		static StartScene* startScene;
+
 		ClassShield(HeroClass cl);
 
 		virtual void update();
@@ -69,7 +73,9 @@ public:
 		virtual void onClick();
 		virtual void onTouchDown();
 	};
-private:
+
+	static HeroClass curClass;
+public:
 	static const int BUTTON_HEIGHT = 24.0f;
 	static const int GAP = 2;
 
@@ -93,7 +99,7 @@ private:
 
 	static const int WIDTH_L = 224;
 	static const int HEIGHT_L = 124;
-
+private:
 	float buttonX;
 	float buttonY;
 
@@ -103,12 +109,20 @@ private:
 	bool huntressUnlocked;
 	Group* unlock;
 
-	static HeroClass curClass;
+	
 	static std::map<HeroClass, ClassShield*> shields;
+
+	void updateClass(HeroClass cl);
 
 public:
 	virtual void init();
+	virtual void destroy();
+
+	void startNewGame();
 
 	StartScene();
 	~StartScene();
+
+protected:
+	void onBackPressed();
 };

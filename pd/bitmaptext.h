@@ -20,6 +20,7 @@ public:
 	void measure();
 
 	float baseLine();
+	float tracking();
 protected:
 	bool _dirty;
 	TTF_Font* _font;
@@ -28,6 +29,6 @@ protected:
 
 	SmartTexture* _texture;
 
-	void updateVertices();
+	virtual void updateVertices();
 	virtual void updateMatrix();
 };

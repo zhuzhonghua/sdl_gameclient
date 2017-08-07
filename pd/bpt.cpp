@@ -1,5 +1,6 @@
 #include "bpt.h"
-
+#include "stdafx.h"
+#include "util.h"
 #include <boost/property_tree/xml_parser.hpp>
 
 BPT* BPT::_inst;
@@ -12,7 +13,10 @@ BPT* BPT::inst()
 BPT::BPT()
 {
 	using boost::property_tree::ptree;
-	read_xml("data/pd/lang.xml", pt);
+	std::stringstream ss;
+	IOManager::readFileToBuffer("data/pd/lang.xml", ss);
+	//read_xml("data/pd/lang.xml", pt);
+	read_xml(ss, pt);
 }
 
 BPT::~BPT()

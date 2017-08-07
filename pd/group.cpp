@@ -89,6 +89,30 @@ int Group::indexOf(Gizmo* g)
 	return -1;
 }
 
+Gizmo* Group::addToBack(Gizmo* g)
+{
+	if (g->parent == this) {
+		sendToBack(g);
+		return g;
+	}
+
+	if (g->parent != NULL) {
+		g->parent->remove(g);
+	}
+
+	if (_members.size() > 0 && _members[0] == NULL)
+	{
+		_members[0] = g;
+		g->parent = this;
+		return g;
+	}
+
+	_members.insert(_members.begin(), g);
+	g->parent = this;
+
+	return g;
+}
+
 Gizmo* Group::add(Gizmo* g)
 {
 	if (g->parent == this)

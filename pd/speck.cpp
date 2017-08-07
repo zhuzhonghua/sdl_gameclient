@@ -416,7 +416,13 @@ namespace{
 		void emit(Emitter* emitter, int index, float x, float y)
 		{
 			Speck* p = (Speck*)emitter->recycle("Speck");
-			p->reset(index, x, y, p->type);
+			if (p == NULL)
+			{
+				//spark = (PixelParticle*)_sparks->add(new Shrinking());
+				p = new Speck();
+				emitter->add(p);
+			}
+			p->reset(index, x, y, type);
 		}
 		bool lightMode() { return _lightMode; }
 	};

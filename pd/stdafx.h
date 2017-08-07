@@ -18,6 +18,7 @@
 #include <list>
 #include <vector>
 #include <iostream>
+#include <sstream>
 
 static inline void fatalError(std::string info)
 {

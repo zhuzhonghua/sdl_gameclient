@@ -10,6 +10,8 @@ typedef glm::mat4 Matrix;
 typedef glm::vec4 RectF;
 typedef unsigned char byte;
 
+#define INT_MAX_VALUE 0x3FFFFFFF
+
 class Assets{
 public:
 	static const char* ARCS_BG ;

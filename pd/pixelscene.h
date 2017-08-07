@@ -4,6 +4,7 @@
 #include "camera.h"
 #include "colorblock.h"
 #include "bitmaptext.h"
+#include "bitmaptextmultiline.h"
 
 class Visual;
 class PixelScene : public Scene{
@@ -31,6 +32,9 @@ public:
 
 	static BitmapText* createText(float size);
 	static BitmapText* createText(const std::string& text, float size);
+
+	static BitmapTextMultiline* createMultiline(float size);
+	static BitmapTextMultiline* createMultiline(const std::string& text, float size);
 
 	static float align(Camera* camera, float pos);
 	// This one should be used for UI elements

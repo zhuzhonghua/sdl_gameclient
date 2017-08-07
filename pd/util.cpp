@@ -1,7 +1,5 @@
 #include "stdafx.h"
-
 #include "util.h"
-
 #include "game.h"
 
 Random* Random::_inst;
@@ -173,6 +171,22 @@ PointF* GameMath::PointFPolar(PointF* p, float a, float l)
 	return p;
 }
 
+void GameMath::splitString(const std::string& s, std::vector<std::string>& v, const std::string& c)
+{
+	std::string::size_type pos1, pos2;
+	pos2 = s.find(c);
+	pos1 = 0;
+	while (std::string::npos != pos2)
+	{
+		v.push_back(s.substr(pos1, pos2 - pos1));
+
+		pos1 = pos2 + c.size();
+		pos2 = s.find(c, pos1);
+	}
+	if (pos1 != s.length())
+		v.push_back(s.substr(pos1));
+}
+
 int ColorMath::interpolate(int A, int B, float p)
 {
 	if (p <= 0)
@@ -220,7 +234,9 @@ int ColorMath::random(int a, int b)
 	return interpolate(a, b, Random::Float(0, 1));
 }
 
-bool IOManager::readFileToBuffer(std::string filePath, std::vector<unsigned char> &buffer)
+std::string IOManager::_buffer;
+
+bool IOManager::readFileToBuffer(const std::string& filePath, std::vector<unsigned char> &buffer)
 {
 	SDL_RWops* fileOP = SDL_RWFromFile(filePath.c_str(), "r");
 	if (fileOP == NULL)
@@ -238,7 +254,7 @@ bool IOManager::readFileToBuffer(std::string filePath, std::vector<unsigned char
 	return true;
 }
 
-bool IOManager::readFileToBuffer(std::string filePath, std::string &buffer)
+bool IOManager::readFileToBuffer(const std::string& filePath, std::string &buffer)
 {
 	SDL_RWops* fileOP = SDL_RWFromFile(filePath.c_str(), "r");
 	if (fileOP == NULL)
@@ -252,6 +268,31 @@ bool IOManager::readFileToBuffer(std::string filePath, std::string &buffer)
 	buffer.resize(len);
 	SDL_RWread(fileOP, &buffer[0], len, 1);
 	SDL_RWclose(fileOP);
+
+	return true;
+}
+
+bool IOManager::readFileToBuffer(const std::string& filePath, std::stringstream &buf, bool ignore/* = false*/)
+{
+	SDL_RWops* fileOP = SDL_RWFromFile(filePath.c_str(), "r");
+	if (fileOP == NULL)
+	{
+		if (!ignore)
+		{
+			perror(filePath.c_str());
+		}
+		
+		return false;
+	}
+
+	int len = SDL_RWsize(fileOP);
+
+	_buffer.resize(len);
+	SDL_RWread(fileOP, &_buffer[0], len, 1);
+	SDL_RWclose(fileOP);
+
+	buf.clear();
+	buf << _buffer;
 
 	return true;
 }

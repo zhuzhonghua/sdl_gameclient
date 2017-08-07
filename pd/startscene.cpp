@@ -6,9 +6,15 @@
 #include "speck.h"
 #include "icon.h"
 #include "exitbutton.h"
+#include "bpt.h"
+#include "titlescene.h"
+#include "badge.h"
+#include "gamesinprogress.h"
+#include "wndoptions.h"
+#include "wndclass.h"
 
-const char* StartScene::TXT_LOAD = "Load Game";
-const char* StartScene::TXT_NEW = "New Game";
+const char* StartScene::TXT_LOAD = "lang.loadgame";
+const char* StartScene::TXT_NEW = "lang.newgame";
 
 const char* StartScene::TXT_ERASE = "Erase current game";
 const char* StartScene::TXT_DPTH_LVL = "Depth: %d, level: %d";
@@ -23,6 +29,23 @@ const char* StartScene::TXT_UNLOCK = "To unlock this character class, slay the 3
 const char* StartScene::TXT_WIN_THE_GAME ="To unlock \"Challenges\", win the game with any character class.";
 
 namespace{
+	class NewWndOptions :public WndOptions{
+	public:
+		StartScene* _scene;
+		NewWndOptions(StartScene* sce, const std::string& title, const std::string& message, const std::vector<std::string>& options)
+			:WndOptions(title,message,options)
+		{
+			this->_scene = sce;
+		}
+	protected:
+		virtual void onSelect(int index) 
+		{
+			if (index == 0) 
+			{
+				_scene->startNewGame();
+			}
+		}
+	};
 	class NewGameButton :public StartScene::GameButton{
 	public:
 		NewGameButton(const std::string& txt, StartScene* scene) :StartScene::GameButton(txt)
@@ -33,7 +56,20 @@ namespace{
 		StartScene* _scene;
 		virtual void onClick()
 		{
-			printf("test1");
+			GamesInProgress::Info info;
+
+			if (GamesInProgress::check(_scene->curClass, info))
+			{
+				std::vector<std::string> options;
+				options.push_back(StartScene::TXT_YES);
+				options.push_back(StartScene::TXT_NO);
+
+				_scene->add(new NewWndOptions(_scene, StartScene::TXT_REALLY, StartScene::TXT_WARNING, options));
+			}
+			else
+			{
+				_scene->startNewGame();
+			}
 		}
 	};
 
@@ -61,8 +97,8 @@ StartScene::GameButton::GameButton(const std::string& primary) :RedButton(primar
 
 void StartScene::GameButton::createChildren()
 {
-	RedButton::createChildren();
-	_secondary = new BitmapText();
+	//RedButton::createChildren();
+	_secondary = StartScene::createText(6);// new BitmapText();
 	add(_secondary);
 }
 
@@ -92,6 +128,7 @@ void StartScene::GameButton::secondary(const std::string& text, bool highlighted
 }
 
 const float StartScene::ClassShield::MIN_BRIGHTNESS = 0.6f;
+StartScene* StartScene::ClassShield::startScene = NULL;
 
 StartScene::ClassShield::ClassShield(HeroClass clp) :cl(clp)
 {
@@ -113,7 +150,6 @@ StartScene::ClassShield::ClassShield(HeroClass clp) :cl(clp)
 	//	highlighted = BASIC_HIGHLIGHTED;
 	//}
 
-
 	name->text(cl.name());
 	name->measure();
 	name->hardlight(normal);
@@ -129,8 +165,8 @@ void StartScene::ClassShield::createChildren()
 	avatar = new Image(Assets::AVATARS);
 	add(avatar);
 
-	name = new BitmapText();
-	//add(name);
+	name = StartScene::createText(9);// new BitmapText();
+	add(name);
 
 	emitter = new BitmaskEmitter(avatar);
 	add(emitter);
@@ -153,7 +189,7 @@ void StartScene::ClassShield::onTouchDown()
 	emitter->start(Speck::factory(Speck::LIGHT), 0.05f, 7);
 
 	//Sample.INSTANCE.play(Assets.SND_CLICK, 1, 1, 1.2f);
-	//updateClass(cl);
+	startScene->updateClass(cl);
 }
 
 void StartScene::ClassShield::update()
@@ -203,7 +239,7 @@ StartScene::ChallengeButton::ChallengeButton()
 
 void StartScene::ChallengeButton::createChildren()
 {
-	Button::createChildren();
+	//Button::createChildren();
 
 	image = Icons::get(Icons::CHALLENGE_ON);//Icons.get(PixelDungeon.challenges() > 0 ? Icons::CHALLENGE_ON : Icons.CHALLENGE_OFF);
 	add(image);
@@ -245,6 +281,8 @@ void StartScene::init()
 {
 	PixelScene::init();
 
+	Badges::loadGlobal();
+
 	uiCamera->visible = false;
 
 	int w = Camera::mainCamera->width;
@@ -269,28 +307,33 @@ void StartScene::init()
 	Archs* archs = new Archs();
 	archs->setSize(w, h);
 	add(archs);
-
+	
 	Image* title = BannerSprites::get(BannerSprites::Type::SELECT_YOUR_HERO);
 	title->x = align((w - title->Width()) / 2);
 	title->y = align(top);
 	add(title);
-
+	
 	buttonX = left;
 	buttonY = bottom - BUTTON_HEIGHT;
-
-	//btnNewGame = new NewGameButton(TXT_NEW, this);
-	//add(btnNewGame);
-	//btnLoad = new LoadGameButton(TXT_LOAD, this);
-	//add(btnLoad);
-
+	
+	btnNewGame = new NewGameButton(BPT::getText(TXT_NEW), this);
+	add(btnNewGame);
+	btnLoad = new LoadGameButton(BPT::getText(TXT_LOAD), this);
+	add(btnLoad);
+	
 	float centralHeight = buttonY - title->y - title->Height();
 
+	ClassShield::startScene = this;
+
 	const HeroClass classes[] = {
-		HeroClass(HeroClass::WARRIOR), HeroClass(HeroClass::MAGE), HeroClass(HeroClass::ROGUE), HeroClass(HeroClass::HUNTRESS)
+		HeroClass(HeroClass::WARRIOR), 
+		HeroClass(HeroClass::MAGE), 
+		HeroClass(HeroClass::ROGUE), 
+		HeroClass(HeroClass::HUNTRESS)
 	};
 
 	const int CLASSES_LEN = sizeof(classes) / sizeof(HeroClass);
-
+	//const int CLASSES_LEN = 1;
 	for (int i = 0; i < CLASSES_LEN; i++)
 	{
 		const HeroClass& cl = classes[i];
@@ -298,7 +341,7 @@ void StartScene::init()
 		shields.insert(std::make_pair(cl, shield));
 		add(shield);
 	}
-
+	
 	if (PixelDungeon::landscape()) 
 	{
 		float shieldW = width / 4;
@@ -309,13 +352,13 @@ void StartScene::init()
 			ClassShield* shield = shields.find(classes[i])->second;
 			shield->setRect(left + i * shieldW, top, shieldW, shieldH);
 		}
-
+	
 		ChallengeButton* challenge = new ChallengeButton();
 		challenge->setPos(
 			w / 2 - challenge->width() / 2,
 			top + shieldH - challenge->height() / 2);
 		add(challenge);
-
+	
 	}
 	else 
 	{
@@ -330,7 +373,7 @@ void StartScene::init()
 				top + (i / 2) * shieldH,
 				shieldW, shieldH);
 		}
-
+	
 		ChallengeButton* challenge = new ChallengeButton();
 		challenge->setPos(
 			w / 2 - challenge->width() / 2,
@@ -359,12 +402,13 @@ void StartScene::init()
 	//	}
 	//}
 
-	//ExitButton* btnExit = new ExitButton();
-	//btnExit->setPos(Camera::mainCamera->width - btnExit->width(), 0);
-	//add(btnExit);
+	ExitButton* btnExit = new ExitButton();
+	btnExit->setPos(Camera::mainCamera->width - btnExit->width(), 0);
+	add(btnExit);
 
-	//curClass = null;
-	//updateClass(HeroClass.values()[PixelDungeon.lastClass()]);
+	curClass.setNull();
+
+	updateClass(classes[0]);
 
 	fadeIn();
 
@@ -385,5 +429,86 @@ StartScene::StartScene()
 
 StartScene::~StartScene()
 {
+	destroy();
+}
 
+void StartScene::destroy()
+{
+	//Badges.saveGlobal();
+	//Badges.loadingListener = null;
+
+	PixelScene::destroy();
+
+	shields.clear();
+}
+
+void StartScene::updateClass(HeroClass cl)
+{
+	if (curClass == cl) {
+		add(new WndClass(cl));
+		return;
+	}
+
+	if (curClass.isNull() == false) 
+	{
+		shields.find(curClass)->second->highlight(false);
+	}
+	curClass = cl;
+	shields.find(curClass)->second->highlight(true);
+
+	if (cl.type() != HeroClass::E_HUNTRESS || huntressUnlocked) 
+	{
+		unlock->visible = false;
+	
+		//GamesInProgress.Info info = GamesInProgress.check(curClass);
+		//if (info != null) {
+		//
+		//	btnLoad.visible = true;
+		//	btnLoad.secondary(Utils.format(TXT_DPTH_LVL, info.depth, info.level), info.challenges);
+		//
+		//	btnNewGame.visible = true;
+		//	btnNewGame.secondary(TXT_ERASE, false);
+		//
+		//	float w = (Camera.main.width - GAP) / 2 - buttonX;
+		//
+		//	btnLoad.setRect(
+		//		buttonX, buttonY, w, BUTTON_HEIGHT);
+		//	btnNewGame.setRect(
+		//		btnLoad.right() + GAP, buttonY, w, BUTTON_HEIGHT);
+		//
+		//}
+		//else {
+			btnLoad->visible = false;
+			
+			btnNewGame->visible = true;
+			btnNewGame->secondary("", false);
+			btnNewGame->setRect(buttonX, buttonY, Camera::mainCamera->width - buttonX * 2, BUTTON_HEIGHT);
+		//}
+	
+	}
+	else 
+	{	
+		unlock->visible = true;
+		btnLoad->visible = false;
+		btnNewGame->visible = false;	
+	}
+}
+
+void StartScene::startNewGame()
+{
+	//Dungeon.hero = null;
+	//InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
+	//
+	//if (PixelDungeon.intro()) {
+	//	PixelDungeon.intro(false);
+	//	Game.switchScene(IntroScene.class);
+	//}
+	//else {
+	//	Game.switchScene(InterlevelScene.class);
+	//}
+}
+
+void StartScene::onBackPressed()
+{
+	PixelDungeon::switchNoFade(new TitleScene());
 }

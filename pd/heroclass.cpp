@@ -1,11 +1,11 @@
 #include "heroclass.h"
-
+#include "bpt.h"
 #include "define.h"
 
-const char* HeroClass::WARRIOR = "warrior";
-const char* HeroClass::MAGE = "mage";
-const char* HeroClass::ROGUE = "rogue";
-const char* HeroClass::HUNTRESS = "huntress";
+const char* HeroClass::WARRIOR = "lang.warrior";
+const char* HeroClass::MAGE = "lang.mage";
+const char* HeroClass::ROGUE = "lang.rogue";
+const char* HeroClass::HUNTRESS = "lang.huntress";
 
 const char* HeroClass::WAR_PERKS[] = {
 	"Warriors start with 11 points of Strength.",
@@ -46,7 +46,7 @@ HeroClass::HeroClass(const std::string& title)
 {
 	this->_title = title;
 
-	_type = Type::E_WARRIOR;
+	_type = Type::E_NONE;
 
 	if (_title.compare(HeroClass::WARRIOR) == 0)
 	{
@@ -70,6 +70,11 @@ HeroClass::HeroClass(const HeroClass& cl)
 {
 	this->_title = cl._title;
 	this->_type = cl._type;
+}
+
+std::string HeroClass::name()
+{
+	return BPT::getText(this->_title);
 }
 
 std::string HeroClass::spritesheet()
@@ -112,4 +117,37 @@ void HeroClass::perks(std::vector<std::string>& out)
 	{
 		out.assign(HeroClass::HUN_PERKS, HeroClass::HUN_PERKS + sizeof(HeroClass::HUN_PERKS) / sizeof(char*));
 	}
+}
+
+const std::string HeroSubClass::SUBCLASS = "subClass";
+
+std::map<std::string, HeroSubClass> HeroSubClass::subClasses;
+
+HeroSubClass HeroSubClass::NONE("NONE","","");
+HeroSubClass HeroSubClass::GLADIATOR("GLADIATOR", "gladiator", 
+	"A successful attack with a melee weapon allows the _Gladiator_ to start a combo, in which every next successful hit inflicts more damage.");
+HeroSubClass HeroSubClass::BERSERKER("BERSERKER", "berserker",
+	"When severely wounded, the _Berserker_ enters a state of wild fury significantly increasing his damage output.");
+HeroSubClass HeroSubClass::WARLOCK("WARLOCK", "warlock",
+	"After killing an enemy the _Warlock_ consumes its soul. It heals his wounds and satisfies his hunger.");
+HeroSubClass HeroSubClass::BATTLEMAGE("BATTLEMAGE", "battlemage",
+	"When fighting with a wand in his hands, the _Battlemage_ inflicts additional damage depending on the current number of charges. Every successful hit restores 1 charge to this wand.");
+HeroSubClass HeroSubClass::ASSASSIN("ASSASSIN", "assassin",
+	"When performing a surprise attack, the _Assassin_ inflicts additional damage to his target.");
+HeroSubClass HeroSubClass::FREERUNNER("FREERUNNER", "freerunner",
+	"The _Freerunner_ can move almost twice faster, than most of the monsters. When he is running, the Freerunner is much harder to hit. For that he must be unencumbered and not starving.");
+HeroSubClass HeroSubClass::SNIPER("SNIPER", "sniper",
+	"_Snipers_ are able to detect weak points in an enemy's armor, effectively ignoring it when using a missile weapon.");
+HeroSubClass HeroSubClass::WARDEN("WARDEN", "warden",
+	"Having a strong connection with forces of nature gives _Wardens_ an ability to gather dewdrops and seeds from plants. Also trampling a high grass grants them a temporary armor buff.");
+
+void HeroSubClass::storeInBundle(Bundle* bundle)
+{
+	bundle->put(SUBCLASS, name);
+}
+
+HeroSubClass HeroSubClass::restoreInBundle(Bundle* bundle)
+{
+	std::string value = bundle->getString(SUBCLASS);
+	return subClasses.find(value)->second;
 }

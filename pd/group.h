@@ -15,6 +15,7 @@ public:
 	void kill();
 
 	int indexOf(Gizmo* g);
+	Gizmo* addToBack(Gizmo* g);
 	Gizmo* add(Gizmo* g);
 
 	Gizmo* recycle(const std::string& tag);
