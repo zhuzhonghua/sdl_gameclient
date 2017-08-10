@@ -187,6 +187,116 @@ void GameMath::splitString(const std::string& s, std::vector<std::string>& v, co
 		v.push_back(s.substr(pos1));
 }
 
+/* Gets a unicode value from a UTF-8 encoded string and advance the string */
+#define UNKNOWN_UNICODE 0xFFFD
+static Uint32 UTF8_getch(const char **src, size_t *srclen)
+{
+	const Uint8 *p = *(const Uint8**)src;
+	size_t left = 0;
+	SDL_bool overlong = SDL_FALSE;
+	SDL_bool underflow = SDL_FALSE;
+	Uint32 ch = UNKNOWN_UNICODE;
+
+	if (*srclen == 0) {
+		return UNKNOWN_UNICODE;
+	}
+	if (p[0] >= 0xFC) {
+		if ((p[0] & 0xFE) == 0xFC) {
+			if (p[0] == 0xFC && (p[1] & 0xFC) == 0x80) {
+				overlong = SDL_TRUE;
+			}
+			ch = (Uint32)(p[0] & 0x01);
+			left = 5;
+		}
+	}
+	else if (p[0] >= 0xF8) {
+		if ((p[0] & 0xFC) == 0xF8) {
+			if (p[0] == 0xF8 && (p[1] & 0xF8) == 0x80) {
+				overlong = SDL_TRUE;
+			}
+			ch = (Uint32)(p[0] & 0x03);
+			left = 4;
+		}
+	}
+	else if (p[0] >= 0xF0) {
+		if ((p[0] & 0xF8) == 0xF0) {
+			if (p[0] == 0xF0 && (p[1] & 0xF0) == 0x80) {
+				overlong = SDL_TRUE;
+			}
+			ch = (Uint32)(p[0] & 0x07);
+			left = 3;
+		}
+	}
+	else if (p[0] >= 0xE0) {
+		if ((p[0] & 0xF0) == 0xE0) {
+			if (p[0] == 0xE0 && (p[1] & 0xE0) == 0x80) {
+				overlong = SDL_TRUE;
+			}
+			ch = (Uint32)(p[0] & 0x0F);
+			left = 2;
+		}
+	}
+	else if (p[0] >= 0xC0) {
+		if ((p[0] & 0xE0) == 0xC0) {
+			if ((p[0] & 0xDE) == 0xC0) {
+				overlong = SDL_TRUE;
+			}
+			ch = (Uint32)(p[0] & 0x1F);
+			left = 1;
+		}
+	}
+	else {
+		if ((p[0] & 0x80) == 0x00) {
+			ch = (Uint32)p[0];
+		}
+	}
+	++*src;
+	--*srclen;
+	while (left > 0 && *srclen > 0) {
+		++p;
+		if ((p[0] & 0xC0) != 0x80) {
+			ch = UNKNOWN_UNICODE;
+			break;
+		}
+		ch <<= 6;
+		ch |= (p[0] & 0x3F);
+		++*src;
+		--*srclen;
+		--left;
+	}
+	if (left > 0) {
+		underflow = SDL_TRUE;
+	}
+	/* Technically overlong sequences are invalid and should not be interpreted.
+	However, it doesn't cause a security risk here and I don't see any harm in
+	displaying them. The application is responsible for any other side effects
+	of allowing overlong sequences (e.g. string compares failing, etc.)
+	See bug 1931 for sample input that triggers this.
+	*/
+	/*if (overlong) return UNKNOWN_UNICODE;*/
+	if (underflow ||
+		(ch >= 0xD800 && ch <= 0xDFFF) ||
+		(ch == 0xFFFE || ch == 0xFFFF) || ch > 0x10FFFF) {
+		ch = UNKNOWN_UNICODE;
+	}
+	return ch;
+}
+
+void GameMath::splitUTF8String(const std::string& s, std::vector<Uint16>& chs)
+{
+	const char* text = s.c_str();
+	size_t textlen = SDL_strlen(text);
+	while (textlen > 0) 
+	{
+		Uint16 c = UTF8_getch(&text, &textlen);
+		if (c == UNICODE_BOM_NATIVE || c == UNICODE_BOM_SWAPPED) 
+		{
+			continue;
+		}
+		chs.push_back(c);
+	}
+}
+
 int ColorMath::interpolate(int A, int B, float p)
 {
 	if (p <= 0)
@@ -294,5 +404,12 @@ bool IOManager::readFileToBuffer(const std::string& filePath, std::stringstream 
 	buf.clear();
 	buf << _buffer;
 
+	return true;
+}
+
+bool IOManager::writeFile(const std::string& filePath, std::string& buffer)
+{
+	SDL_RWops* fileOP = SDL_RWFromFile(filePath.c_str(), "w");
+	SDL_RWwrite(fileOP, buffer.c_str(), buffer.size(), 1);
 	return true;
 }

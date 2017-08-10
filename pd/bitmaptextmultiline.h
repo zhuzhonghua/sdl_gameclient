@@ -1,9 +1,9 @@
 #pragma once
 
 #include "bitmaptext.h"
-//#include "boost/regex.hpp"
 #include <string>
 #include <vector>
+#include <map>
 
 class BitmapTextMultiline :public BitmapText{
 public:
@@ -14,13 +14,19 @@ public:
 	BitmapTextMultiline();
 	BitmapTextMultiline(const std::string& text);
 
-	struct Line{
-		Line(const std::string& t) :text(t){}
-		std::string text;
-		std::vector<float> vertices;
-		SmartTexture* texture;
+	struct Word{
+		SmartTexture* tex;
+		RectF bound;
 	};
-	std::vector<Line> lines;
+	static std::map<Uint16, Word> fonts;
+
+	struct SingleWord{
+		SmartTexture* tex;
+		std::vector<float> vertices;
+
+		SingleWord(SmartTexture* t) :tex(t){}
+	};
+	std::vector<SingleWord>	wordText;
 
 	virtual void draw();
 	virtual void measure();

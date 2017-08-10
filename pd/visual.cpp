@@ -9,7 +9,7 @@ Visual::Visual(float x, float y, float width, float height)
 {
 	this->x = x;
 	this->y = y;
-	this->widthf = width;
+	this->width = width;
 	this->heightf = height;
 
 	scale = PointF(1, 1);	
@@ -132,7 +132,7 @@ void Visual::hardlight(int c)
 
 bool Visual::overlapsPoint(float x, float y) 
 {
-	return x >= this->x && x < this->x + widthf * scale.x && y >= this->y && y < this->y + heightf * scale.y;
+	return x >= this->x && x < this->x + width * scale.x && y >= this->y && y < this->y + heightf * scale.y;
 }
 
 bool Visual::overlapsScreenPoint(int x, int y) 

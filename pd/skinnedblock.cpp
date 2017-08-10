@@ -1,15 +1,14 @@
 #include "skinnedblock.h"
 
 SkinnedBlock::SkinnedBlock(float width, float height, const std::string& tx)
+:autoAdjust(false)
 {
-	init(width,height,tx);
+	init(width, height, tx);
 }
 
 void SkinnedBlock::init(float width, float height, const std::string& tx)
 {
 	texture(tx);
-
-	autoAdjust = false;
 	tex->wrap(Texture::REPEAT, Texture::REPEAT);
 	size(width, height);
 }
@@ -52,7 +51,7 @@ void SkinnedBlock::updateFrame()
 	
 	float u0 = _offsetX * tw;
 	float v0 = _offsetY * th;
-	float u1 = u0 + widthf * tw / _scaleX;
+	float u1 = u0 + width * tw / _scaleX;
 	float v1 = v0 + heightf * th / _scaleY;
 	
 	_vertices[2] = u0;
@@ -66,6 +65,8 @@ void SkinnedBlock::updateFrame()
 	
 	_vertices[14] = u0;
 	_vertices[15] = v1;
+
+	_dirty = true;
 }
 
 void SkinnedBlock::offsetTo(float x, float y)

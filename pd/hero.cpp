@@ -10,3 +10,9 @@ void Hero::preview(GamesInProgress::Info& info, Bundle* bundle)
 {
 	info.level = bundle->getInt(LEVEL);
 }
+
+Hero::Hero()
+{
+	lvl = 1;
+	exp = 0;
+}

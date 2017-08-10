@@ -8,7 +8,7 @@ ExitButton::ExitButton()
 {
 	init();
 
-	_width = image->widthf;
+	_width = image->width;
 	_height = image->heightf;
 }
 

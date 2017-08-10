@@ -119,6 +119,22 @@ void HeroClass::perks(std::vector<std::string>& out)
 	}
 }
 
+Badges::Badge HeroClass::masteryBadge()
+{
+	switch (this->_type) 
+	{
+	case E_WARRIOR:
+		return Badges::MASTERY_WARRIOR;
+	case E_MAGE:
+		return Badges::MASTERY_MAGE;
+	case E_ROGUE:
+		return Badges::MASTERY_ROGUE;
+	case E_HUNTRESS:
+		return Badges::MASTERY_HUNTRESS;
+	}
+	return Badges::Badge("");
+}
+
 const std::string HeroSubClass::SUBCLASS = "subClass";
 
 std::map<std::string, HeroSubClass> HeroSubClass::subClasses;

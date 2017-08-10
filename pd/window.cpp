@@ -61,7 +61,7 @@ Window::Window(int width, int height, NinePatch* chrome)
 	add(chrome);
 
 	cameraf = new Camera(0, 0,
-		(int)chrome->widthf,
+		(int)chrome->width,
 		(int)chrome->heightf,
 		PixelScene::defaultZoom);
 	cameraf->x = (int)(Game::width - cameraf->width * cameraf->zoomf) / 2;
@@ -87,7 +87,7 @@ void Window::resize(int w, int h)
 		width + chrome->marginHor(),
 		height + chrome->marginVer());
 
-	cameraf->resize((int)chrome->widthf, (int)chrome->heightf);
+	cameraf->resize((int)chrome->width, (int)chrome->heightf);
 	cameraf->x = (int)(Game::width - cameraf->screenWidth()) / 2;
 	cameraf->y = (int)(Game::height - cameraf->screenHeight()) / 2;
 

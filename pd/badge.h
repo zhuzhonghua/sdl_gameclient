@@ -6,6 +6,7 @@
 #include <map>
 
 #include "bundle.h"
+#include "callback.h"
 
 class Badges{
 public:
@@ -141,17 +142,35 @@ public:
 	static const Badge CHAMPION;
 	static const Badge SUPPORTER;
 
+public:
+	static Callback* loadingListener;
 private:
 	static std::set<Badge> global;
 	static std::set<Badge> local;
 
 	static bool saveNeeded;
 
+	
 	static const std::string BADGES_FILE;
 	static const std::string BADGES;
 
 	static void restore(Bundle* bundle, std::set<Badge>& badges);
+	static void store(Bundle* bundle, std::set<Badge>& badges);
+	static void displayBadge(const Badge* badge);
 public: 
 	static void reset();
 	static void loadGlobal();
+	static void saveGlobal();
+	static void loadLocal(Bundle* bundle);
+	static void saveLocal(Bundle* bundle);
+
+	static void validateMonstersSlain();
+	static void validateGoldCollected();
+	static void validateLevelReached();
+	static void validateStrengthAttained();
+	static void validateFoodEaten();
+	static void validatePotionsCooked();
+	static void validatePiranhasKilled();
+
+	static bool isUnlocked(Badge badge);
 };

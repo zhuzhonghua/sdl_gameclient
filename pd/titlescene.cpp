@@ -75,7 +75,7 @@ void TitleScene::init()
 	title->y = (h - height) / 2;
 	
 	placeTorch(title->x + 18, title->y + 20);
-	placeTorch(title->x + title->widthf - 18, title->y + 20);
+	placeTorch(title->x + title->width - 18, title->y + 20);
 	
 	Image* signs = new SignImage(BannerSprites::get(BannerSprites::Type::PIXEL_DUNGEON_SIGNS));
 	//Image* signs = BannerSprites::get(BannerSprites::Type::PIXEL_DUNGEON_SIGNS);

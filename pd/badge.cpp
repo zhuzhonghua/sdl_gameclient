@@ -1,6 +1,8 @@
 #include "badge.h"
 #include "util.h"
 #include "bundle.h"
+#include "statistics.h"
+#include "dungeon.h"
 
 #include <sstream>
 
@@ -104,6 +106,8 @@ std::set<Badges::Badge> Badges::local;
 
 bool Badges::saveNeeded = false;
 
+Callback* Badges::loadingListener = NULL;
+
 const std::string Badges::BADGES_FILE = "badges.dat";
 const std::string Badges::BADGES = "badges";
 
@@ -125,6 +129,26 @@ void Badges::restore(Bundle* bundle, std::set<Badges::Badge>& badges)
 	}
 }
 
+void Badges::store(Bundle* bundle, std::set<Badges::Badge>& badges)
+{
+	std::vector<std::string> names;
+	names.resize(badges.size());
+	
+	int count = 0;
+	for (std::set<Badges::Badge>::iterator itr = badges.begin();
+		itr != badges.end(); itr++)
+	{
+		names[count++] = itr->name;
+	}
+
+	bundle->put(BADGES, names);
+}
+
+void Badges::displayBadge(const Badges::Badge* badge)
+{
+
+}
+
 void Badges::loadGlobal()
 {
 	if (global.size() <= 0) 
@@ -137,4 +161,212 @@ void Badges::loadGlobal()
 			delete bund;
 		}
 	}
+}
+
+void Badges::saveGlobal()
+{
+	Bundle bundle;
+	if (saveNeeded)
+	{
+		store(&bundle, global);
+
+		std::stringstream ss;
+		Bundle::write(&bundle, ss);
+
+		IOManager::writeFile(BADGES_FILE, ss.str());
+
+		saveNeeded = false;
+	}
+}
+
+void Badges::loadLocal(Bundle* bundle)
+{
+	restore(bundle, local);
+}
+
+void Badges::saveLocal(Bundle* bundle)
+{
+	store(bundle, local);
+}
+
+void Badges::validateMonstersSlain()
+{
+	const Badge* badge = NULL;
+
+	if (local.find(Badges::MONSTERS_SLAIN_1)==local.end() && Statistics::enemiesSlain >= 10) 
+	{
+		badge = &Badges::MONSTERS_SLAIN_1;
+		local.insert(*badge);
+	}
+	if (local.find(Badges::MONSTERS_SLAIN_2) == local.end() && Statistics::enemiesSlain >= 50) 
+	{
+		badge = &Badges::MONSTERS_SLAIN_2;
+		local.insert(*badge);
+	}
+	if (local.find(Badges::MONSTERS_SLAIN_3) == local.end() && Statistics::enemiesSlain >= 150) 
+	{
+		badge = &Badges::MONSTERS_SLAIN_3;
+		local.insert(*badge);
+	}
+	if (local.find(Badges::MONSTERS_SLAIN_4) == local.end() && Statistics::enemiesSlain >= 250) 
+	{
+		badge = &Badges::MONSTERS_SLAIN_4;
+		local.insert(*badge);
+	}
+
+	displayBadge(badge);
+}
+
+void Badges::validateGoldCollected()
+{
+	const Badge* badge = NULL;
+
+	if (local.find(Badges::GOLD_COLLECTED_1) == local.end() && Statistics::goldCollected >= 100) 
+	{
+		badge = &Badges::GOLD_COLLECTED_1;
+		local.insert(*badge);
+	}
+	if (local.find(Badges::GOLD_COLLECTED_2) == local.end() && Statistics::goldCollected >= 500) 
+	{
+		badge = &Badges::GOLD_COLLECTED_2;
+		local.insert(*badge);
+	}
+	if (local.find(Badges::GOLD_COLLECTED_3) == local.end() && Statistics::goldCollected >= 2500) 
+	{
+		badge = &Badges::GOLD_COLLECTED_3;
+		local.insert(*badge);
+	}
+	if (local.find(Badges::GOLD_COLLECTED_4) == local.end() && Statistics::goldCollected >= 7500) 
+	{
+		badge = &Badges::GOLD_COLLECTED_4;
+		local.insert(*badge);
+	}
+
+	displayBadge(badge);
+}
+
+void Badges::validateLevelReached()
+{
+	const Badge* badge = NULL;
+
+	if (local.find(Badges::LEVEL_REACHED_1) == local.end() && Dungeon::hero->lvl >= 6) 
+	{
+		badge = &Badges::LEVEL_REACHED_1;
+		local.insert(*badge);
+	}
+	if (local.find(Badges::LEVEL_REACHED_2) == local.end() && Dungeon::hero->lvl >= 12)
+	{
+		badge = &Badges::LEVEL_REACHED_2;
+		local.insert(*badge);
+	}
+	if (local.find(Badges::LEVEL_REACHED_3) == local.end() && Dungeon::hero->lvl >= 18)
+	{
+		badge = &Badges::LEVEL_REACHED_3;
+		local.insert(*badge);
+	}
+	if (local.find(Badges::LEVEL_REACHED_4) == local.end() && Dungeon::hero->lvl >= 24)
+	{
+		badge = &Badges::LEVEL_REACHED_4;
+		local.insert(*badge);
+	}
+
+	displayBadge(badge);
+}
+
+void Badges::validateStrengthAttained()
+{
+	const Badge* badge = NULL;
+
+	if (local.find(Badges::STRENGTH_ATTAINED_1) == local.end() && Dungeon::hero->STR >= 13) {
+		badge = &Badges::STRENGTH_ATTAINED_1;
+		local.insert(*badge);
+	}
+	if (local.find(Badges::STRENGTH_ATTAINED_2) == local.end() && Dungeon::hero->STR >= 15) {
+		badge = &Badges::STRENGTH_ATTAINED_2;
+		local.insert(*badge);
+	}
+	if (local.find(Badges::STRENGTH_ATTAINED_3) == local.end() && Dungeon::hero->STR >= 17) {
+		badge = &Badges::STRENGTH_ATTAINED_3;
+		local.insert(*badge);
+	}
+	if (local.find(Badges::STRENGTH_ATTAINED_4) == local.end() && Dungeon::hero->STR >= 19) {
+		badge = &Badges::STRENGTH_ATTAINED_4;
+		local.insert(*badge);
+	}
+
+	displayBadge(badge);
+}
+
+void Badges::validateFoodEaten()
+{
+	const Badge* badge = NULL;
+
+	if (local.find(Badges::FOOD_EATEN_1) == local.end() && Statistics::foodEaten >= 10) 
+	{
+		badge = &Badges::FOOD_EATEN_1;
+		local.insert(*badge);
+	}
+	if (local.find(Badges::FOOD_EATEN_2) == local.end() && Statistics::foodEaten >= 20) 
+	{
+		badge = &Badges::FOOD_EATEN_2;
+		local.insert(*badge);
+	}
+	if (local.find(Badges::FOOD_EATEN_3) == local.end() && Statistics::foodEaten >= 30) 
+	{
+		badge = &Badges::FOOD_EATEN_3;
+		local.insert(*badge);
+	}
+	if (local.find(Badges::FOOD_EATEN_4) == local.end() && Statistics::foodEaten >= 40) 
+	{
+		badge = &Badges::FOOD_EATEN_4;
+		local.insert(*badge);
+	}
+
+	displayBadge(badge);
+}
+
+void Badges::validatePotionsCooked()
+{
+	const Badge* badge = NULL;
+
+	if (local.find(Badges::POTIONS_COOKED_1) == local.end() && Statistics::potionsCooked >= 3) 
+	{
+		badge = &Badges::POTIONS_COOKED_1;
+		local.insert(*badge);
+	}
+	if (local.find(Badges::POTIONS_COOKED_2) == local.end() && Statistics::potionsCooked >= 6) 
+	{
+		badge = &Badges::POTIONS_COOKED_2;
+		local.insert(*badge);
+	}
+	if (local.find(Badges::POTIONS_COOKED_3) == local.end() && Statistics::potionsCooked >= 9) 
+	{
+		badge = &Badges::POTIONS_COOKED_3;
+		local.insert(*badge);
+	}
+	if (local.find(Badges::POTIONS_COOKED_4) == local.end() && Statistics::potionsCooked >= 12) 
+	{
+		badge = &Badges::POTIONS_COOKED_4;
+		local.insert(*badge);
+	}
+
+	displayBadge(badge);
+}
+
+void Badges::validatePiranhasKilled()
+{
+	const Badge* badge = NULL;
+
+	if (local.find(Badges::PIRANHAS) == local.end() && Statistics::piranhasKilled >= 6) 
+	{
+		badge = &Badges::PIRANHAS;
+		local.insert(*badge);
+	}
+
+	displayBadge(badge);
+}
+
+bool Badges::isUnlocked(Badges::Badge badge)
+{
+	return global.find(badge) != global.end();
 }

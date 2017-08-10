@@ -40,6 +40,8 @@ public:
 	static PointF* PointFPolar(PointF* p, float a, float l);
 
 	static void splitString(const std::string& s, std::vector<std::string>& v, const std::string& c);
+
+	static void splitUTF8String(const std::string& s, std::vector<Uint16>& chs);
 };
 
 class ColorMath 
@@ -58,4 +60,5 @@ public:
 	static bool readFileToBuffer(const std::string& filePath, std::vector<unsigned char> &buffer);
 	static bool readFileToBuffer(const std::string& filePath, std::string &buffer);
 	static bool readFileToBuffer(const std::string& filePath, std::stringstream &buffer, bool ignore=false);
+	static bool writeFile(const std::string& filePath, std::string& buffer);
 };

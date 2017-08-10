@@ -20,7 +20,7 @@ void Flame::init()
 	texture(Assets::FIREBALL);
 
 	frame(Random::Int(0, 2) == 0 ? Fireball_FLAME1 : Fireball_FLAME2);
-	GameMath::PointFSet(&origin, widthf / 2, heightf / 2);
+	GameMath::PointFSet(&origin, width / 2, heightf / 2);
 	//origin.set(width / 2, height / 2);
 	GameMath::PointFSet(&acc, 0, ACC);
 	//acc.set(0, ACC);
@@ -59,7 +59,7 @@ void EmitterFactory1::emit(Emitter* emitter, int index, float x, float y)
 		p = (Flame*)emitter->add(new Flame());
 	}
 	p->reset();
-	p->x = x - p->widthf / 2;
+	p->x = x - p->width / 2;
 	p->y = y - p->heightf / 2;
 }
 
@@ -75,7 +75,7 @@ void Fireball::createChildren()
 
 	_bLight = new Image(Assets::FIREBALL);
 	_bLight->frame(Fireball_BLIGHT);	
-	GameMath::PointFSet(&_bLight->origin, _bLight->widthf / 2);
+	GameMath::PointFSet(&_bLight->origin, _bLight->width / 2);
 	//bLight.origin.set( bLight.width / 2 );
 	_bLight->angularSpeed = -90;
 	add(_bLight);
@@ -86,7 +86,7 @@ void Fireball::createChildren()
 	
 	_fLight = new Image(Assets::FIREBALL);
 	_fLight->frame(Fireball_FLIGHT);
-	GameMath::PointFSet(&_fLight->origin, _fLight->widthf / 2);
+	GameMath::PointFSet(&_fLight->origin, _fLight->width / 2);
 	//_fLight->origin.set(_fLight.width / 2);
 	_fLight->angularSpeed = 360;
 	add(_fLight);
@@ -96,16 +96,16 @@ void Fireball::createChildren()
 
 void Fireball::layout()
 {
-	_bLight->x = _x - _bLight->widthf / 2;
+	_bLight->x = _x - _bLight->width / 2;
 	_bLight->y = _y - _bLight->heightf / 2;
 	
 	_emitter->pos(
-		_x - _bLight->widthf / 4,
+		_x - _bLight->width / 4,
 		_y - _bLight->heightf / 4,
-		_bLight->widthf / 2,
+		_bLight->width / 2,
 		_bLight->heightf / 2);
 	
-	_fLight->x = _x - _fLight->widthf / 2;
+	_fLight->x = _x - _fLight->width / 2;
 	_fLight->y = _y - _fLight->heightf / 2;
 }
 

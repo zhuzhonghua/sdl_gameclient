@@ -44,7 +44,7 @@ void Button::layout()
 {
 	hotArea->x = _x;
 	hotArea->y = _y;
-	hotArea->widthf = _width;
+	hotArea->width = _width;
 	hotArea->heightf = _height;
 }
 

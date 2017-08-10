@@ -32,6 +32,7 @@ public:
 
 	static BitmapText* createText(float size);
 	static BitmapText* createText(const std::string& text, float size);
+	static BitmapText* createText(Uint16 ch, float size);
 
 	static BitmapTextMultiline* createMultiline(float size);
 	static BitmapTextMultiline* createMultiline(const std::string& text, float size);

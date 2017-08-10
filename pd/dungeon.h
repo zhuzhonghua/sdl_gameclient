@@ -4,12 +4,15 @@
 #include "bundle.h"
 #include "heroclass.h"
 #include "gamesinprogress.h"
+#include "hero.h"
 
 class Dungeon{
 public:
 	static Bundle* gameBundle(const std::string& fileName);
 	static std::string gameFile(const HeroClass& cl);
 	static void preview(GamesInProgress::Info& info, Bundle* bundle);
+
+	static Hero* hero;
 private:
 	static const std::string RG_GAME_FILE ;
 	static const std::string RG_DEPTH_FILE ;

@@ -8,7 +8,7 @@ class Visual :public Gizmo{
 public:
 	float x;
 	float y;
-	float widthf;
+	float width;
 	float heightf;
 
 	PointF scale;
@@ -35,9 +35,9 @@ public:
 	PointF point() { return PointF(x,y); }
 	PointF point(PointF p) { x = p.x, y = p.y; return p; }
 	Point point(Point p) { x = p.x, y = p.y; return p; }
-	PointF center() { return PointF(x + widthf / 2, y + heightf / 2); }
-	PointF center(PointF p) { x = p.x - widthf / 2; y = p.y - heightf / 2; return p; }
-	float Width() { return widthf*scale.x; }
+	PointF center() { return PointF(x + width / 2, y + heightf / 2); }
+	PointF center(PointF p) { x = p.x - width / 2; y = p.y - heightf / 2; return p; }
+	float Width() { return width*scale.x; }
 	float Height() { return heightf*scale.y; }
 	void alpha(float v) { am = v; aa = 0; }
 	float alpha() { return am + aa; }

@@ -14,4 +14,11 @@ private:
 	static const std::string EXPERIENCE;
 public:
 	static void preview(GamesInProgress::Info& info, Bundle* bundle);
+
+	Hero();
+
+	int STR;
+
+	int lvl;
+	int exp;
 };

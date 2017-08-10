@@ -9,6 +9,7 @@ typedef glm::ivec2 Point;
 typedef glm::mat4 Matrix;
 typedef glm::vec4 RectF;
 typedef unsigned char byte;
+typedef unsigned short Uint16;
 
 #define INT_MAX_VALUE 0x3FFFFFFF
 

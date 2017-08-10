@@ -3,6 +3,7 @@
 #include <string>
 #include <map>
 #include <list>
+#include <vector>
 
 #include <boost/property_tree/ptree.hpp>
 #include "bundlable.h"
@@ -36,6 +37,10 @@ public:
 	void put(const std::string& key, const std::string& value);
 	void put(const std::string& key, Bundle* value);
 	void put(const std::string& key, Bundlable* object);
+
+	void put(const std::string& key, const std::vector<int>& arr);
+	void put(const std::string& key, const std::vector<bool>& arr);
+	void put(const std::string& key, const std::vector<std::string>& arr);
 
 	static Bundle* read(std::stringstream& stream);
 	static bool write(Bundle* bundle, std::stringstream& stream);

@@ -89,7 +89,7 @@ void WndTabbed::resize(int w, int h)
 		width + chrome->marginHor(),
 		height + chrome->marginVer());
 
-	cameraf->resize((int)chrome->widthf, (int)(chrome->marginTop() + height + tabHeight()));
+	cameraf->resize((int)chrome->width, (int)(chrome->marginTop() + height + tabHeight()));
 	cameraf->x = (int)(Game::width - cameraf->screenWidth()) / 2;
 	cameraf->y = (int)(Game::height - cameraf->screenHeight()) / 2;
 

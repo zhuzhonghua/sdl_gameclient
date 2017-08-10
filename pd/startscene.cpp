@@ -12,6 +12,7 @@
 #include "gamesinprogress.h"
 #include "wndoptions.h"
 #include "wndclass.h"
+#include "wndmessage.h"
 
 const char* StartScene::TXT_LOAD = "lang.loadgame";
 const char* StartScene::TXT_NEW = "lang.newgame";
@@ -26,7 +27,7 @@ const char* StartScene::TXT_NO = "No, return to main menu";
 
 const char* StartScene::TXT_UNLOCK = "To unlock this character class, slay the 3rd boss with any other class";
 
-const char* StartScene::TXT_WIN_THE_GAME ="To unlock \"Challenges\", win the game with any character class.";
+const char* StartScene::TXT_WIN_THE_GAME = "lang.unlock_challenge";
 
 namespace{
 	class NewWndOptions :public WndOptions{
@@ -141,14 +142,16 @@ StartScene::ClassShield::ClassShield(HeroClass clp) :cl(clp)
 	normal = BASIC_NORMAL;
 	highlighted = BASIC_HIGHLIGHTED;
 
-	//if (Badges.isUnlocked(cl.masteryBadge())) {
-	//	normal = MASTERY_NORMAL;
-	//	highlighted = MASTERY_HIGHLIGHTED;
-	//}
-	//else {
-	//	normal = BASIC_NORMAL;
-	//	highlighted = BASIC_HIGHLIGHTED;
-	//}
+	if (Badges::isUnlocked(cl.masteryBadge())) 
+	{
+		normal = MASTERY_NORMAL;
+		highlighted = MASTERY_HIGHLIGHTED;
+	}
+	else 
+	{
+		normal = BASIC_NORMAL;
+		highlighted = BASIC_HIGHLIGHTED;
+	}
 
 	name->text(cl.name());
 	name->measure();
@@ -227,21 +230,23 @@ void StartScene::ClassShield::updateBrightness()
 	avatar->gm = avatar->bm = avatar->rm = avatar->am = brightness;
 }
 
-StartScene::ChallengeButton::ChallengeButton()
+StartScene::ChallengeButton::ChallengeButton(StartScene* sce)
 {
+	scene = sce;
+
 	init();
 
-	_width = image->widthf;
+	_width = image->width;
 	_height = image->heightf;
 
-	image->am = 1.0f;// Badges.isUnlocked(Badges.Badge.VICTORY) ? 1.0f : 0.5f;
+	image->am = Badges::isUnlocked(Badges::VICTORY) ? 1.0f : 0.5f;
 }
 
 void StartScene::ChallengeButton::createChildren()
 {
 	//Button::createChildren();
 
-	image = Icons::get(Icons::CHALLENGE_ON);//Icons.get(PixelDungeon.challenges() > 0 ? Icons::CHALLENGE_ON : Icons.CHALLENGE_OFF);
+	image = Icons::get(PixelDungeon::challenges() > 0 ? Icons::CHALLENGE_ON : Icons::CHALLENGE_OFF);
 	add(image);
 }
 
@@ -265,7 +270,7 @@ void StartScene::ChallengeButton::onClick()
 	//	});
 	//}
 	//else {
-	//	StartScene.this.add(new WndMessage(TXT_WIN_THE_GAME));
+		scene->add(new WndMessage(BPT::getText(TXT_WIN_THE_GAME)));
 	//}
 }
 
@@ -353,7 +358,7 @@ void StartScene::init()
 			shield->setRect(left + i * shieldW, top, shieldW, shieldH);
 		}
 	
-		ChallengeButton* challenge = new ChallengeButton();
+		ChallengeButton* challenge = new ChallengeButton(this);
 		challenge->setPos(
 			w / 2 - challenge->width() / 2,
 			top + shieldH - challenge->height() / 2);
@@ -374,7 +379,7 @@ void StartScene::init()
 				shieldW, shieldH);
 		}
 	
-		ChallengeButton* challenge = new ChallengeButton();
+		ChallengeButton* challenge = new ChallengeButton(this);
 		challenge->setPos(
 			w / 2 - challenge->width() / 2,
 			top + shieldH - challenge->height() / 2);

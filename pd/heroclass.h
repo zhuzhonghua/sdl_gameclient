@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include "badge.h"
+
 class HeroClass{
 public:
 	enum Type{		
@@ -57,6 +59,8 @@ public:
 	{
 		return _type == c._type && _title.compare(c._title) == 0;
 	}
+
+	Badges::Badge masteryBadge();
 };
 
 #include "bundle.h"

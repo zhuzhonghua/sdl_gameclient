@@ -99,7 +99,7 @@ void Emitter::emit(int index)
 		factory->emit(
 			this,
 			index,
-			_target->x + Random::Float(0, _target->widthf),
+			_target->x + Random::Float(0, _target->width),
 			_target->y + Random::Float(0, _target->heightf));
 	}
 }

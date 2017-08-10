@@ -4,6 +4,8 @@
 
 #include <sstream>
 
+Hero* Dungeon::hero = NULL;
+
 Bundle* Dungeon::gameBundle(const std::string& fileName)
 {
 	std::stringstream ss;

@@ -20,10 +20,13 @@ void WndClass::RankingTab::select(bool value)
 	}
 }
 
-const std::string WndClass::PerksTab::DOT = R"(\u007F)";
+const std::string WndClass::PerksTab::DOT = "*";
 
 WndClass::PerksTab::PerksTab(WndClass* wnd)
 {
+	width = 0;
+	height = 0;
+
 	this->wnd = wnd;
 
 	float dotWidth = 0;
@@ -104,7 +107,7 @@ WndClass::WndClass(HeroClass c)
 	tabPerks = new PerksTab(this);
 	Group::add(tabPerks);
 
-	Tab* tab = new RankingTab(this, cl.title(), tabPerks);
+	Tab* tab = new RankingTab(this, cl.name(), tabPerks);
 	tab->setSize(TAB_WIDTH, tabHeight());
 	add(tab);
 

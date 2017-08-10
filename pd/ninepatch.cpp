@@ -29,7 +29,7 @@ NinePatch::NinePatch(const std::string& tx, int x, int y, int w, int h, int left
 	w = w == 0 ? texture->width : w;
 	h = h == 0 ? texture->height : h;
 
-	_nWidth = widthf = w;
+	_nWidth = width = w;
 	_nHeight = heightf = h;
 
 	_vertices.resize(16*9);
@@ -47,7 +47,7 @@ NinePatch::NinePatch(const std::string& tx, int x, int y, int w, int h, int left
 
 void NinePatch::updateVertices()
 {
-	float right = widthf - _marginRight;
+	float right = width - _marginRight;
 	float bottom = heightf - _marginBottom;
 
 	Quad::fill(&_vertices[16 * 0], 0, 
@@ -59,7 +59,7 @@ void NinePatch::updateVertices()
 		GameMath::RECTFLeft(_innerF), GameMath::RECTFRight(_innerF), GameMath::RECTFTop(_outterF), GameMath::RECTFTop(_innerF));
 
 	Quad::fill(&_vertices[16 * 2], 
-		right, widthf, 0, _marginTop, GameMath::RECTFRight(_innerF), GameMath::RECTFRight(_outterF),
+		right, width, 0, _marginTop, GameMath::RECTFRight(_innerF), GameMath::RECTFRight(_outterF),
 		GameMath::RECTFTop(_outterF), GameMath::RECTFTop(_innerF));
 
 	Quad::fill(&_vertices[16 * 3], 0, 
@@ -70,7 +70,7 @@ void NinePatch::updateVertices()
 		_marginTop, bottom, GameMath::RECTFLeft(_innerF), GameMath::RECTFRight(_innerF),
 		GameMath::RECTFTop(_innerF), GameMath::RECTFBottom(_innerF));
 
-	Quad::fill(&_vertices[16 * 5], right, widthf, _marginTop, bottom, GameMath::RECTFRight(_innerF), GameMath::RECTFRight(_outterF),
+	Quad::fill(&_vertices[16 * 5], right, width, _marginTop, bottom, GameMath::RECTFRight(_innerF), GameMath::RECTFRight(_outterF),
 		GameMath::RECTFTop(_innerF), GameMath::RECTFBottom(_innerF));
 
 	Quad::fill(&_vertices[16 * 6], 0, _marginLeft, bottom, heightf, 
@@ -79,13 +79,13 @@ void NinePatch::updateVertices()
 	Quad::fill(&_vertices[16 * 7], _marginLeft, right, bottom, heightf, 
 		GameMath::RECTFLeft(_innerF), GameMath::RECTFRight(_innerF), GameMath::RECTFBottom(_innerF), GameMath::RECTFBottom(_outterF));
 
-	Quad::fill(&_vertices[16 * 8], right, widthf, bottom, heightf, 
+	Quad::fill(&_vertices[16 * 8], right, width, bottom, heightf, 
 		GameMath::RECTFRight(_innerF), GameMath::RECTFRight(_outterF), GameMath::RECTFBottom(_innerF), GameMath::RECTFBottom(_outterF));
 }
 
 void NinePatch::size(float width, float height)
 {
-	this->widthf = width;
+	this->width = width;
 	this->heightf = height;
 	updateVertices();
 }

@@ -35,8 +35,6 @@ public:
 		static const int HEIGHT = 28;
 		static const int SCALE = 2;
 
-		
-
 		HeroClass cl;
 
 		Image* avatar;
@@ -66,7 +64,8 @@ public:
 	private:
 		Image* image;
 	public:
-		ChallengeButton();
+		StartScene* scene;
+		ChallengeButton(StartScene* sce);
 	protected:
 		virtual void createChildren();
 		virtual void layout();

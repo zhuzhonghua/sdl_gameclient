@@ -46,7 +46,7 @@ void Image::copy(const Image& other)
 
 	_frame = other._frame;
 	
-	widthf = other.widthf;
+	width = other.width;
 	heightf = other.heightf;
 
 	updateFrame();
@@ -57,7 +57,7 @@ void Image::frame(const RectF& frame)
 {
 	this->_frame = frame;
 	
-	widthf = GameMath::RECTFWidth(frame) * tex->width;
+	width = GameMath::RECTFWidth(frame) * tex->width;
 	heightf = GameMath::RECTFHeight(frame) * tex->height;
 	
 	updateFrame();
@@ -97,10 +97,10 @@ void Image::updateVertices() {
 	_vertices[0] = 0;
 	_vertices[1] = 0;
 
-	_vertices[4] = widthf;
+	_vertices[4] = width;
 	_vertices[5] = 0;
 
-	_vertices[8] = widthf;
+	_vertices[8] = width;
 	_vertices[9] = heightf;
 
 	_vertices[12] = 0;
