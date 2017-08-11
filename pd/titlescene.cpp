@@ -68,7 +68,7 @@ void TitleScene::init()
 	Image* title = BannerSprites::get(BannerSprites::Type::PIXEL_DUNGEON);
 	add(title);
 	
-	float height = title->heightf +
+	float height = title->height +
 		(PixelDungeon::landscape() ? DashboardItem_SIZE : DashboardItem_SIZE * 2);
 	
 	title->x = (w - title->Width()) / 2;

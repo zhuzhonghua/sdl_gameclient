@@ -35,7 +35,7 @@ public:
 	void size(float w, float h) 
 	{
 		this->width = w;
-		this->heightf = h;
+		this->height = h;
 		updateFrame();
 		updateVertices();
 	}

@@ -61,7 +61,7 @@ public:
 		virtual void onTouchDown();
 	};
 	class ChallengeButton:public Button{
-	private:
+	public:
 		Image* image;
 	public:
 		StartScene* scene;

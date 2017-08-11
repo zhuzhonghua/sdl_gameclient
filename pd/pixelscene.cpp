@@ -176,7 +176,7 @@ BitmapText* PixelScene::createText(const std::string& text, float size)
 	float nscale = scale;
 	if (size == 6)
 	{
-		nscale -= 0.1f;
+		nscale -= 0.15f;
 	}
 
 	GameMath::PointFSet(&result->scale, nscale);

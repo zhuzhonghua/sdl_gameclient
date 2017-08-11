@@ -45,7 +45,7 @@ void Button::layout()
 	hotArea->x = _x;
 	hotArea->y = _y;
 	hotArea->width = _width;
-	hotArea->heightf = _height;
+	hotArea->height = _height;
 }
 
 void Button::createChildren()

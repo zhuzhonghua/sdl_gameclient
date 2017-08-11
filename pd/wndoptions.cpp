@@ -8,7 +8,10 @@ namespace{
 	public:
 		WndOptions* wnd;
 		int index;
-		NewRedButton(WndOptions* wnd, int index, const std::string& title) :RedButton(title)
+		NewRedButton(WndOptions* wnd, int index, const std::string& title) 
+			:wnd(NULL)
+			,index(0)
+			,RedButton(title)
 		{
 			this->wnd = wnd;
 			this->index = index;
@@ -19,6 +22,8 @@ namespace{
 		{
 			wnd->hide();
 			wnd->onSelect(index);
+
+			delete wnd;
 		}
 	};
 }

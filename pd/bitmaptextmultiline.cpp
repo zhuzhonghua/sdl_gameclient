@@ -6,6 +6,69 @@
 //const boost::regex BitmapTextMultiline::PARAGRAPH("\n");
 //const boost::regex BitmapTextMultiline::WORD("\\s+");
 
+void BitmapTextMultiline::LineSplitter::newLine(const std::string& str, float width)
+{
+	BitmapText* txt = new BitmapText(curLine.str());
+	GameMath::PointFSet(&txt->scale, btml->scale.x);
+	//txt.scale.set(scale.x);
+	lines.push_back(txt);
+
+	curLine = std::stringstream();
+	curLine << str;
+	curLineWidth = width;
+}
+
+void BitmapTextMultiline::LineSplitter::append(const std::string& str, float width)
+{
+	curLineWidth += (curLineWidth > 0 ? btml->tracking() : 0) + width;
+	curLine << str;
+}
+
+void BitmapTextMultiline::LineSplitter::split(std::vector<BitmapText*>& lines)
+{
+	curLine = std::stringstream();
+	curLineWidth = 0;
+
+	std::vector<std::string> paragraphs;
+	GameMath::splitString(btml->text(), paragraphs, "\n");
+	
+	for (int i = 0; i < paragraphs.size(); i++) 
+	{
+		std::vector<std::string> words;
+		GameMath::splitUTF8(paragraphs[i], words);
+		
+		for (int j = 0; j < words.size(); j++) 
+		{
+			int w = 0, h = 0;
+			TTF_SizeUTF8(_font, words[j].c_str(), &w, &h);
+
+			GameMath::PointFSet(&metrics, w, h);
+
+			if (curLineWidth > 0 && curLineWidth + btml->tracking() + metrics.x > btml->maxWidth / btml->scale.x)
+			{
+				newLine(words[j], metrics.x);
+			}
+			else 
+			{
+				append(words[j], metrics.x);
+			}
+			
+			if (curLineWidth > 0 && curLineWidth + btml->tracking() + btml->spaceSize > btml->maxWidth / btml->scale.x)
+			{
+				newLine("", 0);
+			}
+			else 
+			{
+				//append(" ", btml->spaceSize);
+			}
+		}
+
+		newLine("", 0);
+	}
+
+	lines.assign(this->lines.begin(), this->lines.end());
+}
+
 std::map<Uint16, BitmapTextMultiline::Word> BitmapTextMultiline::fonts;
 
 BitmapTextMultiline::BitmapTextMultiline()
@@ -49,20 +112,7 @@ void BitmapTextMultiline::updateVertices()
 		GameMath::splitUTF8String(v[i], words);
 		for (int j = 0; j < words.size(); j++)
 		{
-			std::map<Uint16, BitmapTextMultiline::Word>::iterator itr = fonts.find(words[j]);
-			if (itr == fonts.end())
-			{
-				SDL_Surface* surface = TTF_RenderGlyph_Blended(_font, words[j], c);
-				Word w;
-				w.tex = new SmartTexture(surface);
-				w.bound = GameMath::RECTF(0,0,surface->w, surface->h);
-				fonts.insert(std::make_pair(words[j], w));
-				SDL_FreeSurface(surface);
-
-				itr = fonts.find(words[j]);
-			}
-
-			const Word& w = itr->second;
+			const Word& w = getWord(words[j]);
 			writer.addSymbol(GameMath::RECTFWidth(w.bound), GameMath::RECTFHeight(w.bound));
 
 			wordText.emplace_back(w.tex);
@@ -130,6 +180,27 @@ void BitmapTextMultiline::draw()
 	}
 }
 
+BitmapTextMultiline::Word& BitmapTextMultiline::getWord(Uint16 c)
+{
+	const SDL_Color color = { 255, 255, 255 };
+
+	// TODO: profile, multi word on to one texture
+	std::map<Uint16, BitmapTextMultiline::Word>::iterator itr = fonts.find(c);
+	if (itr == fonts.end())
+	{
+		SDL_Surface* surface = TTF_RenderGlyph_Blended(_font, c, color);
+		Word w;
+		w.tex = new SmartTexture(surface);
+		w.bound = GameMath::RECTF(0, 0, surface->w, surface->h);
+		fonts.insert(std::make_pair(c, w));
+		SDL_FreeSurface(surface);
+
+		itr = fonts.find(c);
+	}
+
+	return itr->second;
+}
+
 void BitmapTextMultiline::measure()
 {
 	const SDL_Color c = { 255, 255, 255 };
@@ -150,20 +221,7 @@ void BitmapTextMultiline::measure()
 				writer.addSpace(spaceSize);
 			}
 
-			std::map<Uint16, BitmapTextMultiline::Word>::iterator itr = fonts.find(words[j]);
-			if (itr == fonts.end())
-			{
-				SDL_Surface* surface = TTF_RenderGlyph_Blended(_font, words[j], c);
-				Word w;
-				w.tex = new SmartTexture(surface);
-				w.bound = GameMath::RECTF(0, 0, surface->w, surface->h);
-				fonts.insert(std::make_pair(words[j], w));
-				SDL_FreeSurface(surface);
-
-				itr = fonts.find(words[j]);
-			}
-
-			const Word& w = itr->second;
+			const Word& w = getWord(words[j]);
 			writer.addSymbol(GameMath::RECTFWidth(w.bound), GameMath::RECTFHeight(w.bound));
 		}
 
@@ -171,7 +229,7 @@ void BitmapTextMultiline::measure()
 	}
 
 	width = writer.width;
-	heightf = writer.height;
+	height = writer.height;
 
 	nLines = writer.NLines();
 }

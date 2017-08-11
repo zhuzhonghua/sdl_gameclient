@@ -19,9 +19,9 @@ public:
 	int marginHor() { return _marginLeft + _marginRight; }
 	int marginVer() { return _marginTop + _marginBottom; }
 	float innerWidth() { return width - _marginLeft - _marginRight; }
-	float innerHeight() { return heightf - _marginTop - _marginBottom; }
+	float innerHeight() { return height - _marginTop - _marginBottom; }
 	float innerRight() { return width - _marginRight; }
-	float innerBottom() { return heightf - _marginBottom; }
+	float innerBottom() { return height - _marginBottom; }
 	virtual void size(float width, float height);
 
 	virtual void draw();

@@ -13,19 +13,20 @@
 #include "wndoptions.h"
 #include "wndclass.h"
 #include "wndmessage.h"
+#include "wndchallenges.h"
 
 const char* StartScene::TXT_LOAD = "lang.loadgame";
 const char* StartScene::TXT_NEW = "lang.newgame";
 
-const char* StartScene::TXT_ERASE = "Erase current game";
-const char* StartScene::TXT_DPTH_LVL = "Depth: %d, level: %d";
+const char* StartScene::TXT_ERASE = "lang.erase_current_game";
+const char* StartScene::TXT_DPTH_LVL = "lang.depth_lvl";
 
-const char* StartScene::TXT_REALLY = "Do you really want to start new game?";
-const char* StartScene::TXT_WARNING = "Your current game progress will be erased.";
-const char* StartScene::TXT_YES = "Yes, start new game";
-const char* StartScene::TXT_NO = "No, return to main menu";
+const char* StartScene::TXT_REALLY = "lang.really";
+const char* StartScene::TXT_WARNING = "lang.start_scene_warning";
+const char* StartScene::TXT_YES = "lang.start_scene_yes";
+const char* StartScene::TXT_NO = "lang.start_scene_no";
 
-const char* StartScene::TXT_UNLOCK = "To unlock this character class, slay the 3rd boss with any other class";
+const char* StartScene::TXT_UNLOCK = "lang.unlock";
 
 const char* StartScene::TXT_WIN_THE_GAME = "lang.unlock_challenge";
 
@@ -59,13 +60,14 @@ namespace{
 		{
 			GamesInProgress::Info info;
 
-			if (GamesInProgress::check(_scene->curClass, info))
+			//if (GamesInProgress::check(_scene->curClass, info))
+			if (true)
 			{
 				std::vector<std::string> options;
-				options.push_back(StartScene::TXT_YES);
-				options.push_back(StartScene::TXT_NO);
+				options.push_back(BPT::getText(StartScene::TXT_YES));
+				options.push_back(BPT::getText(StartScene::TXT_NO));
 
-				_scene->add(new NewWndOptions(_scene, StartScene::TXT_REALLY, StartScene::TXT_WARNING, options));
+				_scene->add(new NewWndOptions(_scene, BPT::getText(StartScene::TXT_REALLY), BPT::getText(StartScene::TXT_WARNING), options));
 			}
 			else
 			{
@@ -237,7 +239,7 @@ StartScene::ChallengeButton::ChallengeButton(StartScene* sce)
 	init();
 
 	_width = image->width;
-	_height = image->heightf;
+	_height = image->height;
 
 	image->am = Badges::isUnlocked(Badges::VICTORY) ? 1.0f : 0.5f;
 }
@@ -258,20 +260,35 @@ void StartScene::ChallengeButton::layout()
 	image->y = align(_y);
 }
 
+namespace{
+	class WndChallengesNew:public WndChallenges{
+	public:
+		StartScene::ChallengeButton* cb;
+		WndChallengesNew(StartScene::ChallengeButton* cb1, int checked, bool editable)
+			:cb(cb1)
+			,WndChallenges(checked, editable)
+		{
+
+		}
+		virtual void onBackPressed()
+		{
+			WndChallenges::onBackPressed();
+			Image* img = Icons::get(PixelDungeon::challenges() > 0 ? Icons::CHALLENGE_ON : Icons::CHALLENGE_OFF);
+			cb->image->copy(*img);
+			delete img;
+		}
+	};
+}
 void StartScene::ChallengeButton::onClick()
 {
-	//if (Badges.isUnlocked(Badges.Badge.VICTORY)) {
-	//	StartScene.this.add(new WndChallenges(PixelDungeon.challenges(), true){
-	//		public void onBackPressed() {
-	//			super.onBackPressed();
-	//			image.copy(Icons.get(PixelDungeon.challenges() > 0 ?
-	//				Icons.CHALLENGE_ON : Icons.CHALLENGE_OFF));
-	//		};
-	//	});
-	//}
-	//else {
+	if (Badges::isUnlocked(Badges::VICTORY))
+	{
+		scene->add(new WndChallengesNew(this, PixelDungeon::challenges(), true));
+	}
+	else 
+	{
 		scene->add(new WndMessage(BPT::getText(TXT_WIN_THE_GAME)));
-	//}
+	}
 }
 
 void StartScene::ChallengeButton::onTouchDown()
@@ -282,6 +299,21 @@ void StartScene::ChallengeButton::onTouchDown()
 HeroClass StartScene::curClass("");
 std::map<HeroClass, StartScene::ClassShield*> StartScene::shields;
 
+namespace{
+	class CallbackNew :public Callback{
+	public:
+		StartScene* sce;
+		CallbackNew(StartScene* s) :sce(s){}
+
+		virtual void call() 
+		{
+			if (Game::scene() == sce)
+			{
+				PixelDungeon::switchNoFade(new StartScene());
+			}
+		}
+	};
+}
 void StartScene::init()
 {
 	PixelScene::init();
@@ -351,7 +383,7 @@ void StartScene::init()
 	{
 		float shieldW = width / 4;
 		float shieldH = std::min(centralHeight, shieldW);
-		top = title->y + title->heightf + (centralHeight - shieldH) / 2;
+		top = title->y + title->height + (centralHeight - shieldH) / 2;
 		for (int i = 0; i < CLASSES_LEN; i++) 
 		{
 			ClassShield* shield = shields.find(classes[i])->second;
@@ -389,23 +421,32 @@ void StartScene::init()
 	unlock = new Group();
 	add(unlock);
 
-	//if (!(huntressUnlocked = Badges.isUnlocked(Badges.Badge.BOSS_SLAIN_3))) {
-	//
-	//	BitmapTextMultiline text = PixelScene.createMultiline(TXT_UNLOCK, 9);
-	//	text.maxWidth = (int)width;
-	//	text.measure();
-	//
-	//	float pos = (bottom - BUTTON_HEIGHT) + (BUTTON_HEIGHT - text.height()) / 2;
-	//	for (BitmapText line : text.new LineSplitter().split()) {
-	//		line.measure();
-	//		line.hardlight(0xFFFF00);
-	//		line.x = PixelScene.align(w / 2 - line.width() / 2);
-	//		line.y = PixelScene.align(pos);
-	//		unlock.add(line);
-	//
-	//		pos += line.height();
-	//	}
-	//}
+	if (!(huntressUnlocked = Badges::isUnlocked(Badges::BOSS_SLAIN_3))) 	
+	{	
+		BitmapTextMultiline* txt = PixelScene::createMultiline(BPT::getText(TXT_UNLOCK), 9);
+		txt->maxWidth = (int)width;
+		txt->measure();
+		
+		float pos = (bottom - BUTTON_HEIGHT) + (BUTTON_HEIGHT - txt->Height()) / 2;
+		BitmapTextMultiline::LineSplitter lineSpt(txt);
+
+		std::vector<BitmapText*> lines;
+		lineSpt.split(lines);
+
+		for (int i = 0; i < lines.size();i++)
+		{
+			BitmapText* line = lines[i];
+
+			line->measure();
+			line->hardlight(0xFFFF00);
+			line->x = PixelScene::align(w / 2 - line->Width() / 2);
+			line->y = PixelScene::align(pos);
+			unlock->add(line);
+		
+			pos += line->Height();
+		}
+		delete txt;
+	}
 
 	ExitButton* btnExit = new ExitButton();
 	btnExit->setPos(Camera::mainCamera->width - btnExit->width(), 0);
@@ -417,14 +458,7 @@ void StartScene::init()
 
 	fadeIn();
 
-	//Badges.loadingListener = new Callback(){
-	//	@Override
-	//	public void call() {
-	//		if (Game.scene() == StartScene.this) {
-	//			PixelDungeon.switchNoFade(StartScene.class);
-	//		}
-	//	}
-	//};
+	Badges::loadingListener = new CallbackNew(this);
 }
 
 StartScene::StartScene()
@@ -439,8 +473,12 @@ StartScene::~StartScene()
 
 void StartScene::destroy()
 {
-	//Badges.saveGlobal();
-	//Badges.loadingListener = null;
+	Badges::saveGlobal();
+	if (Badges::loadingListener != NULL)
+	{
+		delete Badges::loadingListener;
+		Badges::loadingListener = NULL;
+	}
 
 	PixelScene::destroy();
 
@@ -465,34 +503,35 @@ void StartScene::updateClass(HeroClass cl)
 	{
 		unlock->visible = false;
 	
-		//GamesInProgress.Info info = GamesInProgress.check(curClass);
-		//if (info != null) {
-		//
-		//	btnLoad.visible = true;
-		//	btnLoad.secondary(Utils.format(TXT_DPTH_LVL, info.depth, info.level), info.challenges);
-		//
-		//	btnNewGame.visible = true;
-		//	btnNewGame.secondary(TXT_ERASE, false);
-		//
-		//	float w = (Camera.main.width - GAP) / 2 - buttonX;
-		//
-		//	btnLoad.setRect(
-		//		buttonX, buttonY, w, BUTTON_HEIGHT);
-		//	btnNewGame.setRect(
-		//		btnLoad.right() + GAP, buttonY, w, BUTTON_HEIGHT);
-		//
-		//}
-		//else {
+		GamesInProgress::Info info(1,1,0);
+		bool flag = GamesInProgress::check(curClass, info);
+
+		if (flag) 
+		{		
+			btnLoad->visible = true;
+			std::string tmp = GameMath::format(BPT::getText(TXT_DPTH_LVL).c_str(), info.depth, info.level);
+			btnLoad->secondary(tmp, info.challenges);
+		
+			btnNewGame->visible = true;
+			btnNewGame->secondary(BPT::getText(TXT_ERASE), false);
+		
+			float w = (Camera::mainCamera->width - GAP) / 2 - buttonX;
+		
+			btnLoad->setRect(buttonX, buttonY, w, BUTTON_HEIGHT);
+			btnNewGame->setRect(btnLoad->right() + GAP, buttonY, w, BUTTON_HEIGHT);		
+		}
+		else 
+		{
 			btnLoad->visible = false;
 			
 			btnNewGame->visible = true;
 			btnNewGame->secondary("", false);
 			btnNewGame->setRect(buttonX, buttonY, Camera::mainCamera->width - buttonX * 2, BUTTON_HEIGHT);
-		//}
+		}
 	
 	}
 	else 
-	{	
+	{
 		unlock->visible = true;
 		btnLoad->visible = false;
 		btnNewGame->visible = false;	

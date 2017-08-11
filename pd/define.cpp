@@ -131,3 +131,23 @@ const char* Assets::SND_BONES = "data/pd/snd_bones.mp3";
 const char* Assets::SND_BEE = "data/pd/snd_bee.mp3";
 const char* Assets::SND_DEGRADE = "data/pd/snd_degrade.mp3";
 const char* Assets::SND_MIMIC = "data/pd/snd_mimic.mp3";
+
+const char* Challenges::NAMES[NAME_LEN] = {
+	"On diet",
+	"Faith is my armor",
+	"Pharmacophobia",
+	"Barren land",
+	"Swarm intelligence",
+	"Into darkness",
+	"Forbidden runes"
+};
+
+const int Challenges::MASKS[NAME_LEN] = {
+	Challenges::NO_FOOD, 
+	Challenges::NO_ARMOR, 
+	Challenges::NO_HEALING, 
+	Challenges::NO_HERBALISM, 
+	Challenges::SWARM_INTELLIGENCE, 
+	Challenges::DARKNESS, 
+	Challenges::NO_SCROLLS
+};

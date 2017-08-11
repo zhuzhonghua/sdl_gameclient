@@ -26,12 +26,14 @@ public:
 	virtual void onBackPressed() 
 	{
 		hide();
+
+		delete this;
 	}
 	void hide() 
 	{
 		parent->erase(this);
-		destroy();
-		delete this;
+		//destroy();
+		// ATTENTION: call hide, and then delete
 	}
 
 	virtual void resize(int w, int h);

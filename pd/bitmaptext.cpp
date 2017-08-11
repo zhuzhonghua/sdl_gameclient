@@ -14,7 +14,7 @@ BitmapText::BitmapText(const std::string& t) : Visual(0,0,0,0)
 {
 	if (_font == NULL)
 	{
-		_font = TTF_OpenFont("data/pd/msyh.ttf", 32);
+		_font = TTF_OpenFont("data/pd/msyhbd.ttf", 32);
 		if (!_font) fatalError("fail open font");
 		//TTF_SetFontKerning(_font, 2);
 	}
@@ -29,7 +29,7 @@ BitmapText::BitmapText(Uint16 ch) : Visual(0, 0, 0, 0)
 {
 	if (_font == NULL)
 	{
-		_font = TTF_OpenFont("data/pd/msyh.ttf", 32);
+		_font = TTF_OpenFont("data/pd/msyhbd.ttf", 32);
 		if (!_font) fatalError("fail open font");
 		//TTF_SetFontKerning(_font, 4);
 	}
@@ -113,7 +113,7 @@ void BitmapText::updateVertices()
 	TTF_SizeUTF8(_font, _text.c_str(), &w, &h);
 
 	width = w;
-	heightf = h;
+	height = h;
 
 	float left = 0;
 	float top = 0;
@@ -133,13 +133,13 @@ void BitmapText::updateVertices()
 	_vertices[7] = top;
 
 	_vertices[8] = width;
-	_vertices[9] = heightf;
+	_vertices[9] = height;
 
 	_vertices[10] = right;
 	_vertices[11] = bottom;
 
 	_vertices[12] = 0;
-	_vertices[13] = heightf;
+	_vertices[13] = height;
 
 	_vertices[14] = left;
 	_vertices[15] = bottom;
@@ -176,7 +176,7 @@ void BitmapText::measure()
 	TTF_SizeUTF8(_font, _text.c_str(), &w, &h);
 
 	width = w;
-	heightf = h;
+	height = h;
 }
 
 float BitmapText::baseLine()

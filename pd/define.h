@@ -161,3 +161,21 @@ public:
 	static const char* SND_DEGRADE ;
 	static const char* SND_MIMIC ;
 };
+
+
+class Challenges 
+{
+public:
+	static const int NO_FOOD = 1;
+	static const int NO_ARMOR = 2;
+	static const int NO_HEALING = 4;
+	static const int NO_HERBALISM = 8;
+	static const int SWARM_INTELLIGENCE = 16;
+	static const int DARKNESS = 32;
+	static const int NO_SCROLLS = 64;
+
+	static const int NAME_LEN = 7;
+	static const char* NAMES[];
+
+	static const int MASKS[];
+};

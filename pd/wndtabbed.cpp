@@ -96,7 +96,7 @@ void WndTabbed::resize(int w, int h)
 	shadow->boxRect(
 		cameraf->x / cameraf->zoomf,
 		cameraf->y / cameraf->zoomf,
-		chrome->Width(), chrome->heightf);
+		chrome->Width(), chrome->height);
 
 	for (int i = 0; i < tabs.size();i++)
 	{

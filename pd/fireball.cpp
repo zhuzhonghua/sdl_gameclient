@@ -20,7 +20,7 @@ void Flame::init()
 	texture(Assets::FIREBALL);
 
 	frame(Random::Int(0, 2) == 0 ? Fireball_FLAME1 : Fireball_FLAME2);
-	GameMath::PointFSet(&origin, width / 2, heightf / 2);
+	GameMath::PointFSet(&origin, width / 2, height / 2);
 	//origin.set(width / 2, height / 2);
 	GameMath::PointFSet(&acc, 0, ACC);
 	//acc.set(0, ACC);
@@ -60,7 +60,7 @@ void EmitterFactory1::emit(Emitter* emitter, int index, float x, float y)
 	}
 	p->reset();
 	p->x = x - p->width / 2;
-	p->y = y - p->heightf / 2;
+	p->y = y - p->height / 2;
 }
 
 Fireball::Fireball()
@@ -97,16 +97,16 @@ void Fireball::createChildren()
 void Fireball::layout()
 {
 	_bLight->x = _x - _bLight->width / 2;
-	_bLight->y = _y - _bLight->heightf / 2;
+	_bLight->y = _y - _bLight->height / 2;
 	
 	_emitter->pos(
 		_x - _bLight->width / 4,
-		_y - _bLight->heightf / 4,
+		_y - _bLight->height / 4,
 		_bLight->width / 2,
-		_bLight->heightf / 2);
+		_bLight->height / 2);
 	
 	_fLight->x = _x - _fLight->width / 2;
-	_fLight->y = _y - _fLight->heightf / 2;
+	_fLight->y = _y - _fLight->height / 2;
 }
 
 void Fireball::update()

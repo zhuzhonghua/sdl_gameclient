@@ -62,7 +62,7 @@ Window::Window(int width, int height, NinePatch* chrome)
 
 	cameraf = new Camera(0, 0,
 		(int)chrome->width,
-		(int)chrome->heightf,
+		(int)chrome->height,
 		PixelScene::defaultZoom);
 	cameraf->x = (int)(Game::width - cameraf->width * cameraf->zoomf) / 2;
 	cameraf->y = (int)(Game::height - cameraf->height * cameraf->zoomf) / 2;
@@ -73,7 +73,7 @@ Window::Window(int width, int height, NinePatch* chrome)
 	shadow->boxRect(
 		cameraf->x / cameraf->zoomf,
 		cameraf->y / cameraf->zoomf,
-		chrome->Width(), chrome->heightf);
+		chrome->Width(), chrome->height);
 
 	Keys::event.add(this);
 }
@@ -87,11 +87,11 @@ void Window::resize(int w, int h)
 		width + chrome->marginHor(),
 		height + chrome->marginVer());
 
-	cameraf->resize((int)chrome->width, (int)chrome->heightf);
+	cameraf->resize((int)chrome->width, (int)chrome->height);
 	cameraf->x = (int)(Game::width - cameraf->screenWidth()) / 2;
 	cameraf->y = (int)(Game::height - cameraf->screenHeight()) / 2;
 
-	shadow->boxRect(cameraf->x / cameraf->zoomf, cameraf->y / cameraf->zoomf, chrome->Width(), chrome->heightf);
+	shadow->boxRect(cameraf->x / cameraf->zoomf, cameraf->y / cameraf->zoomf, chrome->Width(), chrome->height);
 }
 
 void Window::destroy()

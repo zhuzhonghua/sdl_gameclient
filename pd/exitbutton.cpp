@@ -9,7 +9,7 @@ ExitButton::ExitButton()
 	init();
 
 	_width = image->width;
-	_height = image->heightf;
+	_height = image->height;
 }
 
 void ExitButton::createChildren()

@@ -52,7 +52,7 @@ void SkinnedBlock::updateFrame()
 	float u0 = _offsetX * tw;
 	float v0 = _offsetY * th;
 	float u1 = u0 + width * tw / _scaleX;
-	float v1 = v0 + heightf * th / _scaleY;
+	float v1 = v0 + height * th / _scaleY;
 	
 	_vertices[2] = u0;
 	_vertices[3] = v0;

@@ -42,6 +42,9 @@ public:
 	static void splitString(const std::string& s, std::vector<std::string>& v, const std::string& c);
 
 	static void splitUTF8String(const std::string& s, std::vector<Uint16>& chs);
+	static void splitUTF8(const std::string& s, std::vector<std::string>& chs);
+
+	static std::string format(const char* format, ...);
 };
 
 class ColorMath 

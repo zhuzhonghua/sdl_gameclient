@@ -30,7 +30,7 @@ NinePatch::NinePatch(const std::string& tx, int x, int y, int w, int h, int left
 	h = h == 0 ? texture->height : h;
 
 	_nWidth = width = w;
-	_nHeight = heightf = h;
+	_nHeight = height = h;
 
 	_vertices.resize(16*9);
 
@@ -48,7 +48,7 @@ NinePatch::NinePatch(const std::string& tx, int x, int y, int w, int h, int left
 void NinePatch::updateVertices()
 {
 	float right = width - _marginRight;
-	float bottom = heightf - _marginBottom;
+	float bottom = height - _marginBottom;
 
 	Quad::fill(&_vertices[16 * 0], 0, 
 		_marginLeft, 0, _marginTop, GameMath::RECTFLeft(_outterF), 
@@ -73,20 +73,20 @@ void NinePatch::updateVertices()
 	Quad::fill(&_vertices[16 * 5], right, width, _marginTop, bottom, GameMath::RECTFRight(_innerF), GameMath::RECTFRight(_outterF),
 		GameMath::RECTFTop(_innerF), GameMath::RECTFBottom(_innerF));
 
-	Quad::fill(&_vertices[16 * 6], 0, _marginLeft, bottom, heightf, 
+	Quad::fill(&_vertices[16 * 6], 0, _marginLeft, bottom, height, 
 		GameMath::RECTFLeft(_outterF), GameMath::RECTFLeft(_innerF), GameMath::RECTFBottom(_innerF), GameMath::RECTFBottom(_outterF));
 
-	Quad::fill(&_vertices[16 * 7], _marginLeft, right, bottom, heightf, 
+	Quad::fill(&_vertices[16 * 7], _marginLeft, right, bottom, height, 
 		GameMath::RECTFLeft(_innerF), GameMath::RECTFRight(_innerF), GameMath::RECTFBottom(_innerF), GameMath::RECTFBottom(_outterF));
 
-	Quad::fill(&_vertices[16 * 8], right, width, bottom, heightf, 
+	Quad::fill(&_vertices[16 * 8], right, width, bottom, height, 
 		GameMath::RECTFRight(_innerF), GameMath::RECTFRight(_outterF), GameMath::RECTFBottom(_innerF), GameMath::RECTFBottom(_outterF));
 }
 
 void NinePatch::size(float width, float height)
 {
 	this->width = width;
-	this->heightf = height;
+	this->height = height;
 	updateVertices();
 }
 

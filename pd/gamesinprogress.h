@@ -9,6 +9,8 @@ public:
 		int depth;
 		int level;
 		bool challenges;
+		Info(){}
+		Info(int d, int l, bool c) :depth(d), level(l), challenges(c){}
 	};
 
 	static bool check(HeroClass cl, Info& info);

@@ -4,8 +4,28 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <sstream>
 
 class BitmapTextMultiline :public BitmapText{
+public:
+	class LineSplitter{
+	private:
+		BitmapTextMultiline* btml;
+
+		std::vector<BitmapText*> lines;
+
+		std::stringstream curLine;
+		float curLineWidth;
+
+		PointF metrics;
+
+		void newLine(const std::string& str, float width);
+		void append(const std::string& str, float width);
+
+	public:
+		LineSplitter(BitmapTextMultiline* b) :btml(b){}
+		void split(std::vector<BitmapText*>& lines);
+	};
 public:
 	int maxWidth;
 	int nLines;
@@ -30,6 +50,8 @@ public:
 
 	virtual void draw();
 	virtual void measure();
+
+	Word& getWord(Uint16 c);
 protected:
 	float spaceSize;
 

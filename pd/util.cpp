@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "util.h"
 #include "game.h"
+#include <stdarg.h>
 
 Random* Random::_inst;
 
@@ -295,6 +296,52 @@ void GameMath::splitUTF8String(const std::string& s, std::vector<Uint16>& chs)
 		}
 		chs.push_back(c);
 	}
+}
+
+void GameMath::splitUTF8(const std::string& s, std::vector<std::string>& chs)
+{
+	for (int i = 0; s[i] != '\0';)
+	{
+		char chr = s[i];
+		//chr是0xxx xxxx，即ascii码  
+		if ((chr & 0x80) == 0)
+		{
+			chs.push_back(s.substr(i, 1));
+			++i;
+		}//chr是1111 1xxx  
+		else if ((chr & 0xF8) == 0xF8)
+		{
+			chs.push_back(s.substr(i, 5));			
+			i += 5;
+		}//chr是1111 xxxx  
+		else if ((chr & 0xF0) == 0xF0)
+		{
+			chs.push_back(s.substr(i, 4));
+			i += 4;
+		}//chr是111x xxxx  
+		else if ((chr & 0xE0) == 0xE0)
+		{
+			chs.push_back(s.substr(i, 3));
+			i += 3;
+		}//chr是11xx xxxx  
+		else if ((chr & 0xC0) == 0xC0)
+		{
+			chs.push_back(s.substr(i, 2));
+			i += 2;
+		}
+	}
+}
+
+std::string GameMath::format(const char* format, ...)
+{
+	char buf[256] = { 0 };
+	
+	va_list args;
+	va_start(args, format);
+	vsprintf(buf, format, args);
+	va_end(args);
+
+	return buf;
 }
 
 int ColorMath::interpolate(int A, int B, float p)
