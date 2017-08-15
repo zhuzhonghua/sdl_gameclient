@@ -151,4 +151,8 @@ public:
 			return terr;
 		}
 	}
+
+	Terrain(){ init(); }
+
+	static Terrain inst;
 };

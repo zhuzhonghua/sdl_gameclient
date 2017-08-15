@@ -547,8 +547,8 @@ void StartScene::startNewGame()
 	Dungeon::hero = NULL;
 	InterLevelScene::mode = InterLevelScene::Mode::DESCEND;
 	
-	if (PixelDungeon::intro()) 
-	//if (true)
+	//if (PixelDungeon::intro()) 
+	if (true)
 	{
 		PixelDungeon::intro(false);
 		Game::switchScene(new IntroScene());

@@ -3,18 +3,15 @@
 #include "wndstory.h"
 #include "game.h"
 #include "interlevelscene.h"
+#include "bpt.h"
 
-const std::string IntroScene::TEXT = 
-std::string("Many heroes of all kinds ventured into the Dungeon before you. Some of them have returned with treasures and magical ") +
-std::string("artifacts, most have never been heard of since. But none have succeeded in retrieving the Amulet of Yendor, ") +
-std::string("which is told to be hidden in the depths of the Dungeon.\n\n") +
-std::string("") +
-std::string("You consider yourself ready for the challenge, but most importantly, you feel that fortune smiles on you. ") +
-std::string("It's time to start your own adventure!");;
+const std::string IntroScene::TEXT = "lang.intro";
 
 namespace{
 	class WndStoryNew :public WndStory{
 	public:
+		WndStoryNew(const std::string& txt) :WndStory(txt){}
+
 		virtual void hide()
 		{
 			WndStory::hide();
@@ -26,6 +23,6 @@ namespace{
 void IntroScene::init()
 {
 	PixelScene::init();
-	add(new WndStory(TEXT));
+	add(new WndStoryNew(BPT::getText(TEXT)));
 	fadeIn();
 }

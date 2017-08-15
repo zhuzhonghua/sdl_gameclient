@@ -4,19 +4,19 @@
 #include "startscene.h"
 #include "dungeon.h"
 #include "gamescene.h"
-
+#include "bpt.h"
 
 const float InterLevelScene::TIME_TO_FADE = 0.3f;
 
-const std::string InterLevelScene::TXT_DESCENDING = "Descending...";
-const std::string InterLevelScene::TXT_ASCENDING = "Ascending...";
-const std::string InterLevelScene::TXT_LOADING = "Loading...";
-const std::string InterLevelScene::TXT_RESURRECTING = "Resurrecting...";
-const std::string InterLevelScene::TXT_RETURNING = "Returning...";
-const std::string InterLevelScene::TXT_FALLING = "Falling...";
+const std::string InterLevelScene::TXT_DESCENDING = "lang.inter_desc";
+const std::string InterLevelScene::TXT_ASCENDING = "lang.inter_asce";
+const std::string InterLevelScene::TXT_LOADING = "lang.inter_load";
+const std::string InterLevelScene::TXT_RESURRECTING = "lang.inter_resurr";
+const std::string InterLevelScene::TXT_RETURNING = "lang.inter_return";
+const std::string InterLevelScene::TXT_FALLING = "lang.inter_falling";
 
-const std::string InterLevelScene::ERR_FILE_NOT_FOUND = "File not found. For some reason.";
-const std::string InterLevelScene::ERR_GENERIC = "Something went wrong...";
+const std::string InterLevelScene::ERR_FILE_NOT_FOUND = "lang.inter_filenotfound";
+const std::string InterLevelScene::ERR_GENERIC = "lang.inter_errgeneric";
 
 InterLevelScene::Mode InterLevelScene::mode;
 
@@ -111,7 +111,7 @@ void InterLevelScene::init()
 		break;
 	}
 
-	message = PixelScene::createText(text, 9);
+	message = PixelScene::createText(BPT::getText(text), 9);
 	message->measure();
 	message->x = (Camera::mainCamera->width - message->Width()) / 2;
 	message->y = (Camera::mainCamera->height - message->Height()) / 2;

@@ -1,11 +1,12 @@
 #include "item.h"
 
 #include "util.h"
+#include "bpt.h"
 
-const char* Item::TXT_PACK_FULL = "Your pack is too full for the %s";
+const char* Item::TXT_PACK_FULL = "lang.item_packfull";
 
-const char* Item::TXT_BROKEN = "Because of frequent use, your %s has broken.";
-const char* Item::TXT_GONNA_BREAK = "Because of frequent use, your %s is going to break soon.";
+const char* Item::TXT_BROKEN = "lang.item_broken";
+const char* Item::TXT_GONNA_BREAK = "lang.item_goingbroken";
 
 const char* Item::TXT_TO_STRING = "%s";
 const char* Item::TXT_TO_STRING_X = "%s x%d";
@@ -18,13 +19,13 @@ const float Item::TIME_TO_THROW = 1.0f;
 const float Item::TIME_TO_PICK_UP = 1.0f;
 const float Item::TIME_TO_DROP = 0.5f;
 
-const std::string Item::AC_DROP = "DROP";
-const std::string Item::AC_THROW = "THROW";
+const std::string Item::AC_DROP = "lang.item_drop";
+const std::string Item::AC_THROW = "lang.item_throw";
 
 void Item::actions(Hero* hero, std::vector<std::string>& actions)
 {
-	actions.push_back(AC_DROP);
-	actions.push_back(AC_THROW);
+	actions.push_back(BPT::getText(AC_DROP));
+	actions.push_back(BPT::getText(AC_THROW));
 }
 
 bool Item::doPickUp(Hero* hero)

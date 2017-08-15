@@ -49,3 +49,7 @@ Image* Effects::get(Type type)
 	}
 	return icon;
 }
+
+#include "terrain.h"
+int Terrain::flags[256] = {0};
+Terrain Terrain::inst;
