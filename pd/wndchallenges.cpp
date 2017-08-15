@@ -2,14 +2,15 @@
 #include "pixelscene.h"
 #include "define.h"
 #include "pixeldungeon.h"
+#include "bpt.h"
 
-const std::string WndChallenges::TITLE = "Challenges";
+const std::string WndChallenges::TITLE = "lang.wndchallenge_title";
 
 WndChallenges::WndChallenges(int checked, bool editable)
 {
 	this->editable = editable;
 
-	BitmapText* title = PixelScene::createText(TITLE, 9);
+	BitmapText* title = PixelScene::createText(BPT::getText(TITLE), 9);
 	title->hardlight(TITLE_COLOR);
 	title->measure();
 	title->x = PixelScene::align(cameraf, (WIDTH - title->Width()) / 2);
@@ -21,7 +22,7 @@ WndChallenges::WndChallenges(int checked, bool editable)
 
 	for (int i = 0; i < cnl; i++) 
 	{
-		CheckBoxRed* cb = new CheckBoxRed(Challenges::NAMES[i]);
+		CheckBoxRed* cb = new CheckBoxRed(BPT::getText(Challenges::NAMES[i]));
 		cb->Checked((checked & Challenges::MASKS[i]) != 0);
 		cb->active = editable;
 

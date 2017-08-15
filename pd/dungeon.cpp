@@ -1,10 +1,19 @@
 #include "dungeon.h"
 #include "util.h"
 #include "hero.h"
+#include "level.h"
 
 #include <sstream>
 
 Hero* Dungeon::hero = NULL;
+Level* Dungeon::level;
+
+int Dungeon::depth = 0;
+int Dungeon::gold = 0;
+
+std::vector<bool> Dungeon::visible(Level::LENGTH);
+
+std::set<int> Dungeon::chapters;
 
 Bundle* Dungeon::gameBundle(const std::string& fileName)
 {

@@ -51,10 +51,14 @@ void TouchScreen::processTouchEvents(std::vector<SDL_Event>& events)
 		case SDL_MOUSEBUTTONUP:{
 			touched = false;			
 			std::map<int, TouchScreen::Touch*>::iterator itr = pointers.find(0);
-			touch = itr->second;
-			pointers.erase(itr);
-			event.dispatch(touch->up());
-			delete touch;
+			if (itr != pointers.end())
+			{
+				touch = itr->second;
+				pointers.erase(itr);
+				event.dispatch(touch->up());
+				delete touch;
+			}
+			
 			break;
 		}
 		}

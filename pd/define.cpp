@@ -133,13 +133,13 @@ const char* Assets::SND_DEGRADE = "data/pd/snd_degrade.mp3";
 const char* Assets::SND_MIMIC = "data/pd/snd_mimic.mp3";
 
 const char* Challenges::NAMES[NAME_LEN] = {
-	"On diet",
-	"Faith is my armor",
-	"Pharmacophobia",
-	"Barren land",
-	"Swarm intelligence",
-	"Into darkness",
-	"Forbidden runes"
+	"lang.challenge_name_ondit",
+	"lang.challenge_faith_armor",
+	"lang.challenge_phar",
+	"lang.challenge_barl",
+	"lang.challenge_swit",
+	"lang.challenge_intodar",
+	"lang.challenge_forune"
 };
 
 const int Challenges::MASKS[NAME_LEN] = {

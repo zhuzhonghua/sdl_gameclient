@@ -1,5 +1,6 @@
 #include "simpleresource.h"
 #include "define.h"
+#include "image.h"
 
 NinePatch* Chrome::get(Type type)
 {
@@ -26,4 +27,25 @@ NinePatch* Chrome::get(Type type)
 	default:
 		return NULL;
 	}
+}
+
+Image* Effects::get(Type type)
+{
+	Image* icon = new Image(Assets::EFFECTS);
+	switch (type) 
+	{
+	case RIPPLE:
+		icon->frame(icon->tex->uvRect(0, 0, 16, 16));
+		break;
+	case LIGHTNING:
+		icon->frame(icon->tex->uvRect(16, 0, 32, 8));
+		break;
+	case WOUND:
+		icon->frame(icon->tex->uvRect(16, 8, 32, 16));
+		break;
+	case RAY:
+		icon->frame(icon->tex->uvRect(16, 16, 32, 24));
+		break;
+	}
+	return icon;
 }

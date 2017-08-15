@@ -17,6 +17,12 @@ Image::Image(const Image& other) : Image()
 	copy(other);
 }
 
+Image::Image(const Image* other) : Image()
+{
+	copy(*other);
+	delete other;
+}
+
 Image::Image(SmartTexture* other) : Image()
 {
 	tex = other;

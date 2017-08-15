@@ -8,36 +8,36 @@ const char* HeroClass::ROGUE = "lang.rogue";
 const char* HeroClass::HUNTRESS = "lang.huntress";
 
 const char* HeroClass::WAR_PERKS[] = {
-	"Warriors start with 11 points of Strength.",
-	"Warriors start with a unique short sword. This sword can be later \"reforged\" to upgrade another melee weapon.",
-	"Warriors are less proficient with missile weapons.",
-	"Any piece of food restores some health when eaten.",
-	"Potions of Strength are identified from the beginning.",
+	"lang.war_perks_1",
+	"lang.war_perks_2",
+	"lang.war_perks_3",
+	"lang.war_perks_4",
+	"lang.war_perks_5",
 };
 
 const char* HeroClass::MAG_PERKS[] = {
-	"Mages start with a unique Wand of Magic Missile. This wand can be later \"disenchanted\" to upgrade another wand.",
-	"Mages recharge their wands faster.",
-	"When eaten, any piece of food restores 1 charge for all wands in the inventory.",
-	"Mages can use wands as a melee weapon.",
-	"Scrolls of Identify are identified from the beginning."
+	"lang.mage_perks_1",
+	"lang.mage_perks_2",
+	"lang.mage_perks_3",
+	"lang.mage_perks_4",
+	"lang.mage_perks_5"
 };
 
 const char* HeroClass::ROG_PERKS[] = {
-	"Rogues start with a Ring of Shadows+1.",
-	"Rogues identify a type of a ring on equipping it.",
-	"Rogues are proficient with light armor, dodging better while wearing one.",
-	"Rogues are proficient in detecting hidden doors and traps.",
-	"Rogues can go without food longer.",
-	"Scrolls of Magic Mapping are identified from the beginning."
+	"lang.rogue_perks_1",
+	"lang.rogue_perks_2",
+	"lang.rogue_perks_3",
+	"lang.rogue_perks_4",
+	"lang.rogue_perks_5",
+	"lang.rogue_perks_6"
 };
 
 const char* HeroClass::HUN_PERKS[] = {
-	"Huntresses start with 15 points of Health.",
-	"Huntresses start with a unique upgradeable boomerang.",
-	"Huntresses are proficient with missile weapons and get a damage bonus for excessive strength when using them.",
-	"Huntresses gain more health from dewdrops.",
-	"Huntresses sense neighbouring monsters even if they are hidden behind obstacles."
+	"lang.huntress_perks_1",
+	"lang.huntress_perks_2",
+	"lang.huntress_perks_3",
+	"lang.huntress_perks_4",
+	"lang.huntress_perks_5"
 };
 
 const char* HeroClass::CLASS = "class";
@@ -103,19 +103,35 @@ void HeroClass::perks(std::vector<std::string>& out)
 {
 	if (_title.compare(HeroClass::WARRIOR) == 0)
 	{
-		out.assign(HeroClass::WAR_PERKS, HeroClass::WAR_PERKS + sizeof(HeroClass::WAR_PERKS)/sizeof(char*));
+		int len = sizeof(HeroClass::WAR_PERKS) / sizeof(char*);
+		for (int i = 0; i < len; i++)
+		{
+			out.push_back(BPT::getText(HeroClass::WAR_PERKS[i]));
+		}
 	}
 	else if (_title.compare(HeroClass::MAGE) == 0)
 	{
-		out.assign(HeroClass::MAG_PERKS, HeroClass::MAG_PERKS + sizeof(HeroClass::MAG_PERKS) / sizeof(char*));
+		int len = sizeof(HeroClass::MAG_PERKS) / sizeof(char*);
+		for (int i = 0; i < len; i++)
+		{
+			out.push_back(BPT::getText(HeroClass::MAG_PERKS[i]));
+		}
 	}
 	else if (_title.compare(HeroClass::ROGUE) == 0)
 	{
-		out.assign(HeroClass::ROG_PERKS, HeroClass::ROG_PERKS + sizeof(HeroClass::ROG_PERKS) / sizeof(char*));
+		int len = sizeof(HeroClass::ROG_PERKS) / sizeof(char*);
+		for (int i = 0; i < len; i++)
+		{
+			out.push_back(BPT::getText(HeroClass::ROG_PERKS[i]));
+		}
 	}
 	else if (_title.compare(HeroClass::HUNTRESS) == 0)
 	{
-		out.assign(HeroClass::HUN_PERKS, HeroClass::HUN_PERKS + sizeof(HeroClass::HUN_PERKS) / sizeof(char*));
+		int len = sizeof(HeroClass::HUN_PERKS) / sizeof(char*);
+		for (int i = 0; i < len; i++)
+		{
+			out.push_back(BPT::getText(HeroClass::HUN_PERKS[i]));
+		}
 	}
 }
 
@@ -141,21 +157,21 @@ std::map<std::string, HeroSubClass> HeroSubClass::subClasses;
 
 HeroSubClass HeroSubClass::NONE("NONE","","");
 HeroSubClass HeroSubClass::GLADIATOR("GLADIATOR", "gladiator", 
-	"A successful attack with a melee weapon allows the _Gladiator_ to start a combo, in which every next successful hit inflicts more damage.");
+	BPT::getText("lang.gladiator_desc"));
 HeroSubClass HeroSubClass::BERSERKER("BERSERKER", "berserker",
-	"When severely wounded, the _Berserker_ enters a state of wild fury significantly increasing his damage output.");
+	BPT::getText("lang.berserker_desc"));
 HeroSubClass HeroSubClass::WARLOCK("WARLOCK", "warlock",
-	"After killing an enemy the _Warlock_ consumes its soul. It heals his wounds and satisfies his hunger.");
+	BPT::getText("lang.warlock_desc"));
 HeroSubClass HeroSubClass::BATTLEMAGE("BATTLEMAGE", "battlemage",
-	"When fighting with a wand in his hands, the _Battlemage_ inflicts additional damage depending on the current number of charges. Every successful hit restores 1 charge to this wand.");
+	BPT::getText("lang.battlemage_desc"));
 HeroSubClass HeroSubClass::ASSASSIN("ASSASSIN", "assassin",
-	"When performing a surprise attack, the _Assassin_ inflicts additional damage to his target.");
+	BPT::getText("lang.assassin_desc"));
 HeroSubClass HeroSubClass::FREERUNNER("FREERUNNER", "freerunner",
-	"The _Freerunner_ can move almost twice faster, than most of the monsters. When he is running, the Freerunner is much harder to hit. For that he must be unencumbered and not starving.");
+	BPT::getText("lang.freerunner_desc"));
 HeroSubClass HeroSubClass::SNIPER("SNIPER", "sniper",
-	"_Snipers_ are able to detect weak points in an enemy's armor, effectively ignoring it when using a missile weapon.");
+	BPT::getText("lang.sniper_desc"));
 HeroSubClass HeroSubClass::WARDEN("WARDEN", "warden",
-	"Having a strong connection with forces of nature gives _Wardens_ an ability to gather dewdrops and seeds from plants. Also trampling a high grass grants them a temporary armor buff.");
+	BPT::getText("lang.warden_desc"));
 
 void HeroSubClass::storeInBundle(Bundle* bundle)
 {

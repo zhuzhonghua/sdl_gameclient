@@ -20,6 +20,7 @@
 #include <vector>
 #include <iostream>
 #include <sstream>
+#include <algorithm>
 
 static inline void fatalError(std::string info)
 {

@@ -5,6 +5,7 @@
 
 Emitter::Emitter()
 {
+	tag = "Emitter";
 	_lightMode = false;
 	_target = NULL;
 	on = false;

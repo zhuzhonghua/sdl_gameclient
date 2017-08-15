@@ -214,6 +214,10 @@ BitmapTextMultiline* PixelScene::createMultiline(const std::string& text, float 
 	{
 		nscale -= 0.1f;
 	}
+	else if (size == 7)
+	{
+		nscale -= 0.07f;
+	}
 	GameMath::PointFSet(&result->scale, nscale);
 	//result->scale.set(scale);
 	return result;

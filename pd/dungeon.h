@@ -5,6 +5,7 @@
 #include "heroclass.h"
 #include "gamesinprogress.h"
 #include "hero.h"
+#include "level.h"
 
 class Dungeon{
 public:
@@ -13,6 +14,13 @@ public:
 	static void preview(GamesInProgress::Info& info, Bundle* bundle);
 
 	static Hero* hero;
+	static Level* level;
+
+	static int depth;
+	static int gold;
+
+	static std::vector<bool> visible;
+	static std::set<int> chapters;
 private:
 	static const std::string RG_GAME_FILE ;
 	static const std::string RG_DEPTH_FILE ;

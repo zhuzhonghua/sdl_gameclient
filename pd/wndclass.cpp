@@ -2,8 +2,9 @@
 #include "pixelscene.h"
 #include "highlightedtext.h"
 #include "badge.h"
+#include "bpt.h"
 
-const std::string WndClass::TXT_MASTERY = "Mastery";
+const std::string WndClass::TXT_MASTERY = "lang.mastery";
 
 WndClass::RankingTab::RankingTab(WndTabbed* wnd, const std::string& label, Group* page)
 :LabeledTab(wnd, label)
@@ -111,21 +112,23 @@ WndClass::WndClass(HeroClass c)
 	tab->setSize(TAB_WIDTH, tabHeight());
 	add(tab);
 
-	//if (Badges::isUnlocked(cl.masteryBadge())) {
-	//	tabMastery = new MasteryTab();
-	//	add(tabMastery);
-	//
-	//	tab = new RankingTab(TXT_MASTERY, tabMastery);
-	//	tab.setSize(TAB_WIDTH, tabHeight());
-	//	add(tab);
-	//
-	//	resize(
-	//		(int)Math.max(tabPerks.width, tabMastery.width),
-	//		(int)Math.max(tabPerks.height, tabMastery.height));
-	//}
-	//else {
+	if (Badges::isUnlocked(cl.masteryBadge())) 
+	{
+		tabMastery = new MasteryTab(this);
+		Group::add(tabMastery);
+	
+		tab = new RankingTab(this, BPT::getText(TXT_MASTERY), tabMastery);
+		tab->setSize(TAB_WIDTH, tabHeight());
+		add(tab);
+	
+		resize(
+			(int)std::max(tabPerks->width, tabMastery->width),
+			(int)std::max(tabPerks->height, tabMastery->height));
+	}
+	else 
+	{
 		resize((int)tabPerks->width, (int)tabPerks->height);
-	//}
+	}
 
 	select(0);
 }

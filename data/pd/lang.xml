@@ -2,5 +2,165 @@
     <badge>勋章</>
 	<play>开始游戏</>
 	<rank>排行</>
-	<about>关于</>
-</debug>
+	<about>关于</>	
+	
+	<warrior>战士</>
+	<mage>法师</>
+	<rogue>游侠</>
+	<huntress>女猎</>
+	
+	<mastery>进阶</>
+	<newgame>开始新游戏</>
+	<loadgame>加载游戏</>
+	
+	<unlock_challenge_en>To unlock \"Challenges\", win the game with any character class.</>
+	<unlock_challenge>要解锁 "挑战模式"，必须先使用任意角色通关一次。</>
+	
+	<erase_current_game_en>Erase current game</>
+	<erase_current_game>覆盖现有存档</>
+	
+	<depth_lvl_en>Depth: %d, level: %d</>
+	<depth_lvl>第 %d 层, 等级 %d</>
+	
+	<unlock_en>To unlock this character class, slay the 3rd boss with any other class</>
+	<unlock>解锁该职业需要使用任意其他职业杀死第三层的BOSS</>
+	
+	<really_en>Do you really want to start new game?</>
+	<really>你真的想要重新开始游戏么？</>
+	
+	<start_scene_warning_en>Your current game progress will be erased.</>
+	<start_scene_warning>你当前的游戏进度将被覆盖。</>
+	
+	<start_scene_yes_en>Yes, start new game</>
+	<start_scene_yes>是的，重新开始</>
+	
+	<start_scene_no_en>No, return to main menu</>
+	<start_scene_no>不，返回主菜单</>
+	
+	<wndchallenge_title_en>Challenges</>
+	<wndchallenge_title>挑战</>
+	
+	<challenge_name_ondit>节食</>
+	<challenge_faith_armor>信念就是武器</>
+	<challenge_phar>药物恐怖</>
+	<challenge_barl>贫瘠的土地</>
+	<challenge_swit>群体智慧</>
+	<challenge_intodar>在黑暗中</>
+	<challenge_forune>禁咒</>
+	
+	<war_perks_1>战士起始拥有11点力量.</>
+	<war_perks_2>战士开局时拥有一柄独特的短剑。这柄短剑稍后能够进行 "重铸" 用于升级其他近战武器.</>
+	<war_perks_3>战士不是很擅长投掷武器。</>
+	<war_perks_4>吃下食物能够恢复生命值。</>
+	<war_perks_5>开局时力量药水就已经被鉴定过了.</>
+	
+	<mage_perks_1>法师开局时带有一柄独特的魔弹法杖。这柄法杖稍后能够进行"祛魔"用于升级其他法杖.</>
+	<mage_perks_2>法师的法杖充能更加迅速.</>
+	<mage_perks_3>吃下食物时背包里的所有法杖都会恢复一点充能.</>
+	<mage_perks_4>法师能够使用法杖作为近战武器.</>
+	<mage_perks_5>开局时鉴定卷轴就已经鉴定过了.</>
+	
+	<rogue_perks_1>游侠开局时带有暗影指环+1.</>
+	<rogue_perks_2>游侠装备上指环就能马上鉴定出它.</>
+	<rogue_perks_3>游侠更适合穿戴轻甲,这能够提升他的闪避率.</>
+	<rogue_perks_4>游侠擅长侦测隐藏的门和陷阱.</>
+	<rogue_perks_5>游侠不吃东西的情况下能够撑得更久.</>
+	<rogue_perks_6>开局时魔法地图卷轴就已经鉴定过了.</>
+	
+	<huntress_perks_1>女猎开局时生命只有15点.</>
+	<huntress_perks_2>女猎开局时拥有一支独特的可升级的回旋镖.</>
+	<huntress_perks_3>女猎擅长使用投掷武器,在力量富余时使用投掷武器能够造成额外伤害.</>
+	<huntress_perks_4>女猎能够通过露珠恢复更多生命.</>
+	<huntress_perks_5>女猎能够侦测附近的怪物,即使它们藏在墙后.</>
+	
+	<gladiator_desc>使用近战武器成功命中目标能够让_角斗士_进入连击模式,每进行一次成功连击都能造成额外伤害.</>
+	<berserker_desc>当承受一定程度的伤害后,_狂战士_会进入狂暴状态,可观地提升伤害输出能力.</>
+	<warlock_desc>_术士_会将他杀死的敌人的魂魄收走用于治疗与果腹.</>
+	<battlemage_desc>手持法杖战斗时,_战法师_能够造成和法杖充能点数相关的额外伤害.每次命中敌人都能为法杖恢复一点充能.</>
+	<assassin_desc>_刺客_进行突袭时能够对目标造成额外伤害.</>
+	<freerunner_desc>_疾行客_移动速度差不多有大多数怪物的两倍快.他奔跑起来脚步如飞,敌人很难命中..但饿肚子或者负重的时候就无法发挥这种优势了.</>
+	<sniper_desc>狙击手能够侦测出敌人护甲的弱点,在使用投掷武器时无视护甲高效得进行攻击.</>
+	<warden_desc>与大自然强烈的联系赋予了守望者从草木中收集露珠和种子的能力.践踏草丛时她还会获得一个临时的防护效果.</>
+	
+	<badge_MONSTERS_SLAIN_1_desc>10敌斩</>
+	<badge_MONSTERS_SLAIN_2_desc>50敌斩</>
+	<badge_MONSTERS_SLAIN_3_desc>150敌斩</>
+	<badge_MONSTERS_SLAIN_4_desc>250敌斩</>
+	<badge_GOLD_COLLECTED_1_desc>收集100金</>
+	<badge_GOLD_COLLECTED_2_desc>收集500金</>
+	<badge_GOLD_COLLECTED_3_desc>收集2500金</>
+	<badge_GOLD_COLLECTED_4_desc>收集7500金</>
+	
+	<badge_LEVEL_REACHED_1_desc>升到等级6</>
+	<badge_LEVEL_REACHED_2_desc>升到等级12</>
+	<badge_LEVEL_REACHED_3_desc>升到等级18</>
+	<badge_LEVEL_REACHED_4_desc>升到等级24</>
+	
+	<badge_ALL_POTIONS_IDENTIFIED_desc>全部药水已鉴定</>
+	<badge_ALL_SCROLLS_IDENTIFIED_desc>全部卷轴已鉴定</>
+	<badge_ALL_RINGS_IDENTIFIED_desc>全部指环已鉴定</>
+	<badge_ALL_WANDS_IDENTIFIED_desc>全部法杖已鉴定</>
+	<badge_ALL_ITEMS_IDENTIFIED_desc>全部药水,卷轴,指环和法杖都已鉴定</>
+	
+	<badge_ALL_BAGS_BOUGHT_desc>所有行囊都已购入</>
+	<badge_DEATH_FROM_FIRE_desc>死于烈火</>
+	<badge_DEATH_FROM_POISON_desc>死于中毒</>
+	<badge_DEATH_FROM_GAS_desc>死于毒气</>
+	<badge_DEATH_FROM_HUNGER_desc>死于饥饿</>
+	<badge_DEATH_FROM_GLYPH_desc>死于魔法</>
+	<badge_DEATH_FROM_FALLING_desc>死于跌落</>
+	<badge_YASD_desc>死于烈火,中毒,毒气和饥饿</>
+	
+	<badge_BOSS_SLAIN_1_desc>斩杀第一个Boss</>
+	<badge_BOSS_SLAIN_2_desc>斩杀第二个Boss</>
+	<badge_BOSS_SLAIN_3_desc>斩杀第三个Boss</>
+	<badge_BOSS_SLAIN_4_desc>斩杀第四个Boss</>
+	
+	<badge_BOSS_SLAIN_1_ALL_CLASSES_desc>使用战士,法师,游侠和女猎斩杀第一个Boss</>
+	<badge_BOSS_SLAIN_3_ALL_SUBCLASSES_desc>使用角斗士,狂战士,术士,战法师,疾行客,刺客,狙击手和守望者斩杀第三个Boss</>
+	<badge_RING_OF_HAGGLER_desc>获得折扣指环</>
+	<badge_RING_OF_THORNS_desc>获得荆棘指环</>
+	
+	<badge_STRENGTH_ATTAINED_1_desc>力量提升至13点</>
+	<badge_STRENGTH_ATTAINED_2_desc>力量提升至15点</>
+	<badge_STRENGTH_ATTAINED_3_desc>力量提升至17点</>
+	<badge_STRENGTH_ATTAINED_4_desc>力量提升至19点</>
+	
+	<badge_FOOD_EATEN_1_desc>吃下10块食物</>
+	<badge_FOOD_EATEN_2_desc>吃下20块食物</>
+	<badge_FOOD_EATEN_3_desc>吃下30块食物</>
+	<badge_FOOD_EATEN_4_desc>吃下40块食物</>
+	
+	<badge_ITEM_LEVEL_1_desc>道具升级至3级</>
+	<badge_ITEM_LEVEL_2_desc>道具升级至6级</>
+	<badge_ITEM_LEVEL_3_desc>道具升级至9级</>
+	<badge_ITEM_LEVEL_4_desc>道具升级至12级</>
+	
+	<badge_RARE_desc>斩杀所有稀有怪物</>
+	<badge_VICTORY_desc>获得尼德罗护符</>
+	<badge_VICTORY_ALL_CLASSES_desc>使用战士,法师,游侠和女猎获得尼德罗护符</>
+	
+	<badge_MASTERY_COMBO_desc>七连击</>
+	<badge_POTIONS_COOKED_1_desc>调配3瓶药水</>
+	<badge_POTIONS_COOKED_2_desc>调配6瓶药水</>
+	<badge_POTIONS_COOKED_3_desc>调配9瓶药水</>
+	<badge_POTIONS_COOKED_4_desc>调配12瓶药水</>
+	
+	<badge_NO_MONSTERS_SLAIN_desc>不杀死任何怪物通过一层</>
+	<badge_GRIM_WEAPON_desc>使用残暴武器杀死怪物</>
+	<badge_PIRANHAS_desc>杀死6条食人鱼</>
+	<badge_NIGHT_HUNTER_desc>在夜间杀死15只怪物</>
+	
+	<badge_GAMES_PLAYED_1_desc>完成10局游戏</>
+	<badge_GAMES_PLAYED_2_desc>完成100局游戏</>
+	<badge_GAMES_PLAYED_3_desc>完成500局游戏</>
+	<badge_GAMES_PLAYED_4_desc>完成2000局游戏</>
+	
+	<badge_HAPPY_END_desc>胜利归来</>
+	<badge_CHAMPION_desc>完成挑战</>
+	<badge_SUPPORTER_desc>感谢您的支持!</>
+</>
+
+<badge>
+<test>test</>
+</>

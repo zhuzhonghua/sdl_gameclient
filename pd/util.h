@@ -37,7 +37,10 @@ public:
 	static float RECTFBottom(const RectF& frame);
 	static PointF* PointFSet(PointF* p, float v);
 	static PointF* PointFSet(PointF* p, float x, float y);
+	static PointF* PointFOffSet(PointF* p, PointF* dp);
+	static PointF* PointFOffSet(PointF* p, float dx, float dy);
 	static PointF* PointFPolar(PointF* p, float a, float l);
+	static PointF* PointFScale(PointF* p, float f);
 
 	static void splitString(const std::string& s, std::vector<std::string>& v, const std::string& c);
 

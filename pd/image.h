@@ -8,6 +8,7 @@
 class Image :public Visual{
 public:
 	Image();
+	Image(const Image* other);
 	Image(const Image& other);
 	Image(SmartTexture* other);
 	Image(const std::string& tx);

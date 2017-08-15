@@ -14,6 +14,9 @@
 #include "wndclass.h"
 #include "wndmessage.h"
 #include "wndchallenges.h"
+#include "dungeon.h"
+#include "interlevelscene.h"
+#include "introscene.h"
 
 const char* StartScene::TXT_LOAD = "lang.loadgame";
 const char* StartScene::TXT_NEW = "lang.newgame";
@@ -60,8 +63,8 @@ namespace{
 		{
 			GamesInProgress::Info info;
 
-			//if (GamesInProgress::check(_scene->curClass, info))
-			if (true)
+			if (GamesInProgress::check(_scene->curClass, info))
+			//if (true)
 			{
 				std::vector<std::string> options;
 				options.push_back(BPT::getText(StartScene::TXT_YES));
@@ -272,10 +275,11 @@ namespace{
 		}
 		virtual void onBackPressed()
 		{
-			WndChallenges::onBackPressed();
 			Image* img = Icons::get(PixelDungeon::challenges() > 0 ? Icons::CHALLENGE_ON : Icons::CHALLENGE_OFF);
 			cb->image->copy(*img);
 			delete img;
+
+			WndChallenges::onBackPressed();
 		}
 	};
 }
@@ -540,16 +544,19 @@ void StartScene::updateClass(HeroClass cl)
 
 void StartScene::startNewGame()
 {
-	//Dungeon.hero = null;
-	//InterlevelScene.mode = InterlevelScene.Mode.DESCEND;
-	//
-	//if (PixelDungeon.intro()) {
-	//	PixelDungeon.intro(false);
-	//	Game.switchScene(IntroScene.class);
-	//}
-	//else {
-	//	Game.switchScene(InterlevelScene.class);
-	//}
+	Dungeon::hero = NULL;
+	InterLevelScene::mode = InterLevelScene::Mode::DESCEND;
+	
+	if (PixelDungeon::intro()) 
+	//if (true)
+	{
+		PixelDungeon::intro(false);
+		Game::switchScene(new IntroScene());
+	}
+	else 
+	{
+		Game::switchScene(new InterLevelScene());
+	}
 }
 
 void StartScene::onBackPressed()

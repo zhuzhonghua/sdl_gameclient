@@ -165,10 +165,31 @@ PointF* GameMath::PointFSet(PointF* p, float x, float y)
 	return p;
 }
 
+PointF* GameMath::PointFOffSet(PointF* p, PointF* dp)
+{
+	p->x += dp->x;
+	p->y += dp->y;
+	return p;
+}
+
+PointF* GameMath::PointFOffSet(PointF* p, float dx, float dy)
+{
+	p->x += dx;
+	p->y += dy;
+	return p;
+}
+
 PointF* GameMath::PointFPolar(PointF* p, float a, float l)
 {
 	p->x = l * cos(a);// FloatMath.cos(a);
 	p->y = l * sin(a);// FloatMath.sin(a);
+	return p;
+}
+
+PointF* GameMath::PointFScale(PointF* p, float f)
+{
+	p->x *= f;
+	p->y *= f;
 	return p;
 }
 
@@ -458,5 +479,7 @@ bool IOManager::writeFile(const std::string& filePath, std::string& buffer)
 {
 	SDL_RWops* fileOP = SDL_RWFromFile(filePath.c_str(), "w");
 	SDL_RWwrite(fileOP, buffer.c_str(), buffer.size(), 1);
+	SDL_RWclose(fileOP);
+
 	return true;
 }
