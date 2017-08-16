@@ -3,7 +3,7 @@
 #include "util.h"
 #include "noosascript.h"
 
-//const boost::regex BitmapTextMultiline::PARAGRAPH("\n");
+const pcrecpp::RE BitmapTextMultiline::PARAGRAPH("(.*)\n", pcrecpp::UTF8());
 //const boost::regex BitmapTextMultiline::WORD("\\s+");
 
 void BitmapTextMultiline::LineSplitter::newLine(const std::string& str, float width)
@@ -30,8 +30,16 @@ void BitmapTextMultiline::LineSplitter::split(std::vector<BitmapText*>& lines)
 	curLineWidth = 0;
 
 	std::vector<std::string> paragraphs;
-	GameMath::splitString(btml->text(), paragraphs, "\n");
-	
+
+	pcrecpp::StringPiece text(btml->text());
+	int counter = 0;
+	std::string line;
+	while (PARAGRAPH.Consume(&text, &line))
+	{
+		paragraphs.push_back(line);
+	}
+	paragraphs.push_back(text.as_string());
+
 	for (int i = 0; i < paragraphs.size(); i++) 
 	{
 		std::vector<std::string> words;
@@ -96,11 +104,18 @@ void BitmapTextMultiline::getWordMetrics(const std::string& word, PointF& metric
 void BitmapTextMultiline::updateVertices()
 {
 	if (_text.size() <= 0) return;
-
 	
 	std::vector<std::string> v;
-	GameMath::splitString(_text, v, "\n");
-	
+
+	pcrecpp::StringPiece text(_text);
+	int counter = 0;
+	std::string line;
+	while (PARAGRAPH.Consume(&text,&line))
+	{
+		v.push_back(line);
+	}
+	v.push_back(text.as_string());
+
 	float vx = 0, vy = 0;
 	SymbolWriter writer(this);
 
@@ -206,7 +221,15 @@ void BitmapTextMultiline::measure()
 	const SDL_Color c = { 255, 255, 255 };
 
 	std::vector<std::string> v;
-	GameMath::splitString(_text, v, "\n");
+
+	pcrecpp::StringPiece text(_text);
+	int counter = 0;
+	std::string line;
+	while (PARAGRAPH.Consume(&text, &line))
+	{
+		v.push_back(line);
+	}
+	v.push_back(text.as_string());
 
 	SymbolWriter writer(this);
 

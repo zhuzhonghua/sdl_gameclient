@@ -1,6 +1,8 @@
 #pragma once
 
 #include "bitmaptext.h"
+#include "regex/pcrecpp.h"
+
 #include <string>
 #include <vector>
 #include <map>
@@ -55,7 +57,7 @@ public:
 protected:
 	float spaceSize;
 
-	//static const boost::regex PARAGRAPH;
+	static const pcrecpp::RE PARAGRAPH;
 	//static const boost::regex WORD;
 
 	virtual void updateVertices();

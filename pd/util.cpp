@@ -209,6 +209,24 @@ void GameMath::splitString(const std::string& s, std::vector<std::string>& v, co
 		v.push_back(s.substr(pos1));
 }
 
+void GameMath::splitStringRe(const std::string& s, std::vector<std::string>& v, pcrecpp::RE re)
+{
+	pcrecpp::StringPiece input(s);
+	const char* lastP = input.data();
+
+	std::string match;
+	while (re.Consume(&input, &match))
+	{
+		const char* p = input.data();
+		int range = p - lastP;
+		v.push_back(std::string(lastP, lastP + range));
+
+		lastP += range;
+		lastP += match.length();
+	}
+	v.push_back(std::string(lastP));
+}
+
 /* Gets a unicode value from a UTF-8 encoded string and advance the string */
 #define UNKNOWN_UNICODE 0xFFFD
 static Uint32 UTF8_getch(const char **src, size_t *srclen)

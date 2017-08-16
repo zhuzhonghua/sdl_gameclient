@@ -3,6 +3,7 @@
 #include <time.h>
 #include <random>
 #include "define.h"
+#include "regex/pcrecpp.h"
 
 class Random{
 	static Random* _inst;
@@ -43,7 +44,7 @@ public:
 	static PointF* PointFScale(PointF* p, float f);
 
 	static void splitString(const std::string& s, std::vector<std::string>& v, const std::string& c);
-
+	static void splitStringRe(const std::string& s, std::vector<std::string>& v, pcrecpp::RE re);
 	static void splitUTF8String(const std::string& s, std::vector<Uint16>& chs);
 	static void splitUTF8(const std::string& s, std::vector<std::string>& chs);
 
