@@ -31,7 +31,8 @@ void BitmapTextMultiline::LineSplitter::split(std::vector<BitmapText*>& lines)
 
 	std::vector<std::string> paragraphs;
 
-	pcrecpp::StringPiece text(btml->text());
+	std::string txt = btml->text();
+	pcrecpp::StringPiece text(txt);
 	int counter = 0;
 	std::string line;
 	while (PARAGRAPH.Consume(&text, &line))

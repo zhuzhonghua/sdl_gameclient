@@ -3,6 +3,9 @@
 #include "bundlable.h"
 #include <vector>
 
+class Scene;
+class Char;
+
 class Level :public Bundlable{
 public:
 	enum Feeling {
@@ -15,6 +18,37 @@ public:
 	static const int WIDTH = 32;
 	static const int HEIGHT = 32;
 	static const int LENGTH = WIDTH * HEIGHT;
+
+	static const int NEIGHBOURS4[];
+	static const int NEIGHBOURS8[];
+	static const int NEIGHBOURS9[];
+
+protected:
+	static const float TIME_TO_RESPAWN;
+
+	static bool pitRoomNeeded;
+	static bool weakFloorCreated;
+
+private:
+	static const std::string TXT_HIDDEN_PLATE_CLICKS;
+
+	static const std::string MAP;
+	static const std::string VISITED;
+	static const std::string MAPPED;
+	static const std::string ENTRANCE;
+	static const std::string EXIT;
+	static const std::string HEAPS;
+	static const std::string PLANTS;
+	static const std::string MOBS;
+	static const std::string BLOBS;
+
+public:
+	static bool resizingNeeded;
+	static int loadedMapSize;
+
+	std::vector<int> map;
+	std::vector<bool> visited;
+	std::vector<bool> mapped;
 
 	static std::vector<bool> fieldOfView;
 
@@ -29,7 +63,40 @@ public:
 
 	static std::vector<bool> discoverable;
 
-	std::vector<int> map;
-	std::vector<bool> visited;
-	std::vector<bool> mapped;
+	int viewDistance;
+
+	Feeling feeling;
+
+	int entrance;
+	int exit;
+
+	int color1;
+	int color2;
+
+	Level();
+	virtual ~Level(){}
+	void create();
+
+	int pitCell();
+	int randomRespawnCell();
+	int adjustPos(int pos);
+
+	virtual std::string tilesTex() { return ""; }
+	virtual std::string waterTex() { return ""; }
+
+	void reset();
+
+	std::vector<bool> updateFieldOfView(Char* c);
+
+	static int distance(int a, int b);
+
+	int tunnelTile();
+protected:
+	virtual bool build() = 0;
+	virtual void decorate() = 0;
+	virtual void createMobs() = 0;
+	virtual void createItems() = 0;
+
+public:
+	void addVisuals(Scene* scene);
 };

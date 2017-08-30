@@ -3,7 +3,7 @@
 #include "pixelscene.h"
 #include "pthread/pthread.h"
 
-class InterLevelScene :public PixelScene{
+class InterlevelScene :public PixelScene{
 public:
 	static const float TIME_TO_FADE;
 
@@ -27,7 +27,7 @@ public:
 
 	BitmapText* message;
 	std::string error;
-	pthread_t threadID;
+	bool threadEndFlag;
 
 	bool isThreadAlive();
 	void descend();

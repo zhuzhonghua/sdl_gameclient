@@ -59,7 +59,15 @@ void Texture::pixels(int w, int h, std::vector<byte> data)
 {
 	bind();
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, &(data[0]));
+	glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, w, h, 0, GL_ALPHA, GL_UNSIGNED_BYTE, &(data[0]));
+}
+
+void Texture::pixels(int w, int h, std::vector<int> pixels)
+{
+	bind();
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, &(pixels[0]));
 }
 
 Texture* Texture::create(int width, int height, std::vector<byte> data)
@@ -73,19 +81,7 @@ void Texture::bitmap(const std::string& bitmap)
 {
 	//_getBytesPNG(bitmap, out, w, h);
 	SDL_Surface* img = IMG_Load(bitmap.c_str());
-	//width = w, height = h;
-	width = img->w;
-	height = img->h;
-
-	bind();
-
-	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &(out[0]));
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img->pixels);
-
-	//SDL_FreeSurface(img);
-	texSrc = img;
-
-	premultiplied = true;
+	Texture::bitmap(img);
 }
 
 void Texture::bitmap(SDL_Surface* img)
@@ -96,8 +92,18 @@ void Texture::bitmap(SDL_Surface* img)
 
 	bind();
 
-	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, &(out[0]));
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img->pixels);
+	if (img->format->BytesPerPixel == 4)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, img->pixels);
+	}
+	else if (img->format->BytesPerPixel == 3)
+	{
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, img->pixels);
+	}
+	else
+	{
+		*(int*)0 = 1;
+	}
 
 	premultiplied = true;
 

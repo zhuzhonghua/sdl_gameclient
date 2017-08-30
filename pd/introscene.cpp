@@ -15,7 +15,7 @@ namespace{
 		virtual void hide()
 		{
 			WndStory::hide();
-			Game::switchScene(new InterLevelScene());
+			Game::switchScene(new InterlevelScene());
 			delete this;
 		}
 	};

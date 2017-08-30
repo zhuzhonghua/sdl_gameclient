@@ -4,20 +4,24 @@
 #include <map>
 #include <list>
 #include <vector>
+#include <set>
 
 #include <boost/property_tree/ptree.hpp>
 #include "bundlable.h"
+
+typedef Bundlable* (*GETCOLLECTIONCALLBACK) ();
 
 class Bundle{
 private:
 	static const std::string CLASS_NAME;
 	static std::map<std::string, std::string> aliases;
 
+	bool isnull;
 	boost::property_tree::ptree data;
 
 	Bundle(const boost::property_tree::ptree& d);
 public:
-	Bundle(){}
+	Bundle() :isnull(true){}
 	std::string toString();
 	bool isNull();
 	void fields(std::list<std::string>& ret);
@@ -27,9 +31,11 @@ public:
 	float getFloat(const std::string& key);
 	std::string getString(const std::string& key);
 	Bundle* getBundle(const std::string& key);
-	void getIntArray(const std::string& key, std::list<int>& ret);
-	void getBooleanArray(const std::string& key, std::list<bool>& ret);
+	bool getIntArray(const std::string& key, std::list<int>& ret);
+	bool getBooleanArray(const std::string& key, std::list<bool>& ret);
 	bool getStringArray(const std::string& key, std::list<std::string>& ret);
+
+	void getCollection(const std::string& key, std::vector<Bundlable*>&ret, GETCOLLECTIONCALLBACK cb);
 
 	void put(const std::string& key, bool value);
 	void put(const std::string& key, int value);
@@ -41,6 +47,7 @@ public:
 	void put(const std::string& key, const std::vector<int>& arr);
 	void put(const std::string& key, const std::vector<bool>& arr);
 	void put(const std::string& key, const std::vector<std::string>& arr);
+	void put(const std::string& key, const std::vector<Bundlable*>& arr);
 
 	static Bundle* read(std::stringstream& stream);
 	static bool write(Bundle* bundle, std::stringstream& stream);

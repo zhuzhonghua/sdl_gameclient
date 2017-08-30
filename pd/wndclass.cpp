@@ -21,7 +21,7 @@ void WndClass::RankingTab::select(bool value)
 	}
 }
 
-const std::string WndClass::PerksTab::DOT = "*";
+const std::string WndClass::PerksTab::DOT = "lang.dot";
 
 WndClass::PerksTab::PerksTab(WndClass* wnd)
 {
@@ -44,7 +44,7 @@ WndClass::PerksTab::PerksTab(WndClass* wnd)
 			pos += GAP;
 		}
 
-		BitmapText* dot = PixelScene::createText(DOT, 6);
+		BitmapText* dot = PixelScene::createText(BPT::getText(DOT), 6);
 		dot->x = MARGIN;
 		dot->y = pos;
 		if (dotWidth == 0) 

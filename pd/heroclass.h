@@ -5,6 +5,8 @@
 
 #include "badge.h"
 
+class Hero;
+
 class HeroClass{
 public:
 	enum Type{		
@@ -29,16 +31,16 @@ private:
 	std::string _title;
 	Type _type;
 
-	static void initCommon(/*Hero hero*/);
-	static void initWarrior(/*Hero hero*/);
-	static void initMage(/*Hero hero*/);
-	static void initRogue(/*Hero hero*/);
-	static void initHuntress(/*Hero hero*/);
+	static void initCommon(Hero* hero);
+	static void initWarrior(Hero* hero);
+	static void initMage(Hero* hero);
+	static void initRogue(Hero* hero);
+	static void initHuntress(Hero* hero);
 public:
 	HeroClass(const std::string& title);
 	HeroClass(const HeroClass& cl);
 
-	void initHero(/*Hero hero*/);
+	void initHero(Hero* hero);
 	std::string title() { return _title; }
 	Type type() const { return _type; }
 	std::string name();

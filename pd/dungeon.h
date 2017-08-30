@@ -13,6 +13,13 @@ public:
 	static std::string gameFile(const HeroClass& cl);
 	static void preview(GamesInProgress::Info& info, Bundle* bundle);
 
+	static int potionOfStrength;
+	static int scrollsOfUpgrade;
+	static int scrollsOfEnchantment;
+	static bool dewVial;		// true if the dew vial can be spawned
+
+	static int challenges;
+
 	static Hero* hero;
 	static Level* level;
 
@@ -21,6 +28,24 @@ public:
 
 	static std::vector<bool> visible;
 	static std::set<int> chapters;
+
+	static void init();
+	static bool isChallenged(int mask);
+	static Level* newLevel();
+
+	static void loadGame(HeroClass cl);
+	static void loadGame(const std::string& fileName);
+	static void loadGame(const std::string& fileName, bool fullLoad);
+
+	static void resetLevel();
+	static void saveLevel();
+	static Level* loadLevel(HeroClass cl);
+	static void switchLevel(Level* level, int pos);
+
+	static bool shopOnLevel() { return depth == 6 || depth == 11 || depth == 16; }
+	static bool bossLevel();
+	static bool bossLevel(int depth){ return depth == 5 || depth == 10 || depth == 15 || depth == 20 || depth == 25; }
+	
 private:
 	static const std::string RG_GAME_FILE ;
 	static const std::string RG_DEPTH_FILE ;
@@ -44,4 +69,6 @@ private:
 	static const std::string CHAPTERS ;
 	static const std::string QUESTS ;
 	static const std::string BADGES ;
+
+	static std::string depthFile(HeroClass cl);
 };

@@ -1,4 +1,5 @@
 #include "quad.h"
+#include "util.h"
 
 std::vector<short> Quad::_indices;
 
@@ -47,4 +48,9 @@ void Quad::fill(float v[],
 	v[13] = y2;
 	v[14] = u1;
 	v[15] = v2;
+}
+
+FloatBuffer* Quad::createSet(int size)
+{
+	return new FloatBuffer(size*16);
 }

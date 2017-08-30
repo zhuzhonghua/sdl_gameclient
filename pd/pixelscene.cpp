@@ -14,6 +14,11 @@ Camera* PixelScene::uiCamera;
 
 bool PixelScene::noFade = false;
 
+void PixelScene::chooseFont(float size, float zoom)
+{
+	scale /= zoom;
+}
+
 float PixelScene::scale = 0.3f;
 
 PixelScene::PixelScene()

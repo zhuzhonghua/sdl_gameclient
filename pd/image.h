@@ -14,6 +14,7 @@ public:
 	Image(const std::string& tx);
 	Image(const std::string& tx, int left, int top, int width, int height);
 
+	void texture(SmartTexture* tx);
 	void texture(const std::string& tx);
 	void copy(const Image& other);
 	RectF frame() { return _frame; }

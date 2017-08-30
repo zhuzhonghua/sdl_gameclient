@@ -8,6 +8,8 @@ typedef glm::vec2 PointF;
 typedef glm::ivec2 Point;
 typedef glm::mat4 Matrix;
 typedef glm::vec4 RectF;
+typedef glm::ivec4 Rect;
+
 typedef unsigned char byte;
 typedef unsigned short Uint16;
 

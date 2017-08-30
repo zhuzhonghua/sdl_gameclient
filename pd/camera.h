@@ -7,6 +7,8 @@
 
 #include "gizmo.h"
 
+class Visual;
+
 class Camera :public Gizmo{
 public:
 	Camera(int x, int y, int width, int height, float zoom);
@@ -48,6 +50,7 @@ public:
 	int screenHeightf;
 
 	PointF	scroll;
+	Visual* target;
 	Matrix	mat;
 
 	static Camera* mainCamera;

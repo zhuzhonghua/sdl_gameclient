@@ -11,6 +11,7 @@ Bundle* Bundle::read(std::stringstream& ss)
 {
 	Bundle* b = new Bundle();
 	read_json(ss, b->data);
+	b->isnull = false;
 
 	return b;
 }
@@ -18,6 +19,28 @@ Bundle* Bundle::read(std::stringstream& ss)
 bool Bundle::write(Bundle* bundle, std::stringstream& ss)
 {
 	write_json(ss, bundle->data);
+	return true;
+}
+
+bool Bundle::getIntArray(const std::string& key, std::list<int>& ret)
+{
+	boost::property_tree::ptree image_array = data.get_child(key);
+	BOOST_FOREACH(boost::property_tree::ptree::value_type &v, image_array)
+	{
+		ret.push_back(v.second.get_value<int>());
+	}
+
+	return true;
+}
+
+bool Bundle::getBooleanArray(const std::string& key, std::list<bool>& ret)
+{
+	boost::property_tree::ptree image_array = data.get_child(key);
+	BOOST_FOREACH(boost::property_tree::ptree::value_type &v, image_array)
+	{
+		ret.push_back(v.second.get_value<bool>());
+	}
+
 	return true;
 }
 
@@ -32,6 +55,11 @@ bool Bundle::getStringArray(const std::string& key, std::list<std::string>& ret)
 	}
 
 	return true;
+}
+
+bool Bundle::isNull()
+{
+	return isnull;
 }
 
 bool Bundle::getBoolean(const std::string& key)
@@ -123,4 +151,33 @@ void Bundle::put(const std::string& key, const std::vector<std::string>& arr)
 		array1.put("", arr[i]);
 	}
 	data.put_child(key, array1);
+}
+
+void Bundle::put(const std::string& key, const std::vector<Bundlable*>& arr)
+{
+	boost::property_tree::ptree array1;
+
+	for (std::vector<Bundlable*>::const_iterator itr = arr.begin();
+		itr != arr.end(); itr++)
+	{
+		Bundle bundle;
+		bundle.put(CLASS_NAME, (*itr)->getClassName());
+		(*itr)->storeInBundle(&bundle);
+		
+		array1.put_child("", bundle.data);		
+	}
+	data.put_child(key, array1);
+}
+
+void Bundle::getCollection(const std::string& key, std::vector<Bundlable*>&ret, GETCOLLECTIONCALLBACK cb)
+{
+	boost::property_tree::ptree image_array = data.get_child(key);
+	BOOST_FOREACH(boost::property_tree::ptree::value_type &v, image_array)
+	{
+		Bundle bd;
+		bd.data = v.second;
+		Bundlable* bdInst = cb();
+		bdInst->restoreFromBundle(&bd);
+		ret.push_back(bdInst);
+	}
 }

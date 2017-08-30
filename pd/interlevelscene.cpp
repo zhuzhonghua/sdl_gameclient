@@ -5,32 +5,36 @@
 #include "dungeon.h"
 #include "gamescene.h"
 #include "bpt.h"
+#include "actor.h"
+#include "wndstory.h"
+#include "gamelog.h"
+#include "statistics.h"
 
-const float InterLevelScene::TIME_TO_FADE = 0.3f;
+const float InterlevelScene::TIME_TO_FADE = 0.3f;
 
-const std::string InterLevelScene::TXT_DESCENDING = "lang.inter_desc";
-const std::string InterLevelScene::TXT_ASCENDING = "lang.inter_asce";
-const std::string InterLevelScene::TXT_LOADING = "lang.inter_load";
-const std::string InterLevelScene::TXT_RESURRECTING = "lang.inter_resurr";
-const std::string InterLevelScene::TXT_RETURNING = "lang.inter_return";
-const std::string InterLevelScene::TXT_FALLING = "lang.inter_falling";
+const std::string InterlevelScene::TXT_DESCENDING = "lang.inter_desc";
+const std::string InterlevelScene::TXT_ASCENDING = "lang.inter_asce";
+const std::string InterlevelScene::TXT_LOADING = "lang.inter_load";
+const std::string InterlevelScene::TXT_RESURRECTING = "lang.inter_resurr";
+const std::string InterlevelScene::TXT_RETURNING = "lang.inter_return";
+const std::string InterlevelScene::TXT_FALLING = "lang.inter_falling";
 
-const std::string InterLevelScene::ERR_FILE_NOT_FOUND = "lang.inter_filenotfound";
-const std::string InterLevelScene::ERR_GENERIC = "lang.inter_errgeneric";
+const std::string InterlevelScene::ERR_FILE_NOT_FOUND = "lang.inter_filenotfound";
+const std::string InterlevelScene::ERR_GENERIC = "lang.inter_errgeneric";
 
-InterLevelScene::Mode InterLevelScene::mode;
+InterlevelScene::Mode InterlevelScene::mode;
 
-int InterLevelScene::returnDepth;
-int InterLevelScene::returnPos;
+int InterlevelScene::returnDepth;
+int InterlevelScene::returnPos;
 
-bool InterLevelScene::noStory = false;
+bool InterlevelScene::noStory = false;
 
-bool InterLevelScene::fallIntoPit;
+bool InterlevelScene::fallIntoPit;
 
 namespace{
 	void* InterlevelSceneThread(void* Param)
 	{
-		InterLevelScene* sce = (InterLevelScene*)Param;
+		InterlevelScene* sce = (InterlevelScene*)Param;
 
 		//try {
 			//
@@ -38,22 +42,22 @@ namespace{
 			
 		switch (sce->mode) 
 		{
-		case InterLevelScene::DESCEND:
+		case InterlevelScene::DESCEND:
 			sce->descend();
 			break;
-		case InterLevelScene::ASCEND:
+		case InterlevelScene::ASCEND:
 			sce->ascend();
 			break;
-		case InterLevelScene::CONTINUE:
+		case InterlevelScene::CONTINUE:
 			sce->restore();
 			break;
-		case InterLevelScene::RESURRECT:
+		case InterlevelScene::RESURRECT:
 			sce->resurrect();
 			break;
-		case InterLevelScene::RETURN:
+		case InterlevelScene::RETURN:
 			sce->returnTo();
 			break;
-		case InterLevelScene::FALL:
+		case InterlevelScene::FALL:
 			sce->fall();
 			break;
 		}
@@ -75,16 +79,17 @@ namespace{
 		//	
 		//	}
 			
-		if (sce->phase == InterLevelScene::Phase::STATIC && sce->error.length() <= 0) 
+		if (sce->phase == InterlevelScene::Phase::STATIC && sce->error.length() <= 0) 
 		{
-			sce->phase = InterLevelScene::Phase::FADE_OUT;
-			sce->timeLeft = InterLevelScene::TIME_TO_FADE;
+			sce->phase = InterlevelScene::Phase::FADE_OUT;
+			sce->timeLeft = InterlevelScene::TIME_TO_FADE;
 		}
 
+		sce->threadEndFlag = true;
 		return NULL;
 	}
 }
-void InterLevelScene::init()
+void InterlevelScene::init()
 {
 	PixelScene::init();
 
@@ -120,6 +125,8 @@ void InterLevelScene::init()
 	phase = Phase::FADE_IN;
 	timeLeft = TIME_TO_FADE;
 
+	threadEndFlag = false;
+	pthread_t threadID;
 	pthread_create(&threadID, NULL, InterlevelSceneThread, this);
 }
 
@@ -138,24 +145,25 @@ namespace{
 	};
 }
 
-bool InterLevelScene::isThreadAlive()
+bool InterlevelScene::isThreadAlive()
 {
-	int rc = pthread_kill(threadID, 0);
-	if (rc == ESRCH)
-	{
-		return false;
-	}
-	else if (rc == EINVAL)
-	{
-		return false;
-	}
-	else
-	{
-		return true;
-	}
+	return !threadEndFlag;
+	//int rc = pthread_kill(threadID, 0);
+	//if (rc == ESRCH)
+	//{
+	//	return false;
+	//}
+	//else if (rc == EINVAL)
+	//{
+	//	return false;
+	//}
+	//else
+	//{
+	//	return true;
+	//}
 }
 
-void InterLevelScene::update()
+void InterlevelScene::update()
 {
 	PixelScene::update();
 
@@ -201,97 +209,108 @@ void InterLevelScene::update()
 	}
 }
 
-void InterLevelScene::descend()
+void InterlevelScene::descend()
 {
-	//Actor.fixTime();
-	//if (Dungeon.hero == null) {
-	//	Dungeon.init();
-	//	if (noStory) {
-	//		Dungeon.chapters.add(WndStory.ID_SEWERS);
-	//		noStory = false;
-	//	}
-	//	GameLog.wipe();
-	//}
-	//else {
-	//	Dungeon.saveLevel();
-	//}
-	//
-	//Level level;
-	//if (Dungeon.depth >= Statistics.deepestFloor) {
-	//	level = Dungeon.newLevel();
-	//}
-	//else {
-	//	Dungeon.depth++;
-	//	level = Dungeon.loadLevel(Dungeon.hero.heroClass);
-	//}
-	//Dungeon.switchLevel(level, level.entrance);
+	Actor::fixTime();
+	if (Dungeon::hero == NULL) 
+	{
+		Dungeon::init();
+		if (noStory) 
+		{
+			Dungeon::chapters.insert(WndStory::ID_SEWERS);
+			noStory = false;
+		}
+		GameLog::wipe();
+	}
+	else 
+	{
+		Dungeon::saveLevel();
+	}
+	
+	Level* level = NULL;
+	if (Dungeon::depth >= Statistics::deepestFloor) 
+	{
+		level = Dungeon::newLevel();
+	}
+	else 
+	{
+		Dungeon::depth++;
+		level = Dungeon::loadLevel(Dungeon::hero->heroClass);
+	}
+	Dungeon::switchLevel(level, level->entrance);
 }
 
-void InterLevelScene::fall()
+void InterlevelScene::fall()
 {
-	//Actor.fixTime();
-	//Dungeon.saveLevel();
-	//
-	//Level level;
-	//if (Dungeon.depth >= Statistics.deepestFloor) {
-	//	level = Dungeon.newLevel();
-	//}
-	//else {
-	//	Dungeon.depth++;
-	//	level = Dungeon.loadLevel(Dungeon.hero.heroClass);
-	//}
-	//Dungeon.switchLevel(level, fallIntoPit ? level.pitCell() : level.randomRespawnCell());
+	Actor::fixTime();
+	Dungeon::saveLevel();
+	
+	Level* level;
+	if (Dungeon::depth >= Statistics::deepestFloor)
+	{
+		level = Dungeon::newLevel();
+	}
+	else 
+	{
+		Dungeon::depth++;
+		level = Dungeon::loadLevel(Dungeon::hero->heroClass);
+	}
+	Dungeon::switchLevel(level, fallIntoPit ? level->pitCell() : level->randomRespawnCell());
 }
 
-void InterLevelScene::ascend()
+void InterlevelScene::ascend()
 {
-	//Actor.fixTime();
-	//
-	//Dungeon.saveLevel();
-	//Dungeon.depth--;
-	//Level level = Dungeon.loadLevel(Dungeon.hero.heroClass);
-	//Dungeon.switchLevel(level, level.exit);
+	Actor::fixTime();
+	
+	Dungeon::saveLevel();
+	Dungeon::depth--;
+	Level* level = Dungeon::loadLevel(Dungeon::hero->heroClass);
+	Dungeon::switchLevel(level, level->exit);
 }
 
-void InterLevelScene::returnTo()
+void InterlevelScene::returnTo()
 {
-	//Actor.fixTime();
-	//
-	//Dungeon.saveLevel();
-	//Dungeon.depth = returnDepth;
-	//Level level = Dungeon.loadLevel(Dungeon.hero.heroClass);
-	//Dungeon.switchLevel(level, Level.resizingNeeded ? level.adjustPos(returnPos) : returnPos);
+	Actor::fixTime();
+	
+	Dungeon::saveLevel();
+	Dungeon::depth = returnDepth;
+	Level* level = Dungeon::loadLevel(Dungeon::hero->heroClass);
+	Dungeon::switchLevel(level, Level::resizingNeeded ? level->adjustPos(returnPos) : returnPos);
 }
 
-void InterLevelScene::restore()
+void InterlevelScene::restore()
 {
-	//Actor.fixTime();
-	//
-	//GameLog.wipe();
-	//
-	//Dungeon.loadGame(StartScene.curClass);
-	//if (Dungeon.depth == -1) {
-	//	Dungeon.depth = Statistics.deepestFloor;
-	//	Dungeon.switchLevel(Dungeon.loadLevel(StartScene.curClass), -1);
-	//}
-	//else {
-	//	Level level = Dungeon.loadLevel(StartScene.curClass);
-	//	Dungeon.switchLevel(level, Level.resizingNeeded ? level.adjustPos(Dungeon.hero.pos) : Dungeon.hero.pos);
-	//}
+	Actor::fixTime();
+	
+	GameLog::wipe();
+	
+	Dungeon::loadGame(StartScene::curClass);
+	if (Dungeon::depth == -1) 
+	{
+		Dungeon::depth = Statistics::deepestFloor;
+		Dungeon::switchLevel(Dungeon::loadLevel(StartScene::curClass), -1);
+	}
+	else 
+	{
+		Level* level = Dungeon::loadLevel(StartScene::curClass);
+		Dungeon::switchLevel(level, Level::resizingNeeded ? level->adjustPos(Dungeon::hero->pos) : Dungeon::hero->pos);
+	}
 }
 
-void InterLevelScene::resurrect()
+void InterlevelScene::resurrect()
 {
-	//Actor.fixTime();
-	//
-	//if (Dungeon.bossLevel()) {
-	//	Dungeon.hero.resurrect(Dungeon.depth);
-	//	Dungeon.depth--;
-	//	Level level = Dungeon.newLevel();
-	//	Dungeon.switchLevel(level, level.entrance);
-	//}
-	//else {
-	//	Dungeon.hero.resurrect(-1);
-	//	Dungeon.resetLevel();
-	//}
+	Actor::fixTime();
+	
+	if (Dungeon::bossLevel()) 
+	{
+		Dungeon::hero->resurrect(Dungeon::depth);
+		Dungeon::depth--;
+		Level* level = Dungeon::newLevel();
+		Dungeon::switchLevel(level, level->entrance);
+	}
+	else 
+	{
+		Dungeon::hero->resurrect(-1);
+		Dungeon::resetLevel();
+	}
 }

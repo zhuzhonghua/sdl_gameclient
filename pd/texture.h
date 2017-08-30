@@ -35,6 +35,7 @@ public:
 	virtual void bitmap(SDL_Surface* img);
 
 	void pixels(int w, int h, std::vector<byte> data);
+	void pixels(int w, int h, std::vector<int> pixels);
 
 	static Texture* create(int width, int height, std::vector<byte> data);
 	static void activate(int index);

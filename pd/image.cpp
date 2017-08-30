@@ -45,6 +45,12 @@ void Image::texture(const std::string& tx)
 	frame(RectF(0, 0, 1, 1));
 }
 
+void Image::texture(SmartTexture* tx)
+{
+	tex = tx;
+	frame(RectF(0, 0, 1, 1));
+}
+
 void Image::copy(const Image& other)
 {
 	// TODO: depth copy problem

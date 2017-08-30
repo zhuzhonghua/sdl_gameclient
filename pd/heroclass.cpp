@@ -1,6 +1,7 @@
 #include "heroclass.h"
 #include "bpt.h"
 #include "define.h"
+#include "hero.h"
 
 const char* HeroClass::WARRIOR = "lang.warrior";
 const char* HeroClass::MAGE = "lang.mage";
@@ -42,6 +43,61 @@ const char* HeroClass::HUN_PERKS[] = {
 
 const char* HeroClass::CLASS = "class";
 
+void HeroClass::initCommon(Hero* hero)
+{
+	//(hero.belongings.armor = new ClothArmor()).identify();
+	//new Food().identify().collect();
+	//new Keyring().collect();
+}
+
+void HeroClass::initWarrior(Hero* hero)
+{
+	hero->STR = hero->STR + 1;
+
+	//(hero.belongings.weapon = new ShortSword()).identify();
+	//new Dart(8).identify().collect();
+	//
+	//QuickSlot.primaryValue = Dart.class;
+	//
+	//new PotionOfStrength().setKnown();
+}
+
+void HeroClass::initMage(Hero* hero)
+{
+	//(hero.belongings.weapon = new Knuckles()).identify();
+	//
+	//WandOfMagicMissile wand = new WandOfMagicMissile();
+	//wand.identify().collect();
+	//
+	//QuickSlot.primaryValue = wand;
+	//
+	//new ScrollOfIdentify().setKnown();
+}
+
+void HeroClass::initRogue(Hero* hero)
+{
+	//(hero.belongings.weapon = new Dagger()).identify();
+	//(hero.belongings.ring1 = new RingOfShadows()).upgrade().identify();
+	//new Dart(8).identify().collect();
+	//
+	//hero.belongings.ring1.activate(hero);
+	//
+	//QuickSlot.primaryValue = Dart.class;
+	//
+	//new ScrollOfMagicMapping().setKnown();
+}
+
+void HeroClass::initHuntress(Hero* hero)
+{
+	hero->HP = (hero->HT -= 5);
+
+	//(hero.belongings.weapon = new Dagger()).identify();
+	//Boomerang boomerang = new Boomerang();
+	//boomerang.identify().collect();
+	//
+	//QuickSlot.primaryValue = boomerang;
+}
+
 HeroClass::HeroClass(const std::string& title)
 {
 	this->_title = title;
@@ -70,6 +126,38 @@ HeroClass::HeroClass(const HeroClass& cl)
 {
 	this->_title = cl._title;
 	this->_type = cl._type;
+}
+
+void HeroClass::initHero(Hero* hero)
+{
+	hero->heroClass = *this;
+
+	initCommon(hero);
+
+	switch (_type) {
+	case E_WARRIOR:
+		initWarrior(hero);
+		break;
+
+	case E_MAGE:
+		initMage(hero);
+		break;
+
+	case E_ROGUE:
+		initRogue(hero);
+		break;
+
+	case E_HUNTRESS:
+		initHuntress(hero);
+		break;
+	}
+
+	if (Badges::isUnlocked(masteryBadge())) 
+	{
+		//new TomeOfMastery().collect();
+	}
+
+	hero->updateAwareness();
 }
 
 std::string HeroClass::name()

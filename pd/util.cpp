@@ -2,6 +2,7 @@
 #include "util.h"
 #include "game.h"
 #include <stdarg.h>
+#include "level.h"
 
 Random* Random::_inst;
 
@@ -22,26 +23,61 @@ Random* Random::inst()
 
 float Random::Float(float begin, float end)
 {
-	std::uniform_real_distribution<float> rand(begin, end);
-	return rand(inst()->randomEngine);
+	std::uniform_real_distribution<float> rand(0.0f, 1.0f);
+	return begin + rand(inst()->randomEngine)*(end - begin);
 }
 
 float Random::Float(float end)
 {
-	std::uniform_real_distribution<float> rand(0.0f, end);
-	return rand(inst()->randomEngine);
+	std::uniform_real_distribution<float> rand(0.0f, 1.0f);
+	return rand(inst()->randomEngine)*end;
+}
+
+float Random::Float()
+{
+	return Float(0, 1);
+}
+
+float Random::random()
+{
+	return Float(0, 1);
 }
 
 int Random::Int(int begin, int end)
 {
-	std::uniform_int_distribution<int> rand(begin, end);
-	return rand(inst()->randomEngine);
+	std::uniform_real_distribution<float> rand(0.0f, 1.0);
+	return begin + (int)(rand(inst()->randomEngine)*(end - begin));
+	//std::uniform_int_distribution<int> rand(begin, end-1);
+	//return rand(inst()->randomEngine);
 }
 
 int Random::Int(int end)
 {
-	std::uniform_int_distribution<int> rand(0, end);
-	return rand(inst()->randomEngine);
+	if (end > 0)
+	{
+		std::uniform_real_distribution<float> rand(0.0f, 1.0);
+		return (int)(rand(inst()->randomEngine)*end);
+	}
+	else
+	{ 
+		return 0;
+	}
+
+	//std::uniform_int_distribution<int> rand(0, end-1);
+	//return rand(inst()->randomEngine);
+}
+
+Room* Random::element(const std::set<Room*>& s)
+{
+	int i = Int(0, s.size());
+	int c = 0;
+	for (std::set<Room*>::iterator itr = s.begin();
+		itr != s.end(); itr++)
+	{
+		if (c == i) return *itr;
+		c++;
+	}
+	return NULL;
 }
 
 const float GameMath::POINTF_PI = 3.1415926f;
@@ -151,6 +187,67 @@ float GameMath::RECTFBottom(const RectF& frame)
 	return frame.w;
 }
 
+Rect GameMath::RECT(int left, int top, int right, int bottom)
+{
+	return Rect( left, top, right, bottom);
+}
+
+Rect GameMath::RECTEmpty()
+{
+	return Rect(0, 0, 0, 0);
+}
+
+Rect GameMath::RECTIntersect(const Rect& a, const Rect& b)
+{
+	int left = std::max(RECTLeft(a), RECTLeft(b));
+	int right = std::min(RECTRight(a), RECTRight(b));
+	int top = std::max(RECTTop(a), RECTTop(b));
+	int bottom = std::min(RECTBottom(a), RECTBottom(b));
+
+	return RECT(left, top, right, bottom);
+}
+
+int GameMath::RECTWidth(const Rect& frame)
+{
+	return std::abs(frame.z - frame.x);
+}
+
+int GameMath::RECTHeight(const Rect& frame)
+{
+	return std::abs(frame.w - frame.y);
+}
+
+int GameMath::RECTLeft(const Rect& frame)
+{
+	return frame.x;
+}
+
+int GameMath::RECTTop(const Rect& frame)
+{
+	return frame.y;
+}
+
+int GameMath::RECTRight(const Rect& frame)
+{
+	return frame.z;
+}
+
+int GameMath::RECTBottom(const Rect& frame)
+{
+	return frame.w;
+}
+
+int GameMath::RECTSquare(const Rect& frame)
+{
+	return (RECTRight(frame) - RECTLeft(frame)) * (RECTBottom(frame) - RECTTop(frame));
+}
+
+bool GameMath::isRECTEmpty(const Rect& frame)
+{
+	return GameMath::RECTRight(frame) <= GameMath::RECTLeft(frame) || 
+			GameMath::RECTBottom(frame) <= GameMath::RECTTop(frame);
+}
+
 PointF* GameMath::PointFSet(PointF* p, float v)
 {
 	p->x = v;
@@ -191,6 +288,47 @@ PointF* GameMath::PointFScale(PointF* p, float f)
 	p->x *= f;
 	p->y *= f;
 	return p;
+}
+
+PointF* GameMath::PointFInvScale(PointF* p, float f)
+{
+	p->x /= f;
+	p->y /= f;
+	return p;
+}
+
+PointF* GameMath::PointFNegate(PointF* p)
+{
+	p->x = -p->x;
+	p->y = -p->y;
+	return p;
+}
+
+Point GameMath::PointFFloor(PointF* a)
+{
+	return Point((int)a->x, (int)a->y);
+}
+
+PointF GameMath::PointFInter(PointF a, PointF b, float d)
+{
+	return PointF(a.x + (b.x - a.x) * d, a.y + (b.y - a.y) * d);
+}
+
+float GameMath::PointFAngle(PointF start, PointF end)
+{
+	return (float)std::atan2(end.y - start.y, end.x - start.x);
+}
+
+float GameMath::PointFDistance(PointF a, PointF b)
+{
+	float dx = a.x - b.x;
+	float dy = a.y - b.y;
+	return std::sqrt(dx * dx + dy * dy);
+}
+
+PointF GameMath::PointFDiff(PointF a, PointF b)
+{
+	return PointF(a.x - b.x, a.y - b.y);
 }
 
 void GameMath::splitString(const std::string& s, std::vector<std::string>& v, const std::string& c)
@@ -368,6 +506,11 @@ void GameMath::splitUTF8(const std::string& s, std::vector<std::string>& chs)
 			chs.push_back(s.substr(i, 2));
 			i += 2;
 		}
+		else
+		{
+			// Bad UTF8
+			*(int*)0 = 0;
+		}
 	}
 }
 
@@ -500,4 +643,89 @@ bool IOManager::writeFile(const std::string& filePath, std::string& buffer)
 	SDL_RWclose(fileOP);
 
 	return true;
+}
+
+FloatBuffer::FloatBuffer(int size)
+{
+	pos = 0;
+	buf.resize(size);
+}
+
+void FloatBuffer::position(int pos)
+{
+	this->pos = pos;
+}
+
+void FloatBuffer::put(const std::vector<float>& indices)
+{
+	for (int i = 0; i < indices.size(); i++)
+	{
+		buf[pos++] = indices[i];
+	}
+}
+
+std::vector<bool> Patch::cur(Level::LENGTH);
+std::vector<bool> Patch::off(Level::LENGTH);
+
+std::vector<bool> Patch::generate(float seed, int nGen)
+{
+	int w = Level::WIDTH;
+	int h = Level::HEIGHT;
+
+	for (int i = 0; i < Level::LENGTH; i++) 
+	{
+		off[i] = Random::Float(0,1) < seed;
+	}
+
+	for (int i = 0; i < nGen; i++) 
+	{
+		for (int y = 1; y < h - 1; y++) 
+		{
+			for (int x = 1; x < w - 1; x++)
+			{
+				int pos = x + y * w;
+				int count = 0;
+				if (off[pos - w - 1]) {
+					count++;
+				}
+				if (off[pos - w]) {
+					count++;
+				}
+				if (off[pos - w + 1]) {
+					count++;
+				}
+				if (off[pos - 1]) {
+					count++;
+				}
+				if (off[pos + 1]) {
+					count++;
+				}
+				if (off[pos + w - 1]) {
+					count++;
+				}
+				if (off[pos + w]) {
+					count++;
+				}
+				if (off[pos + w + 1]) {
+					count++;
+				}
+
+				if (!off[pos] && count >= 5) {
+					cur[pos] = true;
+				}
+				else if (off[pos] && count >= 4) {
+					cur[pos] = true;
+				}
+				else {
+					cur[pos] = false;
+				}
+			}
+		}
+
+		std::vector<bool> tmp = cur;
+		cur = off;
+		off = tmp;
+	}
+
+	return off;
 }

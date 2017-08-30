@@ -28,6 +28,7 @@ Camera::Camera(int x, int y, int width, int height, float zoom)
 	screenHeightf = height*zoom;
 
 	mat = Matrix(1.0f);
+	target = NULL;
 }
 
 Camera::~Camera()

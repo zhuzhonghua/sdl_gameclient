@@ -21,9 +21,8 @@ TextureFilm::TextureFilm(SmartTexture* texture, int width)
 }
 
 TextureFilm::TextureFilm(const std::string& tx, int width, int height)
+: TextureFilm::TextureFilm(TextureCache::getTexture(tx), width, height)
 {
-	SmartTexture* texture = TextureCache::getTexture(tx);
-	TextureFilm::TextureFilm(texture, width, height);
 }
 
 TextureFilm::TextureFilm(SmartTexture* tx, int width, int height)

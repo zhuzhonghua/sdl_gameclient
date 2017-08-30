@@ -545,17 +545,17 @@ void StartScene::updateClass(HeroClass cl)
 void StartScene::startNewGame()
 {
 	Dungeon::hero = NULL;
-	InterLevelScene::mode = InterLevelScene::Mode::DESCEND;
+	InterlevelScene::mode = InterlevelScene::Mode::DESCEND;
 	
-	//if (PixelDungeon::intro()) 
-	if (true)
+	if (PixelDungeon::intro()) 
+	//if (true)
 	{
 		PixelDungeon::intro(false);
 		Game::switchScene(new IntroScene());
 	}
 	else 
 	{
-		Game::switchScene(new InterLevelScene());
+		Game::switchScene(new InterlevelScene());
 	}
 }
 

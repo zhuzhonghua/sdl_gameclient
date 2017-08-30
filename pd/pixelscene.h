@@ -56,6 +56,8 @@ public:
 		virtual void draw();
 	};
 
+	static void chooseFont(float size, float zoom);
+
 protected:
 	void fadeIn();
 	void fadeIn(int color, bool light);
