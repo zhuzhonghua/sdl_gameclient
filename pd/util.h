@@ -67,6 +67,7 @@ public:
 	static float PointFAngle(PointF start, PointF end);
 	static float PointFDistance(PointF a, PointF b);
 	static PointF PointFDiff(PointF a, PointF b);
+	static bool PointFEqual(PointF a, PointF b);
 
 	static void splitString(const std::string& s, std::vector<std::string>& v, const std::string& c);
 	static void splitStringRe(const std::string& s, std::vector<std::string>& v, pcrecpp::RE re);

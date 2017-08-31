@@ -26,6 +26,7 @@ public:
 	static void showChapter(int id);
 private:
 	static std::map<int, std::string> CHAPTERS;
+	static void initChapters();
 
 	BitmapTextMultiline* tf;
 	float delay;

@@ -331,6 +331,11 @@ PointF GameMath::PointFDiff(PointF a, PointF b)
 	return PointF(a.x - b.x, a.y - b.y);
 }
 
+bool GameMath::PointFEqual(PointF a, PointF b)
+{
+	return a == b;
+}
+
 void GameMath::splitString(const std::string& s, std::vector<std::string>& v, const std::string& c)
 {
 	std::string::size_type pos1, pos2;

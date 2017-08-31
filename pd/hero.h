@@ -8,6 +8,7 @@
 #include <string>
 
 class Belongings;
+class HeroAction;
 
 class Hero:public Char{
 private:
@@ -59,9 +60,14 @@ public:
 
 	bool restoreHealth;
 	bool ready;
+	HeroAction* curAction;
+	HeroAction* lastAction;
 	float awareness;
 public:
 	void resurrect(int resetLevel);
 
 	virtual std::string getClassName() { return "Hero"; }
+	int visibleEnemies();
+	void resume();
+	int maxExp() { return 5 + lvl * 5; }
 };

@@ -63,6 +63,9 @@ Hero::Hero()
 
 	restoreHealth = false;
 	ready = false;
+
+	curAction = NULL;
+	lastAction = NULL;
 }
 
 void Hero::resurrect(int resetLevel)
@@ -74,4 +77,17 @@ void Hero::resurrect(int resetLevel)
 	//belongings.resurrect(resetLevel);
 
 	//live();
+}
+
+int Hero::visibleEnemies()
+{
+	return 0;
+	//return visibleEnemies.size();
+}
+
+void Hero::resume()
+{
+	//curAction = lastAction;
+	//lastAction = null;
+	//act();
 }

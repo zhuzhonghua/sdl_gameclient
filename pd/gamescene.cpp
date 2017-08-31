@@ -14,6 +14,7 @@
 #include "wndstory.h"
 #include "statistics.h"
 #include "glog.h"
+#include "statuspane.h"
 
 const std::string GameScene::TXT_WELCOME = "Welcome to the level %d of Pixel Dungeon!";
 const std::string GameScene::TXT_WELCOME_BACK = "Welcome back to the level %d of Pixel Dungeon!";
@@ -61,7 +62,7 @@ void GameScene::init()
 		Level::HEIGHT * DungeonTilemap::SIZE,
 		Dungeon::level->waterTex());
 	terrain->add(water);
-
+	
 	ripples = new Group();
 	terrain->add(ripples);
 
@@ -89,7 +90,7 @@ void GameScene::init()
 	emitters = new Group();
 	effects = new Group();
 	emoicons = new Group();
-
+	
 	mobs = new Group();
 	add(mobs);
 
@@ -102,7 +103,7 @@ void GameScene::init()
 
 	add(emitters);
 	add(effects);
-
+	
 	gases = new Group();
 	add(gases);
 
@@ -114,16 +115,17 @@ void GameScene::init()
 	fog = new FogOfWar(Level::WIDTH, Level::HEIGHT);
 	fog->updateVisibility(Dungeon::visible, Dungeon::level->visited, Dungeon::level->mapped);
 	add(fog);
-
+	
 	brightness(PixelDungeon::brightness());
-
+	
 	spells = new Group();
 	add(spells);
-
+	
 	statuses = new Group();
 	add(statuses);
-
+	
 	add(emoicons);
+	//
 
 	hero = new HeroSprite();
 	hero->place(Dungeon::hero->pos);
@@ -132,17 +134,17 @@ void GameScene::init()
 
 	//add(new HealthIndicator());
 
-	add(cellSelector = new CellSelector(tiles));
+	//add(cellSelector = new CellSelector(tiles));
 
-	//StatusPane sb = new StatusPane();
-	//sb.camera = uiCamera;
-	//sb.setSize(uiCamera.width, 0);
-	//add(sb);
+	StatusPane* sb = new StatusPane();
+	sb->cameraf = uiCamera;
+	sb->setSize(uiCamera->width, 0);
+	add(sb);
 
-	toolbar = new Toolbar();
-	toolbar->cameraf = uiCamera;
-	toolbar->setRect(0, uiCamera->height - toolbar->height(), uiCamera->width, toolbar->height());
-	add(toolbar);
+	//toolbar = new Toolbar();
+	//toolbar->cameraf = uiCamera;
+	//toolbar->setRect(0, uiCamera->height - toolbar->height(), uiCamera->width, toolbar->height());
+	//add(toolbar);
 
 	//AttackIndicator attack = new AttackIndicator();
 	//attack.camera = uiCamera;

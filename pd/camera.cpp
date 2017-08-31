@@ -3,6 +3,7 @@
 #include "camera.h"
 #include "game.h"
 #include "util.h"
+#include "visual.h"
 
 float Camera::_invW2;
 float Camera::_invH2;
@@ -83,6 +84,11 @@ void Camera::resize(int width, int height)
 	this->height = height;
 	screenWidthf = width*zoomf;
 	screenHeightf = height*zoomf;
+}
+
+void Camera::focusOn(Visual* visual)
+{
+	focusOn(visual->center());
 }
 
 void Camera::zoom(float value, float fx, float fy)

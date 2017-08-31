@@ -13,6 +13,18 @@ const float WndStory::bgB = 0.62f;
 
 std::map<int, std::string> WndStory::CHAPTERS;
 
+void WndStory::initChapters()
+{
+	if (CHAPTERS.size() <= 0)
+	{
+		CHAPTERS.insert(std::make_pair(ID_SEWERS, BPT::getText("lang.wndstory_sewers")));
+		CHAPTERS.insert(std::make_pair(ID_PRISON, BPT::getText("lang.wndstory_prison")));
+		CHAPTERS.insert(std::make_pair(ID_CAVES, BPT::getText("lang.wndstory_caves")));
+		CHAPTERS.insert(std::make_pair(ID_METROPOLIS, BPT::getText("lang.wndstory_metropolis")));
+		CHAPTERS.insert(std::make_pair(ID_HALLS, BPT::getText("lang.wndstory_halls")));
+	}
+}
+
 namespace{
 	class TouchAreaNew :public TouchArea{
 	public:
@@ -30,14 +42,7 @@ namespace{
 WndStory::WndStory(const std::string& text)
 :Window(0,0,Chrome::get(Chrome::SCROLL))
 {
-	if (CHAPTERS.size() <= 0)
-	{
-		CHAPTERS.insert(std::make_pair(ID_SEWERS, BPT::getText("lang.wndstory_sewers")));
-		CHAPTERS.insert(std::make_pair(ID_PRISON, BPT::getText("lang.wndstory_prison")));
-		CHAPTERS.insert(std::make_pair(ID_CAVES, BPT::getText("lang.wndstory_caves")));
-		CHAPTERS.insert(std::make_pair(ID_METROPOLIS, BPT::getText("lang.wndstory_metropolis")));
-		CHAPTERS.insert(std::make_pair(ID_HALLS, BPT::getText("lang.wndstory_halls")));
-	}
+	initChapters();
 
 	tf = PixelScene::createMultiline(text, 7);
 	tf->maxWidth = WIDTH - MARGIN * 2;
@@ -68,6 +73,8 @@ void WndStory::update()
 
 void WndStory::showChapter(int id)
 {
+	initChapters();
+
 	if (Dungeon::chapters.find(id) != Dungeon::chapters.end()) 
 	{
 		return;
