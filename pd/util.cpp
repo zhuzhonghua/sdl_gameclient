@@ -6,8 +6,7 @@
 
 Random* Random::_inst;
 
-Random::Random():
-randomEngine(time(NULL))
+Random::Random()
 {
 	srand(time(NULL));
 }
@@ -24,14 +23,12 @@ Random* Random::inst()
 
 float Random::Float(float begin, float end)
 {
-	std::uniform_real_distribution<float> rand(0.0f, 1.0f);
-	return begin + rand(inst()->randomEngine)*(end - begin);
+	return begin + random()*(end - begin);
 }
 
 float Random::Float(float end)
 {
-	std::uniform_real_distribution<float> rand(0.0f, 1.0f);
-	return rand(inst()->randomEngine)*end;
+	return random()*end;
 }
 
 float Random::Float()
@@ -41,21 +38,21 @@ float Random::Float()
 
 float Random::random()
 {
-	return Float(0, 1);
+	int rnd = rand() % 65535;
+	//return Float(0, 1);
+	return rnd / 65535.0f;
 }
 
 int Random::Int(int begin, int end)
 {
-	std::uniform_real_distribution<float> rand(0.0f, 1.0);
-	return begin + (int)(rand(inst()->randomEngine)*(end - begin));
+	return begin + (int)(random()*(end - begin));
 }
 
 int Random::Int(int end)
 {
 	if (end > 0)
 	{
-		std::uniform_real_distribution<float> rand(0.0f, 1.0);
-		return (int)(rand(inst()->randomEngine)*end);
+		return (int)(random()*end);
 	}
 	else
 	{ 
@@ -65,8 +62,7 @@ int Random::Int(int end)
 
 int Random::IntRange(int begin, int end)
 {
-	std::uniform_real_distribution<float> rand(0.0f, 1.0);
-	return begin + (int)(rand(inst()->randomEngine)* (end - begin + 1));
+	return begin + (int)(random()* (end - begin + 1));
 }
 
 Room* Random::element(const std::set<Room*>& s)

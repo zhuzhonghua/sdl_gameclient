@@ -12,7 +12,6 @@ class Random{
 	static Random* inst();
 
 	Random();
-	std::mt19937 randomEngine;
 public:
 	static float Float(float begin, float end);
 	static float Float(float end);
