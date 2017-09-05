@@ -5,6 +5,7 @@
 #include "game.h"
 #include "visual.h"
 #include "bitmaptext.h"
+#include "badgebanner.h"
 
 float PixelScene::defaultZoom = 0;
 float PixelScene::minZoom;
@@ -17,6 +18,15 @@ bool PixelScene::noFade = false;
 void PixelScene::chooseFont(float size, float zoom)
 {
 	scale /= zoom;
+}
+
+void PixelScene::showBadge(const Badges::Badge* badge)
+{
+	BadgeBanner* banner = BadgeBanner::show(badge->image);
+	banner->cameraf = uiCamera;
+	banner->x = align(banner->cameraf, (banner->cameraf->width - banner->width) / 2);
+	banner->y = align(banner->cameraf, (banner->cameraf->height - banner->height) / 3);
+	Game::scene()->add(banner);
 }
 
 float PixelScene::scale = 0.3f;

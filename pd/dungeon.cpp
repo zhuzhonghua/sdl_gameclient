@@ -6,13 +6,15 @@
 #include "statistics.h"
 #include "sewerlevel.h"
 #include "startscene.h"
-
+#include "pathfinder.h"
 #include <sstream>
 
 int Dungeon::potionOfStrength;
 int Dungeon::scrollsOfUpgrade;
 int Dungeon::scrollsOfEnchantment;
 bool Dungeon::dewVial;		// true if the dew vial can be spawned
+
+bool Dungeon::nightMode;
 
 int Dungeon::challenges;
 
@@ -92,6 +94,8 @@ const std::string Dungeon::DV = "dewVial";
 const std::string Dungeon::CHAPTERS = "chapters";
 const std::string Dungeon::QUESTS = "quests";
 const std::string Dungeon::BADGES = "badges";
+
+std::vector<bool> Dungeon::passable(Level::LENGTH);
 
 void Dungeon::init()
 {
@@ -306,6 +310,68 @@ std::string Dungeon::depthFile(HeroClass cl)
 bool Dungeon::bossLevel()
 {
 	return bossLevel(depth);
+}
+
+int Dungeon::findPath(Char* ch, int from, int to, std::vector<bool>& pass, std::vector<bool>& visible)
+{
+	if (Level::adjacent(from, to)) 
+	{
+		return Actor::findChar(to) == NULL && (pass[to] || Level::avoid[to]) ? to : -1;
+	}
+
+	if (ch->flying || ch->buff("Amok") != NULL || ch->buff("Rage") != NULL) 
+	{
+		BArray::or(pass, Level::avoid, passable);
+	}
+	else 
+	{
+		Arrays<bool>::arraycopy(pass, 0, passable, 0, Level::LENGTH);
+	}
+
+	for (std::set<Actor*>::iterator itr = Actor::all.begin();
+		itr != Actor::all.end(); itr++)
+	{
+		Actor* actor = *itr;
+		if (dynamic_cast<Char*>(actor) != NULL)
+		{
+			int pos = ((Char*)actor)->pos;
+			if (visible[pos]) 
+			{
+				passable[pos] = false;
+			}
+		}
+	}
+
+	return PathFinder::getStep(from, to, passable);
+}
+
+int Dungeon::flee(Char* ch, int cur, int from, std::vector<bool>& pass, std::vector<bool>& visible)
+{
+	if (ch->flying) 
+	{
+		BArray::or(pass, Level::avoid, passable);
+	}
+	else 
+	{
+		Arrays<bool>::arraycopy(pass, 0, passable, 0, Level::LENGTH);
+	}
+
+	for (std::set<Actor*>::iterator itr = Actor::all.begin();
+		itr != Actor::all.end(); itr++)
+	{
+		Actor* actor = *itr;
+		if (dynamic_cast<Char*>(actor) != NULL)
+		{
+			int pos = ((Char*)actor)->pos;
+			if (visible[pos]) 
+			{
+				passable[pos] = false;
+			}
+		}
+	}
+	passable[cur] = true;
+
+	return PathFinder::getStepBack(cur, from, passable);
 }
 
 void Dungeon::loadGame(HeroClass cl)

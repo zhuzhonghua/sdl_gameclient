@@ -19,6 +19,7 @@ public:
 	static float Float();
 	static float random();
 	static int Int(int begin, int end);
+	static int IntRange(int begin, int end);
 	static int Int(int end);
 	static Room* element(const std::set<Room*>& s);
 };
@@ -56,6 +57,7 @@ public:
 
 	static PointF* PointFSet(PointF* p, float v);
 	static PointF* PointFSet(PointF* p, float x, float y);
+	static PointF* PointFOffSet(PointF* p, PointF dp);
 	static PointF* PointFOffSet(PointF* p, PointF* dp);
 	static PointF* PointFOffSet(PointF* p, float dx, float dy);
 	static PointF* PointFPolar(PointF* p, float a, float l);
@@ -133,4 +135,17 @@ public:
 			arr[i] = d;
 		}
 	}
+	static void arraycopy(std::vector<T>& src, int srcFrom, std::vector<T>& dst, int dstFrom, int len)
+	{
+		for (int i = 0; i < len; i++)
+		{
+			dst[dstFrom + i] = src[srcFrom + i];
+		}
+	}
+};
+
+class BArray{
+public:
+	static std::vector<bool> not(std::vector<bool>&a, std::vector<bool>& result);
+	static std::vector<bool> or(std::vector<bool>& a, std::vector<bool>& b, std::vector<bool>& result);
 };

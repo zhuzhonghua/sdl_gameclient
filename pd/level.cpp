@@ -246,6 +246,87 @@ int Level::tunnelTile()
 	return feeling == Feeling::CHASM ? Terrain::EMPTY_SP : Terrain::EMPTY;
 }
 
+int Level::randomDestination()
+{
+	int cell;
+	do 
+	{
+		cell = Random::Int(LENGTH);
+	} while (!passable[cell]);
+	return cell;
+}
+
+bool Level::adjacent(int a, int b)
+{
+	int diff = std::abs(a - b);
+	return diff == 1 || diff == WIDTH || diff == WIDTH + 1 || diff == WIDTH - 1;
+}
+
+void Level::mobPress(Mob* mob)
+{
+	//int cell = mob.pos;
+	//
+	//if (pit[cell] && !mob.flying) {
+	//	Chasm.mobFall(mob);
+	//	return;
+	//}
+	//
+	//boolean trap = true;
+	//switch (map[cell]) {
+	//
+	//case Terrain.TOXIC_TRAP:
+	//	ToxicTrap.trigger(cell, mob);
+	//	break;
+	//
+	//case Terrain.FIRE_TRAP:
+	//	FireTrap.trigger(cell, mob);
+	//	break;
+	//
+	//case Terrain.PARALYTIC_TRAP:
+	//	ParalyticTrap.trigger(cell, mob);
+	//	break;
+	//
+	//case Terrain.POISON_TRAP:
+	//	PoisonTrap.trigger(cell, mob);
+	//	break;
+	//
+	//case Terrain.ALARM_TRAP:
+	//	AlarmTrap.trigger(cell, mob);
+	//	break;
+	//
+	//case Terrain.LIGHTNING_TRAP:
+	//	LightningTrap.trigger(cell, mob);
+	//	break;
+	//
+	//case Terrain.GRIPPING_TRAP:
+	//	GrippingTrap.trigger(cell, mob);
+	//	break;
+	//
+	//case Terrain.SUMMONING_TRAP:
+	//	SummoningTrap.trigger(cell, mob);
+	//	break;
+	//
+	//case Terrain.DOOR:
+	//	Door.enter(cell);
+	//
+	//default:
+	//	trap = false;
+	//}
+	//
+	//if (trap) {
+	//	if (Dungeon.visible[cell]) {
+	//		Sample.INSTANCE.play(Assets.SND_TRAP);
+	//	}
+	//	set(cell, Terrain.INACTIVE_TRAP);
+	//	GameScene.updateMap(cell);
+	//}
+	//
+	//Plant plant = plants.get(cell);
+	//if (plant != null) {
+	//	plant.activate(mob);
+	//}
+}
+
 void Level::addVisuals(Scene* scene)
 {
 	//for (int i = 0; i < LENGTH; i++) {

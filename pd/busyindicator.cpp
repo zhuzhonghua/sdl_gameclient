@@ -4,11 +4,8 @@
 #include "dungeon.h"
 
 BusyIndicator::BusyIndicator()
+:Image(Icons::get(Icons::BUSY))
 {
-	Image* icon = Icons::get(Icons::BUSY);
-	copy(icon);
-	delete icon;
-
 	GameMath::PointFSet(&origin, width / 2, height / 2);
 	//origin.set(width / 2, height / 2);
 	angularSpeed = 720;

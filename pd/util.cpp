@@ -9,6 +9,7 @@ Random* Random::_inst;
 Random::Random():
 randomEngine(time(NULL))
 {
+	srand(time(NULL));
 }
 
 Random* Random::inst()
@@ -47,8 +48,6 @@ int Random::Int(int begin, int end)
 {
 	std::uniform_real_distribution<float> rand(0.0f, 1.0);
 	return begin + (int)(rand(inst()->randomEngine)*(end - begin));
-	//std::uniform_int_distribution<int> rand(begin, end-1);
-	//return rand(inst()->randomEngine);
 }
 
 int Random::Int(int end)
@@ -62,9 +61,12 @@ int Random::Int(int end)
 	{ 
 		return 0;
 	}
+}
 
-	//std::uniform_int_distribution<int> rand(0, end-1);
-	//return rand(inst()->randomEngine);
+int Random::IntRange(int begin, int end)
+{
+	std::uniform_real_distribution<float> rand(0.0f, 1.0);
+	return begin + (int)(rand(inst()->randomEngine)* (end - begin + 1));
 }
 
 Room* Random::element(const std::set<Room*>& s)
@@ -273,6 +275,13 @@ PointF* GameMath::PointFOffSet(PointF* p, float dx, float dy)
 {
 	p->x += dx;
 	p->y += dy;
+	return p;
+}
+
+PointF* GameMath::PointFOffSet(PointF* p, PointF dp)
+{
+	p->x += dp.x;
+	p->y += dp.y;
 	return p;
 }
 
@@ -733,4 +742,38 @@ std::vector<bool> Patch::generate(float seed, int nGen)
 	}
 
 	return off;
+}
+
+std::vector<bool> BArray::not(std::vector<bool>&a, std::vector<bool>& result)
+{
+	int length = a.size();
+
+	if (result.size() <= 0) 
+	{
+		result.resize(length);
+	}
+
+	for (int i = 0; i < length; i++) 
+	{
+		result[i] = !a[i];
+	}
+
+	return result;
+}
+
+std::vector<bool> BArray::or(std::vector<bool>& a, std::vector<bool>& b, std::vector<bool>& result)
+{
+	int length = a.size();
+
+	if (result.size() <= 0) 
+	{
+		result.resize(length);
+	}
+
+	for (int i = 0; i < length; i++) 
+	{
+		result[i] = a[i] || b[i];
+	}
+
+	return result;
 }

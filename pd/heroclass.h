@@ -105,4 +105,9 @@ public:
 	void storeInBundle(Bundle* bundle);
 
 	static HeroSubClass restoreInBundle(Bundle* bundle);
+
+	bool operator == (const HeroSubClass &c) const
+	{
+		return name.compare(c.name) == 0;
+	}
 };

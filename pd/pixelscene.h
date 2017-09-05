@@ -5,6 +5,7 @@
 #include "colorblock.h"
 #include "bitmaptext.h"
 #include "bitmaptextmultiline.h"
+#include "badge.h"
 
 class Visual;
 class PixelScene : public Scene{
@@ -57,7 +58,7 @@ public:
 	};
 
 	static void chooseFont(float size, float zoom);
-
+	static void showBadge(const Badges::Badge* badge);
 protected:
 	void fadeIn();
 	void fadeIn(int color, bool light);

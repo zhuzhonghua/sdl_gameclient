@@ -26,7 +26,7 @@ void DangerIndicator::update()
 {
 	if (Dungeon::hero->isAlive()) 
 	{
-		int v = Dungeon::hero->visibleEnemies();
+		int v = Dungeon::hero->VisibleEnemies();
 		if (v != lastNumber) 
 		{
 			lastNumber = v;

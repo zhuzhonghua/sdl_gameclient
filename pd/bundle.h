@@ -31,6 +31,7 @@ public:
 	float getFloat(const std::string& key);
 	std::string getString(const std::string& key);
 	Bundle* getBundle(const std::string& key);
+	bool getIntArray(const std::string& key, std::vector<int>& ret);
 	bool getIntArray(const std::string& key, std::list<int>& ret);
 	bool getBooleanArray(const std::string& key, std::list<bool>& ret);
 	bool getStringArray(const std::string& key, std::list<std::string>& ret);

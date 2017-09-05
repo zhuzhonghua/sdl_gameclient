@@ -7,6 +7,8 @@
 #include "hero.h"
 #include "level.h"
 
+class Char;
+
 class Dungeon{
 public:
 	static Bundle* gameBundle(const std::string& fileName);
@@ -26,6 +28,7 @@ public:
 	static int depth;
 	static int gold;
 
+	static bool nightMode;
 	static std::vector<bool> visible;
 	static std::set<int> chapters;
 
@@ -45,7 +48,8 @@ public:
 	static bool shopOnLevel() { return depth == 6 || depth == 11 || depth == 16; }
 	static bool bossLevel();
 	static bool bossLevel(int depth){ return depth == 5 || depth == 10 || depth == 15 || depth == 20 || depth == 25; }
-	
+	static int findPath(Char* ch, int from, int to, std::vector<bool>& pass, std::vector<bool>& visible);
+	static int flee(Char* ch, int cur, int from, std::vector<bool>& pass, std::vector<bool>& visible);
 private:
 	static const std::string RG_GAME_FILE ;
 	static const std::string RG_DEPTH_FILE ;
@@ -70,5 +74,6 @@ private:
 	static const std::string QUESTS ;
 	static const std::string BADGES ;
 
+	static std::vector<bool> passable;
 	static std::string depthFile(HeroClass cl);
 };

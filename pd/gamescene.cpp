@@ -15,6 +15,12 @@
 #include "statistics.h"
 #include "glog.h"
 #include "statuspane.h"
+#include "regularlevel.h"
+#include "blob.h"
+#include "blobemitter.h"
+#include "mob.h"
+#include "healthindicator.h"
+#include "attackindicator.h"
 
 const std::string GameScene::TXT_WELCOME = "Welcome to the level %d of Pixel Dungeon!";
 const std::string GameScene::TXT_WELCOME_BACK = "Welcome back to the level %d of Pixel Dungeon!";
@@ -26,6 +32,22 @@ const std::string GameScene::TXT_SECRETS = "The atmosphere hints that this floor
 
 GameScene* GameScene::scene;
 CellSelector* GameScene::cellSelector;
+
+void GameScene::addBlobSprite(Blob* gas)
+{
+	if (gas->emitter == NULL) 
+	{
+		gases->add(new BlobEmitter(gas));
+	}
+}
+
+void GameScene::addMobSprite(Mob* mob)
+{
+	CharSprite* sprite = mob->Sprite();
+	sprite->visible = Dungeon::visible[mob->pos];
+	mobs->add(sprite);
+	sprite->link(mob);
+}
 
 void GameScene::brightness(bool value)
 {
@@ -94,23 +116,29 @@ void GameScene::init()
 	mobs = new Group();
 	add(mobs);
 
-	//for (Mob mob : Dungeon.level.mobs) {
-	//	addMobSprite(mob);
-	//	if (Statistics.amuletObtained) {
-	//		mob.beckon(Dungeon.hero.pos);
-	//	}
-	//}
-
+	for (std::set<Mob*>::iterator itr = Dungeon::level->mobs.begin();
+		itr != Dungeon::level->mobs.end(); itr++)
+	{
+		Mob* mob = *itr;
+		addMobSprite(mob);
+		if (Statistics::amuletObtained) 
+		{
+			mob->beckon(Dungeon::hero->pos);
+		}
+	}
 	add(emitters);
 	add(effects);
 	
 	gases = new Group();
 	add(gases);
 
-	//for (Blob blob : Dungeon.level.blobs.values()) {
-	//	blob.emitter = null;
-	//	addBlobSprite(blob);
-	//}
+	for (std::map<std::string, Blob*>::iterator itr = Dungeon::level->blobs.begin();
+		itr != Dungeon::level->blobs.end(); itr++)
+	{
+		Blob* blob = itr->second;
+		blob->emitter = NULL;
+		addBlobSprite(blob);
+	}
 
 	fog = new FogOfWar(Level::WIDTH, Level::HEIGHT);
 	fog->updateVisibility(Dungeon::visible, Dungeon::level->visited, Dungeon::level->mapped);
@@ -132,37 +160,37 @@ void GameScene::init()
 	hero->updateArmor();
 	mobs->add(hero);
 
-	//add(new HealthIndicator());
+	add(new HealthIndicator());
 
-	//add(cellSelector = new CellSelector(tiles));
+	add(cellSelector = new CellSelector(tiles));
 
 	StatusPane* sb = new StatusPane();
 	sb->cameraf = uiCamera;
 	sb->setSize(uiCamera->width, 0);
 	add(sb);
 
-	//toolbar = new Toolbar();
-	//toolbar->cameraf = uiCamera;
-	//toolbar->setRect(0, uiCamera->height - toolbar->height(), uiCamera->width, toolbar->height());
-	//add(toolbar);
+	toolbar = new Toolbar();
+	toolbar->cameraf = uiCamera;
+	toolbar->setRect(0, uiCamera->height - toolbar->height(), uiCamera->width, toolbar->height());
+	add(toolbar);
 
-	//AttackIndicator attack = new AttackIndicator();
-	//attack.camera = uiCamera;
-	//attack.setPos(
-	//	uiCamera.width - attack.width(),
-	//	toolbar.top() - attack.height());
-	//add(attack);
+	AttackIndicator* attack = new AttackIndicator();
+	attack->cameraf = uiCamera;
+	attack->setPos(
+		uiCamera->width - attack->width(),
+		toolbar->top() - attack->height());
+	add(attack);
 
-	//log = new GameLog();
-	//log->cameraf = uiCamera;
-	//log->setRect(0, toolbar->top(), attack->left(), 0);
-	//add(log);
+	log = new GameLog();
+	log->cameraf = uiCamera;
+	log->setRect(0, toolbar->top(), attack->left(), 0);
+	add(log);
 
-	//busy = new BusyIndicator();
-	//busy->cameraf = uiCamera;
-	//busy->x = 1;
-	//busy->y = sb->bottom() + 1;
-	//add(busy);
+	busy = new BusyIndicator();
+	busy->cameraf = uiCamera;
+	busy->x = 1;
+	busy->y = sb->bottom() + 1;
+	add(busy);
 
 	switch (InterlevelScene::mode) 
 	{
@@ -196,7 +224,7 @@ void GameScene::init()
 		}
 		if (Dungeon::hero->isAlive() && Dungeon::depth != 22) 
 		{
-			//Badges::validateNoKilling();
+			Badges::validateNoKilling();
 		}
 		break;
 	default:
@@ -224,32 +252,38 @@ void GameScene::init()
 
 	if (InterlevelScene::mode != InterlevelScene::Mode::NONE) 
 	{
-		if (Dungeon::depth < Statistics::deepestFloor) {
+		if (Dungeon::depth < Statistics::deepestFloor) 
+		{
 			GLog::h(TXT_WELCOME_BACK, Dungeon::depth);
 		}
-		else {
+		else 
+		{
 			GLog::h(TXT_WELCOME, Dungeon::depth);
 			//Sample.INSTANCE.play(Assets.SND_DESCEND);
 		}
-		//switch (Dungeon::level->feeling) {
-		//case CHASM:
-		//	GLog::w(TXT_CHASM);
-		//	break;
-		//case WATER:
-		//	GLog::w(TXT_WATER);
-		//	break;
-		//case GRASS:
-		//	GLog::w(TXT_GRASS);
-		//	break;
-		//default:
-		//}
-		//if (Dungeon.level instanceof RegularLevel &&
-		//	((RegularLevel)Dungeon.level).secretDoors > Random.IntRange(3, 4)) {
-		//	GLog.w(TXT_SECRETS);
-		//}
-		//if (Dungeon.nightMode && !Dungeon.bossLevel()) {
-		//	GLog.w(TXT_NIGHT_MODE);
-		//}
+		switch (Dungeon::level->feeling) 
+		{
+		case Level::CHASM:
+			GLog::w(TXT_CHASM);
+			break;
+		case Level::WATER:
+			GLog::w(TXT_WATER);
+			break;
+		case Level::GRASS:
+			GLog::w(TXT_GRASS);
+			break;
+		default:
+			break;
+		}
+		if (dynamic_cast<RegularLevel*>(Dungeon::level) != NULL &&
+			((RegularLevel*)Dungeon::level)->secretDoors > Random::IntRange(3, 4)) 
+		{
+			GLog::w(TXT_SECRETS);
+		}
+		if (Dungeon::nightMode && !Dungeon::bossLevel()) 
+		{
+			GLog::w(TXT_NIGHT_MODE);
+		}
 
 		InterlevelScene::mode = InterlevelScene::Mode::NONE;
 

@@ -79,10 +79,88 @@ void Hero::resurrect(int resetLevel)
 	//live();
 }
 
-int Hero::visibleEnemies()
+bool Hero::handle(int cell)
 {
-	return 0;
-	//return visibleEnemies.size();
+	//if (cell == -1) {
+	//	return false;
+	//}
+	//
+	//Char ch;
+	//Heap heap;
+	//
+	//if (Dungeon.level.map[cell] == Terrain.ALCHEMY && cell != pos) {
+	//
+	//	curAction = new HeroAction.Cook(cell);
+	//
+	//}
+	//else if (Level.fieldOfView[cell] && (ch = Actor.findChar(cell)) instanceof Mob) {
+	//
+	//	if (ch instanceof NPC) {
+	//		curAction = new HeroAction.Interact((NPC)ch);
+	//	}
+	//	else {
+	//		curAction = new HeroAction.Attack(ch);
+	//	}
+	//
+	//}
+	//else if (Level.fieldOfView[cell] && (heap = Dungeon.level.heaps.get(cell)) != null && heap.type != Heap.Type.HIDDEN) {
+	//
+	//	switch (heap.type) {
+	//	case HEAP:
+	//		curAction = new HeroAction.PickUp(cell);
+	//		break;
+	//	case FOR_SALE:
+	//		curAction = heap.size() == 1 && heap.peek().price() > 0 ?
+	//			new HeroAction.Buy(cell) :
+	//			new HeroAction.PickUp(cell);
+	//		break;
+	//	default:
+	//		curAction = new HeroAction.OpenChest(cell);
+	//	}
+	//
+	//}
+	//else if (Dungeon.level.map[cell] == Terrain.LOCKED_DOOR || Dungeon.level.map[cell] == Terrain.LOCKED_EXIT) {
+	//
+	//	curAction = new HeroAction.Unlock(cell);
+	//
+	//}
+	//else if (cell == Dungeon.level.exit) {
+	//
+	//	curAction = new HeroAction.Descend(cell);
+	//
+	//}
+	//else if (cell == Dungeon.level.entrance) {
+	//
+	//	curAction = new HeroAction.Ascend(cell);
+	//
+	//}
+	//else  {
+	//
+	//	curAction = new HeroAction.Move(cell);
+	//	lastAction = null;
+	//
+	//}
+	//
+	//return act();
+	return true;
+}
+
+int Hero::VisibleEnemies()
+{
+	return visibleEnemies.size();
+}
+
+Mob* Hero::visibleEnemy(int index)
+{
+	int count = 0;
+	int idx = index % visibleEnemies.size();
+	for (std::list<Mob*>::iterator itr = visibleEnemies.begin();
+		itr != visibleEnemies.end(); itr++)
+	{
+		if (count == idx) return *itr;
+		count++;
+	}
+	return NULL;
 }
 
 void Hero::resume()

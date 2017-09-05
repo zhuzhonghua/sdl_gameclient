@@ -171,6 +171,7 @@ public:
 	static void validateFoodEaten();
 	static void validatePotionsCooked();
 	static void validatePiranhasKilled();
+	static void validateNoKilling();
 
 	static bool isUnlocked(Badge badge);
 };

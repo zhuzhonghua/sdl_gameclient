@@ -2,9 +2,13 @@
 
 #include "bundlable.h"
 #include <vector>
+#include <map>
+#include <set>
 
 class Scene;
 class Char;
+class Blob;
+class Mob;
 
 class Level :public Bundlable{
 public:
@@ -70,6 +74,9 @@ public:
 	int entrance;
 	int exit;
 
+	std::set<Mob*> mobs;
+	std::map<std::string, Blob*> blobs;
+
 	int color1;
 	int color2;
 
@@ -91,6 +98,10 @@ public:
 	static int distance(int a, int b);
 
 	int tunnelTile();
+
+	int randomDestination();
+	static bool adjacent(int a, int b);
+	void mobPress(Mob* mob);
 protected:
 	virtual bool build() = 0;
 	virtual void decorate() = 0;

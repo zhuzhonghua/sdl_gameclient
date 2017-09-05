@@ -4,6 +4,8 @@
 #include "statistics.h"
 #include "dungeon.h"
 #include "bpt.h"
+#include "glog.h"
+#include "pixelscene.h"
 
 #include <sstream>
 
@@ -147,7 +149,35 @@ void Badges::store(Bundle* bundle, std::set<Badges::Badge>& badges)
 
 void Badges::displayBadge(const Badges::Badge* badge)
 {
+	if (badge == NULL) 
+	{
+		return;
+	}
 
+	if (global.find(*badge) != global.end()) 
+	{
+		if (!badge->meta) 
+		{
+			GLog::h("Badge endorsed: %s", badge->description);
+		}
+
+	}
+	else 
+	{
+
+		global.insert(*badge);
+		saveNeeded = true;
+
+		if (badge->meta) 
+		{
+			GLog::h("New super badge: %s", badge->description);
+		}
+		else 
+		{
+			GLog::h("New badge: %s", badge->description);
+		}
+		PixelScene::showBadge(badge);
+	}
 }
 
 void Badges::loadGlobal()
@@ -365,6 +395,16 @@ void Badges::validatePiranhasKilled()
 	}
 
 	displayBadge(badge);
+}
+
+void Badges::validateNoKilling()
+{
+	if (local.find(Badges::NO_MONSTERS_SLAIN) == local.end() && Statistics::completedWithNoKilling) 
+	{
+		Badge badge = Badges::NO_MONSTERS_SLAIN;
+		local.insert(badge);
+		displayBadge(&badge);
+	}
 }
 
 bool Badges::isUnlocked(Badges::Badge badge)

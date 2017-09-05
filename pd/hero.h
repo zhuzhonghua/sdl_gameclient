@@ -9,6 +9,7 @@
 
 class Belongings;
 class HeroAction;
+class Mob;
 
 class Hero:public Char{
 private:
@@ -37,6 +38,7 @@ private:
 	int attackSkill;
 	int defenseSkill;
 
+	std::list<Mob*> visibleEnemies;
 public:
 	static const std::string TXT_YOU_NOW_HAVE;
 	static const int STARTING_STR = 10;
@@ -66,8 +68,12 @@ public:
 public:
 	void resurrect(int resetLevel);
 
+	bool handle(int cell);
+
 	virtual std::string getClassName() { return "Hero"; }
-	int visibleEnemies();
+	int VisibleEnemies();
+	Mob* visibleEnemy(int index);
+
 	void resume();
 	int maxExp() { return 5 + lvl * 5; }
 };

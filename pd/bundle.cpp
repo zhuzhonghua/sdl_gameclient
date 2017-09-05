@@ -33,6 +33,16 @@ bool Bundle::getIntArray(const std::string& key, std::list<int>& ret)
 	return true;
 }
 
+bool Bundle::getIntArray(const std::string& key, std::vector<int>& ret)
+{
+	boost::property_tree::ptree image_array = data.get_child(key);
+	BOOST_FOREACH(boost::property_tree::ptree::value_type &v, image_array)
+	{
+		ret.push_back(v.second.get_value<int>());
+	}
+	return true;
+}
+
 bool Bundle::getBooleanArray(const std::string& key, std::list<bool>& ret)
 {
 	boost::property_tree::ptree image_array = data.get_child(key);

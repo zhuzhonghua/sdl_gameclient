@@ -14,6 +14,8 @@ class CellSelector;
 class FogOfWar;
 class Toolbar;
 class Toast;
+class Blob;
+class Mob;
 
 class GameScene :public PixelScene{
 private:
@@ -53,6 +55,9 @@ private:
 
 	Toolbar* toolbar;
 	Toast* prompt;
+
+	void addBlobSprite(Blob* gas);
+	void addMobSprite(Mob* mob);
 public:
 	void brightness(bool value);
 
