@@ -28,10 +28,19 @@ protected:
 	bool initRooms();
 	void split(Rect rect);
 	void paint();
+	void paintWater();
+	void paintGrass();
+	void placeTraps();
+
 	void paintDoors(Room* r);
 	void assignRoomType();
 	Room* randomRoom(Room::Type type, int tries);
 	bool joinRooms(Room* r, Room* n);
+	int nTraps();
+	std::vector<float> trapChances();
+
+	virtual std::vector<bool> water() = 0;
+	virtual std::vector<bool> grass() = 0;
 private:
 	void placeDoors(Room* r);
 };

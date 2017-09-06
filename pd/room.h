@@ -75,10 +75,12 @@ public:
 	void addNeigbour(Room* other);
 	int width();
 	int height();
+	Point center();
 	void connect(Room* room);
 	int random() { return random(0); }
 	int random(int m);
 	Rect getBounds() { return bounds; }
+	Door* entrance();
 
 	static void useType(Type type);
 	static void paint(Type type, Level* level, Room* r);
@@ -93,4 +95,5 @@ public:
 	virtual void storeInBundle(Bundle* bundle);
 	virtual void restoreFromBundle(Bundle* bundle);
 	virtual std::string getClassName() { return "Room"; }
+	
 };

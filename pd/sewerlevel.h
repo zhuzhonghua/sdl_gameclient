@@ -10,8 +10,8 @@ public:
 	virtual std::string getClassName() { return "SewerLevel"; }
 
 protected:
-	std::vector<bool> water();
-	std::vector<bool> grass();
+	virtual std::vector<bool> water();
+	virtual std::vector<bool> grass();
 	virtual void decorate();
 	virtual void createMobs();
 	virtual void createItems();

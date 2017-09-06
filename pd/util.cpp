@@ -78,6 +78,30 @@ Room* Random::element(const std::set<Room*>& s)
 	return NULL;
 }
 
+int Random::chances(std::vector<float> chas)
+{
+	int length = chas.size();
+
+	float sum = chas[0];
+	for (int i = 1; i < length; i++) 
+	{
+		sum += chas[i];
+	}
+
+	float value = Float(sum);
+	sum = chas[0];
+	for (int i = 0; i < length; i++) 
+	{
+		if (value < sum) 
+		{
+			return i;
+		}
+		sum += chas[i + 1];
+	}
+
+	return 0;
+}
+
 const float GameMath::POINTF_PI = 3.1415926f;
 const float GameMath::POINTF_PI2 = GameMath::POINTF_PI * 2;
 const float GameMath::POINTF_G2R = GameMath::POINTF_PI / 180;
@@ -207,12 +231,12 @@ Rect GameMath::RECTIntersect(const Rect& a, const Rect& b)
 
 int GameMath::RECTWidth(const Rect& frame)
 {
-	return std::abs(frame.z - frame.x);
+	return frame.z - frame.x;
 }
 
 int GameMath::RECTHeight(const Rect& frame)
 {
-	return std::abs(frame.w - frame.y);
+	return frame.w - frame.y;
 }
 
 int GameMath::RECTLeft(const Rect& frame)

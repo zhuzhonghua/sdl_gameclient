@@ -21,6 +21,7 @@ public:
 	static int IntRange(int begin, int end);
 	static int Int(int end);
 	static Room* element(const std::set<Room*>& s);
+	static int chances(std::vector<float> chas);
 };
 
 class GameMath {

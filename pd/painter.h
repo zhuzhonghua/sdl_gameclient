@@ -26,3 +26,34 @@ class ExitPainter :public Painter{
 public:
 	static void paint(Level* level, Room* room);
 };
+
+class BossExitPainter :public Painter{
+public:
+	static void paint(Level* level, Room* room);
+};
+
+class TunnelPainter :public Painter{
+public:
+	static void paint(Level* level, Room* room);
+};
+
+class PassagePainter :public Painter{
+private:
+	static int pasWidth;
+	static int pasHeight;
+
+	static int xy2p(Room* room, Point xy);
+	static Point p2xy(Room* room, int p);
+public:
+	static void paint(Level* level, Room* room);
+};
+
+class BlacksmithPainter :public Painter{
+public:
+	static void paint(Level* level, Room* room);
+};
+
+class WeakFloorPainter :public Painter{
+public:
+	static void paint(Level* level, Room* room);
+};

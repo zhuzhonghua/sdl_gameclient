@@ -67,7 +67,8 @@ bool RegularLevel::build()
 		Graph::buildDistanceMap(tmpRooms, roomExit);
 		distance = roomEntrance->Distance();
 
-		if (retry++ > 10) {
+		if (retry++ > 10) 
+		{
 			return false;
 		}
 
@@ -82,9 +83,16 @@ bool RegularLevel::build()
 	Graph::buildDistanceMap(tmpRooms, roomExit);
 	std::list<Graph::Node*> path = Graph::buildPath(tmpRooms, roomEntrance, roomExit);
 
+	// Assert
+	if (path.size() <= 0)
+	{
+		*(int*)0 = 0;
+	}
+
 	Room* room = roomEntrance;
 	for (std::list<Graph::Node*>::iterator itr = path.begin();
-		itr != path.end(); itr++){
+		itr != path.end(); itr++)
+	{
 		Room* next = (Room*)*itr;
 		room->connect(next);
 		room = next;
@@ -96,6 +104,12 @@ bool RegularLevel::build()
 	Graph::buildDistanceMap(tmpRooms, roomExit);
 	path = Graph::buildPath(tmpRooms, roomEntrance, roomExit);
 
+	// Assert
+	if (path.size() <= 0)
+	{
+		*(int*)0 = 0;
+	}
+
 	room = roomEntrance;
 	for (std::list<Graph::Node*>::iterator itr = path.begin();
 		itr != path.end(); itr++)
@@ -106,8 +120,9 @@ bool RegularLevel::build()
 		connected.insert(room);
 	}
 
+	int count = 0;
 	int nConnected = (int)(rooms.size() * Random::Float(0.5f, 0.7f));
-	while (connected.size() < nConnected) 
+	while (connected.size() < nConnected && count++ < 100000) 
 	{
 		Room* cr = Random::element(connected);
 		Room* or = Random::element(cr->neigbours);
@@ -118,34 +133,43 @@ bool RegularLevel::build()
 		}
 	}
 
-	//if (Dungeon.shopOnLevel()) {
-	//	Room shop = null;
-	//	for (Room r : roomEntrance.connected.keySet()) {
-	//		if (r.connected.size() == 1 && r.width() >= 5 && r.height() >= 5) {
-	//			shop = r;
-	//			break;
-	//		}
-	//	}
-	//
-	//	if (shop == null) {
-	//		return false;
-	//	}
-	//	else {
-	//		shop.type = Room.Type.SHOP;
-	//	}
-	//}
-	//
-	//specials = new ArrayList<Room.Type>(Room.SPECIALS);
-	//if (Dungeon.bossLevel(Dungeon.depth + 1)) {
-	//	specials.remove(Room.Type.WEAK_FLOOR);
-	//}
-	assignRoomType();
-	//
-	paint();
-	//paintWater();
-	//paintGrass();
+	if (Dungeon::shopOnLevel()) 
+	{
+		Room* shop = NULL;
+		for (std::map<Room*, Room::Door*>::iterator itr = roomEntrance->connected.begin();
+			itr != roomEntrance->connected.end(); itr++)
+		{
+			Room* r = itr->first;
+			if (r->connected.size() == 1 && r->width() >= 5 && r->height() >= 5) 
+			{
+				shop = r;
+				break;
+			}
+		}
+	
+		if (shop == NULL) 
+		{
+			return false;
+		}
+		else 
+		{
+			shop->type = Room::Type::SHOP;
+		}
+	}
+	
+	specials.assign(Room::SPECIALS.begin(), Room::SPECIALS.end());
 
-	//placeTraps();
+	if (Dungeon::bossLevel(Dungeon::depth + 1)) 
+	{
+		specials.remove(Room::Type::WEAK_FLOOR);
+	}
+	assignRoomType();
+
+	paint();
+	paintWater();
+	paintGrass();
+
+	placeTraps();
 
 	return true;
 }
@@ -249,6 +273,105 @@ void RegularLevel::paint()
 	{
 		Room* r = *itr;
 		paintDoors(r);
+	}
+}
+
+void RegularLevel::paintWater()
+{
+	std::vector<bool> lake = water();
+	for (int i = 0; i < LENGTH; i++) 
+	{
+		if (map[i] == Terrain::EMPTY && lake[i]) 
+		{
+			map[i] = Terrain::WATER;
+		}
+	}
+}
+
+void RegularLevel::paintGrass()
+{
+	std::vector<bool> gra = grass();
+
+	if (feeling == Feeling::GRASS) 
+	{
+		for (std::set<Room*>::iterator itr = rooms.begin();
+			itr != rooms.end(); itr++)		
+		{
+			Room* room = *itr;
+
+			Rect bound = room->getBounds();
+			int top = GameMath::RECTTop(bound);
+			int bottom = GameMath::RECTBottom(bound);
+			int left = GameMath::RECTLeft(bound);
+			int right = GameMath::RECTRight(bound);
+
+			if (room->type != Room::Type::NONE && room->type != Room::Type::PASSAGE && room->type != Room::Type::TUNNEL) 
+			{
+				gra[(left + 1) + (top + 1) * WIDTH] = true;
+				gra[(right - 1) + (top + 1) * WIDTH] = true;
+				gra[(left + 1) + (bottom - 1) * WIDTH] = true;
+				gra[(right - 1) + (bottom - 1) * WIDTH] = true;
+			}
+		}
+	}
+
+	for (int i = WIDTH + 1; i < LENGTH - WIDTH - 1; i++) 
+	{
+		if (map[i] == Terrain::EMPTY && gra[i]) 
+		{
+			int count = 1;
+			for (int i = 0; i < 8/*sizeof(Level::NEIGHBOURS8) / sizeof(int)*/; i++)
+			{
+				int n = NEIGHBOURS8[i];
+				if (gra[i + n])
+				{
+					count++;
+				}
+			}
+			map[i] = (Random::Float() < count / 12.0f) ? Terrain::HIGH_GRASS : Terrain::GRASS;
+		}
+	}
+}
+
+void RegularLevel::placeTraps()
+{
+	int nTps = nTraps();
+	std::vector<float> trapCha = trapChances();
+
+	for (int i = 0; i < nTps; i++) 
+	{
+		int trapPos = Random::Int(LENGTH);
+
+		if (map[trapPos] == Terrain::EMPTY) 
+		{
+			switch (Random::chances(trapCha)) 
+			{
+			case 0:
+				map[trapPos] = Terrain::SECRET_TOXIC_TRAP;
+				break;
+			case 1:
+				map[trapPos] = Terrain::SECRET_FIRE_TRAP;
+				break;
+			case 2:
+				map[trapPos] = Terrain::SECRET_PARALYTIC_TRAP;
+				break;
+			case 3:
+				map[trapPos] = Terrain::SECRET_POISON_TRAP;
+				break;
+			case 4:
+				map[trapPos] = Terrain::SECRET_ALARM_TRAP;
+				break;
+			case 5:
+				map[trapPos] = Terrain::SECRET_LIGHTNING_TRAP;
+				break;
+			case 6:
+				map[trapPos] = Terrain::SECRET_GRIPPING_TRAP;
+				break;
+			case 7:
+				map[trapPos] = Terrain::SECRET_SUMMONING_TRAP;
+				break;
+			}
+		}
 	}
 }
 
@@ -510,6 +633,17 @@ bool RegularLevel::joinRooms(Room* r, Room* n)
 	}
 
 	return true;
+}
+
+int RegularLevel::nTraps()
+{
+	return Dungeon::depth <= 1 ? 0 : Random::Int(1, rooms.size() + Dungeon::depth);
+}
+
+std::vector<float> RegularLevel::trapChances()
+{
+	float chances[] = { 1, 1, 1, 1, 1, 1, 1, 1 };
+	return std::vector<float>(chances, chances+(sizeof(chances)/sizeof(float)));
 }
 
 void RegularLevel::placeDoors(Room* r)

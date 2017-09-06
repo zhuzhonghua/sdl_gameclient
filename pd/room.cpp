@@ -46,7 +46,8 @@ void Room::addNeigbour(Room* other)
 	int w = GameMath::RECTWidth(i);
 	int h = GameMath::RECTHeight(i);
 
-	if ((w == 0 && h >= 3) || (w == 0 && h >= 3)) 
+	if ((w == 0 && h >= 3) || 
+		(h == 0 && w >= 3)) 
 	{
 		neigbours.insert(other);
 		other->neigbours.insert(this);
@@ -130,8 +131,46 @@ Room::PaintMethod Room::getPaintMethod(Type type)
 		paintMethods.insert(std::make_pair(STANDARD, StandardPainter::paint));
 		paintMethods.insert(std::make_pair(ENTRANCE, EntrancePainter::paint));
 		paintMethods.insert(std::make_pair(EXIT, ExitPainter::paint));
+		paintMethods.insert(std::make_pair(BOSS_EXIT, BossExitPainter::paint));
+		paintMethods.insert(std::make_pair(TUNNEL, TunnelPainter::paint));
+		paintMethods.insert(std::make_pair(PASSAGE, PassagePainter::paint));
+		//paintMethods.insert(std::make_pair(SHOP, ShopPainter::paint));
+		//paintMethods.insert(std::make_pair(BLACKSMITH, BlacksmithPainter::paint));
+		//paintMethods.insert(std::make_pair(TREASURY, TreasuryPainter::paint));
+		//paintMethods.insert(std::make_pair(ARMORY, ArmoryPainter::paint));
+		//paintMethods.insert(std::make_pair(LIBRARY, LibraryPainter::paint));
+		//paintMethods.insert(std::make_pair(LABORATORY, LaboratoryPainter::paint));
+		//paintMethods.insert(std::make_pair(VAULT, VaultPainter::paint));
+		//paintMethods.insert(std::make_pair(TRAPS, TrapsPainter::paint));
+		//paintMethods.insert(std::make_pair(STORAGE, StoragePainter::paint));
+		//paintMethods.insert(std::make_pair(MAGIC_WELL, MagicWellPainter::paint));
+		//paintMethods.insert(std::make_pair(GARDEN, GardenPainter::paint));
+		//paintMethods.insert(std::make_pair(CRYPT, CryptPainter::paint));
+		//paintMethods.insert(std::make_pair(STATUE, StatuePainter::paint));
+		//paintMethods.insert(std::make_pair(POOL, PoolPainter::paint));
+		//paintMethods.insert(std::make_pair(RAT_KING, RatKingPainter::paint));
+		paintMethods.insert(std::make_pair(WEAK_FLOOR, WeakFloorPainter::paint));
+		//paintMethods.insert(std::make_pair(PIT, PitPainter::paint));
+		//paintMethods.insert(std::make_pair(ALTAR, AltarPainter::paint));
 	}
 	return paintMethods[type];
+}
+
+Point Room::center()
+{
+	int left = GameMath::RECTLeft(bounds);
+	int right = GameMath::RECTRight(bounds);
+	int top = GameMath::RECTTop(bounds);
+	int bottom = GameMath::RECTBottom(bounds);
+
+	return Point(
+		(left + right) / 2 + (((right - left) & 1) == 1 ? Random::Int(2) : 0),
+		(top + bottom) / 2 + (((bottom - top) & 1) == 1 ? Random::Int(2) : 0));
+}
+
+Room::Door* Room::entrance()
+{
+	return connected.begin()->second;
 }
 
 Room::Door::Door(int x, int y)
