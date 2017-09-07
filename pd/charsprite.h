@@ -94,7 +94,7 @@ public:
 	void Operate(int cell);
 	void Zap(int cell);
 	void jump(int from, int to, Callback* callback);
-	void Die();
+	virtual void Die();
 	Emitter* emitter();
 	Emitter* centerEmitter();
 	Emitter* bottomEmitter();

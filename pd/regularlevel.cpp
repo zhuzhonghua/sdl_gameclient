@@ -5,6 +5,8 @@
 #include "dungeon.h"
 #include "terrain.h"
 #include "painter.h"
+#include "mob.h"
+#include "bestiary.h"
 
 RegularLevel::RegularLevel()
 {
@@ -22,6 +24,11 @@ RegularLevel::~RegularLevel()
 		delete *itr;
 	}
 	rooms.clear();
+}
+
+int RegularLevel::nMobs()
+{
+	return 2 + Dungeon::depth % 5 + Random::Int(3);
 }
 
 void RegularLevel::storeInBundle(Bundle* bundle)
@@ -320,9 +327,9 @@ void RegularLevel::paintGrass()
 		if (map[i] == Terrain::EMPTY && gra[i]) 
 		{
 			int count = 1;
-			for (int i = 0; i < 8/*sizeof(Level::NEIGHBOURS8) / sizeof(int)*/; i++)
+			for (int j = 0; j < 8/*sizeof(Level::NEIGHBOURS8) / sizeof(int)*/; j++)
 			{
-				int n = NEIGHBOURS8[i];
+				int n = NEIGHBOURS8[j];
 				if (gra[i + n])
 				{
 					count++;
@@ -644,6 +651,20 @@ std::vector<float> RegularLevel::trapChances()
 {
 	float chances[] = { 1, 1, 1, 1, 1, 1, 1, 1 };
 	return std::vector<float>(chances, chances+(sizeof(chances)/sizeof(float)));
+}
+
+void RegularLevel::createMobs()
+{
+	//int n = nMobs();
+	//for (int i = 0; i < n; i++) 
+	//{
+	//	Mob* mob = Bestiary::mob(Dungeon::depth);
+	//	do {
+	//		mob->pos = randomRespawnCell();
+	//	} while (mob->pos == -1);
+	//	mobs.insert(mob);
+	//	Actor::occupyCell(mob);
+	//}
 }
 
 void RegularLevel::placeDoors(Room* r)

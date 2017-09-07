@@ -28,6 +28,8 @@ public:
 	static int depth;
 	static int gold;
 
+	static std::string resultDescription;
+
 	static bool nightMode;
 	static std::vector<bool> visible;
 	static std::set<int> chapters;
@@ -44,12 +46,14 @@ public:
 	static void saveLevel();
 	static Level* loadLevel(HeroClass cl);
 	static void switchLevel(Level* level, int pos);
+	static void observe();
 
 	static bool shopOnLevel() { return depth == 6 || depth == 11 || depth == 16; }
 	static bool bossLevel();
 	static bool bossLevel(int depth){ return depth == 5 || depth == 10 || depth == 15 || depth == 20 || depth == 25; }
 	static int findPath(Char* ch, int from, int to, std::vector<bool>& pass, std::vector<bool>& visible);
 	static int flee(Char* ch, int cur, int from, std::vector<bool>& pass, std::vector<bool>& visible);
+	static void fail(const std::string& desc);
 private:
 	static const std::string RG_GAME_FILE ;
 	static const std::string RG_DEPTH_FILE ;

@@ -53,3 +53,25 @@ Image* Effects::get(Type type)
 #include "terrain.h"
 int Terrain::flags[256] = {0};
 Terrain Terrain::inst;
+
+const std::string ResultDescriptions::MOB = "Killed by %s on level %d";
+const std::string ResultDescriptions::BOSS = "Killed by the %s on level %d";
+
+// Items
+const std::string ResultDescriptions::WAND = "Killed by your own %s on level %d";
+const std::string ResultDescriptions::GLYPH = "Killed by the %s on level %d";
+const std::string ResultDescriptions::BOMB = "Killed by an explosion of a bomb on level %d";
+
+// Dungeon features
+const std::string ResultDescriptions::TRAP = "Killed by discharge of %s on level %d";
+
+// Debuffs & blobs
+const std::string ResultDescriptions::BURNING = "Burned to death on level %d";
+const std::string ResultDescriptions::HUNGER = "Starved to death on level %d";
+const std::string ResultDescriptions::POISON = "Died from poison on level %d";
+const std::string ResultDescriptions::GAS = "Died from toxic gas on level %d";
+const std::string ResultDescriptions::BLEEDING = "Bled to death on level %d";
+const std::string ResultDescriptions::OOZE = "Killed by a caustic ooze on level %d";
+const std::string ResultDescriptions::FALL = "Fell to death on level %d";
+
+const std::string ResultDescriptions::WIN = "Obtained the Amulet of Yendor";

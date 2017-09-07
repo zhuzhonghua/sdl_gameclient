@@ -7,6 +7,7 @@
 #include "sewerlevel.h"
 #include "startscene.h"
 #include "pathfinder.h"
+#include "gamescene.h"
 #include <sstream>
 
 int Dungeon::potionOfStrength;
@@ -23,6 +24,8 @@ Level* Dungeon::level;
 
 int Dungeon::depth = 0;
 int Dungeon::gold = 0;
+
+std::string Dungeon::resultDescription;
 
 std::vector<bool> Dungeon::visible(Level::LENGTH);
 
@@ -103,14 +106,14 @@ void Dungeon::init()
 
 	Actor::clear();
 
-	//PathFinder.setMapSize(Level.WIDTH, Level.HEIGHT);
+	PathFinder::setMapSize(Level::WIDTH, Level::HEIGHT);
 	//
 	//Scroll.initLabels();
 	//Potion.initColors();
 	//Wand.initWoods();
 	//Ring.initGems();
 	//
-	//Statistics.reset();
+	Statistics::reset();
 	//Journal.reset();
 
 	depth = 0;
@@ -268,19 +271,34 @@ void Dungeon::switchLevel(Level* level, int pos)
 	//nightMode = new Date().getHours() < 7;
 
 	Dungeon::level = level;
-	//Actor::init();
+	Actor::init();
 
 	//Actor respawner = level.respawner();
 	//if (respawner != null) {
 	//	Actor.add(level.respawner());
 	//}
 	//
-	//hero.pos = pos != -1 ? pos : level.exit;
+	hero->pos = pos != -1 ? pos : level->exit;
 	//
 	//Light light = hero.buff(Light.class);
 	//hero.viewDistance = light == null ? level.viewDistance : Math.max(Light.DISTANCE, level.viewDistance);
 	//
-	//observe();
+	observe();
+}
+
+void Dungeon::observe()
+{
+	if (level == NULL) 
+	{
+		return;
+	}
+
+	level->updateFieldOfView(hero);
+	Arrays<bool>::arraycopy(Level::fieldOfView, 0, visible, 0, visible.size());
+
+	BArray::or(level->visited, visible, level->visited);
+
+	GameScene::afterObserve();
 }
 
 void Dungeon::saveLevel()
@@ -372,6 +390,14 @@ int Dungeon::flee(Char* ch, int cur, int from, std::vector<bool>& pass, std::vec
 	passable[cur] = true;
 
 	return PathFinder::getStepBack(cur, from, passable);
+}
+
+void Dungeon::fail(const std::string& desc)
+{
+	resultDescription = desc;
+	//if (hero.belongings.getItem(Ankh.class) == null) {
+	//	Rankings.INSTANCE.submit(false);
+	//}
 }
 
 void Dungeon::loadGame(HeroClass cl)

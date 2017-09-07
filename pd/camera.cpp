@@ -91,6 +91,11 @@ void Camera::focusOn(Visual* visual)
 	focusOn(visual->center());
 }
 
+void Camera::focusOn(float x, float y)
+{
+	scroll.x = x - width / 2, scroll.y = y - height / 2;
+}
+
 void Camera::zoom(float value, float fx, float fy)
 {
 	zoomf = value;

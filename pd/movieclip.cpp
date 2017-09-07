@@ -24,6 +24,16 @@ MovieClip::Animation* MovieClip::Animation::Frames(TextureFilm* film, std::vecto
 	return this;
 }
 
+MovieClip::Animation* MovieClip::Animation::Frames(TextureFilm* film, int frames[], int size)
+{
+	this->frames.resize(size);
+	for (int i = 0; i < size; i++)
+	{
+		this->frames[i] = film->get(frames[i]);
+	}
+	return this;
+}
+
 MovieClip::Animation* MovieClip::Animation::clone()
 {
 	MovieClip::Animation* ma = new MovieClip::Animation(std::round(1 / delay), looped);

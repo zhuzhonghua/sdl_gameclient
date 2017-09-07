@@ -65,6 +65,11 @@ int Random::IntRange(int begin, int end)
 	return begin + (int)(random()* (end - begin + 1));
 }
 
+int Random::NormalIntRange(int min, int max)
+{
+	return min + (int)((random() + random()) * (max - min + 1) / 2.0f);
+}
+
 Room* Random::element(const std::set<Room*>& s)
 {
 	int i = Int(0, s.size());

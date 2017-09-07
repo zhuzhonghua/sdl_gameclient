@@ -8,7 +8,7 @@ private:
 	public:
 		FogOfWar* fow;
 		FogTexture(FogOfWar* fowp);
-		virtual void reload();
+		//virtual void reload();
 	};
 private:
 	static const int VISIBLE = 0x00000000;

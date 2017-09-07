@@ -68,7 +68,11 @@ public:
 	static FloatingText* status();
 	static Ripple* ripple(int pos);
 	static void effect(Visual* eff);
+	static void afterObserve();
 
 	static void ready();
 	static bool cancel();
+
+	static void addMob(Mob* mob, float delay);
+	static void addMob(Mob* mob);
 };

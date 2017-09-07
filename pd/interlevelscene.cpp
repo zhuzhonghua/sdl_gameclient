@@ -66,19 +66,7 @@ namespace{
 		{
 			//Sample.INSTANCE.load(Assets.SND_BOSS);
 		}
-			//
-		//	}
-		//	catch (FileNotFoundException e) {
-		//	
-		//		error = ERR_FILE_NOT_FOUND;
-		//	
-		//	}
-		//	catch (Exception e) {
-		//	
-		//		error = ERR_GENERIC;
-		//	
-		//	}
-			
+
 		if (sce->phase == InterlevelScene::Phase::STATIC && sce->error.length() <= 0) 
 		{
 			sce->phase = InterlevelScene::Phase::FADE_OUT;

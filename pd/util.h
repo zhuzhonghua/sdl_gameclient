@@ -3,6 +3,7 @@
 #include <time.h>
 #include <random>
 #include <set>
+#include <list>
 #include "define.h"
 #include "regex/pcrecpp.h"
 
@@ -19,9 +20,27 @@ public:
 	static float random();
 	static int Int(int begin, int end);
 	static int IntRange(int begin, int end);
+	static int NormalIntRange(int min, int max);
 	static int Int(int end);
 	static Room* element(const std::set<Room*>& s);
 	static int chances(std::vector<float> chas);
+};
+
+template<class T>
+class RandomT{
+public:
+	static T element(const std::list < T >& s)
+	{
+		int i = Random::Int(0, s.size());
+		int c = 0;
+		for (std::list<T>::const_iterator itr = s.begin();
+			itr != s.end(); itr++)
+		{
+			if (c == i) return *itr;
+			c++;
+		}
+		return (T)NULL;
+	}
 };
 
 class GameMath {

@@ -11,6 +11,7 @@ CellSelector::CellSelector(DungeonTilemap* map)
 	enabled = false;
 	dragging = false;
 	pinching = false;
+	another = NULL;
 
 	cameraf = map->camera();
 
@@ -113,15 +114,15 @@ void CellSelector::onDrag(TouchScreen::Touch* t)
 	{
 		if (!dragging && GameMath::PointFDistance(t->current, t->start) > dragThreshold) 
 		{
-
 			dragging = true;
 			lastPos = t->current;
 		}
 		else if (dragging) 
 		{
 			PointF p = GameMath::PointFDiff(lastPos, t->current);
+			GameMath::PointFInvScale(&p, cameraf->zoomf);
+
 			GameMath::PointFOffSet(&cameraf->scroll, &p);
-			GameMath::PointFInvScale(&cameraf->scroll, cameraf->zoomf);
 
 			lastPos = t->current;
 		}

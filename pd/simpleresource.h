@@ -195,3 +195,30 @@ public:
 
 	static Image* get(Type type);
 };
+
+class ResultDescriptions {
+
+	// Mobs 
+public:
+	static const std::string MOB ;
+	static const std::string BOSS ;
+
+	// Items
+	static const std::string WAND ;
+	static const std::string GLYPH ;
+	static const std::string BOMB ;
+
+	// Dungeon features
+	static const std::string TRAP ;
+
+	// Debuffs & blobs
+	static const std::string BURNING ;
+	static const std::string HUNGER ;
+	static const std::string POISON ;
+	static const std::string GAS ;
+	static const std::string BLEEDING ;
+	static const std::string OOZE ;
+	static const std::string FALL ;
+
+	static const std::string WIN ;
+};

@@ -77,7 +77,7 @@ public:
 	float speed();
 	void damage(int dmg, const std::string& src);
 	void destroy();
-	void die(const std::string& src);
+	virtual void die(const std::string& src);
 	bool isAlive() { return HP > 0; }
 
 	void Buffs(const std::string& c, std::set<Buff*>& re);

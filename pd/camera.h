@@ -26,7 +26,7 @@ public:
 	void resize(int width, int height);
 	PointF center() { return PointF(width / 2, height / 2); }
 	bool hitTest(float x, float y) { return x >= this->x && y >= this->y && x < (this->x + screenWidthf) && y < (this->y + screenHeightf); }
-	void focusOn(float x, float y) { scroll.x = x-width/2, scroll.y = y-height/2; }
+	void focusOn(float x, float y);
 	void focusOn(PointF p) { focusOn(p.x, p.y); }
 	void focusOn(Visual* visual);
 	void shake(float magnitude, float duration) { _shakeMagX = _shakeMagY = magnitude; _shakeTime = _shakeDuration = duration; }

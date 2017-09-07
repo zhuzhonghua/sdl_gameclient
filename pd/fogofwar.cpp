@@ -2,6 +2,7 @@
 #include "dungeontilemap.h"
 #include "texturecache.h"
 #include "util.h"
+#include "gamescene.h"
 
 FogOfWar::FogOfWar(int mapWidth, int mapHeight)
 {
@@ -15,7 +16,8 @@ FogOfWar::FogOfWar(int mapWidth, int mapHeight)
 	}
 
 	height2 = 1;
-	while (height2 < pHeight) {
+	while (height2 < pHeight) 
+	{
 		height2 <<= 1;
 	}
 
@@ -35,10 +37,7 @@ void FogOfWar::updateVisibility(const std::vector<bool>& visible, const std::vec
 	if (pixels.size() <= 0) 
 	{
 		pixels.resize(width2 * height2);
-		for (int i = 0; i < pixels.size(); i++)
-		{
-			pixels[i] = INVISIBLE;
-		}
+		Arrays<int>::fill(pixels, INVISIBLE);
 	}
 
 	for (int i = 1; i < pHeight - 1; i++) 
@@ -65,6 +64,11 @@ void FogOfWar::updateVisibility(const std::vector<bool>& visible, const std::vec
 			{
 				c = MAPPED;
 			}
+			if (Random::Int(100) < 20)
+			{
+				c = VISIBLE;
+			}
+
 			pixels[i * width2 + j] = c;
 		}
 	}
@@ -80,8 +84,8 @@ fow(fowp)
 	TextureCache::add("FogOfWar", this);
 }
 
-void FogOfWar::FogTexture::reload()
-{
-	//SmartTexture::reload();
-	//GameScene.afterObserve();
-}
+//void FogOfWar::FogTexture::reload()
+//{
+//	//SmartTexture::reload();
+//	GameScene::afterObserve();
+//}

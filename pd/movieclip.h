@@ -14,6 +14,7 @@ public:
 		Animation(int fps, bool looped);
 		Animation* Frames(const std::vector<RectF>& frames);
 		Animation* Frames(TextureFilm* film, std::vector<int> frames);
+		Animation* Frames(TextureFilm* film, int frames[], int size);
 		Animation* clone();
 	};
 

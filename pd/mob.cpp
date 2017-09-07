@@ -24,6 +24,8 @@ Mob::Mob()
 	FLEEING = new Fleeing(this);
 	PASSIVE = new Passive(this);
 	state = SLEEPEING;
+
+	lootChance = 0;
 }
 
 void Mob::storeInBundle(Bundle* bundle)

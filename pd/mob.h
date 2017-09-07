@@ -2,6 +2,7 @@
 
 #include "char.h"
 
+
 class Mob :public Char{
 public:
 	class AiState 
@@ -52,6 +53,7 @@ protected:
 
 	static const float TIME_TO_WAKE_UP;
 
+	float lootChance;
 	
 	virtual bool act();
 	Char* chooseEnemy();
@@ -59,7 +61,7 @@ protected:
 	bool canAttack(Char* enemy);
 	bool getCloser(int target);
 	bool getFurther(int target);
-	float attackDelay() { return 1.0f; }
+	virtual float attackDelay() { return 1.0f; }
 	bool doAttack(Char* enemy);
 
 	class Fleeing :public AiState{
@@ -110,3 +112,5 @@ private:
 		virtual std::string status();
 	};
 };
+
+typedef Mob* (*CreateMob)();

@@ -54,11 +54,13 @@ void GameScene::brightness(bool value)
 	water->rm = water->gm = water->bm =
 		tiles->rm = tiles->gm = tiles->bm =
 		value ? 1.5f : 1.0f;
-	if (value) {
+	if (value) 
+	{
 		fog->am = +2.0f;
 		fog->aa = -1.0f;
 	}
-	else {
+	else 
+	{
 		fog->am = +1.0f;
 		fog->aa = 0.0f;
 	}
@@ -348,6 +350,21 @@ void GameScene::effect(Visual* eff)
 	scene->effects->add(eff);
 }
 
+void GameScene::afterObserve()
+{
+	if (scene != NULL) 
+	{
+		scene->fog->updateVisibility(Dungeon::visible, Dungeon::level->visited, Dungeon::level->mapped);
+
+		for (std::set<Mob*>::iterator itr = Dungeon::level->mobs.begin();
+			itr != Dungeon::level->mobs.end(); itr++)
+		{
+			Mob* mob = *itr;
+			mob->sprite->visible = Dungeon::visible[mob->pos];
+		}
+	}
+}
+
 void GameScene::ready()
 {
 	//selectCell(defaultCellListener);
@@ -369,4 +386,20 @@ bool GameScene::cancel()
 	//
 	//}
 	return true;
+}
+
+void GameScene::addMob(Mob* mob, float delay)
+{
+	Dungeon::level->mobs.insert(mob);
+	Actor::addDelayed(mob, delay);
+	Actor::occupyCell(mob);
+	scene->addMobSprite(mob);
+}
+
+void GameScene::addMob(Mob* mob)
+{
+	Dungeon::level->mobs.insert(mob);
+	Actor::add(mob);
+	Actor::occupyCell(mob);
+	scene->addMobSprite(mob);
 }

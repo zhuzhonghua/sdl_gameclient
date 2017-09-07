@@ -13,6 +13,7 @@ public:
 	RegularLevel();
 	virtual ~RegularLevel();
 
+	virtual int nMobs();
 	virtual void storeInBundle(Bundle* bundle);
 	virtual void restoreFromBundle(Bundle* bundle);
 protected:
@@ -39,6 +40,7 @@ protected:
 	int nTraps();
 	std::vector<float> trapChances();
 
+	virtual void createMobs();
 	virtual std::vector<bool> water() = 0;
 	virtual std::vector<bool> grass() = 0;
 private:

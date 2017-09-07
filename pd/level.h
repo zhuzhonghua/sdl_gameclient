@@ -46,6 +46,9 @@ private:
 	static const std::string MOBS;
 	static const std::string BLOBS;
 
+	void buildFlagMaps();
+	int getWaterTile(int pos);
+	void cleanWalls();
 public:
 	static bool resizingNeeded;
 	static int loadedMapSize;
@@ -81,8 +84,9 @@ public:
 	int color2;
 
 	Level();
-	virtual ~Level(){}
+	virtual ~Level();
 	void create();
+	void clear();
 
 	int pitCell();
 	int randomRespawnCell();
@@ -110,4 +114,5 @@ protected:
 
 public:
 	void addVisuals(Scene* scene);
+	virtual int nMobs() { return 0; }
 };

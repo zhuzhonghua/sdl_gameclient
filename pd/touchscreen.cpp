@@ -24,6 +24,11 @@ TouchScreen::Touch::Touch(SDL_Event* e, int index)
 void TouchScreen::Touch::update(SDL_Event* e, int index)
 {
 	//current.set(e.getX(index), e.getY(index));
+	float x = e->motion.x;
+	float y = e->motion.y;
+
+	current.x = x;
+	current.y = y;
 }
 
 TouchScreen::Touch* TouchScreen::Touch::up()
@@ -48,7 +53,8 @@ void TouchScreen::processTouchEvents(std::vector<SDL_Event>& events)
 			pointers.insert(std::make_pair(0, touch));
 			event.dispatch(touch);
 			break;
-		case SDL_MOUSEBUTTONUP:{
+		case SDL_MOUSEBUTTONUP:
+			{
 			touched = false;			
 			std::map<int, TouchScreen::Touch*>::iterator itr = pointers.find(0);
 			if (itr != pointers.end())
@@ -60,7 +66,16 @@ void TouchScreen::processTouchEvents(std::vector<SDL_Event>& events)
 			}
 			
 			break;
-		}
+			}
+		case SDL_MOUSEMOTION:
+			std::map<int, TouchScreen::Touch*>::iterator itr = pointers.find(0);
+			if (itr != pointers.end())
+			{
+				touch = itr->second;
+				touch->update(&e, 0);
+			}
+			event.dispatch(NULL);
+			break;
 		}
 	}
 }
