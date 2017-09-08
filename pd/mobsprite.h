@@ -86,3 +86,19 @@ class BatSprite :public MobSprite{
 public:
 	BatSprite();
 };
+
+class BruteSprite :public MobSprite{
+public:
+	BruteSprite();
+};
+
+class TenguSprite :public MobSprite{
+public:
+	TenguSprite();
+
+	virtual void move(int from, int to);
+	virtual void Attack(int cell);
+	virtual void onComplete(Animation* anim);
+private:
+	Animation* cast;
+};

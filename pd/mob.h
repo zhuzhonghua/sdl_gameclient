@@ -59,9 +59,9 @@ protected:
 	virtual bool act();
 	Char* chooseEnemy();
 	bool moveSprite(int from, int to);
-	bool canAttack(Char* enemy);
-	bool getCloser(int target);
-	bool getFurther(int target);
+	virtual bool canAttack(Char* enemy);
+	virtual bool getCloser(int target);
+	virtual bool getFurther(int target);
 	virtual float attackDelay() { return 1.0f; }
 	bool doAttack(Char* enemy);
 

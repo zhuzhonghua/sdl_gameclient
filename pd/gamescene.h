@@ -86,4 +86,8 @@ public:
 
 	static void handleCell(int cell);
 	static void selectCell(CellSelector::Listener* listener);
+
+	static void bossSlain();
+
+	static void updateMap(int cell);
 };

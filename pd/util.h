@@ -73,6 +73,7 @@ public:
 	static int RECTBottom(const Rect& frame);
 	static int RECTSquare(const Rect& frame);
 	static bool isRECTEmpty(const Rect& frame);
+	static Rect* RECTUnion(Rect* frame, int x, int y);
 
 	static PointF* PointFSet(PointF* p, float v);
 	static PointF* PointFSet(PointF* p, float x, float y);

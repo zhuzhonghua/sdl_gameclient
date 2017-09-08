@@ -106,6 +106,8 @@ public:
 	int randomDestination();
 	static bool adjacent(int a, int b);
 	void mobPress(Mob* mob);
+
+	static void set(int cell, int terrain);
 protected:
 	virtual bool build() = 0;
 	virtual void decorate() = 0;

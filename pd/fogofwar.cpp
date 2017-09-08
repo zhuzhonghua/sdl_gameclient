@@ -64,10 +64,10 @@ void FogOfWar::updateVisibility(const std::vector<bool>& visible, const std::vec
 			{
 				c = MAPPED;
 			}
-			if (Random::Int(100) < 20)
-			{
-				c = VISIBLE;
-			}
+			//if (Random::Int(100) < 20)
+			//{
+			//	c = VISIBLE;
+			//}
 
 			pixels[i * width2 + j] = c;
 		}

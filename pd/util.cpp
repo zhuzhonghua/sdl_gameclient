@@ -275,6 +275,42 @@ bool GameMath::isRECTEmpty(const Rect& frame)
 			GameMath::RECTBottom(frame) <= GameMath::RECTTop(frame);
 }
 
+Rect* GameMath::RECTUnion(Rect* frame, int x, int y)
+{
+	int left = GameMath::RECTLeft(*frame);
+	int top = GameMath::RECTTop(*frame);
+	int right = GameMath::RECTRight(*frame);
+	int bottom = GameMath::RECTBottom(*frame);
+
+	if (GameMath::isRECTEmpty(*frame)) 
+	{
+		*frame = GameMath::RECT(x, y, x + 1, y + 1);
+	}
+	else 
+	{
+		if (x < left) 
+		{
+			left = x;
+		}
+		else if (x >= right) 
+		{
+			right = x + 1;
+		}
+		if (y < top) 
+		{
+			top = y;
+		}
+		else if (y >= bottom) 
+		{
+			bottom = y + 1;
+		}
+
+		*frame = GameMath::RECT(left, top, right, bottom);
+	}
+
+	return frame;
+}
+
 PointF* GameMath::PointFSet(PointF* p, float v)
 {
 	p->x = v;

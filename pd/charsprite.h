@@ -89,8 +89,8 @@ public:
 	virtual void move(int from, int to);
 
 	void interruptMotion();
-	void Attack(int cell);
-	void Attack(int cell, Callback* callback);
+	virtual void Attack(int cell);
+	virtual void Attack(int cell, Callback* callback);
 	void Operate(int cell);
 	void Zap(int cell);
 	void jump(int from, int to, Callback* callback);

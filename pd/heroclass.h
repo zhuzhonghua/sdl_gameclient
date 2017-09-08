@@ -110,4 +110,8 @@ public:
 	{
 		return name.compare(c.name) == 0;
 	}
+	bool operator != (const HeroSubClass &c) const
+	{
+		return name.compare(c.name) != 0;
+	}
 };

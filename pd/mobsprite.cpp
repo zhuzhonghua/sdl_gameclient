@@ -4,6 +4,7 @@
 #include "dungeon.h"
 #include "speck.h"
 #include "alphatweener.h"
+#include "gamescene.h"
 
 const float MobSprite::FADE_TIME = 3.0f;
 const float MobSprite::FALL_TIME = 1.0f;
@@ -375,4 +376,111 @@ BatSprite::BatSprite()
 	play(idle);
 
 	delete frames;
+}
+
+BruteSprite::BruteSprite()
+{
+	texture(Assets::BRUTE);
+
+	TextureFilm* frames = new TextureFilm(tex, 12, 16);
+
+	idle = new Animation(2, true);
+	int arry1[] = { 0, 0, 0, 1, 0, 0, 1, 1 };
+	idle->Frames(frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(12, true);
+	int arry2[] = { 4, 5, 6, 7 };
+	run->Frames(frames, arry2, sizeof(arry2) / sizeof(int));
+
+	attack = new Animation(12, false);
+	int arry3[] = { 2, 3, 0 };
+	attack->Frames(frames, arry3, sizeof(arry3) / sizeof(int));
+
+	die = new Animation(12, false);
+	int arry4[] = { 8, 9, 10 };
+	die->Frames(frames, arry4, sizeof(arry4) / sizeof(int));
+
+	play(idle);
+
+	delete frames;
+}
+
+TenguSprite::TenguSprite()
+{
+	texture(Assets::TENGU);
+
+	TextureFilm* frames = new TextureFilm(tex, 14, 16);
+
+	idle = new Animation(2, true);
+	int arry1[] = { 0, 0, 0, 1 };
+	idle->Frames(frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(15, false);
+	int arry2[] = { 2, 3, 4, 5, 0 };
+	run->Frames(frames, arry2, sizeof(arry2) / sizeof(int));
+
+	attack = new Animation(15, false);
+	int arry3[] = { 6, 7, 7, 0 };
+	attack->Frames(frames, arry3, sizeof(arry3) / sizeof(int));
+
+	cast = attack->clone();
+
+	die = new Animation(8, false);
+	int arry4[] = { 8, 9, 10, 10, 10, 10, 10, 10 };
+	die->Frames(frames, arry4, sizeof(arry4) / sizeof(int));
+
+	play(run->clone());
+
+	delete frames;
+}
+
+void TenguSprite::move(int from, int to)
+{
+	place(to);
+
+	play(run);
+	turnTo(from, to);
+
+	isMoving = true;
+
+	if (Level::water[to]) 
+	{
+		GameScene::ripple(to);
+	}
+
+	ch->onMotionComplete();
+}
+
+void TenguSprite::Attack(int cell)
+{
+	if (!Level::adjacent(cell, ch->pos)) 
+	{
+		//((MissileSprite)parent.recycle(MissileSprite.class)).
+		//	reset(ch->pos, cell, new Shuriken(), new Callback(){
+		//	@Override
+		//	public void call() {
+		//		ch.onAttackComplete();
+		//	}
+		//});
+
+		play(cast);
+		turnTo(ch->pos, cell);
+	}
+	else 
+	{
+		MobSprite::Attack(cell);
+	}
+}
+
+void TenguSprite::onComplete(Animation* anim)
+{
+	if (anim == run) 
+	{
+		isMoving = false;
+		Idle();
+	}
+	else 
+	{
+		MobSprite::onComplete(anim);
+	}
 }

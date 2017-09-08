@@ -3,6 +3,7 @@
 #include "dungeon.h"
 #include "terrain.h"
 #include "mob.h"
+#include "painter.h"
 
 std::vector<bool> Level::fieldOfView(LENGTH);
 
@@ -465,6 +466,21 @@ void Level::mobPress(Mob* mob)
 	//if (plant != null) {
 	//	plant.activate(mob);
 	//}
+}
+
+void Level::set(int cell, int terrain)
+{
+	Painter::set(Dungeon::level, cell, terrain);
+
+	int flags = Terrain::flags[terrain];
+	passable[cell] = (flags & Terrain::PASSABLE) != 0;
+	losBlocking[cell] = (flags & Terrain::LOS_BLOCKING) != 0;
+	flamable[cell] = (flags & Terrain::FLAMABLE) != 0;
+	secret[cell] = (flags & Terrain::SECRET) != 0;
+	solid[cell] = (flags & Terrain::SOLID) != 0;
+	avoid[cell] = (flags & Terrain::AVOID) != 0;
+	pit[cell] = (flags & Terrain::PIT) != 0;
+	water[cell] = terrain == Terrain::WATER || terrain >= Terrain::WATER_TILES;
 }
 
 void Level::addVisuals(Scene* scene)
