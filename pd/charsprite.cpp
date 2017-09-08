@@ -13,6 +13,7 @@
 #include "flameparticle.h"
 #include "speck.h"
 #include "iceblock.h"
+#include "game.h"
 
 const float CharSprite::MOVE_INTERVAL = 0.1f;
 const float CharSprite::FLASH_INTERVAL = 0.05f;

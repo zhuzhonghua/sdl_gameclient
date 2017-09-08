@@ -102,7 +102,7 @@ public:
 	void burst(int color, int n);
 	void bloodBurstA(PointF from, int damage);
 
-	int blood() { return 0xFFBB0000; }
+	virtual int blood() { return 0xFFBB0000; }
 	void flash() { ra = ba = ga = 1.0f; flashTime = FLASH_INTERVAL; }
 
 	void add(State state);

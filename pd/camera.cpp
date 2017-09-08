@@ -125,6 +125,13 @@ void Camera::update()
 {
 	Gizmo::update();
 
+
+	if (target != NULL) 
+	{
+		focusOn(target);
+	}
+
+
 	//
 	if ((_shakeTime -= Game::elapsed) > 0)
 	{

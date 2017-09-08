@@ -6,6 +6,8 @@
 #include "swarm.h"
 #include "skeleton.h"
 #include "thief.h"
+#include "goo.h"
+#include "shaman.h"
 #include "util.h"
 #include <vector>
 
@@ -48,6 +50,34 @@ Mob* Bestiary::mobClass(int depth)
 		float tmp[] = { 1, 2, 3, 0.02f, 0.01f, 0.01f };
 		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
 		CreateMob tmp2[] = { Rat::CreateRat, Gnoll::CreateGnoll, Crab::CreateCrab, Swarm::CreateSwarm, Skeleton::CreateSkeleton, Thief::CreateThief };
+		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
+		break;
+	}
+	case 5:{
+		float tmp[] = { 1 };
+		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
+		CreateMob tmp2[] = { Goo::CreateGoo };
+		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
+		break;
+	}
+	case 6:{
+		float tmp[] = { 4, 2, 1, 0.2f };
+		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
+		CreateMob tmp2[] = { Skeleton::CreateSkeleton, Thief::CreateThief, Swarm::CreateSwarm, Shaman::CreateShaman };
+		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
+		break;
+	}
+	case 7:{
+		float tmp[] = { 3, 1, 1, 1 };
+		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
+		CreateMob tmp2[] = { Skeleton::CreateSkeleton, Shaman::CreateShaman, Thief::CreateThief, Swarm::CreateSwarm };
+		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
+		break;
+	}
+	case 8:{
+		float tmp[] = { 3, 2, 1, 1, 1, 0.02f };
+		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
+		CreateMob tmp2[] = { Skeleton::CreateSkeleton, Shaman::CreateShaman, Gnoll::CreateGnoll, Thief::CreateThief, Swarm::CreateSwarm, };
 		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
 		break;
 	}

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "charsprite.h"
+#include "pixelparticle.h"
 
 class MobSprite :public CharSprite{
 private:
@@ -47,4 +48,41 @@ public:
 class ThiefSprite :public MobSprite{
 public:
 	ThiefSprite();
+};
+
+class GooSprite :public MobSprite{
+public:
+	class GooParticle :public Shrinking{
+	public:
+		static Emitter::Factory* FACTORY;
+
+		GooParticle();
+
+		void reset(float x, float y);
+		virtual void update();
+	};
+public:
+	GooSprite();
+
+	void pumpUp() { MobSprite::play(pump); }
+	virtual void play(Animation* anim, bool force);
+	virtual int blood() { return 0xFF000000; }
+private:
+	Animation* pump;
+	Animation* jump;
+
+	Emitter* spray;
+};
+
+class ShamanSprite :public MobSprite{
+public:
+	ShamanSprite();
+	void Zap(int pos);
+private:
+	int points[2];
+};
+
+class BatSprite :public MobSprite{
+public:
+	BatSprite();
 };

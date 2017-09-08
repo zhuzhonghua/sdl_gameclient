@@ -43,5 +43,5 @@ public:
 	virtual void update();
 
 	void play(Animation* anim);
-	void play(Animation* anim, bool force);
+	virtual void play(Animation* anim, bool force);
 };

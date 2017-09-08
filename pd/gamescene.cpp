@@ -21,6 +21,7 @@
 #include "mob.h"
 #include "healthindicator.h"
 #include "attackindicator.h"
+#include "toast.h"
 
 const std::string GameScene::TXT_WELCOME = "Welcome to the level %d of Pixel Dungeon!";
 const std::string GameScene::TXT_WELCOME_BACK = "Welcome back to the level %d of Pixel Dungeon!";
@@ -32,6 +33,23 @@ const std::string GameScene::TXT_SECRETS = "The atmosphere hints that this floor
 
 GameScene* GameScene::scene;
 CellSelector* GameScene::cellSelector;
+
+namespace{
+	class CellSelectorListenerNew :public CellSelector::Listener{
+	public:
+		virtual void onSelect(int cell)
+		{
+			if (Dungeon::hero->handle(cell))
+			{
+				Dungeon::hero->next();
+			}
+		}
+
+		virtual std::string prompt() { return ""; }
+	};
+}
+
+CellSelector::Listener* GameScene::defaultCellListener = new CellSelectorListenerNew();
 
 void GameScene::addBlobSprite(Blob* gas)
 {
@@ -47,6 +65,52 @@ void GameScene::addMobSprite(Mob* mob)
 	sprite->visible = Dungeon::visible[mob->pos];
 	mobs->add(sprite);
 	sprite->link(mob);
+}
+
+namespace{
+	class ToastNew :public Toast{
+	public:
+		GameScene* sce;
+		ToastNew(GameScene* s, const std::string& text)
+			:Toast(text), sce(s)
+		{
+
+		}
+	protected:
+		virtual void onClose()
+		{
+			sce->cancel();
+		}
+	};
+}
+void GameScene::Prompt(const std::string& text)
+{
+	if (prompt != NULL) 
+	{
+		prompt->killAndErase();
+		prompt = NULL;
+	}
+
+	if (text.size() > 0) 
+	{
+		prompt = new ToastNew(this, text);
+		prompt->cameraf = uiCamera;
+		prompt->setPos((uiCamera->width - prompt->width()) / 2, uiCamera->height - 60);
+		add(prompt);
+	}
+}
+
+bool GameScene::cancelCellSelector()
+{
+	if (cellSelector->listener != NULL && cellSelector->listener != defaultCellListener) 
+	{
+		cellSelector->cancel();
+		return true;
+	}
+	else 
+	{
+		return false;
+	}
 }
 
 void GameScene::brightness(bool value)
@@ -367,7 +431,7 @@ void GameScene::afterObserve()
 
 void GameScene::ready()
 {
-	//selectCell(defaultCellListener);
+	selectCell(defaultCellListener);
 	//QuickSlot.cancel();
 }
 
@@ -402,4 +466,36 @@ void GameScene::addMob(Mob* mob)
 	Actor::add(mob);
 	Actor::occupyCell(mob);
 	scene->addMobSprite(mob);
+}
+
+void GameScene::update()
+{
+	if (Dungeon::hero == NULL) 
+	{
+		return;
+	}
+
+	PixelScene::update();
+
+	water->offset(0, -5 * Game::elapsed);
+
+	Actor::process();
+
+	if (Dungeon::hero->ready && !Dungeon::hero->paralysed) 
+	{
+		log->newLine();
+	}
+
+	cellSelector->enabled = Dungeon::hero->ready;
+}
+
+void GameScene::handleCell(int cell)
+{
+	cellSelector->select(cell);
+}
+
+void GameScene::selectCell(CellSelector::Listener* listener)
+{
+	cellSelector->listener = listener;
+	scene->Prompt(listener->prompt());
 }

@@ -4,6 +4,7 @@
 #include "charsprite.h"
 #include "mobsprite.h"
 #include "wound.h"
+#include "glog.h"
 
 Mob::Mob()
 {
@@ -159,6 +160,11 @@ void Mob::beckon(int cell)
 		state = WANDERING;
 	}
 	target = cell;
+}
+
+void Mob::yell(const std::string& str)
+{
+	GLog::n("%s: \"%s\" ", name, str.c_str());
 }
 
 const std::string Mob::STATE = "state";

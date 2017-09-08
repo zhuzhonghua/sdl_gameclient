@@ -2,7 +2,8 @@
 
 #include "pseudopixel.h"
 #include "util.h"
-#include "game.h"
+
+#include "emitter.h"
 
 class PixelParticle :public PseudoPixel{
 protected:
@@ -11,47 +12,23 @@ protected:
 	float _lifespan;
 	float _left;
 public:
-	PixelParticle() 
-	{
-		_sizef = 0;
-		_lifespan = 0;
-		_left = 0;
-		GameMath::PointFSet(&origin, +0.5f);
-		//origin.set(+0.5f);
-	}
+	PixelParticle();
 
-	void reset(float x, float y, int c, float s, float lifespan) 
-	{
-		revive();
-
-		this->x = x;
-		this->y = y;
-
-		color(c);
-		size(this->_sizef = s);
-
-		this->_left = this->_lifespan = lifespan;
-	}
-	virtual void update()
-	{
-		PseudoPixel::update();
-
-		if ((_left -= Game::elapsed) <= 0) {
-			kill();
-		}
-	}	
+	void reset(float x, float y, int c, float s, float lifespan);
+	virtual void update();
 };
 
 class Shrinking :public PixelParticle {
 public:
-	Shrinking()
-	{
-		tag = "Shrinking";
-	}
+	Shrinking();
+	virtual void update();
+};
 
-	virtual void update() 
-	{
-		PixelParticle::update();
-		size(_sizef * _left / _lifespan);
-	}
+class SparkParticle :public PixelParticle{
+public:
+	static Emitter::Factory* FACTORY;
+
+	SparkParticle();
+	void reset(float x, float y);
+	virtual void update();
 };

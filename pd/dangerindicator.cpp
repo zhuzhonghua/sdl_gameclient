@@ -2,6 +2,9 @@
 #include "pixelscene.h"
 #include "icon.h"
 #include "dungeon.h"
+#include "healthindicator.h"
+#include "mob.h"
+#include "charsprite.h"
 
 void DangerIndicator::placeNumber()
 {
@@ -69,10 +72,10 @@ void DangerIndicator::layout()
 
 void DangerIndicator::onClick()
 {
-	//Mob target = Dungeon.hero.visibleEnemy(enemyIndex++);
+	Mob* target = Dungeon::hero->visibleEnemy(enemyIndex++);
 	//
-	//HealthIndicator.instance.target(target == HealthIndicator.instance.target() ? null : target);
+	HealthIndicator::instance->Target((Char*)target == HealthIndicator::instance->Target() ? NULL : target);
 
-	//Camera.main.target = null;
-	//Camera.main.focusOn(target.sprite);
+	Camera::mainCamera->target = NULL;
+	Camera::mainCamera->focusOn(target->sprite);
 }

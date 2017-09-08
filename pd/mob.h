@@ -2,7 +2,6 @@
 
 #include "char.h"
 
-
 class Mob :public Char{
 public:
 	class AiState 
@@ -27,9 +26,11 @@ public:
 	virtual int defenseSkill(Char* enemy);
 	virtual int defenseProc(Char* enemy, int damage);
 	void aggro(Char* ch);
-	void notice();
+	virtual void notice();
 	void beckon(int cell);
 	//virtual void damage(int dmg, Object src);
+	void yell(const std::string& str);
+	virtual std::string description() { return "Real description is coming soon!"; }
 
 	bool hostile;
 

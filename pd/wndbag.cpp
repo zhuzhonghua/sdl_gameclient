@@ -23,7 +23,7 @@ WndBag::WndBag(Bag* bag, Listener* listener, Mode mode, const std::string& title
 	int slotsWidth = SLOT_SIZE * nCols + SLOT_MARGIN * (nCols - 1);
 	int slotsHeight = SLOT_SIZE * nRows + SLOT_MARGIN * (nRows - 1);
 
-	BitmapText* txtTitle = PixelScene::createText(title.size() > 0 ? title : bag->name(), 9);
+	BitmapText* txtTitle = PixelScene::createText(title.size() > 0 ? title : bag->Name(), 9);
 	txtTitle->hardlight(TITLE_COLOR);
 	txtTitle->measure();
 	txtTitle->x = (int)(slotsWidth - txtTitle->Width()) / 2;

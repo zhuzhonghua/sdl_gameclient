@@ -3,6 +3,7 @@
 #include "pixelscene.h"
 #include "emitter.h"
 #include "ripple.h"
+#include "cellselector.h"
 
 class FloatingText;
 class SkinnedBlock;
@@ -10,7 +11,7 @@ class DungeonTilemap;
 class HeroSprite;
 class GameLog;
 class BusyIndicator;
-class CellSelector;
+
 class FogOfWar;
 class Toolbar;
 class Toast;
@@ -40,6 +41,7 @@ private:
 	BusyIndicator* busy;
 
 	static CellSelector* cellSelector;
+	static CellSelector::Listener* defaultCellListener;
 
 	Group* terrain;
 	Group* ripples;
@@ -58,6 +60,10 @@ private:
 
 	void addBlobSprite(Blob* gas);
 	void addMobSprite(Mob* mob);
+
+	void Prompt(const std::string& text);
+
+	static bool cancelCellSelector();
 public:
 	void brightness(bool value);
 
@@ -75,4 +81,9 @@ public:
 
 	static void addMob(Mob* mob, float delay);
 	static void addMob(Mob* mob);
+
+	virtual void update();
+
+	static void handleCell(int cell);
+	static void selectCell(CellSelector::Listener* listener);
 };

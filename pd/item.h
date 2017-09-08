@@ -64,4 +64,7 @@ public:
 	int Image();
 
 	virtual ItemSprite::Glowing* glowing() { return NULL; }
+
+	virtual void storeInBundle(Bundle* bundle);
+	virtual void restoreFromBundle(Bundle* bundle);
 };
