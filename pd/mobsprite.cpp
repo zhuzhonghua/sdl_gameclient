@@ -484,3 +484,131 @@ void TenguSprite::onComplete(Animation* anim)
 		MobSprite::onComplete(anim);
 	}
 }
+
+SpinnerSprite::SpinnerSprite()
+{
+	texture(Assets::SPINNER);
+
+	TextureFilm frames(tex, 16, 16);
+
+	idle = new Animation(10, true);
+	int arry1[] = { 0, 0, 0, 0, 0, 1, 0, 1 };
+	idle->Frames(&frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(15, true);
+	int arry2[] = { 0, 2, 0, 3 };
+	run->Frames(&frames, arry2, sizeof(arry2) / sizeof(int));
+
+	attack = new Animation(12, false);
+	int arry3[] = { 0, 4, 5, 0 };
+	attack->Frames(&frames, arry3, sizeof(arry3) / sizeof(int));
+
+	die = new Animation(12, false);
+	int arry4[] = { 6, 7, 8, 9 };
+	die->Frames(&frames, arry4, sizeof(arry4) / sizeof(int));
+
+	play(idle);
+}
+
+ElementalSprite::ElementalSprite()
+{
+	texture(Assets::ELEMENTAL);
+
+	TextureFilm frames(tex, 12, 14);
+
+	idle = new Animation(10, true);
+	int arry1[] = { 0, 1, 2 };
+	idle->Frames(&frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(12, true);
+	int arry2[] = { 0, 1, 3 };
+	run->Frames(&frames, arry2, sizeof(arry2) / sizeof(int));
+
+	attack = new Animation(15, false);
+	int arry3[] = { 4, 5, 6 };
+	attack->Frames(&frames, arry3, sizeof(arry3) / sizeof(int));
+
+	die = new Animation(15, false);
+	int arry4[] = { 7, 8, 9, 10, 11, 12, 13, 12 };
+	die->Frames(&frames, arry4, sizeof(arry4) / sizeof(int));
+
+	play(idle);
+}
+
+MonkSprite::MonkSprite()
+{
+	texture(Assets::MONK);
+
+	TextureFilm frames(tex, 15, 14);
+
+	idle = new Animation(6, true);
+	int arry1[] = { 1, 0, 1, 2 };
+	idle->Frames(&frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(15, true);
+	int arry2[] = { 11, 12, 13, 14, 15, 16 };
+	run->Frames(&frames, arry2, sizeof(arry2) / sizeof(int));
+
+	attack = new Animation(12, false);
+	int arry3[] = { 3, 4, 3, 4 };
+	attack->Frames(&frames, arry3, sizeof(arry3) / sizeof(int));
+
+	kick = new Animation(10, false);
+	int arry4[] = { 5, 6, 5 };
+	kick->Frames(&frames, arry4, sizeof(arry4) / sizeof(int));
+
+	die = new Animation(15, false);
+	int arry5[] = { 1, 7, 8, 8, 9, 10 };
+	die->Frames(&frames, arry5, sizeof(arry5) / sizeof(int));
+
+	play(idle);
+}
+
+void MonkSprite::Attack(int cell)
+{
+	MonkSprite::Attack(cell);
+	if (Random::Float() < 0.5f) 
+	{
+		play(kick);
+	}
+}
+
+void MonkSprite::onComplete(Animation* anim)
+{
+	MobSprite::onComplete(anim == kick ? attack : anim);
+}
+
+DM300Sprite::DM300Sprite()
+{
+	texture(Assets::DM300);
+
+	TextureFilm frames(tex, 22, 20);
+
+	idle = new Animation(10, true);
+	int arry1[] = { 0, 1 };
+	idle->Frames(&frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(10, true);
+	int arry2[] = { 2, 3 };
+	run->Frames(&frames, arry2, sizeof(arry2) / sizeof(int));
+
+	attack = new Animation(15, false);
+	int arry3[] = { 4, 5, 6 };
+	attack->Frames(&frames, arry3, sizeof(arry3) / sizeof(int));
+
+	die = new Animation(20, false);
+	int arry4[] = { 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 0, 7, 8 };
+	die->Frames(&frames, arry4, sizeof(arry4) / sizeof(int));
+
+	play(idle);
+}
+
+void DM300Sprite::onComplete(Animation* anim)
+{
+	MobSprite::onComplete(anim);
+
+	if (anim == die) 
+	{
+		emitter()->burst(Speck::factory(Speck::WOOL), 15);
+	}
+}

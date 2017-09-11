@@ -133,7 +133,7 @@ void Dungeon::init()
 	//Blacksmith.Quest.reset();
 	//Imp.Quest.reset();
 	//
-	//Room.shuffleTypes();
+	Room::shuffleTypes();
 	//
 	//QuickSlot.primaryValue = null;
 	//QuickSlot.secondaryValue = null;

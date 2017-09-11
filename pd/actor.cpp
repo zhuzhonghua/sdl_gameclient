@@ -5,6 +5,9 @@
 #include "dungeon.h"
 #include "statistics.h"
 #include "buff.h"
+#include "charsprite.h"
+#include "mob.h"
+#include "blob.h"
 
 const std::string Actor::TIME = "time";
 const std::string Actor::ID = "id";
@@ -49,12 +52,13 @@ void Actor::process()
 
 		if (current != NULL) {
 
-			//if (current instanceof Char && ((Char)current).sprite.isMoving) {
-			//	// If it's character's turn to act, but its sprite 
-			//	// is moving, wait till the movement is over
-			//	current = null;
-			//	break;
-			//}
+			if (dynamic_cast<Char*>(current) != NULL && ((Char*)current)->sprite->isMoving) 
+			{
+				// If it's character's turn to act, but its sprite 
+				// is moving, wait till the movement is over
+				current = NULL;
+				break;
+			}
 
 			doNext = current->act();
 			if (doNext && !Dungeon::hero->isAlive()) 
@@ -177,7 +181,22 @@ Actor* Actor::findById(int id)
 
 void Actor::init()
 {
+	addDelayed(Dungeon::hero, -std::numeric_limits<float>::min());
 
+	for (std::set<Mob*>::iterator itr = Dungeon::level->mobs.begin();
+		itr != Dungeon::level->mobs.end(); itr++)
+	{
+		Actor::add(*itr);
+	}
+
+	for (std::map<std::string, Blob*>::iterator itr = Dungeon::level->blobs.begin();
+		itr != Dungeon::level->blobs.end(); itr++)
+	{
+		Blob* blob = itr->second;
+		Actor::add(blob);
+	}
+
+	current = NULL;
 }
 
 void Actor::addDelayed(Actor* actor, float delay)

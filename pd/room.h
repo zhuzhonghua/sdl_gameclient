@@ -95,5 +95,5 @@ public:
 	virtual void storeInBundle(Bundle* bundle);
 	virtual void restoreFromBundle(Bundle* bundle);
 	virtual std::string getClassName() { return "Room"; }
-	
+	static void shuffleTypes();
 };

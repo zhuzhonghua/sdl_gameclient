@@ -102,3 +102,44 @@ public:
 private:
 	Animation* cast;
 };
+
+class SpinnerSprite :public MobSprite{
+public:
+	SpinnerSprite();
+
+	virtual int blood() { return 0xFFBFE5B8; }
+};
+
+class ElementalSprite :public MobSprite{
+public:
+	ElementalSprite();
+
+	virtual int blood() { return 0xFFFF7D13; }
+	virtual void link(Char* ch)
+	{
+		MobSprite::link(ch);
+		add(State::BURNING);
+	}
+	virtual void Die()
+	{
+		MobSprite::Die();
+	}
+};
+
+class MonkSprite :public MobSprite{
+private:
+	Animation* kick;
+public:
+	MonkSprite();
+
+	virtual void Attack(int cell);
+	virtual void onComplete(Animation* anim);
+};
+
+class DM300Sprite :public MobSprite{
+public:
+	DM300Sprite();
+
+	virtual void onComplete(Animation* anim);
+	virtual int blood() { return 0xFFFFFF88; }
+};

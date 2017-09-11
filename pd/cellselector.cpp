@@ -24,7 +24,6 @@ void CellSelector::select(int cell)
 	{
 		listener->onSelect(cell);
 		GameScene::ready();
-
 	}
 	else 
 	{

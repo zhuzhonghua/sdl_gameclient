@@ -39,6 +39,8 @@ private:
 	int defenseSkill;
 
 	std::list<Mob*> visibleEnemies;
+
+	void Ready();
 public:
 	static const std::string TXT_YOU_NOW_HAVE;
 	static const int STARTING_STR = 10;
@@ -67,7 +69,7 @@ public:
 	float awareness;
 public:
 	void resurrect(int resetLevel);
-
+	virtual bool act();
 	bool handle(int cell);
 
 	virtual std::string getClassName() { return "Hero"; }

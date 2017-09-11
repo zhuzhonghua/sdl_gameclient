@@ -65,6 +65,7 @@ private:
 
 	static bool cancelCellSelector();
 public:
+	GameScene();
 	void brightness(bool value);
 
 	virtual void init();

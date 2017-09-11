@@ -88,6 +88,7 @@ void GameScene::Prompt(const std::string& text)
 	if (prompt != NULL) 
 	{
 		prompt->killAndErase();
+		delete prompt;
 		prompt = NULL;
 	}
 
@@ -128,6 +129,11 @@ void GameScene::brightness(bool value)
 		fog->am = +1.0f;
 		fog->aa = 0.0f;
 	}
+}
+
+GameScene::GameScene()
+{
+	prompt = NULL;
 }
 
 void GameScene::init()
@@ -437,18 +443,16 @@ void GameScene::ready()
 
 bool GameScene::cancel()
 {
-	//if (Dungeon.hero.curAction != null || Dungeon.hero.restoreHealth) {
-	//
-	//	Dungeon.hero.curAction = null;
-	//	Dungeon.hero.restoreHealth = false;
-	//	return true;
-	//
-	//}
-	//else {
-	//
-	//	return cancelCellSelector();
-	//
-	//}
+	if (Dungeon::hero->curAction != NULL || Dungeon::hero->restoreHealth) 
+	{
+		Dungeon::hero->curAction = NULL;
+		Dungeon::hero->restoreHealth = false;
+		return true;	
+	}
+	else 
+	{
+		return cancelCellSelector();
+	}
 	return true;
 }
 

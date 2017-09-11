@@ -1,12 +1,15 @@
 #include "hero.h"
-
+#include "attackindicator.h"
 #include "dungeon.h"
+#include "mobsprite.h"
+#include "gamescene.h"
 
 const std::string Hero::ATTACK = "attackSkill";
 const std::string Hero::DEFENSE = "defenseSkill";
 const std::string Hero::STRENGTH = "STR";
 const std::string Hero::LEVEL = "lvl";
 const std::string Hero::EXPERIENCE = "exp";
+
 
 const std::string Hero::TXT_LEAVE = "One does not simply leave Pixel Dungeon.";
 
@@ -77,6 +80,115 @@ void Hero::resurrect(int resetLevel)
 	//belongings.resurrect(resetLevel);
 
 	//live();
+}
+
+void Hero::Ready()
+{
+	sprite->Idle();
+	curAction = NULL;
+	ready = true;
+
+	GameScene::ready();
+}
+
+bool Hero::act()
+{
+	Char::act();
+
+	if (paralysed) 
+	{
+		curAction = NULL;
+
+		//spendAndNext(TICK);
+		return false;
+	}
+
+	//checkVisibleMobs();
+	AttackIndicator::updateState();
+
+	if (curAction == NULL) 
+	{
+		//if (restoreHealth) {
+		//	if (isStarving() || HP >= HT) {
+		//		restoreHealth = false;
+		//	}
+		//	else {
+		//		spend(TIME_TO_REST); next();
+		//		return false;
+		//	}
+		//}
+
+		Ready();
+		return false;
+	}
+	else 
+	{
+		restoreHealth = false;
+
+		ready = false;
+
+		//if (curAction instanceof HeroAction.Move) {
+		//
+		//	return actMove((HeroAction.Move)curAction);
+		//
+		//}
+		//else
+		//if (curAction instanceof HeroAction.Interact) {
+		//
+		//	return actInteract((HeroAction.Interact)curAction);
+		//
+		//}
+		//else
+		//if (curAction instanceof HeroAction.Buy) {
+		//
+		//	return actBuy((HeroAction.Buy)curAction);
+		//
+		//}
+		//else
+		//if (curAction instanceof HeroAction.PickUp) {
+		//
+		//	return actPickUp((HeroAction.PickUp)curAction);
+		//
+		//}
+		//else
+		//if (curAction instanceof HeroAction.OpenChest) {
+		//
+		//	return actOpenChest((HeroAction.OpenChest)curAction);
+		//
+		//}
+		//else
+		//if (curAction instanceof HeroAction.Unlock) {
+		//
+		//	return actUnlock((HeroAction.Unlock)curAction);
+		//
+		//}
+		//else
+		//if (curAction instanceof HeroAction.Descend) {
+		//
+		//	return actDescend((HeroAction.Descend)curAction);
+		//
+		//}
+		//else
+		//if (curAction instanceof HeroAction.Ascend) {
+		//
+		//	return actAscend((HeroAction.Ascend)curAction);
+		//
+		//}
+		//else
+		//if (curAction instanceof HeroAction.Attack) {
+		//
+		//	return actAttack((HeroAction.Attack)curAction);
+		//
+		//}
+		//else
+		//if (curAction instanceof HeroAction.Cook) {
+		//
+		//	return actCook((HeroAction.Cook)curAction);
+		//
+		//}
+	}
+
+	return false;
 }
 
 bool Hero::handle(int cell)

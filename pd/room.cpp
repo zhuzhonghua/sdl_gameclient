@@ -173,6 +173,37 @@ Room::Door* Room::entrance()
 	return connected.begin()->second;
 }
 
+void Room::shuffleTypes()
+{
+	int size = SPECIALS.size();
+	for (int i = 0; i < size - 1; i++) 
+	{
+		int j = Random::Int(i, size);
+		if (j != i) 
+		{
+			std::list<Type>::iterator iItr;
+			std::list<Type>::iterator jItr;
+			int count = 0;
+			for (std::list<Type>::iterator itr = SPECIALS.begin(); itr != SPECIALS.end(); itr++, count++)
+			{
+				if (count == i)
+				{
+					iItr = itr;
+				}
+				else if (count == j)
+				{
+					jItr = itr;
+				}
+			}
+			Type t = *iItr;
+			//SPECIALS.set(i, SPECIALS.get(j));
+			*iItr = *jItr;
+			//SPECIALS.set(j, t);
+			*jItr = t;
+		}
+	}
+}
+
 Room::Door::Door(int x, int y)
 {
 	type = Type::EMPTY;

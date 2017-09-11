@@ -11,6 +11,10 @@
 #include "bat.h"
 #include "brute.h"
 #include "tengu.h"
+#include "spinner.h"
+#include "elemental.h"
+#include "monk.h"
+#include "dm300.h"
 #include "util.h"
 #include <vector>
 
@@ -105,13 +109,34 @@ Mob* Bestiary::mobClass(int depth)
 		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
 		break;
 	}
-	//case 12:{
-	//	float tmp[] = { 1, 1, 0.2f };
-	//	chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
-	//	CreateMob tmp2[] = { Bat::CreateBat, Brute::CreateBrute, Spinner::CreateSpinner };
-	//	classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
-	//	break;
-	//}
+	case 12:{
+		float tmp[] = { 1, 1, 0.2f };
+		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
+		CreateMob tmp2[] = { Bat::CreateBat, Brute::CreateBrute, Spinner::CreateSpinner };
+		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
+		break;
+	}
+	case 13:{
+		float tmp[] = { 1, 3, 1, 1, 0.02f };
+		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
+		CreateMob tmp2[] = { Bat::CreateBat, Brute::CreateBrute, Shaman::CreateShaman, Spinner::CreateSpinner, Elemental::CreateElemental };
+		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
+		break;
+	}
+	case 14:{
+		float tmp[] = { 1, 3, 1, 4, 0.02f, 0.01f };
+		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
+		CreateMob tmp2[] = { Bat::CreateBat, Brute::CreateBrute, Shaman::CreateShaman, Spinner::CreateSpinner, Elemental::CreateElemental, Monk::CreateMonk };
+		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
+		break;
+	}
+	case 15:{
+		float tmp[] = { 1 };
+		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
+		CreateMob tmp2[] = { DM300::CreateDM300 };
+		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
+		break;
+	}
 	}
 
 	return classes[Random::chances(chances)]();
