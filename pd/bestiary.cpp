@@ -15,6 +15,13 @@
 #include "elemental.h"
 #include "monk.h"
 #include "dm300.h"
+#include "warlock.h"
+#include "golem.h"
+#include "succubus.h"
+#include "king.h"
+#include "eye.h"
+#include "scorpio.h"
+#include "yog.h"
 #include "util.h"
 #include <vector>
 
@@ -134,6 +141,76 @@ Mob* Bestiary::mobClass(int depth)
 		float tmp[] = { 1 };
 		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
 		CreateMob tmp2[] = { DM300::CreateDM300 };
+		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
+		break;
+	}
+	case 16:{
+		float tmp[] = { 1, 1, 0.2f };
+		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
+		CreateMob tmp2[] = { Elemental::CreateElemental, Warlock::CreateWarlock, Monk::CreateMonk };
+		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
+		break;
+	}
+	case 17:{
+		float tmp[] = { 1, 1, 1 };
+		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
+		CreateMob tmp2[] = { Elemental::CreateElemental, Monk::CreateMonk, Warlock::CreateWarlock};
+		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
+		break;
+	}
+	case 18:{
+		float tmp[] = { 1, 2, 1, 1 };
+		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
+		CreateMob tmp2[] = { Elemental::CreateElemental, Monk::CreateMonk, Golem::CreateGolem, Warlock::CreateWarlock };
+		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
+		break;
+	}
+	case 19:{
+		float tmp[] = { 1, 2, 3, 1, 0.02f };
+		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
+		CreateMob tmp2[] = { Elemental::CreateElemental, Monk::CreateMonk, Golem::CreateGolem, Warlock::CreateWarlock, Succubus::CreateSuccubus };
+		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
+		break;
+	}
+	case 20:{
+		float tmp[] = { 1 };
+		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
+		CreateMob tmp2[] = { King::CreateKing };
+		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
+		break;
+	}
+	case 22:{
+		float tmp[] = { 1, 1 };
+		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
+		CreateMob tmp2[] = { Succubus::CreateSuccubus, Eye::CreateEye };
+		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
+		break;
+	}
+	case 23:{
+		float tmp[] = { 1, 2, 1 };
+		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
+		CreateMob tmp2[] = { Succubus::CreateSuccubus, Eye::CreateEye, Scorpio::CreateScorpio };
+		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
+		break;
+	}
+	case 24:{
+		float tmp[] = { 1, 2, 3 };
+		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
+		CreateMob tmp2[] = { Succubus::CreateSuccubus, Eye::CreateEye, Scorpio::CreateScorpio };
+		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
+		break;
+	}
+	case 25:{
+		float tmp[] = { 1 };
+		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
+		CreateMob tmp2[] = { Yog::CreateYog };
+		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
+		break;
+	}
+	default:{
+		float tmp[] = { 1 };
+		chances.assign(tmp, tmp + sizeof(tmp) / sizeof(float));
+		CreateMob tmp2[] = { Eye::CreateEye };
 		classes.assign(tmp2, tmp2 + sizeof(tmp2) / sizeof(CreateMob));
 		break;
 	}

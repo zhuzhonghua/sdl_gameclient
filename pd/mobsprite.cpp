@@ -612,3 +612,450 @@ void DM300Sprite::onComplete(Animation* anim)
 		emitter()->burst(Speck::factory(Speck::WOOL), 15);
 	}
 }
+
+WarlockSprite::WarlockSprite()
+{
+	texture(Assets::WARLOCK);
+
+	TextureFilm frames(tex, 12, 15);
+
+	idle = new Animation(2, true);
+	int arry1[] = { 0, 0, 0, 1, 0, 0, 1, 1 };
+	idle->Frames(&frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(15, true);
+	int arry2[] = { 0, 2, 3, 4 };
+	run->Frames(&frames, arry2, sizeof(arry2) / sizeof(int));
+
+	attack = new Animation(12, false);
+	int arry3[] = { 0, 5, 6 };
+	attack->Frames(&frames, arry3, sizeof(arry3) / sizeof(int));
+
+	zap = attack->clone();
+
+	die = new Animation(15, false);
+	int arry4[] = { 0, 7, 8, 8, 9, 10 };
+	die->Frames(&frames, arry4, sizeof(arry4) / sizeof(int));
+
+	play(idle);
+}
+
+void WarlockSprite::Zap(int cell)
+{
+	turnTo(ch->pos, cell);
+	play(zap);
+
+	//MagicMissile.shadow(parent, ch.pos, cell,
+	//	new Callback(){
+	//	@Override
+	//	public void call() {
+	//		((Warlock)ch).onZapComplete();
+	//	}
+	//});
+	//Sample.INSTANCE.play(Assets.SND_ZAP);
+}
+
+void WarlockSprite::onComplete(Animation* anim)
+{
+	if (anim == zap) 
+	{
+		Idle();
+	}
+	MobSprite::onComplete(anim);
+}
+
+GolemSprite::GolemSprite()
+{
+	texture(Assets::GOLEM);
+
+	TextureFilm frames(tex, 16, 16);
+
+	idle = new Animation(4, true);
+	int arry1[] = { 0, 1 };
+	idle->Frames(&frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(12, true);
+	int arry2[] = { 2, 3, 4, 5 };
+	run->Frames(&frames, arry2, sizeof(arry2) / sizeof(int));
+
+	attack = new Animation(10, false);
+	int arry3[] = { 6, 7, 8 };
+	attack->Frames(&frames, arry3, sizeof(arry3) / sizeof(int));
+
+	die = new Animation(15, false);
+	int arry4[] = { 9, 10, 11, 12, 13 };
+	die->Frames(&frames, arry4, sizeof(arry4) / sizeof(int));
+
+	play(idle);
+}
+
+void GolemSprite::onComplete(Animation* anim)
+{
+	//if (anim == die) {
+	//	emitter().burst(ElmoParticle.FACTORY, 4);
+	//}
+	MobSprite::onComplete(anim);
+}
+
+SuccubusSprite::SuccubusSprite()
+{
+	texture(Assets::SUCCUBUS);
+
+	TextureFilm frames(tex, 12, 15);
+
+	idle = new Animation(8, true);
+	int arry1[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 2, 2, 2, 1 };
+	idle->Frames(&frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(15, true);
+	int arry2[] = { 3, 4, 5, 6, 7, 8 };
+	run->Frames(&frames, arry2, sizeof(arry2) / sizeof(int));
+
+	attack = new Animation(12, false);
+	int arry3[] = { 9, 10, 11 };
+	attack->Frames(&frames, arry3, sizeof(arry3) / sizeof(int));
+
+	die = new Animation(10, false);
+	int arry4[] = { 12 };
+	die->Frames(&frames, arry4, sizeof(arry4) / sizeof(int));
+
+	play(idle);
+}
+
+void SuccubusSprite::Die()
+{
+	MobSprite::Die();
+	emitter()->burst(Speck::factory(Speck::HEART), 6);
+	//emitter()->burst(ShadowParticle.UP, 8);
+}
+
+KingSprite::KingSprite()
+{
+	texture(Assets::KING);
+
+	TextureFilm frames(tex, 16, 16);
+
+	idle = new Animation(12, true);
+	int arry1[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2 };
+	idle->Frames(&frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(15, true);
+	int arry2[] = { 3, 4, 5, 6, 7, 8 };
+	run->Frames(&frames, arry2, sizeof(arry2) / sizeof(int));
+
+	attack = new Animation(15, false);
+	int arry3[] = { 9, 10, 11 };
+	attack->Frames(&frames, arry3, sizeof(arry3) / sizeof(int));
+
+	die = new Animation(8, false);
+	int arry4[] = { 12, 13, 14, 15 };
+	die->Frames(&frames, arry4, sizeof(arry4) / sizeof(int));
+
+	play(idle);
+}
+
+UndeadSprite::UndeadSprite()
+{
+	texture(Assets::UNDEAD);
+
+	TextureFilm frames(tex, 12, 16);
+
+	idle = new Animation(12, true);
+	int arry1[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3 };
+	idle->Frames(&frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(15, true);
+	int arry2[] = { 4, 5, 6, 7, 8, 9 };
+	run->Frames(&frames, arry2, sizeof(arry2) / sizeof(int));
+
+	attack = new Animation(15, false);
+	int arry3[] = { 14, 15, 16 };
+	attack->Frames(&frames, arry3, sizeof(arry3) / sizeof(int));
+
+	die = new Animation(12, false);
+	int arry4[] = { 10, 11, 12, 13 };
+	die->Frames(&frames, arry4, sizeof(arry4) / sizeof(int));
+
+	play(idle);
+}
+
+void UndeadSprite::Die()
+{
+	MobSprite::Die();
+	if (Dungeon::visible[ch->pos]) 
+	{
+		emitter()->burst(Speck::factory(Speck::BONE), 3);
+	}
+}
+
+EyeSprite::EyeSprite()
+{
+	texture(Assets::EYE);
+
+	TextureFilm frames(tex, 16, 18);
+
+	idle = new Animation(8, true);
+	int arry1[] = { 0, 1, 2 };
+	idle->Frames(&frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(12, true);
+	int arry2[] = { 5, 6 };
+	run->Frames(&frames, arry2, sizeof(arry2) / sizeof(int));
+
+	attack = new Animation(8, false);
+	int arry3[] = { 4, 3 };
+	attack->Frames(&frames, arry3, sizeof(arry3) / sizeof(int));
+
+	die = new Animation(8, false);
+	int arry4[] = { 7, 8, 9 };
+	die->Frames(&frames, arry4, sizeof(arry4) / sizeof(int));
+
+	play(idle);
+}
+
+void EyeSprite::Attack(int pos)
+{
+	attackPos = pos;
+	MobSprite::Attack(pos);
+}
+
+void EyeSprite::onComplete(Animation* anim)
+{
+	MobSprite::onComplete(anim);
+
+	if (anim == attack) 
+	{
+		if (Dungeon::visible[ch->pos] || Dungeon::visible[attackPos]) 
+		{
+			//parent.add(new DeathRay(center(), DungeonTilemap.tileCenterToWorld(attackPos)));
+		}
+	}
+}
+
+ScorpioSprite::ScorpioSprite()
+{
+	texture(Assets::SCORPIO);
+
+	TextureFilm frames(tex, 18, 17);
+
+	idle = new Animation(12, true);
+	int arry1[] = { 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 1, 2, 1, 2 };
+	idle->Frames(&frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(8, true);
+	int arry2[] = { 5, 5, 6, 6 };
+	run->Frames(&frames, arry2, sizeof(arry2) / sizeof(int));
+
+	attack = new Animation(15, false);
+	int arry3[] = { 0, 3, 4 };
+	attack->Frames(&frames, arry3, sizeof(arry3) / sizeof(int));
+
+	zap = attack->clone();
+
+	die = new Animation(12, false);
+	int arry4[] = { 0, 7, 8, 9, 10 };
+	die->Frames(&frames, arry4, sizeof(arry4) / sizeof(int));
+
+	play(idle);
+}
+
+void ScorpioSprite::Attack(int cell)
+{
+	if (!Level::adjacent(cell, ch->pos)) 
+	{
+		cellToAttack = cell;
+		turnTo(ch->pos, cell);
+		play(zap);
+	}
+	else 
+	{
+		MobSprite::Attack(cell);
+	}
+}
+
+void ScorpioSprite::onComplete(Animation* anim)
+{
+	if (anim == zap) 
+	{
+		Idle();
+
+		//((MissileSprite)parent.recycle(MissileSprite.class)).
+		//	reset(ch.pos, cellToAttack, new Dart(), new Callback(){
+		//	@Override
+		//	public void call() {
+		//		ch.onAttackComplete();
+		//	}
+		//});
+	}
+	else 
+	{
+		MobSprite::onComplete(anim);
+	}
+}
+
+YogSprite::YogSprite()
+{
+	texture(Assets::YOG);
+
+	TextureFilm frames(tex, 20, 19);
+
+	idle = new Animation(10, true);
+	int arry1[] = { 0, 1, 2, 2, 1, 0, 3, 4, 4, 3, 0, 5, 6, 6, 5 };
+	idle->Frames(&frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(12, true);
+	int arry2[] = { 0 };
+	run->Frames(&frames, arry2, sizeof(arry2) / sizeof(int));
+
+	attack = new Animation(12, false);
+	int arry3[] = { 0 };
+	attack->Frames(&frames, arry3, sizeof(arry3) / sizeof(int));
+
+	die = new Animation(10, false);
+	int arry4[] = { 0, 7, 8, 9 };
+	die->Frames(&frames, arry4, sizeof(arry4) / sizeof(int));
+
+	play(idle);
+}
+
+void YogSprite::Die()
+{
+	MobSprite::Die();
+
+	//Splash.at(center(), blood(), 12);
+}
+
+const float RottingFistSprite::FALL_SPEED = 64;
+
+RottingFistSprite::RottingFistSprite()
+{
+	texture(Assets::ROTTING);
+
+	TextureFilm frames(tex, 24, 17);
+
+	idle = new Animation(2, true);
+	int arry1[] = { 0, 0, 1 };
+	idle->Frames(&frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(3, true);
+	int arry2[] = { 0, 1 };
+	run->Frames(&frames, arry2, sizeof(arry2) / sizeof(int));
+
+	attack = new Animation(2, false);
+	int arry3[] = { 0 };
+	attack->Frames(&frames, arry3, sizeof(arry3) / sizeof(int));
+
+	die = new Animation(10, false);
+	int arry4[] = { 0, 2, 3, 4 };
+	die->Frames(&frames, arry4, sizeof(arry4) / sizeof(int));
+
+	play(idle);
+}
+
+void RottingFistSprite::Attack(int cell)
+{
+	MobSprite::Attack(cell);
+
+	GameMath::PointFSet(&speed, 0, -FALL_SPEED);
+	//speed.set(0, -FALL_SPEED);
+	GameMath::PointFSet(&acc, 0, FALL_SPEED * 4);
+	//acc.set(0, FALL_SPEED * 4);
+}
+
+void RottingFistSprite::onComplete(Animation* anim)
+{
+	MobSprite::onComplete(anim);
+	if (anim == attack) 
+	{
+		GameMath::PointFSet(&speed, 0);
+		//speed.set(0);
+		GameMath::PointFSet(&acc, 0);
+		//acc.set(0);
+		place(ch->pos);
+
+		Camera::mainCamera->shake(4, 0.2f);
+	}
+}
+
+BurningFistSprite::BurningFistSprite()
+{
+	texture(Assets::BURNING);
+
+	TextureFilm frames(tex, 24, 17);
+
+	idle = new Animation(2, true);
+	int arry1[] = { 0, 0, 1 };
+	idle->Frames(&frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(3, true);
+	int arry2[] = { 0, 1 };
+	run->Frames(&frames, arry2, sizeof(arry2) / sizeof(int));
+
+	attack = new Animation(8, false);
+	int arry3[] = { 0, 5, 6 };
+	attack->Frames(&frames, arry3, sizeof(arry3) / sizeof(int));
+
+	die = new Animation(10, false);
+	int arry4[] = { 0, 2, 3, 4 };
+	die->Frames(&frames, arry4, sizeof(arry4) / sizeof(int));
+
+	play(idle);
+}
+
+void BurningFistSprite::Attack(int cell)
+{
+	posToShoot = cell;
+	MobSprite::Attack(cell);
+}
+
+void BurningFistSprite::onComplete(Animation* anim)
+{
+	if (anim == attack) 
+	{
+		//Sample.INSTANCE.play(Assets.SND_ZAP);
+		//MagicMissile.shadow(parent, ch.pos, posToShoot,
+		//	new Callback(){
+		//	@Override
+		//	public void call() {
+		//		ch.onAttackComplete();
+		//	}
+		//});
+
+		Idle();
+	}
+	else 
+	{
+		MobSprite::onComplete(anim);
+	}
+}
+
+LarvaSprite::LarvaSprite()
+{
+	texture(Assets::LARVA);
+
+	TextureFilm frames(tex, 12, 8);
+
+	idle = new Animation(5, true);
+	int arry1[] = { 4, 4, 4, 4, 4, 5, 5 };
+	idle->Frames(&frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(12, true);
+	int arry2[] = { 0, 1, 2, 3 };
+	run->Frames(&frames, arry2, sizeof(arry2) / sizeof(int));
+
+	attack = new Animation(15, false);
+	int arry3[] = { 6, 5, 7 };
+	attack->Frames(&frames, arry3, sizeof(arry3) / sizeof(int));
+
+	die = new Animation(10, false);
+	int arry4[] = { 8 };
+	die->Frames(&frames, arry4, sizeof(arry4) / sizeof(int));
+
+	play(idle);
+}
+
+void LarvaSprite::Die()
+{
+	//Splash.at(center(), blood(), 10);
+	MobSprite::Die();
+}

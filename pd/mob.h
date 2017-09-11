@@ -27,7 +27,7 @@ public:
 	virtual int defenseProc(Char* enemy, int damage);
 	void aggro(Char* ch);
 	virtual void notice();
-	void beckon(int cell);
+	virtual void beckon(int cell);
 	//virtual void damage(int dmg, Object src);
 	void yell(const std::string& str);
 	virtual std::string description() { return "Real description is coming soon!"; }
@@ -63,7 +63,7 @@ protected:
 	virtual bool getCloser(int target);
 	virtual bool getFurther(int target);
 	virtual float attackDelay() { return 1.0f; }
-	bool doAttack(Char* enemy);
+	virtual bool doAttack(Char* enemy);
 
 	class Fleeing :public AiState{
 	public:

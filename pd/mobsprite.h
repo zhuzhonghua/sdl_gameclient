@@ -143,3 +143,91 @@ public:
 	virtual void onComplete(Animation* anim);
 	virtual int blood() { return 0xFFFFFF88; }
 };
+
+class WarlockSprite :public MobSprite{
+public:
+	WarlockSprite();
+	void Zap(int cell);
+	virtual void onComplete(Animation* anim);
+};
+
+class GolemSprite :public MobSprite{
+public:
+	GolemSprite();
+	virtual int blood() { return 0xFF80706c; }
+	virtual void onComplete(Animation* anim);
+};
+
+class SuccubusSprite :public MobSprite{
+public:
+	SuccubusSprite();
+
+	virtual void Die();
+};
+
+class KingSprite :public MobSprite{
+public:
+	KingSprite();
+};
+
+class UndeadSprite :public MobSprite{
+public:
+	UndeadSprite();
+
+	virtual void Die();
+	virtual int blood() { return 0xFFcccccc; }
+};
+
+class EyeSprite :public MobSprite{
+public:
+	EyeSprite();
+	virtual void Attack(int pos);
+	virtual void onComplete(Animation* anim);
+private:
+	int attackPos;
+};
+
+class ScorpioSprite :public MobSprite{
+public:
+	ScorpioSprite();
+	virtual int blood() { return 0xFF44FF22; }
+	virtual void Attack(int cell);
+	virtual void onComplete(Animation* anim);
+private:
+	int cellToAttack;
+};
+
+
+class YogSprite :public MobSprite{
+public:
+	YogSprite();
+	virtual void Die();
+};
+
+class RottingFistSprite :public MobSprite{
+public:
+	RottingFistSprite();
+
+	virtual void Attack(int cell);
+	virtual void onComplete(Animation* anim);
+private:
+	static const float FALL_SPEED;
+};
+
+class BurningFistSprite :public MobSprite{
+public:
+	BurningFistSprite();
+
+	virtual void Attack(int cell);
+	virtual void onComplete(Animation* anim);
+private:
+	int posToShoot;
+};
+
+class LarvaSprite :public MobSprite{
+public:
+	LarvaSprite();
+
+	virtual int blood() { return 0xbbcc66; }
+	virtual void Die();
+};
