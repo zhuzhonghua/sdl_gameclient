@@ -75,20 +75,21 @@ public:
 	virtual int defenseProc(Char* enemy, int damage) { return damage; }
 
 	float speed();
-	void damage(int dmg, const std::string& src);
+	virtual void damage(int dmg, const std::string& src);
 	void destroy();
 	virtual void die(const std::string& src);
 	bool isAlive() { return HP > 0; }
 
 	void Buffs(const std::string& c, std::set<Buff*>& re);
 	Buff* buff(const std::string& c);
+	std::set<Buff*> buffSet(const std::string& c);
 
 	bool isCharmedBy(Char* ch);
 
 	void updateSpriteState();
 
 	virtual int stealth() { return 0; }
-	void move(int step);
+	virtual void move(int step);
 	int distance(Char* other);
 
 	void onMotionComplete() { next(); }

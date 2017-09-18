@@ -9,7 +9,7 @@ class ItemSprite :public MovieClip{
 public:
 	class Glowing {
 	public:
-		static const Glowing* WHITE;
+		static Glowing* WHITE;
 
 		int color;
 		float red;

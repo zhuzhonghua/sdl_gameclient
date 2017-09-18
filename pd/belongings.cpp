@@ -14,4 +14,9 @@ Belongings::Belongings(Hero* owner)
 	backpack->name = "backpack";
 	backpack->size = BACKPACK_SIZE;
 	backpack->owner = owner;
+
+	weapon = NULL;
+	armor = NULL;
+	ring1 = NULL;
+	ring2 = NULL;
 }

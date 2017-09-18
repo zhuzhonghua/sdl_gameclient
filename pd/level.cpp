@@ -4,6 +4,8 @@
 #include "terrain.h"
 #include "mob.h"
 #include "painter.h"
+#include "glog.h"
+#include "gamescene.h"
 
 std::vector<bool> Level::fieldOfView(LENGTH);
 
@@ -481,6 +483,202 @@ void Level::set(int cell, int terrain)
 	avoid[cell] = (flags & Terrain::AVOID) != 0;
 	pit[cell] = (flags & Terrain::PIT) != 0;
 	water[cell] = terrain == Terrain::WATER || terrain >= Terrain::WATER_TILES;
+}
+
+Heap* Level::drop(Item* item, int cell)
+{
+	//if (Dungeon.isChallenged(Challenges.NO_FOOD) && item instanceof Food) {
+	//	item = new Gold(item.price());
+	//}
+	//else
+	//if (Dungeon.isChallenged(Challenges.NO_ARMOR) && item instanceof Armor) {
+	//	item = new Gold(item.price());
+	//}
+	//else
+	//if (Dungeon.isChallenged(Challenges.NO_HEALING) && item instanceof PotionOfHealing) {
+	//	item = new Gold(item.price());
+	//}
+	//else
+	//if (Dungeon.isChallenged(Challenges.NO_HERBALISM) && item instanceof SeedPouch) {
+	//	item = new Gold(item.price());
+	//}
+	//else
+	//if (Dungeon.isChallenged(Challenges.NO_SCROLLS) && (item instanceof Scroll || item instanceof ScrollHolder)) {
+	//	if (item instanceof ScrollOfUpgrade) {
+	//		// These scrolls still can be found
+	//	}
+	//	else {
+	//		item = new Gold(item.price());
+	//	}
+	//}
+	//
+	//if ((map[cell] == Terrain.ALCHEMY) && !(item instanceof Plant.Seed)) {
+	//	int n;
+	//	do {
+	//		n = cell + NEIGHBOURS8[Random.Int(8)];
+	//	} while (map[n] != Terrain.EMPTY_SP);
+	//	cell = n;
+	//}
+	//
+	//Heap heap = heaps.get(cell);
+	//if (heap == null) {
+	//
+	//	heap = new Heap();
+	//	heap.pos = cell;
+	//	if (map[cell] == Terrain.CHASM || (Dungeon.level != null && pit[cell])) {
+	//		Dungeon.dropToChasm(item);
+	//		GameScene.discard(heap);
+	//	}
+	//	else {
+	//		heaps.put(cell, heap);
+	//		GameScene.add(heap);
+	//	}
+	//
+	//}
+	//else if (heap.type == Heap.Type.LOCKED_CHEST || heap.type == Heap.Type.CRYSTAL_CHEST) {
+	//
+	//	int n;
+	//	do {
+	//		n = cell + Level.NEIGHBOURS8[Random.Int(8)];
+	//	} while (!Level.passable[n] && !Level.avoid[n]);
+	//	return drop(item, n);
+	//
+	//}
+	//heap.drop(item);
+	//
+	//if (Dungeon.level != null) {
+	//	press(cell, null);
+	//}
+	//
+	//return heap;
+
+	return NULL;
+}
+
+void Level::uproot(int pos)
+{
+	//plants.delete(pos);
+}
+
+Plant* Level::plant(Plant::Seed* seed, int pos)
+{
+	//Plant plant = plants.get(pos);
+	//if (plant != null) {
+	//	plant.wither();
+	//}
+	//
+	//plant = seed.couch(pos);
+	//plants.put(pos, plant);
+	//
+	//GameScene.add(plant);
+	//
+	//return plant;
+	return NULL;
+}
+
+void Level::press(int cell, Char* ch)
+{
+	if (pit[cell] && ch == Dungeon::hero) 
+	{
+		//Chasm.heroFall(cell);
+		return;
+	}
+
+	bool trap = false;
+
+	switch (map[cell]) 
+	{
+	case Terrain::SECRET_TOXIC_TRAP:
+		GLog::i(TXT_HIDDEN_PLATE_CLICKS);
+	case Terrain::TOXIC_TRAP:
+		trap = true;
+		//ToxicTrap.trigger(cell, ch);
+		break;
+
+	case Terrain::SECRET_FIRE_TRAP:
+		GLog::i(TXT_HIDDEN_PLATE_CLICKS);
+	case Terrain::FIRE_TRAP:
+		trap = true;
+		//FireTrap.trigger(cell, ch);
+		break;
+
+	case Terrain::SECRET_PARALYTIC_TRAP:
+		GLog::i(TXT_HIDDEN_PLATE_CLICKS);
+	case Terrain::PARALYTIC_TRAP:
+		trap = true;
+		//ParalyticTrap.trigger(cell, ch);
+		break;
+
+	case Terrain::SECRET_POISON_TRAP:
+		GLog::i(TXT_HIDDEN_PLATE_CLICKS);
+	case Terrain::POISON_TRAP:
+		trap = true;
+		//PoisonTrap.trigger(cell, ch);
+		break;
+
+	case Terrain::SECRET_ALARM_TRAP:
+		GLog::i(TXT_HIDDEN_PLATE_CLICKS);
+	case Terrain::ALARM_TRAP:
+		trap = true;
+		//AlarmTrap.trigger(cell, ch);
+		break;
+
+	case Terrain::SECRET_LIGHTNING_TRAP:
+		GLog::i(TXT_HIDDEN_PLATE_CLICKS);
+	case Terrain::LIGHTNING_TRAP:
+		trap = true;
+		//LightningTrap.trigger(cell, ch);
+		break;
+
+	case Terrain::SECRET_GRIPPING_TRAP:
+		GLog::i(TXT_HIDDEN_PLATE_CLICKS);
+	case Terrain::GRIPPING_TRAP:
+		trap = true;
+		//GrippingTrap.trigger(cell, ch);
+		break;
+
+	case Terrain::SECRET_SUMMONING_TRAP:
+		GLog::i(TXT_HIDDEN_PLATE_CLICKS);
+	case Terrain::SUMMONING_TRAP:
+		trap = true;
+		//SummoningTrap.trigger(cell, ch);
+		break;
+
+	case Terrain::HIGH_GRASS:
+		//HighGrass.trample(this, cell, ch);
+		break;
+
+	case Terrain::WELL:
+		//WellWater.affectCell(cell);
+		break;
+
+	case Terrain::ALCHEMY:
+		if (ch == NULL) 
+		{
+			//Alchemy.transmute(cell);
+		}
+		break;
+
+	case Terrain::DOOR:
+		//Door.enter(cell);
+		break;
+	}
+
+	if (trap) 
+	{
+		//Sample.INSTANCE.play(Assets.SND_TRAP);
+		if (ch == Dungeon::hero) 
+		{
+			Dungeon::hero->interrupt();
+		}
+		set(cell, Terrain::INACTIVE_TRAP);
+		GameScene::updateMap(cell);
+	}
+
+	//Plant plant = plants.get(cell);
+	//if (plant != null) {
+	//	plant.activate(ch);
+	//}
 }
 
 void Level::addVisuals(Scene* scene)

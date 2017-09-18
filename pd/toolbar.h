@@ -42,4 +42,7 @@ private:
 
 		virtual void update();
 	};
+
+public:
+	void pickup(Item* item);
 };

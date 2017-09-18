@@ -115,3 +115,13 @@ private:
 };
 
 typedef Mob* (*CreateMob)();
+
+class NPC :public Mob{
+public:
+	NPC();
+
+	virtual void beckon(int cell) {	}
+	virtual void interact() = 0;
+protected:
+	void throwItem();
+};

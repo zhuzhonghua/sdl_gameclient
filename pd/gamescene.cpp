@@ -523,3 +523,8 @@ void GameScene::updateMap(int cell)
 		GameMath::RECTUnion(&scene->tiles->updated, cell % Level::WIDTH, cell / Level::WIDTH);
 	}
 }
+
+void GameScene::pickUp(Item* item)
+{
+	scene->toolbar->pickup(item);
+}

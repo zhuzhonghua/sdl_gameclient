@@ -41,6 +41,18 @@ public:
 		}
 		return (T)NULL;
 	}
+	static T element(const std::set < T >& s)
+	{
+		int i = Random::Int(0, s.size());
+		int c = 0;
+		for (std::set<T>::const_iterator itr = s.begin();
+			itr != s.end(); itr++)
+		{
+			if (c == i) return *itr;
+			c++;
+		}
+		return (T)NULL;
+	}
 };
 
 class GameMath {
@@ -168,4 +180,12 @@ class BArray{
 public:
 	static std::vector<bool> not(std::vector<bool>&a, std::vector<bool>& result);
 	static std::vector<bool> or(std::vector<bool>& a, std::vector<bool>& b, std::vector<bool>& result);
+};
+
+class Ballistica{
+public:
+	static std::vector<int> trace;
+	static int distance;
+
+	static int cast(int from, int to, bool magic, bool hitChars);
 };

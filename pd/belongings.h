@@ -4,12 +4,19 @@
 
 class Hero;
 class Bag;
+class KindOfWeapon;
+class Armor;
+class Ring;
 
 class Belongings{
 public:
 	static const int BACKPACK_SIZE = 19;
 
 	Bag* backpack;
+	KindOfWeapon* weapon;
+	Armor* armor;
+	Ring* ring1;
+	Ring* ring2;
 
 	Belongings(Hero* owner);
 private:

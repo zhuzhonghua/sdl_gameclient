@@ -231,3 +231,8 @@ public:
 	virtual int blood() { return 0xbbcc66; }
 	virtual void Die();
 };
+
+class SheepSprite :public MobSprite{
+public:
+	SheepSprite();
+};

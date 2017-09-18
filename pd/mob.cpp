@@ -459,3 +459,24 @@ std::string Mob::Passive::status()
 {
 	return GameMath::format("This %s is passive", owner->name);
 }
+
+NPC::NPC()
+{
+	HP = HT = 1;
+	EXP = 0;
+
+	hostile = false;
+	state = PASSIVE;
+}
+
+void NPC::throwItem()
+{
+	//Heap heap = Dungeon.level.heaps.get(pos);
+	//if (heap != null) {
+	//	int n;
+	//	do {
+	//		n = pos + Level.NEIGHBOURS8[Random.Int(8)];
+	//	} while (!Level.passable[n] && !Level.avoid[n]);
+	//	Dungeon.level.drop(heap.pickUp(), n).sprite.drop(pos);
+	//}
+}

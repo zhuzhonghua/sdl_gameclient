@@ -3,12 +3,11 @@
 #include "bundlable.h"
 #include "hero.h"
 #include "itemsprite.h"
-
+#include "cellselector.h"
 #include <string>
 #include <vector>
 
-class ItemSprite;
-class ItemSprite::Glowing;
+class Bag;
 
 class Item :public Bundlable{
 private:
@@ -32,7 +31,13 @@ protected:
 	static const std::string AC_DROP;
 	static const std::string AC_THROW;
 
+	static CellSelector::Listener* thrower;
+
+	virtual void onThrow(int cell);
 public:
+	static Hero* curUser;
+	static Item* curItem;
+
 	std::string defaultAction;
 
 	std::string name = "smth";
@@ -55,16 +60,73 @@ private:
 	int durability;// = maxDurability();
 
 public:
-	void actions(Hero* hero, std::vector<std::string>& actions);
-	bool doPickUp(Hero* hero);
-	void doDrop(Hero* hero);
+	virtual void actions(Hero* hero, std::vector<std::string>& actions);
+	virtual bool doPickUp(Hero* hero);
+	virtual void doDrop(Hero* hero);
+	virtual void doThrow(Hero* hero);
 
-	std::string toString();
-	std::string Name();
+	virtual std::string toString();
+	virtual std::string Name();
 	int Image();
+	Item* detach(Bag* container);
 
 	virtual ItemSprite::Glowing* glowing() { return NULL; }
 
 	virtual void storeInBundle(Bundle* bundle);
 	virtual void restoreFromBundle(Bundle* bundle);
+	virtual bool isUpgradable() { return true; }
+	virtual bool isIdentified() { return levelKnown && cursedKnown; }
+	virtual bool isEquipped(Hero* hero) { return false; }
+	virtual int effectiveLevel();
+
+	virtual std::string info() { return desc(); }
+	virtual std::string desc() { return ""; }
+	virtual int price() { return 0; }
+
+	virtual void execute(Hero* hero, std::string action);
+	virtual void cast(Hero* user, int dst);
+	virtual void getBroken() { }
+	bool isBroken() {
+		return durability <= 0;
+	}
+	virtual void fix();
+	virtual int maxDurability(int lvl) { return 1; }
+			int maxDurability() { return maxDurability(level); }
+	virtual Item* identify();
+	virtual Item* random() { return this; }
+	virtual void Level(int value) { level = value; }
+	int Level() { return level; }
+
+	void use();
+
+	void updateQuickslot();
+	virtual Item* upgrade() {
+
+		cursed = false;
+		cursedKnown = true;
+
+		level++;
+		fix();
+
+		return this;
+	}
+	virtual Item* degrade() {
+		this->level--;
+		fix();
+
+		return this;
+	}
+	Item* degrade(int n){
+		for (int i = 0; i < n; i++) {
+			degrade();
+		}
+
+		return this;
+	}
+	int considerState(int price);
+	void polish() {
+		if (durability < maxDurability()) {
+			durability++;
+		}
+	}
 };

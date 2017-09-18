@@ -11,7 +11,7 @@ class DungeonTilemap;
 class HeroSprite;
 class GameLog;
 class BusyIndicator;
-
+class Item;
 class FogOfWar;
 class Toolbar;
 class Toast;
@@ -91,4 +91,5 @@ public:
 	static void bossSlain();
 
 	static void updateMap(int cell);
+	static void pickUp(Item* item);
 };

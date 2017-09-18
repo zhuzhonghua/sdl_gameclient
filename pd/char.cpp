@@ -1,8 +1,9 @@
 #include "char.h"
-
+#include "terrain.h"
 #include "dungeon.h"
 #include "buff.h"
 #include "util.h"
+#include "charsprite.h"
 
 const std::string Char::TXT_HIT = "%s hit %s";
 const std::string Char::TXT_KILL = "%s killed you...";
@@ -407,6 +408,21 @@ Buff* Char::buff(const std::string& c)
 			return *itr;
 		}
 	}
+	return NULL;
+}
+
+std::set<Buff*> Char::buffSet(const std::string& c)
+{
+	std::set<Buff*> filter;
+	for (std::set<Buff*>::iterator itr = buffs.begin();
+		itr != buffs.end(); itr++)
+	{
+		if ((*itr)->getClassName().compare(c) == 0)
+		{
+			filter.insert(*itr);
+		}
+	}
+	return filter;
 }
 
 bool Char::isCharmedBy(Char* ch)
@@ -449,26 +465,31 @@ void Char::updateSpriteState()
 
 void Char::move(int step)
 {
-	//if (Level.adjacent(step, pos) && buff(Vertigo.class) != null) {
-	//	step = pos + Level.NEIGHBOURS8[Random.Int(8)];
-	//	if (!(Level.passable[step] || Level.avoid[step]) || Actor.findChar(step) != null) {
-	//		return;
-	//	}
-	//}
-	//
-	//if (Dungeon.level.map[pos] == Terrain.OPEN_DOOR) {
-	//	Door.leave(pos);
-	//}
-	//
-	//pos = step;
-	//
-	//if (flying && Dungeon.level.map[pos] == Terrain.DOOR) {
-	//	Door.enter(pos);
-	//}
-	//
-	//if (this != Dungeon.hero) {
-	//	sprite.visible = Dungeon.visible[pos];
-	//}
+	if (Level::adjacent(step, pos) /*&& buff(Vertigo.class) != null*/) 
+	{
+		step = pos + Level::NEIGHBOURS8[Random::Int(8)];
+		if (!(Level::passable[step] || Level::avoid[step]) || Actor::findChar(step) != NULL) 
+		{
+			return;
+		}
+	}
+	
+	if (Dungeon::level->map[pos] == Terrain::OPEN_DOOR) 
+	{
+		//Door::leave(pos);
+	}
+	
+	pos = step;
+	
+	if (flying && Dungeon::level->map[pos] == Terrain::DOOR) 
+	{
+		//Door.enter(pos);
+	}
+	
+	if (this != Dungeon::hero) 
+	{
+		sprite->visible = Dungeon::visible[pos];
+	}
 }
 
 int Char::distance(Char* other)

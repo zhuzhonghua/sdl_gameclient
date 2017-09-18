@@ -70,10 +70,17 @@ void SewerLevel::decorate()
 
 void SewerLevel::createMobs()
 {
+	RegularLevel::createMobs();
 
+	//Ghost.Quest.spawn(this);
 }
 
 void SewerLevel::createItems()
 {
+	//if (Dungeon.dewVial && Random.Int(4 - Dungeon.depth) == 0) {
+	//	addItemToSpawn(new DewVial());
+	//	Dungeon.dewVial = false;
+	//}
 
+	RegularLevel::createItems();
 }

@@ -4,12 +4,13 @@
 #include "bundle.h"
 #include "char.h"
 #include "heroclass.h"
-
+#include "armor.h"
 #include <string>
 
 class Belongings;
 class HeroAction;
 class Mob;
+class HeroActionMove;
 
 class Hero:public Char{
 private:
@@ -41,6 +42,8 @@ private:
 	std::list<Mob*> visibleEnemies;
 
 	void Ready();
+	bool actMove(HeroActionMove* action);
+	bool getCloser(int target);
 public:
 	static const std::string TXT_YOU_NOW_HAVE;
 	static const int STARTING_STR = 10;
@@ -67,6 +70,8 @@ public:
 	HeroAction* curAction;
 	HeroAction* lastAction;
 	float awareness;
+
+	Armor::Glyph* killerGlyph;
 public:
 	void resurrect(int resetLevel);
 	virtual bool act();
@@ -78,4 +83,15 @@ public:
 
 	void resume();
 	int maxExp() { return 5 + lvl * 5; }
+	void spendAndNext(float time);
+	void busy() { ready = false; }
+	virtual void move(int step);
+	void interrupt();
+	bool search(bool intentional);
+	void earnExp(int exp);
+
+	class Doom {
+	public:
+		virtual void onDeath() = 0;
+	};
 };

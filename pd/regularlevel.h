@@ -36,11 +36,13 @@ protected:
 	void paintDoors(Room* r);
 	void assignRoomType();
 	Room* randomRoom(Room::Type type, int tries);
+	int randomDropCell();
 	bool joinRooms(Room* r, Room* n);
 	int nTraps();
 	std::vector<float> trapChances();
 
 	virtual void createMobs();
+	virtual void createItems();
 	virtual std::vector<bool> water() = 0;
 	virtual std::vector<bool> grass() = 0;
 private:

@@ -2,6 +2,7 @@
 
 class HeroAction{
 public:
+	virtual ~HeroAction(){}
 	int dst;
 };
 

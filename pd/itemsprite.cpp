@@ -16,7 +16,7 @@
 const float ItemSprite::DROP_INTERVAL = 0.4f;
 TextureFilm* ItemSprite::film = NULL;
 
-const ItemSprite::Glowing* ItemSprite::Glowing::WHITE = new Glowing(0xFFFFFF, 0.6f);
+ItemSprite::Glowing* ItemSprite::Glowing::WHITE = new Glowing(0xFFFFFF, 0.6f);
 
 ItemSprite::Glowing::Glowing(int color)
 :Glowing(color, 1.0f)

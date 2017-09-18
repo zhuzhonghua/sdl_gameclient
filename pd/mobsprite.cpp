@@ -1059,3 +1059,24 @@ void LarvaSprite::Die()
 	//Splash.at(center(), blood(), 10);
 	MobSprite::Die();
 }
+
+SheepSprite::SheepSprite()
+{
+	texture(Assets::SHEEP);
+
+	TextureFilm frames(tex, 16, 15);
+
+	idle = new Animation(8, true);
+	int arry1[] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 0 };
+	idle->Frames(&frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = idle->clone();
+	attack = idle->clone();
+
+	die = new Animation(20, false);
+	int arry2[] = { 0 };
+	die->Frames(&frames, arry2, sizeof(arry2) / sizeof(int));
+
+	play(idle);
+	curFrame = Random::Int(curAnim->frames.size());
+}

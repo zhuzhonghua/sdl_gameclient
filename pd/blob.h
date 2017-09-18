@@ -19,15 +19,15 @@ public:
 	virtual void storeInBundle(Bundle* bundle);
 	virtual void restoreFromBundle(Bundle* bundle);
 	virtual bool act();
-	void use(BlobEmitter* emitter){ this->emitter = emitter; }
+	virtual void use(BlobEmitter* emitter){ this->emitter = emitter; }
 	void seed(int cell, int amount);
 	void clear(int cell);
-	std::string tileDesc() { return ""; }
+	virtual std::string tileDesc() { return ""; }
 	static Blob* seed(int cell, int amount, const std::string& type);
 protected:
 	std::vector<int> off;
 	Blob();
-	void evolve();
+	virtual void evolve();
 private:
 	static const std::string CUR;
 	static const std::string START;

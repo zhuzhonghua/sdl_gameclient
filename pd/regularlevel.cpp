@@ -7,6 +7,8 @@
 #include "painter.h"
 #include "mob.h"
 #include "bestiary.h"
+#include "heap.h"
+#include "generator.h"
 
 RegularLevel::RegularLevel()
 {
@@ -569,6 +571,22 @@ Room* RegularLevel::randomRoom(Room::Type type, int tries)
 	return NULL;
 }
 
+int RegularLevel::randomDropCell()
+{
+	while (true) 
+	{
+		Room* room = randomRoom(Room::STANDARD, 1);
+		if (room != NULL) 
+		{
+			int pos = room->random();
+			if (passable[pos])
+			{
+				return pos;
+			}
+		}
+	}
+}
+
 bool RegularLevel::joinRooms(Room* r, Room* n)
 {
 	if (r->type != Room::Type::STANDARD || n->type != Room::Type::STANDARD) 
@@ -655,15 +673,61 @@ std::vector<float> RegularLevel::trapChances()
 
 void RegularLevel::createMobs()
 {
-	//int n = nMobs();
-	//for (int i = 0; i < n; i++) 
+	int n = nMobs();
+	for (int i = 0; i < n; i++) 
+	{
+		Mob* mob = Bestiary::mob(Dungeon::depth);
+		do {
+			mob->pos = randomRespawnCell();
+		} while (mob->pos == -1);
+		mobs.insert(mob);
+		Actor::occupyCell(mob);
+	}
+}
+
+void RegularLevel::createItems()
+{
+	//int nItems = 3;
+	//while (Random::Float() < 0.4f) 
 	//{
-	//	Mob* mob = Bestiary::mob(Dungeon::depth);
-	//	do {
-	//		mob->pos = randomRespawnCell();
-	//	} while (mob->pos == -1);
-	//	mobs.insert(mob);
-	//	Actor::occupyCell(mob);
+	//	nItems++;
+	//}
+	//
+	//for (int i = 0; i < nItems; i++) {
+	//	Heap::Type type = Heap::HEAP;
+	//	switch (Random::Int(20)) 
+	//	{
+	//	case 0:
+	//		type = Heap::SKELETON;
+	//		break;
+	//	case 1:
+	//	case 2:
+	//	case 3:
+	//	case 4:
+	//		type = Heap::CHEST;
+	//		break;
+	//	case 5:
+	//		type = Dungeon::depth > 1 ? Heap::MIMIC : Heap::CHEST;
+	//		break;
+	//	default:
+	//		type = Heap::HEAP;
+	//	}
+	//	drop(Generator::random(), randomDropCell())->type = type;
+	//}
+	
+	//for (Item item : itemsToSpawn) {
+	//	int cell = randomDropCell();
+	//	if (item instanceof ScrollOfUpgrade) {
+	//		while (map[cell] == Terrain.FIRE_TRAP || map[cell] == Terrain.SECRET_FIRE_TRAP) {
+	//			cell = randomDropCell();
+	//		}
+	//	}
+	//	drop(item, cell).type = Heap.Type.HEAP;
+	//}
+
+	//Item item = Bones.get();
+	//if (item != null) {
+	//	drop(item, randomDropCell()).type = Heap.Type.SKELETON;
 	//}
 }
 

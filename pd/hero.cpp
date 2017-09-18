@@ -3,6 +3,12 @@
 #include "dungeon.h"
 #include "mobsprite.h"
 #include "gamescene.h"
+#include "heroaction.h"
+#include "terrain.h"
+#include "ring.h"
+#include "checkedcell.h"
+#include "glog.h"
+#include "speck.h"
 
 const std::string Hero::ATTACK = "attackSkill";
 const std::string Hero::DEFENSE = "defenseSkill";
@@ -69,6 +75,8 @@ Hero::Hero()
 
 	curAction = NULL;
 	lastAction = NULL;
+
+	killerGlyph = NULL;
 }
 
 void Hero::resurrect(int resetLevel)
@@ -91,6 +99,79 @@ void Hero::Ready()
 	GameScene::ready();
 }
 
+bool Hero::actMove(HeroActionMove* action)
+{
+	if (getCloser(action->dst)) 
+	{
+		return true;
+	}
+	else
+	{
+		if (Dungeon::level->map[pos] == Terrain::SIGN) 
+		{
+			//Sign.read(pos);
+		}
+		Ready();
+
+		return false;
+	}
+}
+
+bool Hero::getCloser(int target)
+{
+	if (rooted) 
+	{
+		Camera::mainCamera->shake(1, 1.0f);
+		return false;
+	}
+
+	int step = -1;
+
+	if (Level::adjacent(pos, target)) 
+	{
+		if (Actor::findChar(target) == NULL) 
+		{
+			//if (Level.pit[target] && !flying && !Chasm.jumpConfirmed) {
+			//	Chasm.heroJump(this);
+			//	interrupt();
+			//	return false;
+			//}
+			if (Level::passable[target] || Level::avoid[target]) 
+			{
+				step = target;
+			}
+		}
+	}
+	else 
+	{
+		int len = Level::LENGTH;
+		std::vector<bool> p = Level::passable;
+		std::vector<bool> v = Dungeon::level->visited;
+		std::vector<bool> m = Dungeon::level->mapped;
+		std::vector<bool> passable(len);
+		for (int i = 0; i < len; i++) 
+		{
+			passable[i] = p[i] && (v[i] || m[i]);
+		}
+
+		step = Dungeon::findPath(this, pos, target, passable, Level::fieldOfView);
+	}
+
+	if (step != -1) 
+	{
+		int oldPos = pos;
+		move(step);
+		sprite->move(oldPos, pos);
+		spend(1 / speed());
+
+		return true;
+	}
+	else 
+	{
+		return false;
+	}
+}
+
 bool Hero::act()
 {
 	Char::act();
@@ -99,7 +180,7 @@ bool Hero::act()
 	{
 		curAction = NULL;
 
-		//spendAndNext(TICK);
+		spendAndNext(TICK);
 		return false;
 	}
 
@@ -127,11 +208,10 @@ bool Hero::act()
 
 		ready = false;
 
-		//if (curAction instanceof HeroAction.Move) {
-		//
-		//	return actMove((HeroAction.Move)curAction);
-		//
-		//}
+		if (dynamic_cast<HeroActionMove*>(curAction) != NULL) 
+		{		
+			return actMove((HeroActionMove*)curAction);
+		}
 		//else
 		//if (curAction instanceof HeroAction.Interact) {
 		//
@@ -193,9 +273,10 @@ bool Hero::act()
 
 bool Hero::handle(int cell)
 {
-	//if (cell == -1) {
-	//	return false;
-	//}
+	if (cell == -1) 
+	{
+		return false;
+	}
 	//
 	//Char ch;
 	//Heap heap;
@@ -248,13 +329,12 @@ bool Hero::handle(int cell)
 	//}
 	//else  {
 	//
-	//	curAction = new HeroAction.Move(cell);
-	//	lastAction = null;
+		curAction = new HeroActionMove(cell);
+		lastAction = NULL;
 	//
 	//}
 	//
-	//return act();
-	return true;
+	return act();
 }
 
 int Hero::VisibleEnemies()
@@ -280,4 +360,195 @@ void Hero::resume()
 	//curAction = lastAction;
 	//lastAction = null;
 	//act();
+}
+
+void Hero::spendAndNext(float time)
+{
+	busy();
+	spend(time);
+	next();
+}
+
+void Hero::move(int step)
+{
+	Char::move(step);
+
+	if (!flying) 
+	{
+		if (Level::water[pos]) 
+		{
+			//Sample.INSTANCE.play(Assets.SND_WATER, 1, 1, Random.Float(0.8f, 1.25f));
+		}
+		else 
+		{
+			//Sample.INSTANCE.play(Assets.SND_STEP);
+		}
+		Dungeon::level->press(pos, this);
+	}
+}
+
+void Hero::interrupt()
+{
+	if (isAlive() && curAction != NULL && curAction->dst != pos) 
+	{
+		lastAction = curAction;
+	}
+	curAction = NULL;
+}
+
+bool Hero::search(bool intentional)
+{
+	bool smthFound = false;
+
+	int positive = 0;
+	int negative = 0;
+	std::set<Buff*> result = buffSet(RingOfDetection::Detection::className());
+	//for (Buff buff : buffs(RingOfDetection.Detection.class)) {
+	for (std::set<Buff*>::iterator itr = result.begin(); itr != result.end(); itr++)
+	{
+		Buff* buff = *itr;
+		int bonus = ((RingOfDetection::Detection*)buff)->level;
+		if (bonus > positive) 
+		{
+			positive = bonus;
+		}
+		else if (bonus < 0) 
+		{
+			negative += bonus;
+		}
+	}
+	int distance = 1 + positive + negative;
+
+	float level = intentional ? (2 * awareness - awareness * awareness) : awareness;
+	if (distance <= 0) 
+	{
+		level /= 2 - distance;
+		distance = 1;
+	}
+
+	int cx = pos % Level::WIDTH;
+	int cy = pos / Level::WIDTH;
+	int ax = cx - distance;
+	if (ax < 0) 
+	{
+		ax = 0;
+	}
+	int bx = cx + distance;
+	if (bx >= Level::WIDTH) 
+	{
+		bx = Level::WIDTH - 1;
+	}
+	int ay = cy - distance;
+	if (ay < 0) {
+		ay = 0;
+	}
+	int by = cy + distance;
+	if (by >= Level::HEIGHT) 
+	{
+		by = Level::HEIGHT - 1;
+	}
+
+	for (int y = ay; y <= by; y++) 
+	{
+		for (int x = ax, p = ax + y * Level::WIDTH; x <= bx; x++, p++) 
+		{
+			if (Dungeon::visible[p]) 
+			{
+				if (intentional) 
+				{
+					sprite->parent->addToBack(new CheckedCell(p));
+				}
+
+				if (Level::secret[p] && (intentional || Random::Float() < level))
+				{
+					int oldValue = Dungeon::level->map[p];
+
+					//GameScene::discoverTile(p, oldValue);
+
+					Level::set(p, Terrain::discover(oldValue));
+
+					GameScene::updateMap(p);
+
+					//ScrollOfMagicMapping.discover(p);
+
+					smthFound = true;
+				}
+
+				if (intentional) 
+				{
+					//Heap heap = Dungeon.level.heaps.get(p);
+					//if (heap != null && heap.type == Type.HIDDEN) {
+					//	heap.open(this);
+					//	smthFound = true;
+					//}
+				}
+			}
+		}
+	}
+
+
+	if (intentional) 
+	{
+		sprite->showStatus(CharSprite::DEFAULT, TXT_SEARCH);
+		//sprite->operate(pos);
+		if (smthFound) 
+		{
+			spendAndNext(Random::Float() < level ? TIME_TO_SEARCH : TIME_TO_SEARCH * 2);
+		}
+		else 
+		{
+			spendAndNext(TIME_TO_SEARCH);
+		}
+
+	}
+
+	if (smthFound) {
+		GLog::w(TXT_NOTICED_SMTH.c_str());
+		//Sample.INSTANCE.play(Assets.SND_SECRET);
+		interrupt();
+	}
+
+	return smthFound;
+}
+
+void Hero::earnExp(int exp)
+{
+	this->exp += exp;
+
+	bool levelUp = false;
+	while (this->exp >= maxExp()) {
+		this->exp -= maxExp();
+		lvl++;
+
+		HT += 5;
+		HP += 5;
+		attackSkill++;
+		defenseSkill++;
+
+		if (lvl < 10) {
+			updateAwareness();
+		}
+
+		levelUp = true;
+	}
+
+	if (levelUp) {
+
+		GLog::p(TXT_NEW_LEVEL.c_str(), lvl);
+		sprite->showStatus(CharSprite::POSITIVE, TXT_LEVEL_UP);
+		//Sample.INSTANCE.play(Assets.SND_LEVELUP);
+
+		//Badges.validateLevelReached();
+	}
+
+	if (subClass == HeroSubClass::WARLOCK) {
+
+		int value = std::min(HT - HP, 1 + (Dungeon::depth - 1) / 5);
+		if (value > 0) {
+			HP += value;
+			sprite->emitter()->burst(Speck::factory(Speck::HEALING), 1);
+		}
+
+		//((Hunger)buff(Hunger.class)).satisfy(10);
+	}
 }

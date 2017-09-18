@@ -106,3 +106,10 @@ void Toolbar::PickedUpItem::update()
 		y = dstY - offset;
 	}
 }
+
+void Toolbar::pickup(Item* item)
+{
+	//pickedUp.reset(item,
+	//	btnInventory.centerX(),
+	//	btnInventory.centerY());
+}

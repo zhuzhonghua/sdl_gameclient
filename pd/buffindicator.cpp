@@ -3,6 +3,9 @@
 #include "texturecache.h"
 #include "define.h"
 #include "texturefilm.h"
+#include "buff.h"
+#include "util.h"
+#include "alphatweener.h"
 
 BuffIndicator* BuffIndicator::heroInstance;
 
@@ -40,39 +43,57 @@ void BuffIndicator::createChildren()
 	film = new TextureFilm(texture, SIZE, SIZE);
 }
 
+namespace{
+	class AlphaTweenerNew :public AlphaTweener{
+	public:
+		AlphaTweenerNew(Visual* image, float alpha, float time)
+			:AlphaTweener(image, alpha, time)
+		{}
+	protected:
+		virtual void updateValues(float progress) 
+		{
+			AlphaTweener::updateValues(progress);
+			GameMath::PointFSet(&image->scale, 1 + 5 * progress);
+			//image->scale.set(1 + 5 * progress);
+		};
+	};
+}
 void BuffIndicator::layout()
 {
 	clear();
 
-	//SparseArray<Image> newIcons = new SparseArray<Image>();
-	//
-	//for (Buff buff : ch.buffs()) {
-	//	int icon = buff.icon();
-	//	if (icon != NONE) {
-	//		Image img = new Image(texture);
-	//		img.frame(film.get(icon));
-	//		img.x = x + members.size() * (SIZE + 2);
-	//		img.y = y;
-	//		add(img);
-	//
-	//		newIcons.put(icon, img);
-	//	}
-	//}
-	//
-	//for (Integer key : icons.keyArray()) {
-	//	if (newIcons.get(key) == null) {
-	//		Image icon = icons.get(key);
-	//		icon.origin.set(SIZE / 2);
-	//		add(icon);
-	//		add(new AlphaTweener(icon, 0, 0.6f){
-	//			@Override
-	//			protected void updateValues(float progress) {
-	//				super.updateValues(progress);
-	//				image.scale.set(1 + 5 * progress);
-	//			};
-	//		});
-	//	}
-	//}
-	//
-	//icons = newIcons;
+	std::map<int, Image*> newIcons;
+	
+	for (std::set<Buff*>::iterator itr = ch->buffs.begin();
+		itr != ch->buffs.end(); itr++)
+	{
+		Buff* buff = *itr;
+		int icon = buff->icon();
+		if (icon != NONE) 
+		{
+			Image* img = new Image(texture);
+			img->frame(film->get(icon));
+			img->x = _x + _members.size() * (SIZE + 2);
+			img->y = _y;
+			add(img);
+
+			newIcons.insert(std::make_pair(icon, img));
+		}
+	}
+	
+	for (std::map<int, Image*>::iterator itr = icons.begin();
+		itr != icons.end(); itr++)
+	{
+		int key = itr->first;
+		if (newIcons.find(key) == newIcons.end()) 
+		{
+			Image* icon = itr->second;
+			GameMath::PointFSet(&icon->origin, SIZE / 2);
+			//icon.origin.set(SIZE / 2);
+			add(icon);
+			add(new AlphaTweenerNew(icon, 0, 0.6f));
+		}
+	}
+
+	icons = newIcons;
 }

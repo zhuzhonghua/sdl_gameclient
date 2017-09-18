@@ -1,6 +1,7 @@
 #pragma once
 
 #include "bundlable.h"
+#include "plant.h"
 #include <vector>
 #include <map>
 #include <set>
@@ -9,6 +10,8 @@ class Scene;
 class Char;
 class Blob;
 class Mob;
+class Heap;
+class Item;
 
 class Level :public Bundlable{
 public:
@@ -108,6 +111,10 @@ public:
 	void mobPress(Mob* mob);
 
 	static void set(int cell, int terrain);
+	Heap* drop(Item* item, int cell);
+	void uproot(int pos);
+	Plant* plant(Plant::Seed* seed, int pos);
+	void press(int cell, Char* ch);
 protected:
 	virtual bool build() = 0;
 	virtual void decorate() = 0;
