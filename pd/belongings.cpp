@@ -1,5 +1,6 @@
 #include "belongings.h"
 #include "bag.h"
+#include "util.h"
 
 const std::string Belongings::WEAPON = "weapon";
 const std::string Belongings::ARMOR = "armor";
@@ -19,4 +20,20 @@ Belongings::Belongings(Hero* owner)
 	armor = NULL;
 	ring1 = NULL;
 	ring2 = NULL;
+}
+
+Item* Belongings::getItem(const std::string& itemClass)
+{
+	for (int i = 0; i < _items.size(); i++){
+		if (_items[i]->getClassName() == itemClass){
+			return _items[i];
+		}
+	}
+
+	return NULL;
+}
+
+Item* Belongings::randomUnequipped()
+{
+	return RandomT<Item*>::element(backpack->items);
 }

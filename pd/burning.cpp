@@ -5,9 +5,20 @@
 #include "buffindicator.h"
 #include "glog.h"
 #include "ring.h"
+#include "belongings.h"
+#include "scroll.h"
+#include "heap.h"
+#include "food.h"
+#include "dungeon.h"
+#include "thief.h"
+#include "charsprite.h"
+#include "pixelparticle.h"
+#include "blob.h"
+#include "simpleresource.h"
+#include "bpt.h"
 
-const std::string Burning::TXT_BURNS_UP = "%s burns up!";
-const std::string Burning::TXT_BURNED_TO_DEATH = "You burned to death...";
+const std::string Burning::TXT_BURNS_UP = BPT::getText("lang.burning_burns_up");
+const std::string Burning::TXT_BURNED_TO_DEATH = BPT::getText("lang.burning_burned_to_death");
 
 const float Burning::DURATION = 8.0f;
 const std::string Burning::LEFT = "left";
@@ -30,43 +41,41 @@ bool Burning::act()
 	{
 		if (dynamic_cast<Hero*>(target)) 
 		{
-			//Buff::prolong(target, Light.class, TICK * 1.01f);
+			Buff::prolong(target, "Light", TICK * 1.01f);
 		}
 
 		target->damage(Random::Int(1, 5), this->getClassName());
 
 		if (dynamic_cast<Hero*>(target)) 
 		{
-			//Item item = ((Hero)target).belongings.randomUnequipped();
-			//if (item instanceof Scroll) {
-			//
-			//	item = item.detach(((Hero)target).belongings.backpack);
-			//	GLog.w(TXT_BURNS_UP, item.toString());
-			//
-			//	Heap.burnFX(target.pos);
-			//
-			//}
-			//else if (item instanceof MysteryMeat) {
-			//
-			//	item = item.detach(((Hero)target).belongings.backpack);
-			//	ChargrilledMeat steak = new ChargrilledMeat();
-			//	if (!steak.collect(((Hero)target).belongings.backpack)) {
-			//		Dungeon.level.drop(steak, target.pos).sprite.drop();
-			//	}
-			//	GLog.w(TXT_BURNS_UP, item.toString());
-			//
-			//	Heap.burnFX(target.pos);
-			//
-			//}
+			Item* item = ((Hero*)target)->belongings->randomUnequipped();
+			if (dynamic_cast<Scroll*>(item)) {
+			
+				item = item->detach(((Hero*)target)->belongings->backpack);
+				GLog::w(TXT_BURNS_UP.c_str(), item->toString());
+			
+				Heap::burnFX(target->pos);			
+			}
+			else if (dynamic_cast<MysteryMeat*>(item)) {
+			
+				item = item->detach(((Hero*)target)->belongings->backpack);
+				ChargrilledMeat* steak = new ChargrilledMeat();
+				if (!steak->collect(((Hero*)target)->belongings->backpack)) {
+					Dungeon::level->drop(steak, target->pos)->sprite->drop();
+				}
+				GLog::w(TXT_BURNS_UP.c_str(), item->toString());
+			
+				Heap::burnFX(target->pos);
+			
+			}
 
 		}
-		//else if (dynamic_cast<Thief*>(target)  && ((Thief*)target)->item instanceof Scroll) 
-		//{
-		//
-		//	((Thief)target).item = null;
-		//	target.sprite.emitter().burst(ElmoParticle.FACTORY, 6);
-		//}
-
+		else if (dynamic_cast<Thief*>(target) && dynamic_cast<Scroll*>(((Thief*)target)->item))
+		{
+		
+			((Thief*)target)->item = NULL;
+			target->sprite->emitter()->burst(ElmoParticle::FACTORY, 6);
+		}
 	}
 	else 
 	{
@@ -75,7 +84,7 @@ bool Burning::act()
 
 	if (Level::flamable[target->pos]) 
 	{
-		//GameScene::addMob(Blob::seed(target->pos, 4, Fire.class));
+		GameScene::addBlob(Blob::seed(target->pos, 4, "BlobFire"));
 	}
 
 	spend(TICK);
@@ -109,8 +118,10 @@ float Burning::duration(Char* ch)
 
 void Burning::onDeath()
 {
-	//Badges.validateDeathFromFire();
-	//
-	//Dungeon.fail(Utils.format(ResultDescriptions.BURNING, Dungeon.depth));
+	Badges::validateDeathFromFire();
+	
+	Dungeon::fail(GameMath::format(ResultDescriptions::BURNING.c_str(), Dungeon::depth));
 	GLog::n(TXT_BURNED_TO_DEATH.c_str());
 }
+
+REFLECTBUFF(Burning);

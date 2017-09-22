@@ -3,9 +3,16 @@
 #include "util.h"
 #include "level.h"
 #include "dungeon.h"
+#include "gamescene.h"
+#include "blobemitter.h"
+#include "flameparticle.h"
+#include "heap.h"
+#include "burning.h"
 
 const std::string Blob::CUR = "cur";
 const std::string Blob::START = "start";
+
+std::map<std::string, FactoryBlob*> FactoryBlob::facs;
 
 std::vector<int> Blob::trim(int start, int end)
 {
@@ -14,12 +21,6 @@ std::vector<int> Blob::trim(int start, int end)
 	copy.assign(&cur[start], &cur[end]);
 
 	return copy;
-}
-
-Blob* Blob::getTypeInstance(const std::string& type)
-{
-
-	return NULL;
 }
 
 void Blob::storeInBundle(Bundle* bundle)
@@ -111,7 +112,7 @@ Blob* Blob::seed(int cell, int amount, const std::string& type)
 	std::map<std::string, Blob*>::iterator itr = Dungeon::level->blobs.find(type);
 	if (itr == Dungeon::level->blobs.end())
 	{
-		gas = getTypeInstance(type);
+		gas = FactoryBlob::Create(type);
 		Dungeon::level->blobs.insert(std::make_pair(type, gas));
 	}
 	else
@@ -187,3 +188,84 @@ void Blob::evolve()
 		}
 	}
 }
+
+void BlobFire::evolve()
+{
+	std::vector<bool> flamable = Level::flamable;
+
+	int from = WIDTH + 1;
+	int to = Level::LENGTH - WIDTH - 1;
+
+	boolean observe = false;
+
+	for (int pos = from; pos < to; pos++) {
+
+		int fire;
+
+		if (cur[pos] > 0) {
+
+			burn(pos);
+
+			fire = cur[pos] - 1;
+			if (fire <= 0 && flamable[pos]) {
+
+				int oldTile = Dungeon::level->map[pos];
+				Dungeon::level->destroy(pos);
+
+				observe = true;
+				GameScene::updateMap(pos);
+				if (Dungeon::visible[pos]) {
+					GameScene::discoverTile(pos, oldTile);
+				}
+			}
+
+		}
+		else {
+
+			if (flamable[pos] && (cur[pos - 1] > 0 || cur[pos + 1] > 0 || cur[pos - WIDTH] > 0 || cur[pos + WIDTH] > 0)) {
+				fire = 4;
+				burn(pos);
+			}
+			else {
+				fire = 0;
+			}
+
+		}
+
+		volume += (off[pos] = fire);
+
+	}
+
+	if (observe) {
+		Dungeon::observe();
+	}
+}
+
+void BlobFire::burn(int pos)
+{
+	Char* ch = Actor::findChar(pos);
+	if (ch != NULL) {
+		((Burning*)Buff::affect(ch, "Burning"))->reignite(ch);
+	}
+
+	Heap* heap = Dungeon::level->heaps.get(pos);
+	if (heap != NULL) {
+		heap->burn();
+	}
+}
+
+void BlobFire::seed(int cell, int amount)
+{
+	if (cur[cell] == 0) {
+		volume += amount;
+		cur[cell] = amount;
+	}
+}
+
+void BlobFire::use(BlobEmitter* emitter)
+{
+	Blob::use(emitter);
+	emitter->start(FlameParticle::FACTORY, 0.03f, 0);
+}
+
+REFLECTBLOB(BlobFire);

@@ -10,6 +10,10 @@
 #include "camera.h"
 #include "level.h"
 #include "mobsprite.h"
+#include "belongings.h"
+#include "gamescene.h"
+#include "scroll.h"
+
 
 const std::string Wand::AC_ZAP = "ZAP";
 
@@ -1094,4 +1098,103 @@ void WandOfAvalanche::fx(int cell, Callback* callback)
 {
 	//MagicMissile.earth(curUser.sprite.parent, curUser.pos, cell, callback);
 	//Sample.INSTANCE.play(Assets.SND_ZAP);
+}
+
+const String WandOfMagicMissile::AC_DISENCHANT = "DISENCHANT";
+
+void WandOfMagicMissile::actions(Hero* hero, std::vector<std::string>& actions)
+{
+	Wand::actions(hero, actions);
+	if (Level() > 0) {
+		actions.push_back(AC_DISENCHANT);
+	}
+}
+
+void WandOfMagicMissile::execute(Hero* hero, const std::string& action)
+{
+	if (action.compare(AC_DISENCHANT) == 0) {
+
+		if (hero->belongings->weapon == this) {
+			disenchantEquipped = true;
+			hero->belongings->weapon = NULL;
+			updateQuickslot();
+		}
+		else {
+			disenchantEquipped = false;
+			detach(hero->belongings->backpack);
+		}
+
+		curUser = hero;
+		GameScene::selectItem(itemSelector, WndBag::Mode::WAND, TXT_SELECT_WAND);
+
+	}
+	else {
+
+		Wand::execute(hero, action);
+
+	}
+}
+
+const String WandOfMagicMissile::TXT_SELECT_WAND = "Select a wand to upgrade";
+const String WandOfMagicMissile::TXT_DISENCHANTED =
+"you disenchanted the Wand of Magic Missile and used its essence to upgrade your %s";
+
+const float WandOfMagicMissile::TIME_TO_DISENCHANT = 2.0f;
+
+void WandOfMagicMissile::onZap(int cell)
+{
+	Char* ch = Actor::findChar(cell);
+	if (ch != NULL) {
+
+		int level = power();
+
+		ch->damage(Random::Int(1, 6 + level * 2), this->getClassName());
+		ch->sprite->burst(0xFF99CCFF, level / 2 + 2);
+
+		if (ch == curUser && !ch->isAlive()) {
+			Dungeon::fail(GameMath::format(ResultDescriptions::WAND.c_str(), name, Dungeon::depth));
+			GLog::n("You killed yourself with your own Wand of Magic Missile...");
+		}
+	}
+}
+
+namespace{
+	class WndBagListenerNew :public WndBag::Listener{
+	public:
+		WandOfMagicMissile* wand;
+		WndBagListenerNew(WandOfMagicMissile* w) :wand(w){}
+
+		virtual void onSelect(Item* item){
+			if (item != NULL) {
+
+				//Sample.INSTANCE.play(Assets.SND_EVOKE);
+				ScrollOfUpgrade::upgrade(Item::curUser);
+				Item::evoke(Item::curUser);
+
+				GLog::w(WandOfMagicMissile::TXT_DISENCHANTED.c_str(), item->Name());
+
+				item->upgrade();
+				Item::curUser->spendAndNext(WandOfMagicMissile::TIME_TO_DISENCHANT);
+
+				//Badges::validateItemLevelAquired(item);
+
+			}
+			else {
+				if (wand->disenchantEquipped) {
+					Item::curUser->belongings->weapon = wand;
+					wand->updateQuickslot();
+				}
+				else {
+					wand->collect(Item::curUser->belongings->backpack);
+				}
+			}
+		}
+	};
+}
+WandOfMagicMissile::WandOfMagicMissile()
+{
+	name = "Wand of Magic Missile";
+	image = ItemSpriteSheet::WAND_MAGIC_MISSILE;
+
+	itemSelector = new WndBagListenerNew(this);
 }

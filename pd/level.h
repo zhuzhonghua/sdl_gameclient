@@ -5,6 +5,7 @@
 #include <vector>
 #include <map>
 #include <set>
+#include "typedefine.h"
 
 class Scene;
 class Char;
@@ -82,6 +83,7 @@ public:
 
 	std::set<Mob*> mobs;
 	std::map<std::string, Blob*> blobs;
+	HashMap<int, Heap*> heaps;
 
 	int color1;
 	int color2;
@@ -115,6 +117,7 @@ public:
 	void uproot(int pos);
 	Plant* plant(Plant::Seed* seed, int pos);
 	void press(int cell, Char* ch);
+	void destroy(int pos);
 protected:
 	virtual bool build() = 0;
 	virtual void decorate() = 0;

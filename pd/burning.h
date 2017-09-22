@@ -2,11 +2,11 @@
 
 #include "buff.h"
 #include "hero.h"
+#include "typedefine.h"
 
 class Burning :public Buff, public Hero::Doom{
 public:
-	virtual std::string getClassName(){ return className(); }
-	static std::string className() { return "Thorns"; }
+	CLASSNAME(Burning);
 
 	virtual void storeInBundle(Bundle* bundle);
 	virtual void restoreFromBundle(Bundle* bundle);

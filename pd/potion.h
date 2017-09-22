@@ -89,6 +89,7 @@ class PotionOfHealing :public Potion{
 public:
 	PotionOfHealing();
 	virtual std::string getClassName() { return "PotionOfHealing"; }
+	static Item* Create(){ return new PotionOfHealing(); }
 
 	static void heal(Hero* hero);
 	virtual String desc() {
@@ -106,6 +107,7 @@ class PotionOfExperience :public Potion{
 public:
 	PotionOfExperience();
 	virtual std::string getClassName() { return "PotionOfExperience"; }
+	static Item* Create(){ return new PotionOfExperience(); }
 
 	virtual String desc() {
 		return
@@ -123,6 +125,7 @@ class PotionOfToxicGas :public Potion{
 public:
 	PotionOfToxicGas();
 	virtual std::string getClassName() { return "PotionOfToxicGas"; }
+	static Item* Create(){ return new PotionOfToxicGas(); }
 
 	virtual void shatter(int cell);
 
@@ -142,6 +145,7 @@ class PotionOfLiquidFlame :public Potion{
 public:
 	PotionOfLiquidFlame();
 	virtual std::string getClassName() { return "PotionOfLiquidFlame"; }
+	static Item* Create(){ return new PotionOfLiquidFlame(); }
 
 	virtual void shatter(int cell);
 	virtual String desc() {
@@ -158,6 +162,7 @@ class PotionOfStrength :public Potion{
 public:
 	PotionOfStrength();
 	virtual std::string getClassName() { return "PotionOfStrength"; }
+	static Item* Create(){ return new PotionOfStrength(); }
 
 	virtual String desc() {
 		return
@@ -175,6 +180,7 @@ class PotionOfParalyticGas :public Potion{
 public:
 	PotionOfParalyticGas();
 	virtual std::string getClassName() { return "PotionOfParalyticGas"; }
+	static Item* Create(){ return new PotionOfParalyticGas(); }
 
 	virtual void shatter(int cell);
 
@@ -194,6 +200,8 @@ class PotionOfLevitation :public Potion{
 public:
 	PotionOfLevitation();
 	virtual std::string getClassName() { return "PotionOfLevitation"; }
+	static Item* Create(){ return new PotionOfLevitation(); }
+
 	virtual String desc() {
 		return
 			String("Drinking this curious liquid will cause you to hover in the air, ") +
@@ -211,6 +219,7 @@ class PotionOfMindVision :public Potion{
 public:
 	PotionOfMindVision();
 	virtual std::string getClassName() { return "PotionOfMindVision"; }
+	static Item* Create(){ return new PotionOfMindVision(); }
 
 	virtual String desc() {
 		return
@@ -234,6 +243,7 @@ private:
 public:
 	PotionOfPurity();
 	virtual std::string getClassName() { return "PotionOfPurity"; }
+	static Item* Create(){ return new PotionOfPurity(); }
 
 	virtual void shatter(int cell);
 	virtual String desc() {
@@ -254,6 +264,7 @@ private:
 public:
 	PotionOfInvisibility();
 	virtual std::string getClassName() { return "PotionOfInvisibility"; }
+	static Item* Create(){ return new PotionOfInvisibility(); }
 
 	virtual String desc() {
 		return
@@ -274,6 +285,8 @@ public:
 	PotionOfMight();
 
 	virtual std::string getClassName() { return "PotionOfMight"; }
+	static Item* Create(){ return new PotionOfMight(); }
+
 	virtual String desc() {
 		return
 			String("This powerful liquid will course through your muscles, permanently ") +
@@ -293,6 +306,7 @@ public:
 	PotionOfFrost();
 
 	virtual std::string getClassName() { return "PotionOfFrost"; }
+	static Item* Create(){ return new PotionOfFrost(); }
 
 	virtual void shatter(int cell);
 	virtual String desc() {

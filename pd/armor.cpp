@@ -7,6 +7,7 @@
 #include "dungeon.h"
 #include "mob.h"
 #include "buffindicator.h"
+#include "simpleresource.h"
 
 const String Armor::TXT_EQUIP_CURSED = "your %s constricts around you painfully";
 const String Armor::TXT_IDENTIFY = "you are now familiar enough with your %s to identify it. It is %s.";
@@ -657,4 +658,39 @@ int AutoRepair::proc(Armor* armor, Char* attacker, Char* defender, int damage)
 String AutoRepair::name(const String& weaponName)
 {
 	return GameMath::format(TXT_AUTO_REPAIR.c_str(), weaponName);
+}
+
+ClothArmor::ClothArmor()
+:Armor(1)
+{
+	name = "cloth armor";
+	image = ItemSpriteSheet::ARMOR_CLOTH;
+}
+
+LeatherArmor::LeatherArmor()
+:Armor(2)
+{
+	name = "leather armor";
+	image = ItemSpriteSheet::ARMOR_LEATHER;
+}
+
+MailArmor::MailArmor()
+:Armor(3)
+{
+	name = "mail armor";
+	image = ItemSpriteSheet::ARMOR_MAIL;
+}
+
+ScaleArmor::ScaleArmor()
+:Armor(4)
+{
+	name = "scale armor";
+	image = ItemSpriteSheet::ARMOR_SCALE;
+}
+
+PlateArmor::PlateArmor()
+:Armor(5)
+{
+	name = "plate armor";
+	image = ItemSpriteSheet::ARMOR_PLATE;
 }

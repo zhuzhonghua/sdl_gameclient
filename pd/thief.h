@@ -2,6 +2,8 @@
 
 #include "mob.h"
 
+class Item;
+
 class Thief :public Mob{
 private:
 	class Fleeing :public Mob::Fleeing{
@@ -9,6 +11,8 @@ private:
 		virtual void nowhereToRun();
 	};
 public:
+	Item* item;
+
 	Thief();
 
 	virtual CharSprite* Sprite();

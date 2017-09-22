@@ -4,6 +4,7 @@
 #include "emitter.h"
 #include "ripple.h"
 #include "cellselector.h"
+#include "wndbag.h"
 
 class FloatingText;
 class SkinnedBlock;
@@ -83,6 +84,8 @@ public:
 	static void addMob(Mob* mob, float delay);
 	static void addMob(Mob* mob);
 
+	static void addBlob(Blob* gas);
+
 	virtual void update();
 
 	static void handleCell(int cell);
@@ -91,5 +94,8 @@ public:
 	static void bossSlain();
 
 	static void updateMap(int cell);
+	static void discoverTile(int pos, int oldValue);
 	static void pickUp(Item* item);
+
+	static WndBag* selectItem(WndBag::Listener* listener, WndBag::Mode mode, const std::string& title);
 };

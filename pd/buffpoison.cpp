@@ -1,6 +1,10 @@
 #include "buffpoison.h"
 #include "buffindicator.h"
 #include "glog.h"
+#include "ring.h"
+#include "simpleresource.h"
+#include "dungeon.h"
+#include "util.h"
 
 const std::string BuffPoison::LEFT = "left";
 
@@ -43,15 +47,16 @@ bool BuffPoison::act()
 
 float BuffPoison::durationFactor(Char* ch)
 {
-	//Resistance r = ch.buff(Resistance.class);
-	//return r != null ? r.durationFactor() : 1;
-	return 1;
+	RingOfElements::Resistance* r = (RingOfElements::Resistance*)ch->buff("Resistance");
+	return r != NULL ? r->durationFactor() : 1;
 }
 
 void BuffPoison::onDeath()
 {
-	//Badges.validateDeathFromPoison();
+	Badges::validateDeathFromPoison();
 
-	//Dungeon.fail(Utils.format(ResultDescriptions.POISON, Dungeon.depth));
+	Dungeon::fail(GameMath::format(ResultDescriptions::POISON.c_str(), Dungeon::depth));
 	GLog::n("You died from poison...");
 }
+
+REFLECTBUFF(BuffPoison);

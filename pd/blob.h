@@ -2,6 +2,8 @@
 
 #include "actor.h"
 #include "level.h"
+#include "bpt.h"
+#include "typedefine.h"
 
 class BlobEmitter;
 class Blob :public Actor{
@@ -33,6 +35,24 @@ private:
 	static const std::string START;
 
 	std::vector<int> trim(int start, int end);
+};
 
-	static Blob* getTypeInstance(const std::string& type);
+FACTORY(Blob);
+
+class BlobFire :public Blob{
+protected:
+	virtual void evolve();
+
+private:
+	void burn(int pos);
+
+public:
+	CLASSNAME(BlobFire);
+
+	void seed(int cell, int amount);
+	virtual void use(BlobEmitter* emitter);
+
+	virtual String tileDesc() {
+		return BPT::getText("lang.blobfire_tiledesc");;
+	}
 };

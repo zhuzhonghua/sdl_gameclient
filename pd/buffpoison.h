@@ -5,7 +5,7 @@
 
 class BuffPoison :public Buff, public Hero::Doom{
 public:
-	virtual std::string getClassName() { return "BuffPoison"; }
+	CLASSNAME(BuffPoison);
 
 	virtual void storeInBundle(Bundle* bundle);
 	virtual void restoreFromBundle(Bundle* bundle);
@@ -17,6 +17,7 @@ public:
 	static float durationFactor(Char* ch);
 
 	virtual void onDeath();
+
 protected:
 	float left;
 

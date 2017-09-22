@@ -46,6 +46,15 @@ int Hero::tier()
 	return 0;//belongings.armor == null ? 0 : belongings.armor.tier;
 }
 
+boolean Hero::shoot(Char* enemy, MissileWeapon* wep)
+{
+	rangedWeapon = wep;
+	boolean result = attack(enemy);
+	rangedWeapon = NULL;
+
+	return result;
+}
+
 void Hero::live()
 {
 	//Buff.affect(this, Regeneration.class);
@@ -77,6 +86,10 @@ Hero::Hero()
 	lastAction = NULL;
 
 	killerGlyph = NULL;
+
+	rangedWeapon = NULL;
+
+	weakened = false
 }
 
 void Hero::resurrect(int resetLevel)
@@ -551,4 +564,18 @@ void Hero::earnExp(int exp)
 
 		//((Hunger)buff(Hunger.class)).satisfy(10);
 	}
+}
+
+void Hero::spend(float time)
+{
+	int hasteLevel = 0;
+	std::set<Buff*> re;
+	Buffs("RingOfHaste::Haste", re);
+	for (std::set<Buff*>::iterator itr = re.begin();
+		itr != re.end(); itr++){
+	//for (Buff buff : buffs(RingOfHaste.Haste.class)) {
+		Buff* buff = *itr;
+		hasteLevel += ((RingOfHaste::Haste*)buff)->level;
+	}
+	Char::spend(hasteLevel == 0 ? time : (float)(time * std::pow(1.1, -hasteLevel)));
 }

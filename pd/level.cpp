@@ -681,6 +681,30 @@ void Level::press(int cell, Char* ch)
 	//}
 }
 
+void Level::destroy(int pos)
+{
+	if ((Terrain::flags[map[pos]] & Terrain::UNSTITCHABLE) == 0) {
+
+		set(pos, Terrain::EMBERS);
+
+	}
+	else {
+		boolean flood = false;
+		for (int j = 0; j < 4; j++) {
+			if (water[pos + NEIGHBOURS4[j]]) {
+				flood = true;
+				break;
+			}
+		}
+		if (flood) {
+			set(pos, getWaterTile(pos));
+		}
+		else {
+			set(pos, Terrain::EMBERS);
+		}
+	}
+}
+
 void Level::addVisuals(Scene* scene)
 {
 	//for (int i = 0; i < LENGTH; i++) {

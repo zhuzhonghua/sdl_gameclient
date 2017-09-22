@@ -53,6 +53,47 @@ public:
 		}
 		return (T)NULL;
 	}
+	static T element(const std::vector < T >& s)
+	{
+		int i = Random::Int(0, s.size());
+		int c = 0;
+		for (std::vector<T>::const_iterator itr = s.begin();
+			itr != s.end(); itr++)
+		{
+			if (c == i) return *itr;
+			c++;
+		}
+		return (T)NULL;
+	}
+	static T chances(const std::map < T, float >& chances)
+	{
+		int size = chances.size();
+		std::vector<T> values(size);
+		int c = 0;
+		for (std::map < T, float >::iterator itr = chances.begin();
+			itr != chances.end(); itr++){
+			values[c++] = itr->first;
+		}
+
+		std::vector<float> probs(size);
+		float sum = 0;
+		for (int i = 0; i < size; i++) {
+			probs[i] = chances[values[i]];
+			sum += probs[i];
+		}
+
+		float value = Random::Float(sum);
+
+		sum = probs[0];
+		for (int i = 0; i < size; i++) {
+			if (value < sum) {
+				return (T)values[i];
+			}
+			sum += probs[i + 1];
+		}
+
+		return (T)NULL;
+	}
 };
 
 class GameMath {

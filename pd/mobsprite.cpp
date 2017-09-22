@@ -1080,3 +1080,53 @@ SheepSprite::SheepSprite()
 	play(idle);
 	curFrame = Random::Int(curAnim->frames.size());
 }
+
+MimicSprite::MimicSprite()
+{
+	texture(Assets::MIMIC);
+
+	TextureFilm frames(tex, 16, 16);
+
+	idle = new Animation(5, true);
+	int arry1[] = { 0, 0, 0, 1, 1 };
+	idle->Frames(&frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(10, true);
+	int arry2[] = { 0, 1, 2, 3, 3, 2, 1 };
+	run->Frames(&frames, arry2, sizeof(arry2) / sizeof(int));
+
+	attack = new Animation(10, false);
+	int arry3[] = { 0, 4, 5, 6 };
+	attack->Frames(&frames, arry3, sizeof(arry3) / sizeof(int));
+
+	die = new Animation(5, false);
+	int arry4[] = { 7, 8, 9 };
+	die->Frames(&frames, arry4, sizeof(arry4) / sizeof(int));
+
+	play(idle);
+}
+
+WraithSprite::WraithSprite()
+{
+	texture(Assets::WRAITH);
+
+	TextureFilm frames(tex, 14, 15);
+
+	idle = new Animation(5, true);
+	int arry1[] = { 0, 1 };
+	idle->Frames(&frames, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(10, true);
+	int arry2[] = { 0, 1 };
+	run->Frames(&frames, arry2, sizeof(arry2) / sizeof(int));
+
+	attack = new Animation(10, false);
+	int arry3[] = { 0, 2, 3 };
+	attack->Frames(&frames, arry3, sizeof(arry3) / sizeof(int));
+
+	die = new Animation(8, false);
+	int arry4[] = { 0, 4, 5, 6, 7 };
+	die->Frames(&frames, arry4, sizeof(arry4) / sizeof(int));
+
+	play(idle);
+}

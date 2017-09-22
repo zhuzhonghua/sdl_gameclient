@@ -52,19 +52,20 @@ public:
 
 	bool unique = false;
 
-protected:
-	int quantity = 1;
+	int quantity;
 
 private:
 	int level = 0;
 	int durability;// = maxDurability();
 
 public:
+	Item();
 	virtual void actions(Hero* hero, std::vector<std::string>& actions);
 	virtual bool doPickUp(Hero* hero);
 	virtual void doDrop(Hero* hero);
 	virtual void doThrow(Hero* hero);
 
+	static void evoke(Hero* hero);
 	virtual std::string toString();
 	virtual std::string Name();
 	int Image();
@@ -82,6 +83,13 @@ public:
 	virtual std::string info() { return desc(); }
 	virtual std::string desc() { return ""; }
 	virtual int price() { return 0; }
+	int Quantity() {
+		return quantity;
+	}
+
+	void Quantity(int value) {
+		quantity = value;
+	}
 
 	virtual void execute(Hero* hero, std::string action);
 	virtual void cast(Hero* user, int dst);
@@ -96,7 +104,7 @@ public:
 	virtual Item* random() { return this; }
 	virtual void Level(int value) { level = value; }
 	int Level() { return level; }
-
+	virtual boolean collect(Bag* container);
 	void use();
 
 	void updateQuickslot();

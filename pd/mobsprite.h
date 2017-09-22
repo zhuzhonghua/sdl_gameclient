@@ -236,3 +236,16 @@ class SheepSprite :public MobSprite{
 public:
 	SheepSprite();
 };
+
+class MimicSprite :public MobSprite{
+public:
+	MimicSprite();
+	virtual int blood() { return 0xFFcb9700; }
+
+};
+
+class WraithSprite :public MobSprite{
+public:
+	WraithSprite();
+	virtual int blood() { return 0x88000000; }
+};

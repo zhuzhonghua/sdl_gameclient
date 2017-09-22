@@ -6,6 +6,20 @@
 #include "util.h"
 #include "generator.h"
 #include "terrain.h"
+#include "cellemitter.h"
+#include "flameparticle.h"
+#include "belongings.h"
+#include "charsprite.h"
+#include "simpleresource.h"
+#include "heap.h"
+#include "dewdrop.h"
+#include "pathfinder.h"
+#include "speck.h"
+#include "buffindicator.h"
+#include "camera.h"
+#include "scroll.h"
+#include "mob.h"
+#include "glog.h"
 
 void Plant::activate(Char* ch)
 {
@@ -31,11 +45,11 @@ void Plant::wither()
 	{
 		if (Random::Int(5) == 0) 
 		{
-			//Dungeon::level->drop(Generator::random(Generator::Category::SEED), pos)->sprite->drop();
+			Dungeon::level->drop(Generator::random(Generator::Category::SEED), pos)->sprite->drop();
 		}
 		if (Random::Int(5) == 0) 
 		{
-			//Dungeon.level.drop(new Dewdrop(), pos).sprite.drop();
+			Dungeon::level->drop(new Dewdrop(), pos)->sprite->drop();
 		}
 	}
 }
@@ -54,8 +68,7 @@ const std::string Plant::POS = "pos";
 
 const std::string Plant::Seed::AC_PLANT = "PLANT";
 
-Plant::Seed::Seed(Plant* pl)
-:p(pl)
+Plant::Seed::Seed()
 {
 	stackable = true;
 	defaultAction = AC_THROW;
@@ -71,11 +84,11 @@ void Plant::Seed::execute(Hero* hero, std::string action)
 {
 	if (action.compare(AC_PLANT) == 0) 
 	{
-		//hero->spend(TIME_TO_PLANT);
+		hero->spend(TIME_TO_PLANT);
 		hero->busy();
-		//((Seed*)detach(hero->belongings->backpack))->onThrow(hero->pos);
+		((Seed*)detach(hero->belongings->backpack))->onThrow(hero->pos);
 
-		//hero->sprite->operate(hero->pos);
+		hero->sprite->Operate(hero->pos);
 	}
 	else 
 	{
@@ -85,12 +98,12 @@ void Plant::Seed::execute(Hero* hero, std::string action)
 
 Plant* Plant::Seed::couch(int pos)
 {
-	//if (Dungeon.visible[pos]) {
-	//	//Sample.INSTANCE.play(Assets.SND_PLANT);
-	//}
-	//Plant plant = plantClass.newInstance();
-	//plant.pos = pos;
-	//return plant;
+	if (Dungeon::visible[pos]) {
+		//Sample.INSTANCE.play(Assets.SND_PLANT);
+	}
+	Plant* plant = plantClass();
+	plant->pos = pos;
+	return plant;
 	return NULL;
 }
 
@@ -114,3 +127,400 @@ void Plant::Seed::onThrow(int cell)
 const std::string Plant::Seed::TXT_INFO = "Throw this seed to the place where you want to grow %s.\n\n%s";
 
 const float Plant::Seed::TIME_TO_PLANT = 1.0f;
+
+const String Firebloom::TXT_DESC = "When something touches a Firebloom, it bursts into flames.";
+Firebloom::Firebloom()
+{
+	image = 0;
+	plantName = "Firebloom";
+}
+
+void Firebloom::activate(Char* ch)
+{
+	Plant::activate(ch);
+
+	//GameScene.add(Blob.seed(pos, 2, Fire.class));
+
+	if (Dungeon::visible[pos]) {
+		CellEmitter::get(pos)->burst(FlameParticle::FACTORY, 5);
+	}
+}
+
+Firebloom::Seed::Seed()
+{
+	plantName = "Firebloom";
+
+	name = "seed of " + plantName;
+	image = ItemSpriteSheet::SEED_FIREBLOOM;
+
+	plantClass = Firebloom::Create;
+	//alchemyClass = PotionOfLiquidFlame.class;
+}
+
+const String Icecap::TXT_DESC = "Upon touching an Icecap excretes a pollen, which freezes everything in its vicinity.";
+
+Icecap::Icecap()
+{
+	image = 1;
+	plantName = "Icecap";
+}
+
+void Icecap::activate(Char* ch)
+{
+	Plant::activate(ch);
+
+	PathFinder::buildDistanceMap(pos, BArray::not(Level::losBlocking, std::vector<bool>()), 1);
+
+	//Fire fire = (Fire)Dungeon.level.blobs.get(Fire.class);
+
+	for (int i = 0; i < Level::LENGTH; i++) {
+		if (PathFinder::distance[i] < std::numeric_limits<int>::max()) {
+			//Freezing.affect(i, fire);
+		}
+	}
+}
+
+Icecap::Seed::Seed()
+{
+	plantName = "Icecap";
+
+	name = "seed of " + plantName;
+	image = ItemSpriteSheet::SEED_ICECAP;
+
+	plantClass = Icecap::Create;
+	//alchemyClass = PotionOfFrost.class;
+}
+
+const String Sorrowmoss::TXT_DESC =
+"A Sorrowmoss is a flower (not a moss) with razor-sharp petals, coated with a deadly venom.";
+
+Sorrowmoss::Sorrowmoss()
+{
+	image = 2;
+	plantName = "Sorrowmoss";
+}
+
+void Sorrowmoss::activate(Char* ch)
+{
+	Plant::activate(ch);
+
+	if (ch != NULL) {
+		//Buff.affect(ch, Poison.class).set(Poison.durationFactor(ch) * (4 + Dungeon.depth / 2));
+	}
+
+	if (Dungeon::visible[pos]) {
+		//CellEmitter::center(pos)->burst(PoisonParticle.SPLASH, 3);
+	}
+}
+
+Sorrowmoss::Seed::Seed()
+{
+	plantName = "Sorrowmoss";
+
+	name = "seed of " + plantName;
+	image = ItemSpriteSheet::SEED_SORROWMOSS;
+
+	plantClass = Sorrowmoss::Create;
+	//alchemyClass = PotionOfToxicGas.class;
+}
+
+const String Dreamweed::TXT_DESC =
+"Upon touching a Dreamweed it secretes a glittering cloud of confusing gas.";
+
+Dreamweed::Dreamweed()
+{
+	image = 3;
+	plantName = "Dreamweed";
+}
+
+void Dreamweed::activate(Char* ch)
+{
+	Plant::activate(ch);
+
+	if (ch != NULL) {
+		//GameScene.add(Blob.seed(pos, 400, ConfusionGas.class));
+	}
+}
+
+Dreamweed::Seed::Seed()
+{
+	plantName = "Dreamweed";
+
+	name = "seed of " + plantName;
+	image = ItemSpriteSheet::SEED_DREAMWEED;
+
+	plantClass = Dreamweed::Create;
+	//alchemyClass = PotionOfInvisibility.class;
+}
+
+const String Sungrass::TXT_DESC = "Sungrass is renowned for its sap's healing properties.";
+
+Sungrass::Sungrass()
+{
+	image = 4;
+	plantName = "Sungrass";
+}
+
+void Sungrass::activate(Char* ch)
+{
+	Plant::activate(ch);
+
+	if (ch != NULL) {
+		//Buff.affect(ch, Health.class);
+	}
+
+	if (Dungeon::visible[pos]) {
+		//CellEmitter.get(pos).start(ShaftParticle.FACTORY, 0.2f, 3);
+	}
+}
+
+Sungrass::Seed::Seed()
+{
+	plantName = "Sungrass";
+
+	name = "seed of " + plantName;
+	image = ItemSpriteSheet::SEED_SUNGRASS;
+
+	plantClass = Sungrass::Create;
+	//alchemyClass = PotionOfHealing.class;
+}
+
+const float Sungrass::Health::STEP=5.0f;
+
+const String Sungrass::Health::POS = "pos";
+
+bool Sungrass::Health::attachTo(Char* target)
+{
+	pos = target->pos;
+	return Buff::attachTo(target);
+}
+
+boolean Sungrass::Health::act()
+{
+	if (target->pos != pos || target->HP >= target->HT) {
+		detach();
+	}
+	else {
+		target->HP = std::min(target->HT, target->HP + target->HT / 10);
+		target->sprite->emitter()->burst(Speck::factory(Speck::HEALING), 1);
+	}
+	spend(STEP);
+	return true;
+}
+
+int Sungrass::Health::icon()
+{
+	return BuffIndicator::HEALING;
+}
+
+void Sungrass::Health::storeInBundle(Bundle* bundle)
+{
+	Buff::storeInBundle(bundle);
+	bundle->put(POS, pos);
+}
+
+void Sungrass::Health::restoreFromBundle(Bundle* bundle)
+{
+	Buff::restoreFromBundle(bundle);
+	pos = bundle->getInt(POS);
+}
+
+const String Earthroot::TXT_DESC =
+std::string("When a creature touches an Earthroot, its roots ") +
+std::string("create a kind of natural armor around it.");
+
+Earthroot::Earthroot()
+{
+	image = 5;
+	plantName = "Earthroot";
+}
+
+void Earthroot::activate(Char* ch)
+{
+	Plant::activate(ch);
+
+	if (ch != NULL) {
+		//Buff.affect(ch, Armor.class).level = ch.HT;
+	}
+
+	if (Dungeon::visible[pos]) {
+		//CellEmitter.bottom(pos).start(EarthParticle.FACTORY, 0.05f, 8);
+		Camera::mainCamera->shake(1, 0.4f);
+	}
+}
+
+Earthroot::Seed::Seed()
+{
+	plantName = "Earthroot";
+
+	name = "seed of " + plantName;
+	image = ItemSpriteSheet::SEED_EARTHROOT;
+
+	plantClass = Earthroot::Create;
+	//alchemyClass = PotionOfParalyticGas.class;
+}
+
+const float Earthroot::Armor::STEP = 1.0f;
+
+const String Earthroot::Armor::POS = "pos";
+const String Earthroot::Armor::LEVEL = "level";
+
+bool Earthroot::Armor::attachTo(Char* target)
+{
+	pos = target->pos;
+	return Buff::attachTo(target);
+}
+
+boolean Earthroot::Armor::act()
+{
+	if (target->pos != pos) {
+		detach();
+	}
+	spend(STEP);
+	return true;
+}
+
+int Earthroot::Armor::absorb(int damage)
+{
+	if (damage >= level) {
+		detach();
+		return damage - level;
+	}
+	else {
+		level -= damage;
+		return 0;
+	}
+}
+
+int Earthroot::Armor::icon()
+{
+	return BuffIndicator::ARMOR;
+}
+
+void Earthroot::Armor::storeInBundle(Bundle* bundle)
+{
+	Buff::storeInBundle(bundle);
+	bundle->put(POS, pos);
+	bundle->put(LEVEL, level);
+}
+
+void Earthroot::Armor::restoreFromBundle(Bundle* bundle)
+{
+	Buff::restoreFromBundle(bundle);
+	pos = bundle->getInt(POS);
+	level = bundle->getInt(LEVEL);
+}
+
+const String Fadeleaf::TXT_DESC =
+std::string("Touching a Fadeleaf will teleport any creature ") +
+std::string("to a random place on the current level.");
+
+Fadeleaf::Fadeleaf()
+{
+	image = 6;
+	plantName = "Fadeleaf";
+}
+
+void Fadeleaf::activate(Char* ch)
+{
+	Plant::activate(ch);
+
+	if (dynamic_cast<Hero*>(ch)) {
+
+		ScrollOfTeleportation::teleportHero((Hero*)ch);
+		((Hero*)ch)->curAction = NULL;
+
+	}
+	else if (dynamic_cast<Mob*>(ch)) {
+
+		int count = 10;
+		int newPos;
+		do {
+			newPos = Dungeon::level->randomRespawnCell();
+			if (count-- <= 0) {
+				break;
+			}
+		} while (newPos == -1);
+
+		if (newPos != -1) {
+
+			ch->pos = newPos;
+			ch->sprite->place(ch->pos);
+			ch->sprite->visible = Dungeon::visible[pos];
+
+		}
+
+	}
+
+	if (Dungeon::visible[pos]) {
+		CellEmitter::get(pos)->start(Speck::factory(Speck::LIGHT), 0.2f, 3);
+	}
+}
+
+Fadeleaf::Seed::Seed()
+{
+	plantName = "Fadeleaf";
+
+	name = "seed of " + plantName;
+	image = ItemSpriteSheet::SEED_FADELEAF;
+
+	plantClass = Fadeleaf::Create;
+	//alchemyClass = PotionOfMindVision.class;
+}
+
+const String Rotberry::TXT_DESC =
+"Berries of this shrub taste like sweet, sweet death.";
+
+Rotberry::Rotberry()
+{
+	image = 7;
+	plantName = "Rotberry";
+}
+
+void Rotberry::activate(Char* ch)
+{
+	Plant::activate(ch);
+
+	//GameScene.add(Blob.seed(pos, 100, ToxicGas.class));
+
+	Dungeon::level->drop(new Seed(), pos)->sprite->drop();
+
+	if (ch != NULL) {
+		//Buff.prolong(ch, Roots.class, Roots.TICK * 3);
+	}
+}
+
+Rotberry::Seed::Seed()
+{
+	plantName = "Rotberry";
+
+	name = "seed of " + plantName;
+	image = ItemSpriteSheet::SEED_ROTBERRY;
+
+	plantClass = Rotberry::Create;
+	//alchemyClass = PotionOfStrength.class;
+}
+
+boolean Rotberry::Seed::collect(Bag* container)
+{
+	if (Plant::Seed::collect(container)) {
+
+		if (Dungeon::level != NULL) {
+
+			for (std::set<Mob*>::iterator itr = Dungeon::level->mobs.begin();
+				itr != Dungeon::level->mobs.end(); itr++){
+				Mob* mob = *itr;
+				mob->beckon(Dungeon::hero->pos);
+			}
+
+			GLog::w("The seed emits a roar that echoes throughout the dungeon!");
+			CellEmitter::center(Dungeon::hero->pos)->start(Speck::factory(Speck::SCREAM), 0.3f, 3);
+			//Sample.INSTANCE.play(Assets.SND_CHALLENGE);
+		}
+
+		return true;
+	}
+	else {
+		return false;
+	}
+}

@@ -2,6 +2,11 @@
 #include "gamescene.h"
 #include "util.h"
 #include "bpt.h"
+#include "dungeon.h"
+#include "level.h"
+#include "heap.h"
+#include "charsprite.h"
+#include "speck.h"
 
 const char* Item::TXT_PACK_FULL = "lang.item_packfull";
 
@@ -24,10 +29,10 @@ const std::string Item::AC_THROW = "lang.item_throw";
 
 void Item::onThrow(int cell)
 {
-	//Heap heap = Dungeon.level.drop(this, cell);
-	//if (!heap.isEmpty()) {
-	//	heap.sprite.drop(cell);
-	//}
+	Heap* heap = Dungeon::level->drop(this, cell);
+	if (!heap->isEmpty()) {
+		heap->sprite->drop(cell);
+	}
 }
 
 Hero* Item::curUser;
@@ -51,6 +56,11 @@ namespace{
 }
 
 CellSelector::Listener* Item::thrower = new CellSelectorListenerNew();
+
+Item::Item()
+{
+	quantity = 1;
+}
 
 void Item::actions(Hero* hero, std::vector<std::string>& actions)
 {
@@ -83,6 +93,11 @@ void Item::doDrop(Hero* hero)
 void Item::doThrow(Hero* hero)
 {
 	GameScene::selectCell(thrower);
+}
+
+void Item::evoke(Hero* hero)
+{
+	hero->sprite->emitter()->burst(Speck::factory(Speck::EVOKE), 5);
 }
 
 std::string Item::toString()
@@ -253,6 +268,53 @@ Item* Item::identify()
 	cursedKnown = true;
 
 	return this;
+}
+
+boolean Item::collect(Bag* container)
+{
+	//ArrayList<Item> items = container.items;
+	//
+	//if (items.contains(this)) {
+	//	return true;
+	//}
+	//
+	//for (Item item : items) {
+	//	if (item instanceof Bag && ((Bag)item).grab(this)) {
+	//		return collect((Bag)item);
+	//	}
+	//}
+	//
+	//if (stackable) {
+	//
+	//	Class< ? >c = getClass();
+	//	for (Item item : items) {
+	//		if (item.getClass() == c) {
+	//			item.quantity += quantity;
+	//			item.updateQuickslot();
+	//			return true;
+	//		}
+	//	}
+	//}
+	//
+	//if (items.size() < container.size) {
+	//
+	//	if (Dungeon.hero != null && Dungeon.hero.isAlive()) {
+	//		Badges.validateItemLevelAquired(this);
+	//	}
+	//
+	//	items.add(this);
+	//	QuickSlot.refresh();
+	//	Collections.sort(items, itemComparator);
+	//	return true;
+	//
+	//}
+	//else {
+	//
+	//	GLog.n(TXT_PACK_FULL, name());
+	//	return false;
+	//
+	//}
+	return false;
 }
 
 void Item::use()

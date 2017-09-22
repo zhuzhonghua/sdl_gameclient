@@ -92,6 +92,9 @@ public:
 	virtual int price() {
 		return isKnown() ? 30 * quantity : InventoryScroll::price();
 	}
+
+	virtual std::string getClassName() { return "ScrollOfIdentify"; }
+	static Item* Create(){ return new ScrollOfIdentify(); }
 protected:
 	virtual void onItemSelected(Item* item);
 };
@@ -110,6 +113,8 @@ public:
 		return isKnown() ? 25 * quantity : Scroll::price();
 	}
 	static void discover(int cell);
+	virtual std::string getClassName() { return "ScrollOfMagicMapping"; }
+	static Item* Create(){ return new ScrollOfMagicMapping(); }
 protected:
 	virtual void doRead();
 private:
@@ -130,6 +135,8 @@ public:
 	virtual int price() {
 		return isKnown() ? 40 * quantity : Scroll::price();
 	}
+	virtual std::string getClassName() { return "ScrollOfRecharging"; }
+	static Item* Create(){ return new ScrollOfRecharging(); }
 protected:
 	virtual void doRead();
 };
@@ -149,6 +156,8 @@ public:
 	virtual int price() {
 		return isKnown() ? 30 * quantity : Scroll::price();
 	}
+	virtual std::string getClassName() { return "ScrollOfRemoveCurse"; }
+	static Item* Create(){ return new ScrollOfRemoveCurse(); }
 protected:
 	virtual void doRead();
 private:
@@ -176,6 +185,8 @@ public:
 	virtual int price() {
 		return isKnown() ? 40 * quantity : Scroll::price();
 	}
+	virtual std::string getClassName() { return "ScrollOfTeleportation"; }
+	static Item* Create(){ return new ScrollOfTeleportation(); }
 protected:
 	virtual void doRead();
 };
@@ -189,6 +200,8 @@ public:
 			std::string("When read aloud, this scroll will unleash a challenging roar ") +
 			std::string("that will awaken all monsters and alert them to the reader's location.");
 	}
+	virtual std::string getClassName() { return "ScrollOfChallenge"; }
+	static Item* Create(){ return new ScrollOfChallenge(); }
 protected:
 	virtual void doRead();
 };
@@ -205,6 +218,8 @@ public:
 	virtual int price() {
 		return isKnown() ? 50 * quantity : Scroll::price();
 	}
+	virtual std::string getClassName() { return "ScrollOfTerror"; }
+	static Item* Create(){ return new ScrollOfTerror(); }
 protected:
 	virtual void doRead();
 };
@@ -221,6 +236,8 @@ public:
 	virtual int price() {
 		return isKnown() ? 50 * quantity : Scroll::price();
 	}
+	virtual std::string getClassName() { return "ScrollOfLullaby"; }
+	static Item* Create(){ return new ScrollOfLullaby(); }
 protected:
 	virtual void doRead();
 };
@@ -238,6 +255,8 @@ public:
 	virtual int price() {
 		return isKnown() ? 80 * quantity : Scroll::price();
 	}
+	virtual std::string getClassName() { return "ScrollOfPsionicBlast"; }
+	static Item* Create(){ return new ScrollOfPsionicBlast(); }
 protected:
 	virtual void doRead();
 };
@@ -251,6 +270,8 @@ public:
 		return
 			"The incantation on this scroll will create illusionary twins of the reader, which will chase his enemies.";
 	}
+	virtual std::string getClassName() { return "ScrollOfMirrorImage"; }
+	static Item* Create(){ return new ScrollOfMirrorImage(); }
 protected:
 	virtual void doRead();
 };
@@ -271,6 +292,8 @@ public:
 			std::string("the effect of a ring on its wearer will intensify. Weapons and armor will also ") +
 			std::string("require less strength to use, and any curses on the item will be lifted.");
 	}
+	virtual std::string getClassName() { return "ScrollOfUpgrade"; }
+	static Item* Create(){ return new ScrollOfUpgrade(); }
 protected:
 	virtual void onItemSelected(Item* item);
 };
@@ -289,4 +312,6 @@ public:
 			std::string("This scroll is able to imbue a weapon or an armor ") +
 			std::string("with a random enchantment, granting it a special power.");
 	}
+	virtual std::string getClassName() { return "ScrollOfEnchantment"; }
+	static Item* Create(){ return new ScrollOfEnchantment(); }
 };

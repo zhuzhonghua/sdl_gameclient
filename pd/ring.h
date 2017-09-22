@@ -111,6 +111,7 @@ public:
 	virtual std::string desc();
 
 	virtual std::string getClassName() { return "RingOfMending"; }
+	static Item* Create() { return new RingOfMending(); }
 protected:
 	virtual RingBuff* Buff(){ return new Rejuvenation(this); }
 };
@@ -126,6 +127,9 @@ public:
 	RingOfDetection();
 
 	virtual bool doEquip(Hero* hero);
+
+	virtual std::string getClassName() { return "RingOfDetection"; }
+	static Item* Create() { return new RingOfDetection(); }
 };
 
 class RingOfShadows :public Ring{
@@ -139,6 +143,7 @@ public:
 
 	RingOfShadows();
 	virtual std::string getClassName() { return "RingOfShadows"; }
+	static Item* Create() { return new RingOfShadows(); }
 	virtual std::string desc();
 protected:
 	virtual RingBuff* Buff() {
@@ -157,6 +162,7 @@ public:
 
 	RingOfPower(){ name = "Ring of Power"; }
 	virtual std::string getClassName() { return "RingOfPower"; }
+	static Item* Create() { return new RingOfPower(); }
 	virtual std::string desc();
 protected:
 	virtual RingBuff* Buff() {
@@ -175,6 +181,7 @@ public:
 
 	RingOfHerbalism(){ name = "Ring of Herbalism"; }
 	virtual std::string getClassName() { return "RingOfHerbalism"; }
+	static Item* Create() { return new RingOfHerbalism(); }
 	virtual std::string desc();
 protected:
 	virtual RingBuff* Buff() {
@@ -193,6 +200,7 @@ public:
 
 	RingOfAccuracy(){ name = "Ring of Accuracy"; }
 	virtual std::string getClassName() { return "RingOfAccuracy"; }
+	static Item* Create() { return new RingOfAccuracy(); }
 	virtual std::string desc();
 protected:
 	virtual RingBuff* Buff() {
@@ -211,6 +219,7 @@ public:
 
 	RingOfEvasion(){ name = "Ring of Evasion"; }
 	virtual std::string getClassName() { return "RingOfEvasion"; }
+	static Item* Create() { return new RingOfEvasion(); }
 	virtual std::string desc();
 protected:
 	virtual RingBuff* Buff() {
@@ -229,6 +238,7 @@ public:
 
 	RingOfSatiety(){ name = "Ring of Satiety"; }
 	virtual std::string getClassName() { return "RingOfSatiety"; }
+	static Item* Create() { return new RingOfSatiety(); }
 	virtual std::string desc();
 protected:
 	virtual RingBuff* Buff() {
@@ -242,11 +252,12 @@ public:
 	public:
 		Haste(Ring* r) :RingBuff(r){}
 		virtual std::string getClassName(){ return className(); }
-		static std::string className() { return "Haste"; }
+		static std::string className() { return "RingOfHaste::Haste"; }
 	};
 
 	RingOfHaste(){ name = "Ring of Haste"; }
 	virtual std::string getClassName() { return "RingOfHaste"; }
+	static Item* Create() { return new RingOfHaste(); }
 	virtual std::string desc();
 protected:
 	virtual RingBuff* Buff() {
@@ -265,6 +276,7 @@ public:
 
 	RingOfHaggler(){ name = "Ring of Haggler"; }
 	virtual std::string getClassName() { return "RingOfHaggler"; }
+	static Item* Create() { return new RingOfHaggler(); }
 	virtual std::string desc();
 
 	virtual void use() {
@@ -301,6 +313,7 @@ public:
 
 	RingOfElements();
 	virtual std::string getClassName() { return "RingOfElements"; }
+	static Item* Create() { return new RingOfElements(); }
 	virtual std::string desc();
 
 	
@@ -325,6 +338,7 @@ public:
 
 	RingOfThorns(){ name = "Ring of Thorns"; }
 	virtual std::string getClassName() { return "RingOfThorns"; }
+	static Item* Create() { return new RingOfThorns(); }
 	virtual std::string desc();
 
 	virtual void use() {

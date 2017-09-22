@@ -472,6 +472,14 @@ void GameScene::addMob(Mob* mob)
 	scene->addMobSprite(mob);
 }
 
+void GameScene::addBlob(Blob* gas)
+{
+	Actor::add(gas);
+	if (scene != NULL) {
+		scene->addBlobSprite(gas);
+	}
+}
+
 void GameScene::update()
 {
 	if (Dungeon::hero == NULL) 
@@ -524,7 +532,27 @@ void GameScene::updateMap(int cell)
 	}
 }
 
+void GameScene::discoverTile(int pos, int oldValue)
+{
+	if (scene != NULL) {
+		scene->tiles->discover(pos, oldValue);
+	}
+}
+
 void GameScene::pickUp(Item* item)
 {
 	scene->toolbar->pickup(item);
+}
+
+WndBag* GameScene::selectItem(WndBag::Listener* listener, WndBag::Mode mode, const std::string& title)
+{
+	cancelCellSelector();
+	//
+	//WndBag* wnd = mode == WndBag::Mode::SEED ?
+	//	WndBag::seedPouch(listener, mode, title) :
+	//	WndBag::lastBag(listener, mode, title);
+	//scene->add(wnd);
+	//
+	//return wnd;
+	return NULL;
 }

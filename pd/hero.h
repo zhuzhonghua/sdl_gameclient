@@ -5,12 +5,14 @@
 #include "char.h"
 #include "heroclass.h"
 #include "armor.h"
+#include "typedefine.h"
 #include <string>
 
 class Belongings;
 class HeroAction;
 class Mob;
 class HeroActionMove;
+class MissileWeapon;
 
 class Hero:public Char{
 private:
@@ -50,17 +52,22 @@ public:
 public:
 	static void preview(GamesInProgress::Info& info, Bundle* bundle);
 	int tier();
+	boolean shoot(Char* enemy, MissileWeapon* wep);
 	void live();
 	void updateAwareness();
 
 	Hero();
-
+	int sTR() {
+		return weakened ? STR - 2 : STR;
+	}
 	HeroClass heroClass;
 	HeroSubClass subClass;
 
+	MissileWeapon* rangedWeapon;
 	Belongings* belongings;
 
 	int STR;
+	boolean weakened;
 
 	int lvl;
 	int exp;
@@ -89,6 +96,8 @@ public:
 	void interrupt();
 	bool search(bool intentional);
 	void earnExp(int exp);
+
+	virtual void spend(float time);
 
 	class Doom {
 	public:

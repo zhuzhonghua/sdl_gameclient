@@ -22,6 +22,8 @@ Thief::Thief()
 	lootChance = 0.01f;
 
 	//FLEEING = new Fleeing();
+
+	item = NULL;
 }
 
 CharSprite* Thief::Sprite()

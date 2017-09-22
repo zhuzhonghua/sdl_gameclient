@@ -22,6 +22,9 @@ public:
 	virtual std::string info();
 	virtual Item* random();
 
+	virtual std::string getClassName() { return "Gold"; }
 	virtual void storeInBundle(Bundle* bundle);
 	virtual void restoreFromBundle(Bundle* bundle);
+
+	static Item* Create(){ return new Gold(); }
 };

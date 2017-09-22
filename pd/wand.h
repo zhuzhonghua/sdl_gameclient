@@ -4,6 +4,7 @@
 #include "itemstatushandler.h"
 #include "buff.h"
 #include "mob.h"
+#include "wndbag.h"
 
 class Wand :public KindOfWeapon{
 protected:
@@ -148,6 +149,8 @@ public:
 			std::string("A blast from this wand will teleport a creature against ") +
 			std::string("its will to a random place on the current level.");
 	}
+	virtual std::string getClassName() { return "WandOfTeleportation"; }
+	static Item* Create(){ return new WandOfTeleportation(); }
 protected:
 	virtual void onZap(int cell);
 	void fx(int cell, Callback* callback);
@@ -161,6 +164,8 @@ public:
 			std::string("This wand will cause a creature to move and attack ") +
 			std::string("at half its ordinary speed until the effect ends");
 	}
+	virtual std::string getClassName() { return "WandOfSlowness"; }
+	static Item* Create(){ return new WandOfSlowness(); }
 protected:
 	virtual void onZap(int cell);
 	void fx(int cell, Callback* callback);
@@ -174,6 +179,8 @@ public:
 			std::string("This wand unleashes bursts of magical fire. It will ignite ") +
 			std::string("flammable terrain, and will damage and burn a creature it hits.");
 	}
+	virtual std::string getClassName() { return "WandOfFirebolt"; }
+	static Item* Create(){ return new WandOfFirebolt(); }
 protected:
 	virtual void onZap(int cell);
 	void fx(int cell, Callback* callback);
@@ -190,6 +197,8 @@ public:
 			std::string("damage until the effect ends. The duration of the effect increases ") +
 			std::string("with the level of the staff.");
 	}
+	virtual std::string getClassName() { return "WandOfPoison"; }
+	static Item* Create(){ return new WandOfPoison(); }
 protected:
 	virtual void onZap(int cell);
 	void fx(int cell, Callback* callback);
@@ -202,6 +211,8 @@ public:
 		return
 			std::string("\"When life ceases new life always begins to grow... The eternal cycle always remains!\"");
 	}
+	virtual std::string getClassName() { return "WandOfRegrowth"; }
+	static Item* Create(){ return new WandOfRegrowth(); }
 protected:
 	virtual void onZap(int cell);
 	void fx(int cell, Callback* callback);
@@ -217,6 +228,8 @@ public:
 			std::string("This wand will allow you to teleport in the chosen direction. ") +
 			std::string("Creatures and inanimate obstructions will block the teleportation.");
 	}
+	virtual std::string getClassName() { return "WandOfBlink"; }
+	static Item* Create(){ return new WandOfBlink(); }
 protected:
 	virtual void onZap(int cell);
 	void fx(int cell, Callback* callback);
@@ -225,6 +238,15 @@ protected:
 class WandOfLightning :public Wand{
 public:
 	WandOfLightning();
+	virtual std::string getClassName() { return "WandOfLightning"; }
+	static Item* Create(){ return new WandOfLightning(); }
+
+	virtual std::string desc() {
+		return
+			std::string("This wand conjures forth deadly arcs of electricity, which deal damage ") +
+			std::string("to several creatures standing close to each other.");
+	}
+
 private:
 	std::list<Char*> affected;
 
@@ -233,11 +255,7 @@ private:
 
 	void hit(Char* ch, int damage);
 
-	virtual std::string desc() {
-		return
-			std::string("This wand conjures forth deadly arcs of electricity, which deal damage ") +
-			std::string("to several creatures standing close to each other.");
-	}
+	
 protected:
 	virtual void onZap(int cell);
 	void fx(int cell, Callback* callback);
@@ -252,6 +270,8 @@ public:
 			std::string("The purple light from this wand will make the target run amok ") +
 			std::string("attacking random creatures in its vicinity.");
 	}
+	virtual std::string getClassName() { return "WandOfAmok"; }
+	static Item* Create(){ return new WandOfAmok(); }
 protected:
 	virtual void onZap(int cell);
 	void fx(int cell, Callback* callback);
@@ -267,6 +287,8 @@ public:
 			std::string("Waves of magic force radiated from it will affect all cells on their way triggering traps, ") +
 			std::string("trampling high vegetation, opening closed doors and closing open ones.");
 	}
+	virtual std::string getClassName() { return "WandOfReach"; }
+	static Item* Create(){ return new WandOfReach(); }
 private:
 	static const std::string TXT_YOU_NOW_HAVE;
 
@@ -307,6 +329,8 @@ public:
 		return
 			std::string("A flick of this wand summons a flock of magic sheep, creating temporary impenetrable obstacle.");
 	}
+	virtual std::string getClassName() { return "WandOfFlock"; }
+	static Item* Create(){ return new WandOfFlock(); }
 protected:
 	virtual void onZap(int cell);
 	void fx(int cell, Callback* callback);
@@ -321,6 +345,8 @@ public:
 			std::string("This wand emits a beam of destructive energy, which pierces all creatures in its way. ") +
 			std::string("The more targets it hits, the more damage it inflicts to each of them.");
 	}
+	virtual std::string getClassName() { return "WandOfDisintegration"; }
+	static Item* Create(){ return new WandOfDisintegration(); }
 private:
 	int distance() {
 		return Level() + 4;
@@ -339,8 +365,45 @@ public:
 			std::string ("When a discharge of this wand hits a wall (or any other solid obstacle) it causes ") +
 			std::string("an avalanche of stones, damaging and stunning all creatures in the affected area.");
 	}
-
+	virtual std::string getClassName() { return "WandOfAvalanche"; }
+	static Item* Create(){ return new WandOfAvalanche(); }
 protected:
 	virtual void onZap(int cell);
 	void fx(int cell, Callback* callback);
+};
+
+class WandOfMagicMissile :public Wand{
+public:
+	WandOfMagicMissile();
+
+	virtual std::string getClassName() { return "WandOfMagicMissile"; }
+	static Item* Create(){ return new WandOfMagicMissile(); }
+
+	static const String AC_DISENCHANT;
+
+	virtual void actions(Hero* hero, std::vector<std::string>& actions);
+	virtual void execute(Hero* hero, const std::string& action);
+	virtual void setKnown() {
+	}
+	virtual String desc() {
+		return
+			"This wand launches missiles of pure magical energy, dealing moderate damage to a target creature.";
+	}
+
+	static const String TXT_DISENCHANTED;
+	static const float TIME_TO_DISENCHANT;
+
+	boolean disenchantEquipped;
+private:
+	static const String TXT_SELECT_WAND;
+	
+	WndBag::Listener* itemSelector;
+protected:
+	virtual void onZap(int cell);
+	virtual boolean isKnown() {
+		return true;
+	}
+	virtual int initialCharges() {
+		return 3;
+	}
 };

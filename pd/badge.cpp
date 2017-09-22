@@ -104,8 +104,8 @@ const Badges::Badge Badges::HAPPY_END("HAPPY_END", BPT::getText("lang.badge_HAPP
 const Badges::Badge Badges::CHAMPION("CHAMPION", BPT::getText("lang.badge_CHAMPION_desc"), 39, true);
 const Badges::Badge Badges::SUPPORTER("SUPPORTER", BPT::getText("lang.badge_SUPPORTER_desc"), 31, true);
 
-std::set<Badges::Badge> Badges::global;
-std::set<Badges::Badge> Badges::local;
+HashSet<Badges::Badge> Badges::global;
+HashSet<Badges::Badge> Badges::local;
 
 bool Badges::saveNeeded = false;
 
@@ -177,6 +177,19 @@ void Badges::displayBadge(const Badges::Badge* badge)
 			GLog::h("New badge: %s", badge->description);
 		}
 		PixelScene::showBadge(badge);
+	}
+}
+
+void Badges::validateYASD()
+{
+	if (global.contains(Badges::DEATH_FROM_FIRE) &&
+		global.contains(Badges::DEATH_FROM_POISON) &&
+		global.contains(Badges::DEATH_FROM_GAS) &&
+		global.contains(Badges::DEATH_FROM_HUNGER)) {
+
+		Badge badge = Badges::YASD;
+		local.add(badge);
+		displayBadge(&badge);
 	}
 }
 
@@ -405,6 +418,65 @@ void Badges::validateNoKilling()
 		local.insert(badge);
 		displayBadge(&badge);
 	}
+}
+
+void Badges::validateItemLevelAquired(Item* item)
+{
+	// This method should be called:
+	// 1) When an item gets obtained (Item.collect)
+	// 2) When an item gets upgraded (ScrollOfUpgrade, ScrollOfWeaponUpgrade, ShortSword, WandOfMagicMissile)
+	// 3) When an item gets identified
+	if (!item->levelKnown) {
+		return;
+	}
+
+	const Badge* badge = NULL;
+
+	if (!local.contains(Badges::ITEM_LEVEL_1) && item->Level() >= 3) {
+		badge = &Badges::ITEM_LEVEL_1;
+		local.add(*badge);
+	}
+	if (!local.contains(Badges::ITEM_LEVEL_2) && item->Level() >= 6) {
+		badge = &Badges::ITEM_LEVEL_2;
+		local.add(*badge);
+	}
+	if (!local.contains(Badges::ITEM_LEVEL_3) && item->Level() >= 9) {
+		badge = &Badges::ITEM_LEVEL_3;
+		local.add(*badge);
+	}
+	if (!local.contains(Badges::ITEM_LEVEL_4) && item->Level() >= 12) {
+		badge = &Badges::ITEM_LEVEL_4;
+		local.add(*badge);
+	}
+
+	displayBadge(badge);
+}
+
+void Badges::validateDeathFromFire()
+{
+	Badge badge = Badges::DEATH_FROM_FIRE;
+	local.add(badge);
+	displayBadge(&badge);
+
+	validateYASD();
+}
+
+void Badges::validateGrimWeapon()
+{
+	if (!local.contains(Badges::GRIM_WEAPON)) {
+		Badge badge = Badges::GRIM_WEAPON;
+		local.add(badge);
+		displayBadge(&badge);
+	}
+}
+
+void Badges::validateDeathFromPoison()
+{
+	Badge badge = Badges::DEATH_FROM_POISON;
+	local.add(badge);
+	displayBadge(&badge);
+
+	validateYASD();
 }
 
 bool Badges::isUnlocked(Badges::Badge badge)

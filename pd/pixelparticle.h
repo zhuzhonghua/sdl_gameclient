@@ -32,3 +32,13 @@ public:
 	void reset(float x, float y);
 	virtual void update();
 };
+
+class ElmoParticle :public Shrinking{
+public:
+	static Emitter::Factory* FACTORY;
+
+	ElmoParticle();
+	void reset(float x, float y);
+
+	virtual void update();
+};

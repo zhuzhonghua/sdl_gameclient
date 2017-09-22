@@ -4,9 +4,12 @@
 
 #include <set>
 #include <map>
+#include "typedefine.h"
 
 #include "bundle.h"
 #include "callback.h"
+
+class Item;
 
 class Badges{
 public:
@@ -145,8 +148,8 @@ public:
 public:
 	static Callback* loadingListener;
 private:
-	static std::set<Badge> global;
-	static std::set<Badge> local;
+	static HashSet<Badge> global;
+	static HashSet<Badge> local;
 
 	static bool saveNeeded;
 
@@ -157,6 +160,8 @@ private:
 	static void restore(Bundle* bundle, std::set<Badge>& badges);
 	static void store(Bundle* bundle, std::set<Badge>& badges);
 	static void displayBadge(const Badge* badge);
+
+	static void validateYASD();
 public: 
 	static void reset();
 	static void loadGlobal();
@@ -172,6 +177,10 @@ public:
 	static void validatePotionsCooked();
 	static void validatePiranhasKilled();
 	static void validateNoKilling();
+	static void validateItemLevelAquired(Item* item);
+	static void validateDeathFromFire();
+	static void validateGrimWeapon();
+	static void validateDeathFromPoison();
 
 	static bool isUnlocked(Badge badge);
 };

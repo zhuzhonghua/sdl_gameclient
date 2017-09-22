@@ -92,3 +92,49 @@ void SparkParticle::update()
 	PixelParticle::update();
 	size(Random::Float(5 * _left / _lifespan));
 }
+
+namespace{
+	class FactoryNew :public Emitter::Factory{
+	public:
+		virtual void emit(Emitter* emitter, int index, float x, float y)
+		{
+			ElmoParticle* ep = (ElmoParticle*)emitter->recycle("ElmoParticle");
+			if (ep == NULL)
+			{
+				ep = new ElmoParticle();
+				emitter->add(ep);
+			}
+			ep->reset(x, y);
+		}
+		virtual bool lightMode() {
+			return true;
+		}
+	};
+}
+Emitter::Factory* ElmoParticle::FACTORY;
+
+ElmoParticle::ElmoParticle()
+{
+	tag = "ElmoParticle";
+}
+
+void ElmoParticle::reset(float x, float y)
+{
+	revive();
+
+	this->x = x;
+	this->y = y;
+
+	_left = _lifespan;
+
+	_sizef = 4;
+	GameMath::PointFSet(&speed, 0);
+	//speed.set(0);
+}
+
+void ElmoParticle::update()
+{
+	Shrinking::update();
+	float p = _left / _lifespan;
+	am = p > 0.8f ? (1 - p) * 5 : 1;
+}

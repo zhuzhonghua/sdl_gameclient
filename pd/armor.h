@@ -289,3 +289,62 @@ public:
 		return GRAY;
 	}
 };
+
+class ClothArmor :public Armor{
+public:
+	ClothArmor();
+	virtual std::string getClassName() { return "ClothArmor"; }
+	static Item* Create() { return new ClothArmor(); }
+
+	virtual String desc() {
+		return "This lightweight armor offers basic protection.";
+	}
+};
+
+class LeatherArmor :public Armor{
+public:
+	LeatherArmor();
+	virtual std::string getClassName() { return "LeatherArmor"; }
+	static Item* Create() { return new LeatherArmor(); }
+
+	virtual String desc() {
+		return "Armor made from tanned monster hide. Not as light as cloth armor but provides better protection.";
+	}
+};
+
+class MailArmor :public Armor{
+public:
+	MailArmor();
+	virtual std::string getClassName() { return "MailArmor"; }
+	static Item* Create() { return new MailArmor(); }
+
+	virtual String desc() {
+		return
+			"Interlocking metal links make for a tough but flexible suit of armor.";
+	}
+};
+
+class ScaleArmor :public Armor{
+public:
+	ScaleArmor();
+	virtual std::string getClassName() { return "ScaleArmor"; }
+	static Item* Create() { return new ScaleArmor(); }
+
+	virtual String desc() {
+		return
+			"The metal scales sewn onto a leather vest create a flexible, yet protective armor.";
+	}
+};
+
+class PlateArmor :public Armor{
+public:
+	PlateArmor();
+	virtual std::string getClassName() { return "PlateArmor"; }
+	static Item* Create() { return new PlateArmor(); }
+
+	virtual String desc() {
+		return
+			std::string("Enormous plates of metal are joined together into a suit that provides ") +
+			std::string("unmatched protection to any adventurer strong enough to bear its staggering weight.");
+	}
+};

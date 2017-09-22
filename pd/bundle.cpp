@@ -5,7 +5,8 @@
 
 const std::string Bundle::CLASS_NAME = "__className";
 
-std::map<std::string, std::string> Bundle::aliases;
+HashMap<std::string, std::string> Bundle::aliases;
+std::map<std::string, CreateBundlable> Bundle::allBundlables;
 
 Bundle* Bundle::read(std::stringstream& ss)
 {
@@ -102,6 +103,35 @@ Bundle::Bundle(const boost::property_tree::ptree& d)
 	this->data = d;
 }
 
+Bundlable* Bundle::getBundlable(const std::string& className)
+{
+	if (allBundlables.size() <= 0)
+	{
+		init();
+	}
+	return allBundlables[className]();
+}
+
+Bundlable* Bundle::get()
+{
+	String clName = getString(CLASS_NAME);
+	if (aliases.containsKey(clName)) {
+		clName = aliases.get(clName);
+	}
+
+	Bundlable* object = getBundlable(clName);
+	object->restoreFromBundle(this);
+	return object;
+}
+
+Bundlable* Bundle::get(const std::string& key)
+{
+	Bundle* b = getBundle(key);
+	Bundlable* object = b->get();
+	delete b;
+	return object;
+}
+
 void Bundle::put(const std::string& key, bool value)
 {
 	data.put(key, value);
@@ -190,4 +220,9 @@ void Bundle::getCollection(const std::string& key, std::vector<Bundlable*>&ret, 
 		bdInst->restoreFromBundle(&bd);
 		ret.push_back(bdInst);
 	}
+}
+
+void Bundle::RegisterBundlable(const std::string& clsName, CreateBundlable cb)
+{
+	allBundlables.insert(std::make_pair(clsName, cb));
 }
