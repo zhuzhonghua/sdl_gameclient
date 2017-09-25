@@ -100,6 +100,10 @@ public:
 	virtual void fix();
 	virtual int maxDurability(int lvl) { return 1; }
 			int maxDurability() { return maxDurability(level); }
+
+	int visiblyUpgraded() {
+		return levelKnown ? level : 0;
+	}
 	virtual Item* identify();
 	virtual Item* random() { return this; }
 	virtual void Level(int value) { level = value; }

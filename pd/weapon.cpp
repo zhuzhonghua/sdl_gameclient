@@ -13,6 +13,12 @@
 #include "burning.h"
 #include "flameparticle.h"
 #include "buffpoison.h"
+#include "lightning.h"
+#include "lightningtrap.h"
+#include "bag.h"
+#include "wndoptions.h"
+#include "missilesprite.h"
+#include "blob.h"
 
 const String Weapon::TXT_IDENTIFY = BPT::getText("lang.weapon_identity");
 //"You are now familiar enough with your %s to identify it. It is %s.";
@@ -342,8 +348,7 @@ boolean Death::proc(Weapon* weapon, Char* attacker, Char* defender, int damage)
 
 	 if (Random::Int(level + 8) >= 7) {
 
-		 Buff::prolong(defender, com.watabou.pixeldungeon.actors.buffs.Paralysis.class,
-			 Random.Float(1, 1.5f + level));
+		 Buff::prolong(defender, "BuffParalysis", Random::Float(1, 1.5f + level));
 
 		 return true;
 	 }
@@ -401,8 +406,7 @@ boolean Death::proc(Weapon* weapon, Char* attacker, Char* defender, int damage)
 
 	 if (Random::Int(level + 4) >= 3) {
 
-		 //Buff.prolong(defender, com.watabou.pixeldungeon.actors.buffs.Slow.class,
-			 //Random.Float(1, 1.5f + level));
+		 Buff::prolong(defender, "BuffSlow", Random::Float(1, 1.5f + level));
 
 		 return true;
 	 }
@@ -435,7 +439,7 @@ boolean Death::proc(Weapon* weapon, Char* attacker, Char* defender, int damage)
 
 		 hit(defender, Random::Int(1, damage / 2));
 
-		 //attacker.sprite.parent.add(new Lightning(points, nPoints, null));
+		 attacker->sprite->parent->add(new Lightning(std::vector<int>(points, points+sizeof(points)/sizeof(int)), nPoints, NULL));
 
 		 return true;
 
@@ -459,9 +463,9 @@ boolean Death::proc(Weapon* weapon, Char* attacker, Char* defender, int damage)
 	 }
 
 	 affected.push_back(ch);
-	 //ch->damage(Level::water[ch->pos] && !ch->flying ? (int)(damage * 2) : damage, LightningTrap.LIGHTNING);
+	 ch->damage(Level::water[ch->pos] && !ch->flying ? (int)(damage * 2) : damage, "LIGHTNING");
 
-	 //ch->sprite->centerEmitter()->burst(SparkParticle::FACTORY, 3);
+	 ch->sprite->centerEmitter()->burst(SparkParticle::FACTORY, 3);
 	 ch->sprite->flash();
 
 	 points[nPoints++] = ch->pos;
@@ -505,10 +509,10 @@ boolean Death::proc(Weapon* weapon, Char* attacker, Char* defender, int damage)
 	 if (Random::Int(level + 5) >= 4) {
 
 		 if (defender == Dungeon::hero) {
-			 //Buff.affect(defender, Vertigo.class, Vertigo.duration(defender));
+			 Buff::affect(defender, "Vertigo", Vertigo::duration(defender));
 		 }
 		 else {
-			 //Buff.affect(defender, Terror.class, Terror.DURATION).object = attacker.id();
+			 ((Terror*)Buff::affect(defender, "Terror", Terror::DURATION))->object = attacker->Id();
 		 }
 
 		 return true;
@@ -573,98 +577,99 @@ boolean Death::proc(Weapon* weapon, Char* attacker, Char* defender, int damage)
 	 STR = typicalSTR();
  }
 
- String MeleeWeapon::info()
- {
-	 //final String p = "\n\n";
-	 //
-	 //StringBuilder info = new StringBuilder(desc());
-	 //
-	 //int lvl = visiblyUpgraded();
-	 //String quality = lvl != 0 ?
-	//	 (lvl > 0 ?
-	//	 (isBroken() ? "broken" : "upgraded") :
-	//	 "degraded") :
-	//	 "";
-	 //info.append(p);
-	 //info.append("This " + name + " is " + Utils.indefinite(quality));
-	 //info.append(" tier-" + tier + " melee weapon. ");
-	 //
-	 //if (levelKnown) {
-	//	 int min = min();
-	//	 int max = max();
-	//	 info.append("Its average damage is " + (min + (max - min) / 2) + " points per hit. ");
-	 //}
-	 //else {
-	//	 int min = min0();
-	//	 int max = max0();
-	//	 info.append(
-	//		 "Its typical average damage is " + (min + (max - min) / 2) + " points per hit " +
-	//		 "and usually it requires " + typicalSTR() + " points of strength. ");
-	//	 if (typicalSTR() > Dungeon.hero.STR()) {
-	//		 info.append("Probably this weapon is too heavy for you. ");
-	//	 }
-	 //}
-	 //
-	 //if (DLY != 1f) {
-	//	 info.append("This is a rather " + (DLY < 1f ? "fast" : "slow"));
-	//	 if (ACU != 1f) {
-	//		 if ((ACU > 1f) == (DLY < 1f)) {
-	//			 info.append(" and ");
-	//		 }
-	//		 else {
-	//			 info.append(" but ");
-	//		 }
-	//		 info.append(ACU > 1f ? "accurate" : "inaccurate");
-	//	 }
-	//	 info.append(" weapon. ");
-	 //}
-	 //else if (ACU != 1f) {
-	//	 info.append("This is a rather " + (ACU > 1f ? "accurate" : "inaccurate") + " weapon. ");
-	 //}
-	 //switch (imbue) {
-	 //case SPEED:
-	//	 info.append("It was balanced to make it faster. ");
-	//	 break;
-	 //case ACCURACY:
-	//	 info.append("It was balanced to make it more accurate. ");
-	//	 break;
-	 //case NONE:
-	 //}
-	 //
-	 //if (enchantment != null) {
-	//	 info.append("It is enchanted.");
-	 //}
-	 //
-	 //if (levelKnown && Dungeon.hero.belongings.backpack.items.contains(this)) {
-	//	 if (STR > Dungeon.hero.STR()) {
-	//		 info.append(p);
-	//		 info.append(
-	//			 "Because of your inadequate strength the accuracy and speed " +
-	//			 "of your attack with this " + name + " is decreased.");
-	//	 }
-	//	 if (STR < Dungeon.hero.STR()) {
-	//		 info.append(p);
-	//		 info.append(
-	//			 "Because of your excess strength the damage " +
-	//			 "of your attack with this " + name + " is increased.");
-	//	 }
-	 //}
-	 //
-	 //if (isEquipped(Dungeon.hero)) {
-	//	 info.append(p);
-	//	 info.append("You hold the " + name + " at the ready" +
-	//		 (cursed ? ", and because it is cursed, you are powerless to let go." : "."));
-	 //}
-	 //else {
-	//	 if (cursedKnown && cursed) {
-	//		 info.append(p);
-	//		 info.append("You can feel a malevolent magic lurking within " + name + ".");
-	//	 }
-	 //}
-	 //
-	 //return info.toString();
-	 return "";
- }
+String MeleeWeapon::info()
+{
+	String p = "\n\n";
+	
+	std::stringstream info;
+	info << desc();
+	
+	int lvl = visiblyUpgraded();
+	String quality = lvl != 0 ?
+							 (lvl > 0 ?
+							 (isBroken() ? BPT::getText("lang.broken") : BPT::getText("lang.upgraded")) :
+							 BPT::getText("lang.degraded")) :
+							 "";
+	info<< p;
+	info << GameMath::format(BPT::getText("lang.this_is_tier_melee_weapon").c_str(), name.c_str(), quality, tier);
+	
+	if (levelKnown) {
+		int min = this->min();
+		int max = this->max();
+		info << GameMath::format(BPT::getText("lang.its_average_damage").c_str(), (min + (max - min) / 2));		
+	}
+	else {
+		int min = min0();
+		int max = max0();
+
+		info << GameMath::format(BPT::getText("lang.its_typical_damage").c_str(), (min + (max - min) / 2), typicalSTR());
+
+		if (typicalSTR() > Dungeon::hero->sTR()) {
+			info << BPT::getText("lang.too_heavy_for_you");
+		}
+	}
+	
+	if (DLY != 1.0f) {
+		std::stringstream ss2;
+		ss2 << (DLY < 1.0f ? BPT::getText("lang.fast") : BPT::getText("lang.slow"));
+		
+		if (ACU != 1.0f) {
+			if ((ACU > 1.0f) == (DLY < 1.0f)) {
+				ss2 << BPT::getText("lang.and");
+			}
+			else {
+				ss2 << BPT::getText("lang.but");
+			}
+			ss2 << (ACU > 1.0f ? BPT::getText("lang.accurate") : BPT::getText("lang.inaccurate"));
+		}
+		info << GameMath::format(BPT::getText("lang.this_is_a_rather_weapon").c_str(), ss2.str().c_str());
+	}
+	else if (ACU != 1.0f) {
+		info << GameMath::format(BPT::getText("lang.this_is_a_rather_weapon").c_str(), (ACU > 1.0f ? BPT::getText("lang.accurate") : BPT::getText("lang.inaccurate")));
+	}
+
+	switch (imbue) {
+	case SPEED:
+		info << BPT::getText("lang.balanced_faster");
+		break;
+	case ACCURACY:
+		info << BPT::getText("lang.balanced_accurate");
+		break;
+	case NONE:
+	}
+	
+	if (enchantment != NULL) {
+		info << BPT::getText("lang.its_enchanted");
+	}
+	
+	if (levelKnown && Dungeon::hero->belongings->backpack->items.contains(this)) {
+		if (STR > Dungeon::hero->sTR()) {
+			info << p;
+			info << GameMath::format(BPT::getText("lang.inadequate_strength_accuracy_speed").c_str(), name.c_str());
+		}
+		if (STR < Dungeon::hero->sTR()) {
+			info << p;
+			info << GameMath::format(BPT::getText("lang.excess_strength_damage_increased").c_str(), name.c_str());
+		}
+	}
+	
+	if (isEquipped(Dungeon::hero)) {
+		info << p;
+		info << GameMath::format(BPT::getText("lang.hold_ready").c_str(), name.c_str());
+		if (cursed)
+			info << BPT::getText("lang.cursed_not_let_go").c_str();
+		else
+			info << ".";
+	}
+	else {
+		if (cursedKnown && cursed) {
+			info << p;
+			info << GameMath::format(BPT::getText("lang.feel_malevolent_lurking").c_str(), name.c_str());
+		}
+	}
+	
+	return info.str();
+}
 
  int MeleeWeapon::price()
  {
@@ -689,70 +694,70 @@ boolean Death::proc(Weapon* weapon, Char* attacker, Char* defender, int damage)
 Dagger::Dagger()
 :MeleeWeapon(1, 1.2f, 1.0f)
 {
-	name = "dagger";
+	name = BPT::getText("lang.dagger");
 	image = ItemSpriteSheet::DAGGER;
 }
 
 Knuckles::Knuckles()
 :MeleeWeapon(1, 1.0f, 0.5f)
 {
-	name = "knuckleduster";
+	name = BPT::getText("lang.knuckleduster");
 	image = ItemSpriteSheet::KNUCKLEDUSTER;
 }
 
 Quarterstaff::Quarterstaff()
 :MeleeWeapon(2, 1.0f, 1.0f)
 {
-	name = "quarterstaff";
+	name = BPT::getText("lang.quarterstaff");
 	image = ItemSpriteSheet::QUARTERSTAFF;
 }
 
 Spear::Spear()
 :MeleeWeapon(2, 1.0f, 1.5f)
 {
-	name = "spear";
+	name = BPT::getText("lang.spear");
 	image = ItemSpriteSheet::SPEAR;
 }
 
 Mace::Mace()
 :MeleeWeapon(3, 1.0f, 0.8f)
 {
-	name = "mace";
+	name = BPT::getText("lang.mace");
 	image = ItemSpriteSheet::MACE;
 }
 
 Sword::Sword()
 :MeleeWeapon(3, 1.0f, 1.0f)
 {
-	name = "sword";
+	name = BPT::getText("lang.sword");
 	image = ItemSpriteSheet::SWORD;
 }
 
 Longsword::Longsword()
 :MeleeWeapon(4, 1.0f, 1.0f)
 {
-	name = "longsword";
+	name = BPT::getText("lang.longsword");
 	image = ItemSpriteSheet::LONG_SWORD;
 }
 
 BattleAxe::BattleAxe()
 :MeleeWeapon(4, 1.2f, 1.0f)
 {
-	name = "battle axe";
+	name = BPT::getText("lang.battle_axe");
 	image = ItemSpriteSheet::BATTLE_AXE;
 }
 
 WarHammer::WarHammer()
 :MeleeWeapon(5, 1.2f, 1.0f)
 {
-	name = "war hammer";
+	name = BPT::getText("lang.war_hammer");
 	image = ItemSpriteSheet::WAR_HAMMER;
 }
 
 Glaive::Glaive()
 :MeleeWeapon(5, 1.0f, 1.0f)
 {
-	name = "glaive";
+	name = BPT::getText("lang.glaive");
 	image = ItemSpriteSheet::GLAIVE;
 }
 
@@ -794,19 +799,17 @@ namespace{
 	};
 }
 
-const String ShortSword::AC_REFORGE = "REFORGE";
-const String ShortSword::TXT_SELECT_WEAPON = "Select a weapon to upgrade";
-const String ShortSword::TXT_REFORGED =
-"you reforged the short sword to upgrade your %s";
-const String ShortSword::TXT_NOT_BOOMERANG =
-"you can't upgrade a boomerang this way";
+const String ShortSword::AC_REFORGE = BPT::getText("lang.REFORGE");
+const String ShortSword::TXT_SELECT_WEAPON = BPT::getText("lang.select_weapon_upgrade");
+const String ShortSword::TXT_REFORGED = BPT::getText("lang.reforged_short_sword_upgrade");
+const String ShortSword::TXT_NOT_BOOMERANG = BPT::getText("lang.not_upgrade_boomerang");
 
 const float ShortSword::TIME_TO_REFORGE = 2.0f;
 
 ShortSword::ShortSword()
 :MeleeWeapon(1, 1.0f, 1.0f)
 {
-	name = "short sword";
+	name = BPT::getText("lang.short_sword");
 	image = ItemSpriteSheet::SHORT_SWORD;
 
 	STR = 11;
@@ -847,11 +850,10 @@ void ShortSword::execute(Hero* hero, std::string action)
 	}
 }
 
-const String MissileWeapon::TXT_MISSILES = "Missile weapon";
-const String MissileWeapon::TXT_YES = "Yes, I know what I'm doing";
-const String MissileWeapon::TXT_NO = "No, I changed my mind";
-const String MissileWeapon::TXT_R_U_SURE =
-"Do you really want to equip it as a melee weapon?";
+const String MissileWeapon::TXT_MISSILES = BPT::getText("lang.Missile_weapon");
+const String MissileWeapon::TXT_YES = BPT::getText("lang.i_know_im_doing");
+const String MissileWeapon::TXT_NO = BPT::getText("lang.i_changed_my_mind");
+const String MissileWeapon::TXT_R_U_SURE = BPT::getText("lang.you_really_equip_as_melee_weapon");
 
 MissileWeapon::MissileWeapon()
 {
@@ -898,49 +900,58 @@ void MissileWeapon::proc(Char* attacker, Char* defender, int damage)
 	}
 }
 
+namespace{
+	class WndOptionsNew :public WndOptions{
+	public:
+		MissileWeapon* mw;
+		Hero* hero;
+		WndOptionsNew(MissileWeapon* m, Hero* h, const std::string& title, const std::string& message, const std::vector<std::string>& options)
+			:mw(m), hero(h), WndOptions(title, message, options)
+		{}
+	protected:
+		virtual void onSelect(int index)
+		{
+			if (index == 0) {
+				mw->Weapon::doEquip(hero);
+			}
+		}
+	};
+}
 bool MissileWeapon::doEquip(Hero* hero)
 {
-	//GameScene.show(
-	//	new WndOptions(TXT_MISSILES, TXT_R_U_SURE, TXT_YES, TXT_NO){
-	//	@Override
-	//	protected void onSelect(int index) {
-	//		if (index == 0) {
-	//			MissileWeapon.super.doEquip(hero);
-	//		}
-	//	};
-	//}
-	//);
+	std::vector<std::string> op;
+	op.push_back(TXT_YES);
+	op.push_back(TXT_NO);
+	GameScene::show(new WndOptionsNew(this, hero, TXT_MISSILES, TXT_R_U_SURE, op));
 
 	return false;
 }
 
 String MissileWeapon::info()
 {
-	//StringBuilder info = new StringBuilder(desc());
-	//
-	//int min = min();
-	//int max = max();
-	//info.append("\n\nAverage damage of this weapon equals to " + (min + (max - min) / 2) + " points per hit. ");
-	//
-	//if (Dungeon.hero.belongings.backpack.items.contains(this)) {
-	//	if (STR > Dungeon.hero.STR()) {
-	//		info.append(
-	//			"Because of your inadequate strength the accuracy and speed " +
-	//			"of your attack with this " + name + " is decreased.");
-	//	}
-	//	if (STR < Dungeon.hero.STR()) {
-	//		info.append(
-	//			"Because of your excess strength the damage " +
-	//			"of your attack with this " + name + " is increased.");
-	//	}
-	//}
-	//
-	//if (isEquipped(Dungeon.hero)) {
-	//	info.append("\n\nYou hold the " + name + " at the ready.");
-	//}
-	//
-	//return info.toString();
-	return "";
+	std::stringstream info;
+	info << desc();
+	
+	int min = this->min();
+	int max = this->max();
+
+	info << GameMath::format(BPT::getText("lang.average_damage_weapon_hit").c_str(), (min + (max - min) / 2));
+	
+	if (Dungeon::hero->belongings->backpack->items.contains(this)) {
+		if (STR > Dungeon::hero->sTR()) {
+			info << GameMath::format(BPT::getText("lang.inadequate_strength_accuracy_speed").c_str(), name.c_str());
+		}
+		if (STR < Dungeon::hero->sTR()) {
+			info << GameMath::format(BPT::getText("lang.excess_strength_damage_increased").c_str(), name.c_str());
+		}
+	}
+	
+	if (isEquipped(Dungeon::hero)) {
+		info << GameMath::format(BPT::getText("lang.hold_ready").c_str(), name.c_str());
+		info << ".";
+	}
+	
+	return info.str();
 }
 
 void MissileWeapon::onThrow(int cell)
@@ -958,7 +969,7 @@ void MissileWeapon::onThrow(int cell)
 
 Boomerang::Boomerang()
 {
-	name = "boomerang";
+	name = BPT::getText("lang.boomerang");
 	image = ItemSpriteSheet::BOOMERANG;
 
 	STR = 10;
@@ -982,17 +993,22 @@ void Boomerang::cast(Hero* user, int dst)
 
 void Boomerang::circleBack(int from, Hero* owner)
 {
-	//((MissileSprite)curUser.sprite.parent.recycle(MissileSprite.class)).
-	//	reset(from, curUser.pos, curItem, null);
+	MissileSprite* ms = (MissileSprite*)curUser->sprite->parent->recycle("MissileSprite");
+	if (ms == NULL)
+	{
+		ms = new MissileSprite();
+		curUser->sprite->parent->add(ms);
+	}
+	ms->reset(from, curUser->pos, curItem, NULL);
 
 	if (throwEquiped) {
 		owner->belongings->weapon = this;
 		owner->spend(-TIME_TO_EQUIP);
 	}
-	//else
-	//if (!collect(curUser.belongings.backpack)) {
-	//	Dungeon.level.drop(this, owner.pos).sprite.drop();
-	//}
+	else
+	if (!collect(curUser->belongings->backpack)) {
+		Dungeon::level->drop(this, owner->pos)->sprite->drop();
+	}
 }
 
 Dart::Dart()
@@ -1004,7 +1020,7 @@ Dart::Dart()
 Dart::Dart(int number)
 {
 	quantity = number;
-	name = "dart";
+	name = BPT::getText("lang.dart");
 	image = ItemSpriteSheet::DART;
 }
 
@@ -1028,7 +1044,7 @@ Javelin::Javelin(int number)
 void Javelin::proc(Char* attacker, Char* defender, int damage)
 {
 	MissileWeapon::proc(attacker, defender, damage);
-	//Buff::prolong(defender, Cripple.class, Cripple.DURATION);
+	Buff::prolong(defender, "Cripple", Cripple::DURATION);
 }
 
 Item* Javelin::random()
@@ -1050,7 +1066,7 @@ IncendiaryDart::IncendiaryDart(int number)
 
 void IncendiaryDart::proc(Char* attacker, Char* defender, int damage)
 {
-	//Buff.affect(defender, Burning.class).reignite(defender);
+	((Burning*)Buff::affect(defender, "Burning"))->reignite(defender);
 	MissileWeapon::proc(attacker, defender, damage);
 }
 
@@ -1065,7 +1081,7 @@ void IncendiaryDart::onThrow(int cell)
 	Char* enemy = Actor::findChar(cell);
 	if (enemy == NULL || enemy == Item::curUser) {
 		if (Level::flamable[cell]) {
-			//GameScene.add(Blob.seed(cell, 4, Fire.class));
+			GameScene::addBlob(Blob::seed(cell, 4, "BlobFire"));
 		}
 		else {
 			MissileWeapon::onThrow(cell);
@@ -1077,6 +1093,8 @@ void IncendiaryDart::onThrow(int cell)
 		}
 	}
 }
+
+const float CurareDart::DURATION = 3.0f;
 
 CurareDart::CurareDart()
 :CurareDart(1)
@@ -1091,7 +1109,7 @@ CurareDart::CurareDart(int number)
 
 void CurareDart::proc(Char* attacker, Char* defender, int damage)
 {
-	//Buff.prolong(defender, Paralysis.class, DURATION);
+	Buff::prolong(defender, "BuffParalysis", DURATION);
 	MissileWeapon::proc(attacker, defender, damage);
 }
 
@@ -1111,7 +1129,7 @@ Shuriken::Shuriken(int number)
 {
 	quantity = number;
 
-	name = "shuriken";
+	name = BPT::getText("lang.shuriken");
 	image = ItemSpriteSheet::SHURIKEN;
 
 	STR = 13;
@@ -1135,7 +1153,7 @@ Tamahawk::Tamahawk(int number)
 {
 	quantity = number;
 
-	name = "tomahawk";
+	name = BPT::getText("lang.tomahawk");
 	image = ItemSpriteSheet::TOMAHAWK;
 
 	STR = 17;
@@ -1144,7 +1162,7 @@ Tamahawk::Tamahawk(int number)
 void Tamahawk::proc(Char* attacker, Char* defender, int damage)
 {
 	MissileWeapon::proc(attacker, defender, damage);
-	//Buff.affect(defender, Bleeding.class).set(damage);
+	((Bleeding*)Buff::affect(defender, "Bleeding"))->set(damage);
 }
 
 Item* Tamahawk::random()

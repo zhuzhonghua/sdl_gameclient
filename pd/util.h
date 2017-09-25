@@ -128,6 +128,9 @@ public:
 	static bool isRECTEmpty(const Rect& frame);
 	static Rect* RECTUnion(Rect* frame, int x, int y);
 
+	static float PointFLength(PointF* p);
+	static PointF* PointFNormalize(PointF* p);
+	static PointF* PointFSet(PointF* p, PointF p2);
 	static PointF* PointFSet(PointF* p, float v);
 	static PointF* PointFSet(PointF* p, float x, float y);
 	static PointF* PointFOffSet(PointF* p, PointF dp);

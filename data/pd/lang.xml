@@ -212,6 +212,63 @@
 	<frost>冰冻</>
 	<buffparalysis>麻痹</>
 	<light>光明</>
+	
+	<buffslow_str>迟缓</>
+	<vertigo_str>晕眩</>
+	<terror_str>恐慌</>
+	
+	<broken>损毁后的</>
+	<upgraded>升级后的</>
+	<degraded>降级后的</>
+	<this_is_tier_melee_weapon>此%s乃%s%d階近戰武器.</>
+	<its_average_damage>它的平均伤害为每击%d点.</>
+	<its_typical_damage>一般来说它的平均伤害为每击%d点,此外想要自如地使用它通常需要%d点力量.</>
+	<too_heavy_for_you>或许此武器对你来说过于沉重.</>
+	<this_is_a_rather_weapon>这是一柄%s的武器.</>
+	<and>且</>
+	<but>但却</>
+	<fast>快速</>
+	<slow>缓慢</>
+	<accurate>精准</>
+	<inaccurate>不精准</>
+	<balanced_faster>它被磨制得更加快速了.</>
+	<balanced_accurate>它被磨制得更加精准了.</>
+	<its_enchanted>它已被附魔.</>
+	
+	<inadequate_strength_accuracy_speed>因为你力量过于孱弱这柄%s的攻击速度和精准都下降了.</>
+	<excess_strength_damage_increased>因为你力量超过需求这柄%s的攻击速度和精准都增加了.</>
+	<hold_ready>你正握着%s</>
+	<cursed_not_let_go>,由于它被诅咒了,所以你没办法放手</>
+	<feel_malevolent_lurking>你感到%s中蕴藏着恶毒的魔法.</>
+	
+	<dagger>匕首</>
+	<knuckleduster>指虎</>
+	<quarterstaff>长棍</>
+	<spear>长枪</>
+	<mace>铁槌</>
+	<sword>剑</>
+	<longsword>长剑</>
+	<battle_axe>战斧</>
+	<war_hammer>战锤</>
+	<glaive>大刀</>
+	
+	<REFORGE>重铸</>
+	<select_weapon_upgrade>选择一件武器来升级</>
+	<reforged_short_sword_upgrade>你重铸这柄短剑升级了你的%s</>
+	<not_upgrade_boomerang>你不能用这种方式来升级回旋镖</>
+	
+	<short_sword>短剑</>
+	<Missile_weapon>投掷武器</>
+	<i_know_im_doing>是的我明白自己在做什么</>
+	<i_changed_my_mind>不我改注意了</>
+	<you_really_equip_as_melee_weapon>你真的要把它作为近战武器装备吗?</>
+	<boomerang>回旋镖</>
+	<average_damage_weapon_hit>\n\n此武器的平均伤害为每击%d点.</>
+	
+	<dart>飞镖</>
+	<crippled_str>残疾</>
+	<shuriken>手里剑</>
+	<tomahawk>手斧</>
 </>
 
 <badge>

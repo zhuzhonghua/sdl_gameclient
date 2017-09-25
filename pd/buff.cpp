@@ -7,7 +7,12 @@
 #include "food.h"
 #include "belongings.h"
 #include "heap.h"
-
+#include "util.h"
+#include "splash.h"
+#include "charsprite.h"
+#include "dungeon.h"
+#include "simpleresource.h"
+#include "glog.h"
 
 std::map<std::string, FactoryBuff*> FactoryBuff::facs;
 
@@ -212,3 +217,131 @@ float Frost::duration(Char* ch)
 }
 
 REFLECTBUFF(Frost);
+
+const float BuffSlow::DURATION = 10.0f;
+
+int BuffSlow::icon()
+{
+	return BuffIndicator::SLOW;
+}
+
+float BuffSlow::duration(Char* ch)
+{
+	RingOfElements::Resistance* r = (RingOfElements::Resistance*)ch->buff("Resistance");
+	return r != NULL ? r->durationFactor() * DURATION : DURATION;
+}
+REFLECTBUFF(BuffSlow);
+
+const float Vertigo::DURATION=10.0f;
+
+int Vertigo::icon()
+{
+	return BuffIndicator::VERTIGO;
+}
+
+float Vertigo::duration(Char* ch)
+{
+	RingOfElements::Resistance* r = (RingOfElements::Resistance*)ch->buff("Resistance");
+	return r != NULL ? r->durationFactor() * DURATION : DURATION;
+}
+
+REFLECTBUFF(Vertigo);
+
+const String Terror::OBJECT = "object";
+
+const float Terror::DURATION = 10.0f;
+
+Terror::Terror()
+{
+	object = 0;
+}
+
+void Terror::storeInBundle(Bundle* bundle)
+{
+	FlavourBuff::storeInBundle(bundle);
+	bundle->put(OBJECT, object);
+}
+
+void Terror::restoreFromBundle(Bundle* bundle)
+{
+	FlavourBuff::restoreFromBundle(bundle);
+	object = bundle->getInt(OBJECT);
+}
+
+int Terror::icon()
+{
+	return BuffIndicator::TERROR;
+}
+
+void Terror::recover(Char* target)
+{
+	Terror* terror = (Terror*)target->buff("Terror");
+	if (terror != NULL && terror->cooldown() < DURATION) {
+		target->remove(terror);
+	}
+}
+
+REFLECTBUFF(Terror);
+
+const float Cripple::DURATION = 10.0f;
+
+int Cripple::icon()
+{
+	return BuffIndicator::CRIPPLE;
+}
+
+REFLECTBUFF(Cripple);
+
+const String Bleeding::LEVEL = "level";
+
+void Bleeding::storeInBundle(Bundle* bundle)
+{
+	Buff::storeInBundle(bundle);
+	bundle->put(LEVEL, level);
+}
+
+void Bleeding::restoreFromBundle(Bundle* bundle)
+{
+	Buff::restoreFromBundle(bundle);
+	level = bundle->getInt(LEVEL);
+}
+
+int Bleeding::icon()
+{
+	return BuffIndicator::BLEEDING;
+}
+
+boolean Bleeding::act()
+{
+	if (target->isAlive()) {
+
+		if ((level = Random::Int(level / 2, level)) > 0) {
+
+			target->damage(level, this->getClassName());
+			if (target->sprite->visible) {
+				Splash::at(target->sprite->center(), -GameMath::POINTF_PI / 2, GameMath::POINTF_PI / 6,
+					target->sprite->blood(), std::min(10 * level / target->HT, 10));
+			}
+
+			if (target == Dungeon::hero && !target->isAlive()) {
+				Dungeon::fail(GameMath::format(ResultDescriptions::BLEEDING.c_str(), Dungeon::depth));
+				GLog::n(BPT::getText("lang.bled_to_death").c_str());
+			}
+
+			spend(TICK);
+		}
+		else {
+			detach();
+		}
+
+	}
+	else {
+
+		detach();
+
+	}
+
+	return true;
+}
+
+REFLECTBUFF(Bleeding);

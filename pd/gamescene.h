@@ -77,6 +77,7 @@ public:
 	static Ripple* ripple(int pos);
 	static void effect(Visual* eff);
 	static void afterObserve();
+	static void show(Window* wnd);
 
 	static void ready();
 	static bool cancel();

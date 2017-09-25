@@ -88,3 +88,86 @@ public:
 	}
 	static float duration(Char* ch);
 };
+
+class BuffSlow :public FlavourBuff{
+private:
+	static const float DURATION;
+
+public:
+	CLASSNAME(BuffSlow);
+
+	virtual int icon();
+	virtual String toString() {
+		return BPT::getText("lang.buffslow_str");
+	}
+	static float duration(Char* ch);
+};
+
+class Vertigo :public FlavourBuff{
+public:
+	static const float DURATION;
+
+	CLASSNAME(Vertigo);
+
+	virtual int icon();
+	virtual String toString() {
+		return BPT::getText("lang.vertigo_str");
+	}
+	static float duration(Char* ch);
+};
+
+class Terror :public FlavourBuff{
+private:
+	static const String OBJECT;
+public:
+	static const float DURATION;
+
+	int object;
+	
+	Terror();
+	CLASSNAME(Terror);
+
+	virtual void storeInBundle(Bundle* bundle);
+	virtual void restoreFromBundle(Bundle* bundle);
+
+	virtual int icon();
+	virtual String toString() {
+		return BPT::getText("lang.terror_str");
+	}
+	static void recover(Char* target);
+};
+
+class Cripple :public FlavourBuff{
+public:
+	CLASSNAME(Cripple);
+
+	static const float DURATION;
+
+	virtual int icon();
+	virtual String toString() {
+		return BPT::getText("lang.crippled_str");;
+	}
+};
+
+class Bleeding :public Buff{
+protected:
+	int level;
+
+private:
+	static const String LEVEL;
+
+public:
+	CLASSNAME(Bleeding);
+
+	virtual void storeInBundle(Bundle* bundle);
+	virtual void restoreFromBundle(Bundle* bundle);
+
+	void set(int level) {
+		this->level = level;
+	};
+	virtual int icon();
+	virtual String toString() {
+		return BPT::getText("lang.Bleeding");
+	}
+	virtual boolean act();
+};

@@ -37,6 +37,14 @@ public:
 	}
 };
 
+template<class T>
+class ArrayList :public std::list<T>{
+public:
+	bool contains(T t){
+		return std::find(this->begin(), this->end(), t) != this->end();
+	}
+};
+
 #define CLASSNAME(name) virtual std::string getClassName() { return #name;}
 
 #define FACTORY(name) \

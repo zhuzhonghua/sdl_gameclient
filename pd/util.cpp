@@ -311,6 +311,20 @@ Rect* GameMath::RECTUnion(Rect* frame, int x, int y)
 	return frame;
 }
 
+float GameMath::PointFLength(PointF* p)
+{
+	return std::sqrt(p->x*p->x+p->y*p->y);
+}
+
+PointF* GameMath::PointFNormalize(PointF* p)
+{
+	float l = PointFLength(p);
+	p->x /= l;
+	p->y /= l;
+
+	return p;
+}
+
 PointF* GameMath::PointFSet(PointF* p, float v)
 {
 	p->x = v;
@@ -322,6 +336,13 @@ PointF* GameMath::PointFSet(PointF* p, float x, float y)
 {
 	p->x = x;
 	p->y = y;
+	return p;
+}
+
+PointF* GameMath::PointFSet(PointF* p, PointF p2)
+{
+	p->x = p2.x;
+	p->y = p2.y;
 	return p;
 }
 

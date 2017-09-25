@@ -42,3 +42,17 @@ public:
 
 	virtual void update();
 };
+
+class ShadowParticle :public Shrinking{
+public:
+	static Emitter::Factory* MISSILE;
+	static Emitter::Factory* CURSE;
+	static Emitter::Factory* UP;
+
+	ShadowParticle();
+
+	void reset(float x, float y);
+	void resetCurse(float x, float y);
+	void resetUp(float x, float y);
+	virtual void update();
+};

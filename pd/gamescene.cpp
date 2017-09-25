@@ -435,6 +435,12 @@ void GameScene::afterObserve()
 	}
 }
 
+void GameScene::show(Window* wnd)
+{
+	cancelCellSelector();
+	scene->add(wnd);
+}
+
 void GameScene::ready()
 {
 	selectCell(defaultCellListener);

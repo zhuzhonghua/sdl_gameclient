@@ -1,8 +1,7 @@
 #pragma once
 
 #include "item.h"
-
-#include <list>
+#include "typedefine.h"
 
 class Char;
 
@@ -10,7 +9,7 @@ class Bag:public Item{
 public:
 	static const std::string AC_OPEN;
 	Char* owner;
-	std::list<Item*> items;
+	ArrayList<Item*> items;
 	int size;
 
 	

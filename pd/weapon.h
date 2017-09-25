@@ -603,6 +603,7 @@ protected:
 
 class CurareDart :public MissileWeapon{
 public:
+	static const float DURATION;
 	CurareDart();
 	CurareDart(int number);
 	virtual std::string getClassName() { return "CurareDart"; }
