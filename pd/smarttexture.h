@@ -22,3 +22,8 @@ public:
 
 	virtual void bitmap(const std::string& bitmap);
 };
+
+class Gradient :public SmartTexture{
+public:
+	Gradient(std::vector<int> colors);
+};

@@ -22,14 +22,23 @@
 #include "healthindicator.h"
 #include "attackindicator.h"
 #include "toast.h"
+#include "bpt.h"
+#include "plant.h"
+#include "plantsprite.h"
+#include "heap.h"
+#include "wand.h"
+#include "flare.h"
+#include "chasm.h"
+#include "potion.h"
+#include "plant.h"
 
-const std::string GameScene::TXT_WELCOME = "Welcome to the level %d of Pixel Dungeon!";
-const std::string GameScene::TXT_WELCOME_BACK = "Welcome back to the level %d of Pixel Dungeon!";
-const std::string GameScene::TXT_NIGHT_MODE = "Be cautious, since the dungeon is even more dangerous at night!";
-const std::string GameScene::TXT_CHASM = "Your steps echo across the dungeon.";
-const std::string GameScene::TXT_WATER = "You hear the water splashing around you.";
-const std::string GameScene::TXT_GRASS = "The smell of vegetation is thick in the air.";
-const std::string GameScene::TXT_SECRETS = "The atmosphere hints that this floor hides many secrets.";
+const std::string GameScene::TXT_WELCOME = BPT::getText("lang.welcom_to_level"); //"Welcome to the level %d of Pixel Dungeon!";
+const std::string GameScene::TXT_WELCOME_BACK = BPT::getText("lang.welcom_back_to_level"); //"Welcome back to the level %d of Pixel Dungeon!";
+const std::string GameScene::TXT_NIGHT_MODE = BPT::getText("lang.be_caution_night"); //"Be cautious, since the dungeon is even more dangerous at night!";
+const std::string GameScene::TXT_CHASM = BPT::getText("lang.step_echo_dungeon"); //"Your steps echo across the dungeon.";
+const std::string GameScene::TXT_WATER = BPT::getText("lang.hear_water_splash"); //"You hear the water splashing around you.";
+const std::string GameScene::TXT_GRASS = BPT::getText("lang.smell_vegetation_air"); //"The smell of vegetation is thick in the air.";
+const std::string GameScene::TXT_SECRETS = BPT::getText("lang.floor_hide_secrets"); //"The atmosphere hints that this floor hides many secrets.";
 
 GameScene* GameScene::scene;
 CellSelector* GameScene::cellSelector;
@@ -65,6 +74,30 @@ void GameScene::addMobSprite(Mob* mob)
 	sprite->visible = Dungeon::visible[mob->pos];
 	mobs->add(sprite);
 	sprite->link(mob);
+}
+
+void GameScene::addPlantSprite(Plant* plant)
+{
+	plant->sprite = (PlantSprite*)plants->recycle("PlantSprite");
+	if (plant->sprite == NULL)
+	{
+		plant->sprite = new PlantSprite();
+		plants->add(plant->sprite);
+	}
+	plant->sprite->reset(plant);
+}
+
+void GameScene::addHeapSprite(Heap* heap)
+{
+	ItemSprite* sprite = heap->sprite = (ItemSprite*)heaps->recycle("ItemSprite");
+	if (sprite == NULL)
+	{
+		sprite = heap->sprite = new ItemSprite();
+		heaps->add(sprite);
+	}
+	sprite->revive();
+	sprite->link(heap);
+	//heaps.add(sprite);
 }
 
 namespace{
@@ -168,18 +201,21 @@ void GameScene::init()
 	plants = new Group();
 	add(plants);
 
-	//int size = Dungeon.level.plants.size();
-	//for (int i = 0; i < size; i++) {
-	//	addPlantSprite(Dungeon.level.plants.valueAt(i));
-	//}
+	int size = Dungeon::level->plants.size();
+	for (std::map<std::string, Plant*>::iterator itr = Dungeon::level->plants.begin();
+		itr != Dungeon::level->plants.end(); itr++)
+	{
+		addPlantSprite(itr->second);
+	}
 
 	heaps = new Group();
 	add(heaps);
 
-	//size = Dungeon.level.heaps.size();
-	//for (int i = 0; i < size; i++) {
-	//	addHeapSprite(Dungeon.level.heaps.valueAt(i));
-	//}
+	for (HashMap<int, Heap*>::iterator itr = Dungeon::level->heaps.begin();
+		itr != Dungeon::level->heaps.end(); itr++)
+	{
+		addHeapSprite(itr->second);
+	}
 
 	emitters = new Group();
 	effects = new Group();
@@ -267,14 +303,14 @@ void GameScene::init()
 	switch (InterlevelScene::mode) 
 	{
 	case InterlevelScene::RESURRECT:
-		//WandOfBlink.appear(Dungeon.hero, Dungeon.level.entrance);
-		//new Flare(8, 32).color(0xFFFF66, true).show(hero, 2f);
+		WandOfBlink::appear(Dungeon::hero, Dungeon::level->entrance);
+		new Flare(8, 32)->color(0xFFFF66, true)->show(hero, 2.0f);
 		break;
 	case InterlevelScene::RETURN:
-		//WandOfBlink.appear(Dungeon.hero, Dungeon.hero.pos);
+		WandOfBlink::appear(Dungeon::hero, Dungeon::hero->pos);
 		break;
 	case InterlevelScene::FALL:
-		//Chasm.heroLand();
+		Chasm::heroLand();
 		break;
 	case InterlevelScene::DESCEND:
 		switch (Dungeon::depth) {
@@ -303,22 +339,27 @@ void GameScene::init()
 		break;
 	}
 
-	//ArrayList<Item> dropped = Dungeon.droppedItems.get(Dungeon.depth);
-	//if (dropped != null) {
-	//	for (Item item : dropped) {
-	//		int pos = Dungeon.level.randomRespawnCell();
-	//		if (item instanceof Potion) {
-	//			((Potion)item).shatter(pos);
-	//		}
-	//		else if (item instanceof Plant.Seed) {
-	//			Dungeon.level.plant((Plant.Seed)item, pos);
-	//		}
-	//		else {
-	//			Dungeon.level.drop(item, pos);
-	//		}
-	//	}
-	//	Dungeon.droppedItems.remove(Dungeon.depth);
-	//}
+	DroppedItemsType::iterator it = Dungeon::droppedItems.find(Dungeon::depth);
+	if (it != Dungeon::droppedItems.end())
+	{
+		ArrayList<Item*>& dropped = it->second;
+		for (ArrayList<Item*>::iterator itr = dropped.begin();
+			itr != dropped.end(); itr++)
+		{
+			Item* item = *itr;
+			int pos = Dungeon::level->randomRespawnCell();
+			if (dynamic_cast<Potion*>(item)) {
+				((Potion*)item)->shatter(pos);
+			}
+			else if (dynamic_cast<Plant::Seed*>(item)) {
+				Dungeon::level->plant((Plant::Seed*)item, pos);
+			}
+			else {
+				Dungeon::level->drop(item, pos);
+			}
+		}
+		Dungeon::droppedItems.erase(it);
+	}
 
 	Camera::mainCamera->target = hero;
 
@@ -444,7 +485,7 @@ void GameScene::show(Window* wnd)
 void GameScene::ready()
 {
 	selectCell(defaultCellListener);
-	//QuickSlot.cancel();
+	QuickSlot::cancel();
 }
 
 bool GameScene::cancel()

@@ -18,6 +18,7 @@ class Toolbar;
 class Toast;
 class Blob;
 class Mob;
+class Plant;
 
 class GameScene :public PixelScene{
 private:
@@ -61,6 +62,8 @@ private:
 
 	void addBlobSprite(Blob* gas);
 	void addMobSprite(Mob* mob);
+	void addPlantSprite(Plant* plant);
+	void addHeapSprite(Heap* heap);
 
 	void Prompt(const std::string& text);
 

@@ -204,6 +204,18 @@ void Room::shuffleTypes()
 	}
 }
 
+bool Room::inside(int p)
+{
+	int left = GameMath::RECTLeft(bounds);
+	int top = GameMath::RECTTop(bounds);
+	int right = GameMath::RECTRight(bounds);
+	int bottom = GameMath::RECTBottom(bounds);
+
+	int x = p % Level::WIDTH;
+	int y = p / Level::WIDTH;
+	return x > left && y > top && x < right && y < bottom;
+}
+
 Room::Door::Door(int x, int y)
 {
 	type = Type::EMPTY;

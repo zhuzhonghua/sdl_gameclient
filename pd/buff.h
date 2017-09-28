@@ -29,6 +29,8 @@ public:
 
 	static void detach(Buff* buff);
 	static void detach(Char* target, const std::string& cl);
+
+	virtual std::string toString() = 0;
 };
 
 FACTORY(Buff);

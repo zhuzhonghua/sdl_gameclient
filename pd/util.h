@@ -185,6 +185,19 @@ public:
 	float* buffer() { return &buf[0]; }
 };
 
+
+class ShortBuffer{
+protected:
+	int pos;
+	std::vector<short> buf;
+public:
+	ShortBuffer(int size);
+	void position(int pos);
+	void put(const std::vector<short>& indices);
+	void put(short s);
+	short* buffer() { return &buf[0]; }
+};
+
 class Patch{
 private:
 	static std::vector<bool> cur;

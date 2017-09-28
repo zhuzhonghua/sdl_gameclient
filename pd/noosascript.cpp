@@ -1,6 +1,7 @@
 #include "noosascript.h"
 #include "game.h"
 #include "quad.h"
+#include "util.h"
 
 const char* VERT_SHADER = R"(
 
@@ -158,3 +159,15 @@ void NoosaScript::drawQuadSet(float* buffer, int size)
 	}	
 	glDrawElements(GL_TRIANGLES, 6*size, GL_UNSIGNED_SHORT, (void*)&indices[0]);
 }
+
+void NoosaScript::drawElements(FloatBuffer* vertices, ShortBuffer* indices, int size)
+{
+	vertices->position(0);
+	aXY.vertexPointer(2, 4, vertices->buffer());
+
+	vertices->position(2);
+	aUV.vertexPointer(2, 4, vertices->buffer());
+
+	glDrawElements(GL_TRIANGLES, size, GL_UNSIGNED_SHORT, indices->buffer());
+}
+

@@ -468,6 +468,8 @@ bool RingOfHaggler::doPickUp(Hero* hero)
 	return Ring::doPickUp(hero);
 }
 
+REFLECTBUFF(RingOfHaggler::Haggling);
+
 RingOfElements::RingOfElements()
 {
 	name = "Ring of Elements";

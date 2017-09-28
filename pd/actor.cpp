@@ -75,7 +75,7 @@ void Actor::process()
 	} while (doNext);
 }
 
-std::set<Actor*> Actor::all;
+HashSet<Actor*> Actor::all;
 Actor* Actor::current;
 std::map<int, Actor*> Actor::ids;
 std::vector<Char*> Actor::chars(Level::LENGTH);

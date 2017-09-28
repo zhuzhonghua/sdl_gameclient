@@ -5,6 +5,9 @@
 #include "speck.h"
 #include "alphatweener.h"
 #include "gamescene.h"
+#include "dungeontilemap.h"
+#include "lightning.h"
+#include "shaman.h"
 
 const float MobSprite::FADE_TIME = 3.0f;
 const float MobSprite::FALL_TIME = 1.0f;
@@ -41,6 +44,36 @@ void MobSprite::onComplete(Animation* anim)
 	{
 		parent->add(new AlphaTweenerNew(this, this, 0, FADE_TIME));
 	}
+}
+
+namespace{
+	class ScaleTweenerNew :public ScaleTweener{
+	public:
+		MobSprite* ms;
+		ScaleTweenerNew(MobSprite* m, Visual* visual, PointF scale, float time)
+			:ScaleTweener(visual, scale, time)
+			,ms(m){}
+
+	protected:
+		virtual void onComplete()
+		{
+			ms->killAndErase();
+			parent->erase(this);
+		}
+		virtual void updateValues(float progress)
+		{
+			ScaleTweener::updateValues(progress);
+			ms->am = 1 - progress;
+		}
+	};
+}
+void MobSprite::fall()
+{
+	GameMath::PointFSet(&origin, width / 2, height - DungeonTilemap::SIZE / 2);
+	//origin.set();
+	angularSpeed = Random::Int(2) == 0 ? -720 : 720;
+
+	parent->add(new ScaleTweenerNew(this, this, PointF(0, 0), FALL_TIME));
 }
 
 RatSprite::RatSprite()
@@ -345,7 +378,8 @@ void ShamanSprite::Zap(int pos)
 {
 	points[0] = ch->pos;
 	points[1] = pos;
-	//parent.add(new Lightning(points, 2, (Shaman)ch));
+	std::vector<int> p(points, points+2);
+	parent->add(new Lightning(p, 2, (Shaman*)ch));
 
 	turnTo(ch->pos, pos);
 	play(zap);

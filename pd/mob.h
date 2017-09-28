@@ -31,6 +31,11 @@ public:
 	//virtual void damage(int dmg, Object src);
 	void yell(const std::string& str);
 	virtual std::string description() { return "Real description is coming soon!"; }
+	virtual void destroy();
+
+	int exp();
+
+	virtual void die(Object* cause);
 
 	bool hostile;
 
@@ -41,6 +46,11 @@ public:
 	AiState* PASSIVE;
 	AiState* state;
 protected:
+	static const String	TXT_ECHO;
+	static const String TXT_NOTICE1;
+	static const String TXT_RAGE;
+	static const String TXT_EXP;
+
 	int target;
 
 	int _defenseSkill;
@@ -76,6 +86,8 @@ protected:
 		void nowhereToRun() {}
 	};
 private:
+	static const String	TXT_DIED;
+
 	static const std::string STATE;
 	static const std::string TARGET;
 

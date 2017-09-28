@@ -181,6 +181,8 @@ public:
 	static void validateDeathFromFire();
 	static void validateGrimWeapon();
 	static void validateDeathFromPoison();
+	static void validateDeathFromFalling();
+	static void validateNightHunter();
 
 	static bool isUnlocked(Badge badge);
 };

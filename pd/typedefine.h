@@ -16,6 +16,12 @@ public:
 	void add(T t){
 		this->insert(t);
 	}
+	void remove(T t){
+		iterator itr = this->find(t);
+		if (itr != this->end()){
+			this->erase(itr);
+		}
+	}
 };
 
 template<class T>
@@ -45,6 +51,12 @@ public:
 	}
 };
 
+class Object{
+public:
+	virtual std::string getObject() = 0;
+};
+
+#define CLASSOBJECT(name) virtual std::string getObject() { return #name;}
 #define CLASSNAME(name) virtual std::string getClassName() { return #name;}
 
 #define FACTORY(name) \

@@ -2,6 +2,7 @@
 
 #include "smarttexture.h"
 #include "util.h"
+#include "texturecache.h"
 
 void SmartTexture::filter(int minMode, int maxMode)
 {
@@ -46,4 +47,18 @@ SmartTexture::SmartTexture(const std::string& bp, int filtering, int wrapping)
 	bitmap(bp);
 	filter(filtering,filtering);
 	wrap(wrapping, wrapping);
+}
+
+Gradient::Gradient(std::vector<int> colors)
+:SmartTexture(TextureCache::createSurface(colors.size(), 1, 0))
+{
+	for (int i = 0; i < colors.size(); i++) {
+		setPixel(i, 0, colors[i]);
+	}
+	Texture::bitmap(texSrc);
+
+	filter(LINEAR, LINEAR);
+	wrap(CLAMP, CLAMP);
+
+	TextureCache::add("Gradient", this);
 }

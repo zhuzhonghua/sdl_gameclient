@@ -1,7 +1,7 @@
 #pragma once
 
 #include "bundlable.h"
-
+#include "typedefine.h"
 #include <limits>
 #include <set>
 #include <map>
@@ -33,7 +33,7 @@ public:
 	void next() { if (current == this) current = NULL; }
 	static void process();
 	
-	static std::set<Actor*> all;
+	static HashSet<Actor*> all;
 private:
 	float time;
 

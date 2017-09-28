@@ -81,6 +81,7 @@ public:
 	int random(int m);
 	Rect getBounds() { return bounds; }
 	Door* entrance();
+	bool inside(int p);
 
 	static void useType(Type type);
 	static void paint(Type type, Level* level, Room* r);

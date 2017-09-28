@@ -7,7 +7,7 @@
 class Image;
 
 class Toolbar :public Component{
-private:
+public:
 	class Tool :public Button{
 	private:
 		static const int BGCOLOR = 0x7B8073;
@@ -25,7 +25,14 @@ private:
 	};
 
 	class QuickslotTool : public Tool{
-
+	private:
+		QuickSlot* slot;
+	public:
+		QuickslotTool(int x, int y, int width, int height, boolean primary);
+		virtual void enable(boolean value);
+	protected:
+		virtual void createChildren();
+		virtual void layout();
 	};
 
 	class PickedUpItem : public ItemSprite{
@@ -42,7 +49,30 @@ private:
 
 		virtual void update();
 	};
+	static CellSelector::Listener* informer;
 
+	virtual void update();
+private:
+	static Toolbar* instance;
+
+	Tool* btnWait;
+	Tool* btnSearch;
+	Tool* btnInfo;
+	Tool* btnInventory;
+	Tool* btnQuick1;
+	Tool* btnQuick2;
+
+	PickedUpItem* pickedUp;
+
+	boolean lastEnabled;
+protected:
+	virtual void createChildren();
+	virtual void layout();
 public:
+	Toolbar();
+
 	void pickup(Item* item);
+
+	static bool secondQuickslot();
+	static void secondQuickslot(boolean value);
 };

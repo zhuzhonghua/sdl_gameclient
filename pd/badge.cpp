@@ -479,6 +479,22 @@ void Badges::validateDeathFromPoison()
 	validateYASD();
 }
 
+void Badges::validateDeathFromFalling()
+{
+	Badge badge = Badges::DEATH_FROM_FALLING;
+	local.insert(badge);
+	displayBadge(&badge);
+}
+
+void Badges::validateNightHunter()
+{
+	if (!local.contains(Badges::NIGHT_HUNTER) && Statistics::nightHunt >= 15) {
+		Badge badge = Badges::NIGHT_HUNTER;
+		local.add(badge);
+		displayBadge(&badge);
+	}
+}
+
 bool Badges::isUnlocked(Badges::Badge badge)
 {
 	return global.find(badge) != global.end();

@@ -41,12 +41,14 @@ private:
 	int attackSkill;
 	int defenseSkill;
 
-	std::list<Mob*> visibleEnemies;
+	
 
 	void Ready();
 	bool actMove(HeroActionMove* action);
 	bool getCloser(int target);
 public:
+	std::list<Mob*> visibleEnemies;
+
 	static const std::string TXT_YOU_NOW_HAVE;
 	static const int STARTING_STR = 10;
 public:
@@ -54,6 +56,7 @@ public:
 	int tier();
 	boolean shoot(Char* enemy, MissileWeapon* wep);
 	void live();
+	String className();
 	void updateAwareness();
 
 	Hero();
@@ -96,6 +99,7 @@ public:
 	void interrupt();
 	bool search(bool intentional);
 	void earnExp(int exp);
+	void rest(boolean tillHealthy);
 
 	virtual void spend(float time);
 

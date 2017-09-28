@@ -13,6 +13,7 @@ TextureFilm* PlantSprite::frames;
 PlantSprite::PlantSprite()
 :Image(Assets::PLANTS)
 {
+	tag = "PlantSprite";
 	state = State::NORMAL;
 	pos = -1;
 

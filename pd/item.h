@@ -6,10 +6,11 @@
 #include "cellselector.h"
 #include <string>
 #include <vector>
+#include "typedefine.h"
 
 class Bag;
 
-class Item :public Bundlable{
+class Item :public Bundlable, public Object{
 private:
 	static const char* TXT_PACK_FULL;
 
@@ -34,6 +35,8 @@ protected:
 	static CellSelector::Listener* thrower;
 
 	virtual void onThrow(int cell);
+	virtual void onDetach() {
+	}
 public:
 	static Hero* curUser;
 	static Item* curItem;
@@ -43,6 +46,8 @@ public:
 	std::string name = "smth";
 	int image = 0;
 
+	CLASSNAME(Item);
+	CLASSOBJECT(Item);
 
 public:
 	bool stackable = false;
@@ -68,8 +73,10 @@ public:
 	static void evoke(Hero* hero);
 	virtual std::string toString();
 	virtual std::string Name();
+	std::string trueName() { return name; }
 	int Image();
 	Item* detach(Bag* container);
+	Item* detachAll(Bag* container);
 
 	virtual ItemSprite::Glowing* glowing() { return NULL; }
 
@@ -141,4 +148,9 @@ public:
 			durability++;
 		}
 	}
+	std::string status();
+
+	static Item* Virtual(const std::string& cl);
 };
+
+FACTORY(Item);

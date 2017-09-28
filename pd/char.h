@@ -1,6 +1,7 @@
 #pragma once
 
 #include "actor.h"
+#include "typedefine.h"
 
 class Buff;
 class CharSprite;
@@ -22,7 +23,7 @@ private:
 	static const std::string TAG_HT;
 	static const std::string BUFFS;
 
-	static std::set<std::string> EMPTY;
+	static HashSet<std::string> EMPTY;
 
 public:
 	int pos;
@@ -53,8 +54,8 @@ public:
 	virtual void storeInBundle(Bundle* bundle);
 	virtual void restoreFromBundle(Bundle* bundle);
 
-	std::set<std::string>& resistances();
-	std::set<std::string>& immunities();
+	HashSet<std::string>& resistances();
+	HashSet<std::string>& immunities();
 	bool immunitiesContain(const std::string& cls);
 
 	void add(Buff* buff);
@@ -75,9 +76,9 @@ public:
 	virtual int defenseProc(Char* enemy, int damage) { return damage; }
 
 	float speed();
-	virtual void damage(int dmg, const std::string& src);
+	virtual void damage(int dmg, Object* src);
 	void destroy();
-	virtual void die(const std::string& src);
+	virtual void die(Object* src);
 	bool isAlive() { return HP > 0; }
 
 	void Buffs(const std::string& c, std::set<Buff*>& re);

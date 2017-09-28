@@ -15,3 +15,29 @@ public:
 	WndTitledMessage(Image* icon, const std::string& title, const std::string& message);
 	WndTitledMessage(Component* titlebar, const std::string& message);
 };
+
+class HealthBar;
+class BuffIndicator;
+
+class WndInfoMob :public WndTitledMessage{
+private:
+	class MobTitle :public Component{
+	private:
+		static const int GAP = 2;
+
+		CharSprite* image;
+		BitmapText* name;
+		HealthBar* health;
+		BuffIndicator* buffs;
+
+	public:
+		MobTitle(Mob* mob);
+
+	protected:
+		virtual void layout();
+	};
+
+	static String desc(Mob* mob);
+public:
+	WndInfoMob(Mob* mob);
+};

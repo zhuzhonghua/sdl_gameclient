@@ -3,6 +3,9 @@
 #include "texturecache.h"
 #include "char.h"
 #include "charsprite.h"
+#include "pixelscene.h"
+#include "game.h"
+#include "dungeon.h"
 
 const float HealthIndicator::HEIGHT = 2;
 
@@ -58,4 +61,60 @@ void HealthIndicator::createChildren()
 	level = new Image(TextureCache::createSolid(0xFF00cc00));
 	level->scale.y = HEIGHT;
 	add(level);
+}
+
+const float GoldIndicator::TIME = 2.0f;
+
+GoldIndicator::GoldIndicator()
+{
+	lastValue = 0;
+	init();
+}
+
+void GoldIndicator::update()
+{
+	Component::update();
+
+	if (visible) {
+
+		time -= Game::elapsed;
+		if (time > 0) {
+			tf->alpha(time > TIME / 2 ? 1.0f : time * 2 / TIME);
+		}
+		else {
+			visible = false;
+		}
+
+	}
+
+	if (Dungeon::gold != lastValue) {
+
+		lastValue = Dungeon::gold;
+
+		std::stringstream ss;
+		ss << lastValue;
+
+		tf->text(ss.str());
+		tf->measure();
+
+		visible = true;
+		time = TIME;
+
+		layout();
+	}
+}
+
+void GoldIndicator::createChildren()
+{
+	tf = PixelScene::createText(9);
+	tf->hardlight(0xFFFF00);
+	add(tf);
+
+	visible = false;
+}
+
+void GoldIndicator::layout()
+{
+	tf->x = _x + (_width - tf->Width()) / 2;
+	tf->y = bottom() - tf->Height();
 }

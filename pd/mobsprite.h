@@ -11,6 +11,8 @@ private:
 public:
 	virtual void update();
 	virtual void onComplete(Animation* anim);
+
+	void fall();
 };
 
 class RatSprite :public MobSprite{

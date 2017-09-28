@@ -81,9 +81,10 @@ public:
 	int entrance;
 	int exit;
 
-	std::set<Mob*> mobs;
+	HashSet<Mob*> mobs;
 	std::map<std::string, Blob*> blobs;
 	HashMap<int, Heap*> heaps;
+	HashMap<int, Plant*> plants;
 
 	int color1;
 	int color2;
@@ -118,6 +119,8 @@ public:
 	Plant* plant(Plant::Seed* seed, int pos);
 	void press(int cell, Char* ch);
 	void destroy(int pos);
+	String tileName(int tile);
+	String tileDesc(int tile);
 protected:
 	virtual bool build() = 0;
 	virtual void decorate() = 0;

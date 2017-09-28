@@ -7,6 +7,8 @@
 #include "heap.h"
 #include "charsprite.h"
 #include "speck.h"
+#include "bag.h"
+#include "quickslot.h"
 
 const char* Item::TXT_PACK_FULL = "lang.item_packfull";
 
@@ -26,6 +28,8 @@ const float Item::TIME_TO_DROP = 0.5f;
 
 const std::string Item::AC_DROP = "lang.item_drop";
 const std::string Item::AC_THROW = "lang.item_throw";
+
+std::map<std::string, FactoryItem*> FactoryItem::facs;
 
 void Item::onThrow(int cell)
 {
@@ -162,6 +166,29 @@ Item* Item::detach(Bag* container)
 	//	}
 	//}
 	return NULL;
+}
+
+Item* Item::detachAll(Bag* container)
+{
+	for (ArrayList<Item*>::iterator itr = container->items.begin();
+		itr != container->items.end(); itr++)
+	{
+		Item* item = *itr;
+		if (item == this) {
+			container->items.remove(this);
+			item->onDetach();
+			QuickSlot::refresh();
+			return this;
+		}
+		else if (dynamic_cast<Bag*>(item)) {
+			Bag* bag = (Bag*)item;
+			if (bag->contains(this)) {
+				return detachAll(bag);
+			}
+		}
+	}
+
+	return this;
 }
 
 void Item::storeInBundle(Bundle* bundle)
@@ -384,4 +411,16 @@ int Item::considerState(int price)
 	}
 
 	return price;
+}
+
+std::string Item::status()
+{
+	std::stringstream ss;
+	ss << quantity;
+	return quantity != 1 ? ss.str() : "";
+}
+
+Item* Item::Virtual(const std::string& cl)
+{
+	return FactoryItem::Create(cl);
 }

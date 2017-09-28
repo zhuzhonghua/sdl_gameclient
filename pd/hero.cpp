@@ -61,6 +61,11 @@ void Hero::live()
 	//Buff.affect(this, Hunger.class);
 }
 
+String Hero::className()
+{
+	return subClass == HeroSubClass::NONE ? heroClass.title() : subClass.Title();
+}
+
 void Hero::updateAwareness()
 {
 	awareness = (float)(1 - std::pow(
@@ -564,6 +569,15 @@ void Hero::earnExp(int exp)
 
 		//((Hunger)buff(Hunger.class)).satisfy(10);
 	}
+}
+
+void Hero::rest(boolean tillHealthy)
+{
+	spendAndNext(TIME_TO_REST);
+	if (!tillHealthy) {
+		sprite->showStatus(CharSprite::DEFAULT, TXT_WAIT);
+	}
+	restoreHealth = tillHealthy;
 }
 
 void Hero::spend(float time)

@@ -16,6 +16,8 @@ public:
 	virtual int nMobs();
 	virtual void storeInBundle(Bundle* bundle);
 	virtual void restoreFromBundle(Bundle* bundle);
+
+	Room* room(int pos);
 protected:
 	std::list<Room::Type> specials;
 	std::set<Room*> rooms;
@@ -37,6 +39,7 @@ protected:
 	void assignRoomType();
 	Room* randomRoom(Room::Type type, int tries);
 	int randomDropCell();
+	
 	bool joinRooms(Room* r, Room* n);
 	int nTraps();
 	std::vector<float> trapChances();

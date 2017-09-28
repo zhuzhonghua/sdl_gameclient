@@ -9,6 +9,8 @@
 
 class Char;
 
+typedef std::map<int, ArrayList< Item* > > DroppedItemsType;
+
 class Dungeon{
 public:
 	static Bundle* gameBundle(const std::string& fileName);
@@ -30,6 +32,7 @@ public:
 
 	static std::string resultDescription;
 
+	static DroppedItemsType droppedItems;
 	static bool nightMode;
 	static std::vector<bool> visible;
 	static std::set<int> chapters;

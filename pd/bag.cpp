@@ -26,3 +26,19 @@ void Bag::restoreFromBundle(Bundle* bundle)
 	//	((Item)item).collect(this);
 	//};
 }
+
+bool Bag::contains(Item* item)
+{
+	for (ArrayList<Item*>::iterator itr = items.begin();
+		itr != items.end(); itr++)
+	{
+		Item* i = *itr;
+		if (i == item) {
+			return true;
+		}
+		else if (dynamic_cast<Bag*>(i) && ((Bag*)i)->contains(item)) {
+			return true;
+		}
+	}
+	return false;
+}

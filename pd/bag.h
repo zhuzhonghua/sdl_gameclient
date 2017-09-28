@@ -19,6 +19,8 @@ public:
 	virtual std::string getClassName() { return "Bag"; }
 	virtual void storeInBundle(Bundle* bundle);
 	virtual void restoreFromBundle(Bundle* bundle);
+
+	bool contains(Item* item);
 private:
 	static const std::string ITEMS;
 };

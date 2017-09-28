@@ -41,6 +41,7 @@ public:
 	static void activate(int index);
 
 	int getPixel(int x, int y);
+	void setPixel(int x, int y, int color);
 protected:
 	static void _getBytesPNG(const std::string& bitmap, std::vector<byte>& data, unsigned long &width, unsigned long &height);
 };

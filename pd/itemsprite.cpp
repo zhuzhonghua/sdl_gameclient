@@ -50,6 +50,7 @@ ItemSprite::ItemSprite(Item* item)
 ItemSprite::ItemSprite(int image, Glowing* glowing)
 : MovieClip(Assets::ITEMS)
 {
+	tag = "ItemSprite";
 	if (film == NULL) 
 	{
 		film = new TextureFilm(tex, SIZE, SIZE);

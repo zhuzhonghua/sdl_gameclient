@@ -23,3 +23,16 @@ protected:
 	void onComplete() { if (listener != NULL) listener->onComplete(this); }
 	virtual void updateValues(float progress) = 0;
 };
+
+class ScaleTweener :public Tweener{
+public:
+	Visual* visual;
+
+	PointF start;
+	PointF end;
+
+	ScaleTweener(Visual* visual, PointF scale, float time);
+
+protected:
+	virtual void updateValues(float progress);
+};

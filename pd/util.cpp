@@ -935,3 +935,27 @@ int Ballistica::cast(int from, int to, bool magic, bool hitChars)
 
 	return to;
 }
+
+ShortBuffer::ShortBuffer(int size)
+{
+	pos = 0;
+	buf.resize(size);
+}
+
+void ShortBuffer::position(int pos)
+{
+	this->pos = pos;
+}
+
+void ShortBuffer::put(const std::vector<short>& indices)
+{
+	for (int i = 0; i < indices.size(); i++)
+	{
+		buf[pos++] = indices[i];
+	}
+}
+
+void ShortBuffer::put(short s)
+{
+	buf[pos++] = s;
+}

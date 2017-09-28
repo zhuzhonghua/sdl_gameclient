@@ -5,6 +5,7 @@
 #include "mobsprite.h"
 #include "wound.h"
 #include "glog.h"
+#include "statistics.h"
 
 Mob::Mob()
 {
@@ -167,8 +168,66 @@ void Mob::yell(const std::string& str)
 	GLog::n("%s: \"%s\" ", name, str.c_str());
 }
 
+void Mob::destroy()
+{
+	Char::destroy();
+
+	Dungeon::level->mobs.remove(this);
+
+	if (Dungeon::hero->isAlive()) {
+
+		if (hostile) {
+			Statistics::enemiesSlain++;
+			Badges::validateMonstersSlain();
+			Statistics::qualifiedForNoKilling = false;
+
+			if (Dungeon::nightMode) {
+				Statistics::nightHunt++;
+			}
+			else {
+				Statistics::nightHunt = 0;
+			}
+			Badges::validateNightHunter();
+		}
+
+		int exp = this->exp();
+		if (exp > 0) {
+			Dungeon::hero->sprite->showStatus(CharSprite::POSITIVE, TXT_EXP, exp);
+			Dungeon::hero->earnExp(exp);
+		}
+	}
+
+	delete this;
+}
+
+int Mob::exp()
+{
+	return Dungeon::hero->lvl <= maxLvl ? EXP : 0;
+}
+
+void Mob::die(Object* cause)
+{
+	Char::die(cause);
+
+	if (Dungeon::hero->lvl <= maxLvl + 2) {
+		//dropLoot();
+	}
+
+	if (Dungeon::hero->isAlive() && !Dungeon::visible[pos]) {
+		GLog::i(TXT_DIED.c_str());
+	}
+}
+
+const String Mob::TXT_DIED = "You hear something died in the distance";
+
 const std::string Mob::STATE = "state";
 const std::string Mob::TARGET = "target";
+
+const String Mob::TXT_ECHO = "echo of ";
+const String Mob::TXT_NOTICE1 = "?!";
+const String Mob::TXT_RAGE = "#$%^";
+const String Mob::TXT_EXP = "%+dEXP";
+
 const float Mob::TIME_TO_WAKE_UP = 1.0f;
 
 bool Mob::act()

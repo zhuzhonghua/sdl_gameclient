@@ -31,6 +31,8 @@ std::vector<bool> Dungeon::visible(Level::LENGTH);
 
 std::set<int> Dungeon::chapters;
 
+DroppedItemsType Dungeon::droppedItems;
+
 Bundle* Dungeon::gameBundle(const std::string& fileName)
 {
 	std::stringstream ss;

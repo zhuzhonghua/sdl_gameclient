@@ -3,6 +3,9 @@
 #include "script.h"
 #include "camera.h"
 
+class FloatBuffer;
+class ShortBuffer;
+
 class NoosaScript :public Script{
 public:
 	Uniform uCamera;
@@ -19,6 +22,7 @@ public:
 
 	void drawQuad(float* buffer);
 	void drawQuadSet(float* buffer, int size);
+	void drawElements(FloatBuffer* vertices, ShortBuffer* indices, int size);
 
 	void camera(Camera* camera);
 	void resetCamera() { _lastCamera = NULL; }

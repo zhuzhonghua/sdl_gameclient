@@ -271,6 +271,31 @@
 	<tomahawk>手斧</>
 	<Bleeding>流血</>
 	<bled_to_death>你失血过多而死...</>
+	
+	<welcom_to_level>欢迎来到像素地牢的第%d层！</>
+	<welcom_back_to_level>欢迎回到像素地牢的第%d层！</>
+	<be_caution_night>当心,夜晚时的地牢会更加危险!</>
+	<step_echo_dungeon>地牢里回荡着你的脚步声.</>
+	<hear_water_splash>你听见附近有水流滴溅的声音.</>
+	<smell_vegetation_air>空气中有淡淡的草木气息.</>
+	<floor_hide_secrets>这种氛围暗示着这一层地牢藏着许多秘密.</>
+	
+	<dont_know_what_there>你不知道那边有什么.</>
+	
+	<Stats>统计</>
+	<Buffs>效果</>
+	<Experience>经验</>
+	<Strength>力量</>
+	<Health>生命</>
+	<Gold_Collected>已收集金币</>
+	<Maximum_Depth>最深层数</>
+	<wndhero_statstab_title>%d级%s</>
+	<Catalogus>概览</>
+	<Journal>日志</>
+	<Scrolls>卷轴</>
+	<Potions>药水</>
+	
+	<Select_a_cell_to_examine>选择一个方块检查</>
 </>
 
 <badge>

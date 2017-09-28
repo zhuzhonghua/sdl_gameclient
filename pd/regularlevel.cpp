@@ -587,6 +587,19 @@ int RegularLevel::randomDropCell()
 	}
 }
 
+Room* RegularLevel::room(int pos)
+{
+	for (std::set<Room*>::iterator itr = rooms.begin();
+		itr != rooms.end(); itr++)
+	{
+		Room* room = *itr;
+		if (room->type != Room::Type::NONE && room->inside(pos)) {
+			return room;
+		}
+	}
+	return NULL;
+}
+
 bool RegularLevel::joinRooms(Room* r, Room* n)
 {
 	if (r->type != Room::Type::STANDARD || n->type != Room::Type::STANDARD) 

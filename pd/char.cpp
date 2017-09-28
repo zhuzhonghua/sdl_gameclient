@@ -4,6 +4,7 @@
 #include "buff.h"
 #include "util.h"
 #include "charsprite.h"
+#include "glog.h"
 
 const std::string Char::TXT_HIT = "%s hit %s";
 const std::string Char::TXT_KILL = "%s killed you...";
@@ -106,12 +107,12 @@ void Char::restoreFromBundle(Bundle* bundle)
 	}
 }
 
-std::set<std::string>& Char::resistances()
+HashSet<std::string>& Char::resistances()
 {
 	return EMPTY;
 }
 
-std::set<std::string>& Char::immunities()
+HashSet<std::string>& Char::immunities()
 {
 	return EMPTY;
 }
@@ -336,54 +337,55 @@ float Char::speed()
 	return /*buff(Cripple.class) == null ? baseSpeed :*/ baseSpeed * 0.5f;
 }
 
-void Char::damage(int dmg, const std::string& src)
+void Char::damage(int dmg, Object* src)
 {
 	if (HP <= 0) {
 		return;
 	}
 
-	//Buff.detach(this, Frost.class);
-	//
-	//Class< ? > srcClass = src.getClass();
-	//if (immunities().contains(srcClass)) {
-	//	dmg = 0;
-	//}
-	//else if (resistances().contains(srcClass)) {
-	//	dmg = Random.IntRange(0, dmg);
-	//}
-	//
-	//if (buff(Paralysis.class) != null) {
-	//	if (Random.Int(dmg) >= Random.Int(HP)) {
-	//		Buff.detach(this, Paralysis.class);
-	//		if (Dungeon.visible[pos]) {
-	//			GLog.i(TXT_OUT_OF_PARALYSIS, name);
-	//		}
-	//	}
-	//}
-	//
-	//HP -= dmg;
-	//if (dmg > 0 || src instanceof Char) {
-	//	sprite.showStatus(HP > HT / 2 ?
-	//		CharSprite.WARNING :
-	//		CharSprite.NEGATIVE,
-	//		Integer.toString(dmg));
-	//}
-	//if (HP <= 0) {
-	//	die(src);
-	//}
+	Buff::detach(this, "Frost");
+	
+	if (immunities().contains(src->getObject())) {
+		dmg = 0;
+	}
+	else if (resistances().contains(src->getObject())) {
+		dmg = Random::IntRange(0, dmg);
+	}
+	
+	if (buff("BuffParalysis") != NULL) {
+		if (Random::Int(dmg) >= Random::Int(HP)) {
+			Buff::detach(this, "BuffParalysis");
+			if (Dungeon::visible[pos]) {
+				GLog::i(TXT_OUT_OF_PARALYSIS.c_str(), name.c_str());
+			}
+		}
+	}
+	
+	HP -= dmg;
+	if (dmg > 0 || dynamic_cast<Char*>(src)) {
+		std::stringstream ss;
+		ss << dmg;
+		sprite->showStatus(HP > HT / 2 ?
+			CharSprite::WARNING :
+			CharSprite::NEGATIVE,
+			ss.str());
+	}
+	if (HP <= 0) {
+		die(src);
+	}
 }
 
 void Char::destroy()
 {
 	HP = 0;
 	Actor::remove(this);
-	//Actor.freeCell(pos);
+	Actor::freeCell(pos);
 }
 
-void Char::die(const std::string& src)
+void Char::die(Object* src)
 {
 	destroy();
-	//sprite.die();
+	sprite->Die();
 }
 
 void Char::Buffs(const std::string& c, std::set<Buff*>& re)
