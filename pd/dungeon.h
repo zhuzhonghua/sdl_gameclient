@@ -57,6 +57,9 @@ public:
 	static int findPath(Char* ch, int from, int to, std::vector<bool>& pass, std::vector<bool>& visible);
 	static int flee(Char* ch, int cur, int from, std::vector<bool>& pass, std::vector<bool>& visible);
 	static void fail(const std::string& desc);
+	static void win(const String& desc);
+	static void deleteGame(HeroClass cl, boolean deleteLevels);
+	static void saveAll();
 private:
 	static const std::string RG_GAME_FILE ;
 	static const std::string RG_DEPTH_FILE ;

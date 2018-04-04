@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include "typedefine.h"
 
 class Char;
 class LightningTrap{
@@ -9,6 +10,9 @@ private:
 
 public:
 	static void trigger(int pos, Char* ch);
-	class Electricity{};
+	class Electricity:public Object{
+	public:
+		CLASSOBJECT(Electricity);
+	};
 	static Electricity* LIGHTNING;
 };

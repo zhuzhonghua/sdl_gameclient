@@ -16,6 +16,11 @@
 #include "splash.h"
 #include "util.h"
 #include "statistics.h"
+#include "charsprite.h"
+#include "pixelparticle.h"
+#include "burning.h"
+#include "flameparticle.h"
+#include "generator.h"
 
 const String Heap::TXT_MIMIC = "This is a mimic!";
 const float Heap::FADE_TIME = 0.6f;
@@ -81,8 +86,8 @@ void Heap::open(Hero* hero)
 		//for (Item item : items) {
 			if (item->cursed) {
 				if (Wraith::spawnAt(pos) == NULL) {
-					//hero->sprite->emitter()->burst(ShadowParticle.CURSE, 6);
-					hero->damage(hero->HP / 2, this->getClassName());
+					hero->sprite->emitter()->burst(ShadowParticle::CURSE, 6);
+					hero->damage(hero->HP / 2, this);
 				}
 				//Sample.INSTANCE.play(Assets.SND_CURSED);
 				break;
@@ -110,8 +115,12 @@ void Heap::destroy()
 
 	if (sprite != NULL) {
 		sprite->kill();
+		delete sprite;
+		sprite = NULL;
 	}
 	items.clear();
+
+	delete this;
 }
 
 void Heap::restoreFromBundle(Bundle* bundle)
@@ -187,11 +196,6 @@ void Heap::replace(Item* a, Item* b)
 	if (itr != items.end()){
 		*itr = b;
 	}
-	//int index = items.indexOf(a);
-	//if (index != -1) {
-	//	items.remove(index);
-	//	items.add(index, b);
-	//}
 }
 
 void Heap::burn()
@@ -199,8 +203,8 @@ void Heap::burn()
 	if (type == Type::MIMIC) {
 		Mimic* m = Mimic::spawnAt(pos, items);
 		if (m != NULL) {
-			//Buff.affect(m, Burning.class).reignite(m);
-			//m.sprite.emitter().burst(FlameParticle.FACTORY, 5);
+			((Burning*)Buff::affect(m, "Burning"))->reignite(m);
+			m->sprite->emitter()->burst(FlameParticle::FACTORY, 5);
 			destroy();
 		}
 	}
@@ -262,7 +266,7 @@ void Heap::freeze()
 	if (type == Type::MIMIC) {
 		Mimic* m = Mimic::spawnAt(pos, items);
 		if (m != NULL) {
-			//Buff.prolong(m, Frost.class, Frost.duration(m) * Random.Float(1.0f, 1.5f));
+			Buff::prolong(m, "Frost", Frost::duration(m) * Random::Float(1.0f, 1.5f));
 			destroy();
 		}
 	}
@@ -271,10 +275,10 @@ void Heap::freeze()
 	}
 
 	boolean frozen = false;
-	//for (Item item : items.toArray(new Item[0])) {
+
+	std::vector<Item*> arr = items;
 	for (std::vector<Item*>::iterator itr = items.begin();
 		itr != items.end(); itr++){
-		//if (item instanceof MysteryMeat) {
 		Item* item = *itr;
 		if (dynamic_cast<MysteryMeat*>(item)){
 			replace(item, FrozenCarpaccio::cook((MysteryMeat*)item));
@@ -301,9 +305,9 @@ Item* Heap::transmute()
 	int count = 0;
 
 	int index = 0;
-	//for (Item item : items) {
+
 	for (int i = 0;i<items.size();i++){
-		//if (item instanceof Seed) {
+
 		Item* item = items[i];
 		if (dynamic_cast<Plant::Seed*>(item)){
 			count += item->quantity;
@@ -329,7 +333,7 @@ Item* Heap::transmute()
 			Statistics::potionsCooked++;
 			Badges::validatePotionsCooked();
 
-			return Generator::random(Generator.Category.POTION);
+			return Generator::random(Generator::Category::POTION);
 
 		}
 		else {
@@ -343,10 +347,10 @@ Item* Heap::transmute()
 			Badges::validatePotionsCooked();
 
 			if (itemClass.size() <= 0) {
-				return Generator::random(Generator.Category.POTION);
+				return Generator::random(Generator::Category::POTION);
 			}
 			else {
-				return itemClass.newInstance();
+				return FactoryItem::Create(itemClass);// itemClass.newInstance();
 			}
 		}
 
@@ -358,7 +362,7 @@ Item* Heap::transmute()
 
 void Heap::burnFX(int pos)
 {
-	//CellEmitter::get(pos)->burst(ElmoParticle.FACTORY, 6);
+	CellEmitter::get(pos)->burst(ElmoParticle::FACTORY, 6);
 	//Sample.INSTANCE.play(Assets.SND_BURNING);
 }
 

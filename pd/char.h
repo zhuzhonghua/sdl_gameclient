@@ -6,7 +6,7 @@
 class Buff;
 class CharSprite;
 
-class Char :public Actor{
+class Char :public Actor, public Object{
 protected:
 	static const std::string TXT_HIT;
 	static const std::string TXT_KILL;
@@ -50,6 +50,7 @@ public:
 	std::set<Buff*> buffs;
 
 	Char();
+	CLASSOBJECT(Char);
 
 	virtual void storeInBundle(Bundle* bundle);
 	virtual void restoreFromBundle(Bundle* bundle);

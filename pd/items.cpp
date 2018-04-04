@@ -8,6 +8,12 @@
 #include "charsprite.h"
 #include "belongings.h"
 #include "splash.h"
+#include "statistics.h"
+#include "badge.h"
+#include "amuletscene.h"
+#include "game.h"
+#include "cellemitter.h"
+#include "pixelparticle.h"
 
 Bomb::Bomb()
 {
@@ -32,7 +38,7 @@ void Bomb::onThrow(int cell)
 		//Sample.INSTANCE.play(Assets.SND_BLAST, 2);
 
 		if (Dungeon::visible[cell]) {
-			//CellEmitter.center(cell).burst(BlastParticle.FACTORY, 30);
+			CellEmitter::center(cell)->burst(BlastParticle::FACTORY, 30);
 		}
 
 		boolean terrainAffected = false;
@@ -42,7 +48,7 @@ void Bomb::onThrow(int cell)
 			int c = cell + n;
 			if (c >= 0 && c < Level::LENGTH) {
 				if (Dungeon::visible[c]) {
-					//CellEmitter.get(c).burst(SmokeParticle.FACTORY, 4);
+					CellEmitter::get(c)->burst(SmokeParticle.FACTORY, 4);
 				}
 
 				if (Level::flamable[c]) {
@@ -55,7 +61,7 @@ void Bomb::onThrow(int cell)
 				if (ch != NULL) {
 					int dmg = Random::Int(1 + Dungeon::depth, 10 + Dungeon::depth * 2) - Random::Int(ch->dr());
 					if (dmg > 0) {
-						ch->damage(dmg, this->getClassName());
+						ch->damage(dmg, this);
 						if (ch->isAlive()) {
 							//Buff.prolong(ch, Paralysis.class, 2);
 						}
@@ -145,4 +151,59 @@ void Honeypot::shatter(int pos)
 		//
 		//Sample.INSTANCE.play(Assets.SND_BEE);
 	}
+}
+
+const String Amulet::AC_END = "END THE GAME";
+
+Amulet::Amulet()
+{
+	name = "Amulet of Yendor";
+	image = ItemSpriteSheet::AMULET;
+
+	unique = true;
+}
+
+void Amulet::actions(Hero* hero, std::vector<std::string>& actions)
+{
+	Item::actions(hero, actions);
+	actions.push_back(AC_END);
+}
+
+void Amulet::execute(Hero* hero, std::string action)
+{
+	if (action == AC_END) {
+
+		showAmuletScene(false);
+
+	}
+	else {
+
+		Item::execute(hero, action);
+
+	}
+}
+
+bool Amulet::doPickUp(Hero* hero)
+{
+	if (Item::doPickUp(hero)) {
+
+		if (!Statistics::amuletObtained) {
+			Statistics::amuletObtained = true;
+			Badges::validateVictory();
+
+			showAmuletScene(true);
+		}
+
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
+void Amulet::showAmuletScene(boolean showText)
+{
+	Dungeon::saveAll();
+	AmuletScene::noText = !showText;
+	Game::switchScene(new AmuletScene);
 }

@@ -218,3 +218,13 @@ Mob* Bestiary::mobClass(int depth)
 
 	return classes[Random::chances(chances)]();
 }
+
+boolean Bestiary::isBoss(Char* mob)
+{
+	return
+		dynamic_cast<Goo*>(mob) ||
+		dynamic_cast<Tengu*>(mob) ||
+		dynamic_cast<DM300*>(mob) ||
+		dynamic_cast<King*>(mob) ||
+		dynamic_cast<Yog*>(mob) || dynamic_cast<Yog::BurningFist*>(mob) || dynamic_cast<Yog::RottingFist*>(mob);
+}

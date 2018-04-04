@@ -8,6 +8,7 @@
 #include "startscene.h"
 #include "pathfinder.h"
 #include "gamescene.h"
+#include "belongings.h"
 #include <sstream>
 
 int Dungeon::potionOfStrength;
@@ -506,4 +507,49 @@ void Dungeon::loadGame(const std::string& fileName, bool fullLoad)
 	//}
 
 	delete bundle;
+}
+
+void Dungeon::win(const String& desc)
+{
+	hero->belongings->identify();
+
+	if (challenges != 0) {
+		Badges::validateChampion();
+	}
+
+	resultDescription = desc;
+	//Rankings.INSTANCE.submit(true);
+}
+
+void Dungeon::deleteGame(HeroClass cl, boolean deleteLevels)
+{
+	//Game.instance.deleteFile(gameFile(cl));
+	//
+	//if (deleteLevels) {
+	//	int depth = 1;
+	//	while (Game.instance.deleteFile(Utils.format(depthFile(cl), depth))) {
+	//		depth++;
+	//	}
+	//}
+	//
+	//GamesInProgress.delete(cl);
+}
+
+void Dungeon::saveAll()
+{
+	if (hero->isAlive()) {
+
+		Actor::fixTime();
+		//saveGame(gameFile(hero.heroClass));
+		saveLevel();
+
+		//GamesInProgress::set(hero->heroClass, depth, hero->lvl, challenges != 0);
+
+	}
+	//else if (WndResurrect.instance != null) {
+	//
+	//	WndResurrect.instance.hide();
+	//	Hero.reallyDie(WndResurrect.causeOfDeath);
+	//
+	//}
 }

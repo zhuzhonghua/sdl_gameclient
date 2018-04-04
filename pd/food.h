@@ -22,9 +22,7 @@ public:
 
 	virtual std::string info() 
 	{
-		return
-			std::string("Nothing fancy here: dried meat, ") +
-			std::string("some biscuits - things like that.");
+		return BPT::getText("lang.Food_info");
 	}
 	virtual bool isUpgradable() { return false; }
 	virtual bool isIdentified() { return true; }
@@ -40,7 +38,7 @@ public:
 	virtual void execute(Hero* hero, const std::string& action);
 
 	virtual String info() {
-		return "Eat at your own risk!";
+		return BPT::getText("lang.MysteryMeat_info");// "Eat at your own risk!";
 	}
 
 	virtual int price() {
@@ -56,7 +54,7 @@ public:
 	static Item* Create() { return new ChargrilledMeat(); }
 
 	virtual String info() {
-		return "It looks like a decent steak.";
+		return BPT::getText("lang.ChargrilledMeat_info");// "It looks like a decent steak.";
 	}
 
 	virtual int price() {
@@ -77,9 +75,7 @@ public:
 	virtual void execute(Hero* hero, const std::string& action);
 
 	virtual String info() {
-		return
-			std::string("It's a piece of frozen raw meat. The only way to eat it is ") +
-			std::string("by cutting thin slices of it. And this way it's suprisingly good.");
+		return BPT::getText("lang.FrozenCarpaccio_info");
 	}
 	virtual int price() {
 		return 10 * quantity;
@@ -94,7 +90,7 @@ public:
 	static Item* Create() { return new Pasty(); }
 
 	virtual String info() {
-		return "This is authentic Cornish pasty with traditional filling of beef and potato.";
+		return BPT::getText("lang.Pasty_info");// "This is authentic Cornish pasty with traditional filling of beef and potato.";
 	}
 	virtual int price() {
 		return 20 * quantity;

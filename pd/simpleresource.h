@@ -1,5 +1,6 @@
 #pragma once
 #include "ninepatch.h"
+#include "typedefine.h"
 
 class Chrome{
 public:
@@ -221,4 +222,20 @@ public:
 	static const std::string FALL ;
 
 	static const std::string WIN ;
+};
+
+class BlobFire;
+class Freezing{
+public:
+	static boolean affect(int cell, BlobFire* fire);
+};
+
+class Sign{
+private:
+	static const String TXT_DEAD_END;
+	static const String _TIPS[];
+	static const String TXT_BURN;
+
+public:
+	static void read(int pos);
 };

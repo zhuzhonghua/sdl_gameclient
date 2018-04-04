@@ -251,3 +251,23 @@ public:
 	WraithSprite();
 	virtual int blood() { return 0x88000000; }
 };
+
+class ShopkeeperSprite :public MobSprite{
+private:
+	PixelParticle* coin;
+
+public:
+	ShopkeeperSprite();
+	virtual void onComplete(Animation* anim);
+};
+
+class MirrorSprite :public MobSprite{
+private:
+	static const int FRAME_WIDTH = 12;
+	static const int FRAME_HEIGHT = 15;
+
+public:
+	MirrorSprite();
+	virtual void link(Char* ch);
+	void updateArmor(int tier);
+};

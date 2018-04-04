@@ -145,9 +145,9 @@ public:
 	WandOfTeleportation();
 
 	virtual std::string desc() {
-		return
-			std::string("A blast from this wand will teleport a creature against ") +
-			std::string("its will to a random place on the current level.");
+		return BPT::getText("lang.WandOfTeleportation_Desc");
+			//std::string("A blast from this wand will teleport a creature against ") +
+			//std::string("its will to a random place on the current level.");
 	}
 	virtual std::string getClassName() { return "WandOfTeleportation"; }
 	static Item* Create(){ return new WandOfTeleportation(); }
@@ -160,9 +160,9 @@ class WandOfSlowness :public Wand{
 public:
 	WandOfSlowness();
 	virtual std::string desc() {
-		return
-			std::string("This wand will cause a creature to move and attack ") +
-			std::string("at half its ordinary speed until the effect ends");
+		return BPT::getText("lang.WandOfSlowness_Desc");
+			//std::string("This wand will cause a creature to move and attack ") +
+			//std::string("at half its ordinary speed until the effect ends");
 	}
 	virtual std::string getClassName() { return "WandOfSlowness"; }
 	static Item* Create(){ return new WandOfSlowness(); }
@@ -175,9 +175,9 @@ class WandOfFirebolt :public Wand{
 public:
 	WandOfFirebolt();
 	virtual std::string desc() {
-		return
-			std::string("This wand unleashes bursts of magical fire. It will ignite ") +
-			std::string("flammable terrain, and will damage and burn a creature it hits.");
+		return BPT::getText("lang.WandOfFirebolt_Desc");
+			//std::string("This wand unleashes bursts of magical fire. It will ignite ") +
+			//std::string("flammable terrain, and will damage and burn a creature it hits.");
 	}
 	virtual std::string getClassName() { return "WandOfFirebolt"; }
 	static Item* Create(){ return new WandOfFirebolt(); }
@@ -191,11 +191,11 @@ public:
 	WandOfPoison();
 
 	virtual std::string desc() {
-		return
-			std::string("The vile blast of this twisted bit of wood will imbue its target ") +
-			std::string("with a deadly venom. A creature that is poisoned will suffer periodic ") +
-			std::string("damage until the effect ends. The duration of the effect increases ") +
-			std::string("with the level of the staff.");
+		return BPT::getText("lang.WandOfPoison_Desc");
+			//std::string("The vile blast of this twisted bit of wood will imbue its target ") +
+			//std::string("with a deadly venom. A creature that is poisoned will suffer periodic ") +
+			//std::string("damage until the effect ends. The duration of the effect increases ") +
+			//std::string("with the level of the staff.");
 	}
 	virtual std::string getClassName() { return "WandOfPoison"; }
 	static Item* Create(){ return new WandOfPoison(); }
@@ -208,8 +208,8 @@ class WandOfRegrowth :public Wand{
 public:
 	WandOfRegrowth();
 	virtual std::string desc() {
-		return
-			std::string("\"When life ceases new life always begins to grow... The eternal cycle always remains!\"");
+		return BPT::getText("lang.WandOfRegrowth_Desc");
+			//std::string("\"When life ceases new life always begins to grow... The eternal cycle always remains!\"");
 	}
 	virtual std::string getClassName() { return "WandOfRegrowth"; }
 	static Item* Create(){ return new WandOfRegrowth(); }
@@ -224,9 +224,9 @@ public:
 
 	static void appear(Char* ch, int pos);
 	virtual std::string desc() {
-		return
-			std::string("This wand will allow you to teleport in the chosen direction. ") +
-			std::string("Creatures and inanimate obstructions will block the teleportation.");
+		return BPT::getText("lang.WandOfBlink_Desc");
+			//std::string("This wand will allow you to teleport in the chosen direction. ") +
+			//std::string("Creatures and inanimate obstructions will block the teleportation.");
 	}
 	virtual std::string getClassName() { return "WandOfBlink"; }
 	static Item* Create(){ return new WandOfBlink(); }
@@ -242,9 +242,9 @@ public:
 	static Item* Create(){ return new WandOfLightning(); }
 
 	virtual std::string desc() {
-		return
-			std::string("This wand conjures forth deadly arcs of electricity, which deal damage ") +
-			std::string("to several creatures standing close to each other.");
+		return BPT::getText("lang.WandOfLightning_Desc");
+			//std::string("This wand conjures forth deadly arcs of electricity, which deal damage ") +
+			//std::string("to several creatures standing close to each other.");
 	}
 
 private:
@@ -266,9 +266,9 @@ public:
 	WandOfAmok();
 
 	virtual std::string desc() {
-		return
-			std::string("The purple light from this wand will make the target run amok ") +
-			std::string("attacking random creatures in its vicinity.");
+		return BPT::getText("lang.WandOfAmok_Desc");
+			//std::string("The purple light from this wand will make the target run amok ") +
+			//std::string("attacking random creatures in its vicinity.");
 	}
 	virtual std::string getClassName() { return "WandOfAmok"; }
 	static Item* Create(){ return new WandOfAmok(); }
@@ -311,9 +311,9 @@ public:
 		virtual void damage(int dmg, const std::string& src) {
 		}
 		virtual std::string description() {
-			return
-				std::string("This is a magic sheep. What's so magical about it? You can't kill it. ") +
-				std::string("It will stand there until it magcially fades away, all the while chewing cud with a blank stare.");
+			return BPT::getText("lang.WandOfFlock_Sheep_Desc");
+				//std::string("This is a magic sheep. What's so magical about it? You can't kill it. ") +
+				//std::string("It will stand there until it magcially fades away, all the while chewing cud with a blank stare.");
 		}
 		virtual void interact();
 	protected:
@@ -326,8 +326,8 @@ public:
 	WandOfFlock();
 
 	virtual std::string desc() {
-		return
-			std::string("A flick of this wand summons a flock of magic sheep, creating temporary impenetrable obstacle.");
+		return BPT::getText("lang.WandOfFlock_Desc");
+			//std::string("A flick of this wand summons a flock of magic sheep, creating temporary impenetrable obstacle.");
 	}
 	virtual std::string getClassName() { return "WandOfFlock"; }
 	static Item* Create(){ return new WandOfFlock(); }
@@ -341,9 +341,9 @@ public:
 	WandOfDisintegration();
 
 	virtual std::string desc() {
-		return
-			std::string("This wand emits a beam of destructive energy, which pierces all creatures in its way. ") +
-			std::string("The more targets it hits, the more damage it inflicts to each of them.");
+		return BPT::getText("lang.WandOfDisintegration_Desc");
+			//std::string("This wand emits a beam of destructive energy, which pierces all creatures in its way. ") +
+			//std::string("The more targets it hits, the more damage it inflicts to each of them.");
 	}
 	virtual std::string getClassName() { return "WandOfDisintegration"; }
 	static Item* Create(){ return new WandOfDisintegration(); }
@@ -361,9 +361,9 @@ public:
 	WandOfAvalanche();
 
 	virtual std::string desc() {
-		return
-			std::string ("When a discharge of this wand hits a wall (or any other solid obstacle) it causes ") +
-			std::string("an avalanche of stones, damaging and stunning all creatures in the affected area.");
+		return BPT::getText("lang.WandOfAvalanche_Desc");
+			//std::string ("When a discharge of this wand hits a wall (or any other solid obstacle) it causes ") +
+			//std::string("an avalanche of stones, damaging and stunning all creatures in the affected area.");
 	}
 	virtual std::string getClassName() { return "WandOfAvalanche"; }
 	static Item* Create(){ return new WandOfAvalanche(); }
@@ -386,8 +386,8 @@ public:
 	virtual void setKnown() {
 	}
 	virtual String desc() {
-		return
-			"This wand launches missiles of pure magical energy, dealing moderate damage to a target creature.";
+		return BPT::getText("lang.WandOfMagicMissile_Desc");
+			//"This wand launches missiles of pure magical energy, dealing moderate damage to a target creature.";
 	}
 
 	static const String TXT_DISENCHANTED;

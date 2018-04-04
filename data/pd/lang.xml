@@ -296,6 +296,167 @@
 	<Potions>药水</>
 	
 	<Select_a_cell_to_examine>选择一个方块检查</>
+	
+	<Amok>狂乱</>
+	<Yog_Dzewa>犹格-达兹瓦</>
+	<echo_Yog_Dzewa>犹格-达兹瓦回响</>
+	<yog_desc>犹格-达兹瓦是一名来自混沌国度的强大古神.百年前,古代矮人惨胜了它所率领的恶魔军团,但却无力杀死这位神灵本身,因此便将它镇压在了城市下方的大厅中,矮人们相信它太过虚弱再也不会苏醒过来.</>
+	<rotting_fist>腐坏之拳</>
+	<burning_fist>燃烧之拳</>
+	<gods_larva>古神幼虫</>
+	<killed_you>%s杀死了你...</>
+	<Caustic_ooze>腐泥</>
+	
+	<Levitating>悬浮</>
+	
+	<Invisible>隐形</>
+	<Rooted>生根</>
+	
+	<s_hit_s>%s击中了%s</>
+	<s_defeated_s>%s击败了%s</>
+	<s_s_your_attack>%s%s了你的进攻</>
+	<s_s_s_s_attack>%s%s了%s的进攻</>
+	<The_pain_snapped_out_paralysis>解除了麻痹的%s重新感觉到了疼痛</>
+	
+	<Mind_vision>灵视</>
+	<Shadowmelded>暗影融合</>
+	
+	<Charmed>受惑</>
+	
+	<Ring_of_Haggler>折扣指环</>
+	
+	<skeletonkey_info>这把钥匙看起来非常肃穆:钥匙头部形如骷髅.或许它用于开启某些重要的门.</>
+	
+	<Shopkeeper_description>这个悍勇的家伙看起来更适合在大城市而非地牢里做生意.他厚颜无耻的标价解释了为什么他选择来这里.</>
+	
+	<Mob_description>作者正抓头挠耳地写着新说明!</>
+	
+	<mob_died>你听到远处有谁倒下了</>
+	<mob_flee_status>%s正在逃窜</>
+	<mob_sleeping_status>%s正在睡觉</>
+	<mob_wandering_status>%s正在游荡</>
+	<mob_huning_status>%s正在狩猎</>
+	<mob_passive_status>%s是被动型生物</>
+	
+	<Food_info>没啥值得特别一提的:肉干,一些小饼干-诸如此类.</>
+	<MysteryMeat_info>不怕死你就吃!</>
+	<ChargrilledMeat_info>看起来蛮不错的肉排.</>
+	<FrozenCarpaccio_info>一片冻生肉.只能切成小条来吃.这么吃味道好极了.</>
+	<Pasty_info>正宗的康沃尔馅饼,按传统填满了牛肉和马铃薯.</>
+	
+	<Barkskin>树皮</>
+	<Plant_Seed_Info>将种子扔在你希望%s生长的地方.\n\n%s</>
+	<Firebloom_Desc>烈焰花会将触碰它的东西点燃.</>
+	<Icecap_Desc>被触碰的冰帽草会释放出花粉将附近的一切冰冻起来.</>
+	<ResultDescriptions_MOB>被第%2$d层的%1$s残忍杀害.</>
+	<ResultDescriptions_BOSS>被第%2$d层的%1$s残忍杀害.</>
+	<ResultDescriptions_WAND>在第%2$d层捣鼓自己的%1$s时出了意外.</>
+	<ResultDescriptions_GLYPH>被第%2$d层的%1$s残忍杀害.</>
+	<ResultDescriptions_TRAP>在第%2$d层因触发%1$s而死于非命.</>
+	<ResultDescriptions_BOMB>在第%d层被炸死.</>
+	<ResultDescriptions_Burning>在第%d层焚烧至死.</>
+	<ResultDescriptions_Hunger>在第%d层活活饿死.</>
+	<ResultDescriptions_Poison>在第%d层毒发身亡.</>
+	<ResultDescriptions_Gas>在第%d层长眠于毒气中.</>
+	<ResultDescriptions_Bleeding>在第%d层因失血过多而致死.</>
+	<ResultDescriptions_Ooze>在第%d层死在腐蚀泥浆中.</>
+	<ResultDescriptions_Fall>在第%d层尝试信仰之跃失败.</>
+	<ResultDescriptions_Win>得到了尼德罗护符.</>
+	
+	<Sorrowmoss_Desc>悲伤藓是一种花瓣锋利如刃的花(并非苔藓),花瓣上涂满了致命的毒液.</>
+	<Dreamweed_Desc>触碰到幻梦草会刺激它分泌出一种令人陷入困惑幻觉的闪光气体.</>
+	
+	<ConfusionGas_tileDesc>一团致幻的毒气在此处回旋弥漫.</>
+	<Sungrass_Desc>太阳草以其汁液的治愈特效而闻名.</>
+	<Sungrass_Health_toString>草药治愈</>
+	
+	<Earthroot_Desc>被生物触碰到的地缚根会在生物体表用根须形成一种天然的护铠.</>
+	<Fadeleaf_Desc>触碰到褪叶草的生物会被传送到当前层的某个随机位置.</>
+	<Rotberry_Desc>这种植物的浆果尝起来非常甜,甜到死.</>
+	
+	<Rotberry_Seed_collect>这枚种子发出刺耳的尖啸,久久回荡在地牢当中!</>
+	<ToxicGas_tileDesc>绿森森的毒气在此回旋弥漫.</>
+	<ToxicGas_onDeath>你死在了毒气中...</>
+	<ParalyticGas_tileDesc>一团致人麻痹的气体在此处回旋弥漫.</>
+	<DeferedDamage_toString>推延伤害%d</>
+	<ClothArmor_Desc>这件单薄的护甲能够提供基本的防护.</>
+	<LeatherArmor_Desc>使用鞣制怪物皮制成的护甲.比布甲稍沉但防护效果也更好.</>
+	<MailArmor_Desc>铁片相连制成的护甲,坚韧而富弹性.</>
+	<ScaleArmor_Desc>将金属鳞片缝进皮革制成的兼顾弹性与防护性能的护甲.</>
+	<PlateArmor_Desc>使用大量金属板打造而成,为能够承受得了它那惊人分量的冒险者提供无可比拟的防护.</>
+	
+	<Armor_Equip_Cursed>你感到你的%s紧紧包在身上,疼痛难忍.</>
+	<Armor_Identify>你现在足够熟悉你的%s能够鉴定出它来了.它其实是%s.</>
+	<Armor_Txt_Incompatible>不同类型的魔力干扰使得护甲符文失去了效力.</>
+	<Bounce_Txt_Bounce>反弹%s</>
+	<Affection_Txt_Affection>魅惑%s</>
+	<AntiEntropy_Txt_AntiEntropy>反熵%s</>
+	<MirrorImage_description>幻象模样与你很相似,但会微微晃动,颜色也略苍白.</>
+	<Hunger_Txt_Hungry>你感到有点饿.</>
+	<Hunger_Txt_Starving>你饥肠辘辘!</>
+	<Hunger_Txt_Death>你饿死了...</>
+	<Hunger_toString_Hungry>饥饿</>
+	<Hunger_toString_Starving>饥肠辘辘</>
+	<Metabolism_Txt_Metabolism>代谢%s</>
+	
+	<Stench_Txt_Stench>恶臭%s</>
+	<Viscosity_Txt_Viscosity>粘稠%s</>
+	
+	<Displacement_Txt_Displacement>置换%s</>
+	<Entanglement_Txt>缠结%s</>
+	<Multiplicity_Txt>分身%s</>
+	<Potential_Txt>潜能%s</>
+	<Armor_Info_damage_absorption>这件%s在每次抵挡攻击时能够吸收%d点伤害.</>
+	<Armor_Info_inadequate_strength>由于你的力量不足因此移动速度和防御技巧都下降了.</>
+	<Armor_Info_inadequate_strength_wearing_decrease>由于你的力量不足这件护甲会使你的移动速度和防御技巧下降.</>
+	<Armor_Info_typical_damage_require_strength>一般来说%s在每次抵挡攻击时能够吸收点%d伤害,并且穿戴它需要%d点力量.</>
+	<Armor_Info_armor_too_heavy>或许这件护甲对你来说过于沉重.</>
+	<Armor_Info_enchanted>它已被附魔.</>
+	<Armor_Info_wearing>你正穿着%s</>
+	<Armor_Info_cursed_powerless>由于它被诅咒了,所以你没办法脱下它</>
+	<Armor_Info_feel_malevolent_magic>你感到%s中蕴藏着恶毒的魔法</>
+	
+	<scale_armor>鳞甲</>
+	<plate_armor>板甲</>
+	<mail_armor>链甲</>
+	<leather_armor>皮甲</>
+	<cloth_armor>布甲</>
+	
+	<WandOfTeleportation_Desc>这柄法杖释放出的魔力能够将生物不受意志驱使地随机传送到当前层的某个地方.</>
+	<WandOfSlowness_Desc>这柄法杖能够让生物移动和攻击速度在效果结束前都减半.</>
+	<WandOfFirebolt_Desc>这柄法杖发出一道魔力火焰,能够引燃可燃地形,并伤害和点燃击中的生物.</>
+	<WandOfPoison_Desc>这柄有些扭曲的法杖释放的恶毒魔力能够让目标染上致命毒素.中毒的生物在效果结束前会持续掉血.效果持续时间随着法杖等级的提升而延长.</>
+	<WandOfRegrowth_Desc>"生生不息,周而复始!"</>
+	<WandOfBlink_Desc>这柄法杖能够将你朝指定方向传送.生物或无法移动的屏障会阻挡传送.</>
+	<WandOfLightning_Desc>这柄法杖向前放出一道致命的电弧,能够对相邻而站的一群生物造成伤害.</>
+	<WandOfAmok_Desc>法杖发出的紫色光芒能够让目标陷入狂乱随机攻击附近的生物.</>
+	<WandOfFlock_Sheep_Desc>这是一只魔法绵羊.它有什么神奇的地方呢?你无法杀死它,直到它自己神奇地消失,一边咀嚼反刍的食物一边用那茫然的眼神盯着你.</>
+	<WandOfFlock_Desc>这柄法杖能够召唤出一群魔法绵羊,制造出无法通过的临时屏障.</>
+	<WandOfDisintegration_Desc>这柄法杖发出一道毁灭性的能量,穿透所有途经的生物.它击中的目标越多,对每个目标造成的伤害就越大.</>
+	<WandOfAvalanche_Desc>法杖释放的魔弹碰到墙壁或别的固态屏障时会造成土石崩塌,伤害并晕眩附近受影响区域的所有生物.</>
+	<WandOfMagicMissile_Desc>这柄法杖能够发出纯净魔力构成的魔弹,对目标生物造成一定的伤害.</>
+	<Hero_Leave>不能就这么轻易离开像素地牢.</>
+	<Hero_Level_Up>升级!</>
+	<Hero_New_Level>欢迎升到第%d级！现在你生命值有所增加,专注力也提高了.你将更容易击中敌人并闪避它们的进攻.</>
+	<Hero_Something_Else>这里还有些别的东西</>
+	<Hero_Locked_Chest>箱子上着锁,你没有匹配的钥匙</>
+	<Hero_Locked_Door>你没有匹配的钥匙</>
+	<Hero_Noticed_Smth>你留意到一些东西</>
+	<Hero_Search>搜寻</>
+	<Hero_You_Now_Have>你获得了%s</>
+	<SeedPouch_Info>这只天鹅绒的小口袋能够用于存放各类种子.非常方便.</>
+	
+	<IronKey_From_Depth>用于第%d层的铁钥匙</>
+	<IronKey_Info>这把古老的铁钥匙上的缺口磨损地相当厉害;年代久远它的皮绳也陈旧不堪.它能开启哪一扇门呢?</>
+	<GoldenKey_Info>这把金钥匙上的缺口精细复杂.或许它能打开某个上锁的箱子?</>
+	<Amulet_Info>尼德罗护符是最强大的已知神器,无人知道它的来历.据说如果它的主人拥有足够强烈的意愿就能说服这枚护符实现任何愿望.</>
+	<Bomb_Info>This is a relatively small bomb, filled with black powder. Conveniently, its fuse is lit automatically when the bomb is thrown.</>
+	<Honeypot_Info>There is not much honey in this small honeypot, but there is a golden bee there and it doesn't want to leave it.</>	
+	<AmuletScene_Txt>终于,你将尼德罗护符攥在了手中.有了它的力量,你既可以统治世界,也可以做些将和平和财富带给人民之类的事.无论如何,你的人生将从此焕然一新,而游戏也将在这里完结.你也可以选择多逗留一段时间.</>
+	<AmuletScene_Exit>就到这里为止吧</>
+	<AmuletScene_Stay>我还没有准备好</>
+	
+	<AlchemyPot_Select_Seed>选择一颗种子扔出</>
 </>
 
 <badge>

@@ -8,6 +8,7 @@
 #include "flameparticle.h"
 #include "heap.h"
 #include "burning.h"
+#include "speck.h"
 
 const std::string Blob::CUR = "cur";
 const std::string Blob::START = "start";
@@ -269,3 +270,45 @@ void BlobFire::use(BlobEmitter* emitter)
 }
 
 REFLECTBLOB(BlobFire);
+
+void ConfusionGas::evolve()
+{
+	Blob::evolve();
+
+	Char* ch;
+	for (int i = 0; i < LENGTH; i++) {
+		if (cur[i] > 0 && (ch = Actor::findChar(i)) != NULL) {
+			Buff::prolong(ch, "Vertigo", Vertigo::duration(ch));
+		}
+	}
+}
+
+void ConfusionGas::use(BlobEmitter* emitter)
+{
+	Blob::use(emitter);
+
+	emitter->pour(Speck::factory(Speck::CONFUSION, true), 0.6f);
+}
+
+REFLECTBLOB(ConfusionGas);
+
+void ParalyticGas::evolve()
+{
+	Blob::evolve();
+
+	Char* ch;
+	for (int i = 0; i < LENGTH; i++) {
+		if (cur[i] > 0 && (ch = Actor::findChar(i)) != NULL) {
+			Buff::prolong(ch, "BuffParalysis", BuffParalysis::duration(ch));
+		}
+	}
+}
+
+void ParalyticGas::use(BlobEmitter* emitter)
+{
+	Blob::use(emitter);
+
+	emitter->pour(Speck::factory(Speck::PARALYSIS), 0.6f);
+}
+
+REFLECTBLOB(ParalyticGas);

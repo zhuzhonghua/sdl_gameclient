@@ -1,4 +1,6 @@
 #include "bag.h"
+#include "simpleresource.h"
+#include "plant.h"
 
 const std::string Bag::AC_OPEN = "OPEN";
 const std::string Bag::ITEMS = "inventory";
@@ -42,3 +44,56 @@ bool Bag::contains(Item* item)
 	}
 	return false;
 }
+
+Item* Bag::Next()
+{
+	if (nextBag != NULL && nextBag->HasNext()){
+		return nextBag->Next();
+	}
+	else{
+		nextBag = NULL;
+
+		itr++;
+
+		Item* itm = *itr;
+		if (dynamic_cast<Bag*>(itm)){
+			nextBag = (Bag*)itm;
+		}
+		return itm;
+	}
+}
+
+void Bag::Begin()
+{
+	nextBag = NULL;
+	itr = items.begin();
+}
+
+bool Bag::HasNext()
+{
+	if (nextBag != NULL){
+		return nextBag->HasNext() || itr != items.end();
+	}
+	else{
+		return itr != items.end();
+	}
+}
+
+
+REFLECTITEM(Bag);
+
+SeedPouch::SeedPouch()
+{
+	name = "seed pouch";
+	image = ItemSpriteSheet::POUCH;
+
+	size = 8;
+}
+
+boolean SeedPouch::grab(Item* item)
+{
+	return dynamic_cast<Plant::Seed*>(item) != NULL;
+}
+
+
+REFLECTITEM(SeedPouch);

@@ -8,6 +8,7 @@ class Bag;
 class KindOfWeapon;
 class Armor;
 class Ring;
+class Key;
 
 class Belongings{
 public:
@@ -21,8 +22,12 @@ public:
 
 	Belongings(Hero* owner);
 
+	Key* getKey(const std::string& kind, int depth);
 	Item* getItem(const std::string& itemClass);
 	Item* randomUnequipped();
+	void resurrect(int depth);
+	void countIronKeys();
+	void identify();
 private:
 	Hero* owner;
 	static const std::string WEAPON;

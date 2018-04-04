@@ -56,3 +56,26 @@ public:
 		return BPT::getText("lang.blobfire_tiledesc");;
 	}
 };
+
+class ConfusionGas :public Blob{
+public:
+	CLASSNAME(ConfusionGas);
+	virtual void use(BlobEmitter* emitter);
+	virtual String tileDesc() {
+		return BPT::getText("lang.ConfusionGas_tileDesc");// "A cloud of confusion gas is swirling here.";
+	}
+protected:
+	virtual void evolve();
+};
+
+class ParalyticGas :public Blob{
+protected:
+	virtual void evolve();
+
+public:
+	CLASSNAME(ParalyticGas);
+	virtual void use(BlobEmitter* emitter);
+	virtual String tileDesc() {
+		return BPT::getText("lang.ParalyticGas_tileDesc");// "A cloud of paralytic gas is swirling here.";
+	}
+};

@@ -105,6 +105,7 @@ public:
 
 		virtual std::string getClassName(){ return className(); }
 		static std::string className() { return "Rejuvenation"; }
+		virtual std::string toString() { return ""; }
 	};
 
 	RingOfMending();
@@ -139,6 +140,7 @@ public:
 		Shadows(Ring* r) :RingBuff(r){}
 		virtual std::string getClassName(){ return className(); }
 		static std::string className() { return "Shadows"; }
+		virtual std::string toString() { return ""; }
 	};
 
 	RingOfShadows();
@@ -158,6 +160,7 @@ public:
 		Power(Ring* r) :RingBuff(r){}
 		virtual std::string getClassName(){ return className(); }
 		static std::string className() { return "Power"; }
+		virtual std::string toString() { return ""; }
 	};
 
 	RingOfPower(){ name = "Ring of Power"; }
@@ -177,6 +180,7 @@ public:
 		Herbalism(Ring* r) :RingBuff(r){}
 		virtual std::string getClassName(){ return className(); }
 		static std::string className() { return "Herbalism"; }
+		virtual std::string toString() { return ""; }
 	};
 
 	RingOfHerbalism(){ name = "Ring of Herbalism"; }
@@ -196,6 +200,7 @@ public:
 		Accuracy(Ring* r) :RingBuff(r){}
 		virtual std::string getClassName(){ return className(); }
 		static std::string className() { return "Accuracy"; }
+		virtual std::string toString() { return ""; }
 	};
 
 	RingOfAccuracy(){ name = "Ring of Accuracy"; }
@@ -215,6 +220,7 @@ public:
 		Evasion(Ring* r) :RingBuff(r){}
 		virtual std::string getClassName(){ return className(); }
 		static std::string className() { return "Evasion"; }
+		virtual std::string toString() { return ""; }
 	};
 
 	RingOfEvasion(){ name = "Ring of Evasion"; }
@@ -234,6 +240,7 @@ public:
 		Satiety(Ring* r) :RingBuff(r){}
 		virtual std::string getClassName(){ return className(); }
 		static std::string className() { return "Satiety"; }
+		virtual std::string toString() { return ""; }
 	};
 
 	RingOfSatiety(){ name = "Ring of Satiety"; }
@@ -253,6 +260,7 @@ public:
 		Haste(Ring* r) :RingBuff(r){}
 		virtual std::string getClassName(){ return className(); }
 		static std::string className() { return "RingOfHaste::Haste"; }
+		virtual std::string toString() { return ""; }
 	};
 
 	RingOfHaste(){ name = "Ring of Haste"; }
@@ -271,10 +279,11 @@ public:
 	public:
 		Haggling(Ring* r) :RingBuff(r){}
 		virtual std::string getClassName(){ return className(); }
-		static std::string className() { return "RingOfHaggler::Haggling"; }
+		static std::string className() { return "Haggling"; }
+		virtual std::string toString() { return ""; }
 	};
 
-	RingOfHaggler(){ name = "Ring of Haggler"; }
+	RingOfHaggler(){ name = BPT::getText("lang.Ring_of_Haggler"); }
 	virtual std::string getClassName() { return "RingOfHaggler"; }
 	static Item* Create() { return new RingOfHaggler(); }
 	virtual std::string desc();
@@ -303,6 +312,7 @@ public:
 		Resistance(Ring* r) :RingBuff(r){}
 		virtual std::string getClassName(){ return className(); }
 		static std::string className() { return "Resistance"; }
+		virtual std::string toString() { return ""; }
 
 		float durationFactor() {
 			return level < 0 ? 1 : (2 + 0.5f * level) / (2 + level);
@@ -334,6 +344,7 @@ public:
 		Thorns(Ring* r) :RingBuff(r){}
 		virtual std::string getClassName(){ return className(); }
 		static std::string className() { return "Thorns"; }
+		virtual std::string toString() { return ""; }
 	};
 
 	RingOfThorns(){ name = "Ring of Thorns"; }

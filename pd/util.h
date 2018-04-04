@@ -101,11 +101,13 @@ public:
 	static const float POINTF_PI;
 	static const float POINTF_PI2;
 	static const float POINTF_G2R;
+	static const float G2RAD;
 
 	static float speed(float speed, float acc);
 	static float gate(float min, float value, float max);
 	static void MATRIXRotate(Matrix& mat, float angle);
 	static void MATRIXScale(Matrix& mat, float sx, float sy);
+	static void MATRIXSkewX(Matrix& mat, float a);
 	static void RECTFOffset(RectF& frame, float dx, float dy);
 	static float RECTFWidth(const RectF& frame);
 	static float RECTFHeight(const RectF& frame);
@@ -155,6 +157,10 @@ public:
 	static std::string format(const char* format, ...);
 };
 
+class Integer{
+public:
+	static std::string toString(int i);
+};
 class ColorMath 
 {
 public: 

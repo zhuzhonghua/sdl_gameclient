@@ -4,6 +4,7 @@
 #include "blobemitter.h"
 #include "speck.h"
 #include "glog.h"
+#include "simpleresource.h"
 
 void ToxicGas::evolve()
 {
@@ -21,7 +22,7 @@ void ToxicGas::evolve()
 				damage++;
 			}
 
-			ch->damage(damage, this->getClassName());
+			ch->damage(damage, this);
 		}
 	}
 
@@ -59,13 +60,15 @@ void ToxicGas::use(BlobEmitter* emitter)
 
 std::string ToxicGas::tileDesc()
 {
-	return "A greenish cloud of toxic gas is swirling here.";
+	return BPT::getText("lang.ToxicGas_tileDesc");// "A greenish cloud of toxic gas is swirling here.";
 }
 
 void ToxicGas::onDeath()
 {	
-	//Badges.validateDeathFromGas();
-	//
-	//Dungeon.fail(Utils.format(ResultDescriptions.GAS, Dungeon.depth));
-	GLog::n("You died from a toxic gas..");
+	Badges::validateDeathFromGas();
+	
+	Dungeon::fail(GameMath::format(ResultDescriptions::GAS.c_str(), Dungeon::depth));
+	GLog::n(BPT::getText("lang.ToxicGas_onDeath"));// "You died from a toxic gas..");
 }
+
+REFLECTBLOB(ToxicGas);

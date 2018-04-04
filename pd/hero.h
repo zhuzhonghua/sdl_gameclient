@@ -6,6 +6,7 @@
 #include "heroclass.h"
 #include "armor.h"
 #include "typedefine.h"
+#include "heroaction.h"
 #include <string>
 
 class Belongings;
@@ -38,16 +39,27 @@ private:
 	static const std::string LEVEL;
 	static const std::string EXPERIENCE;
 
-	int attackSkill;
-	int defenseSkill;
+	int _attackSkill;
+	int _defenseSkill;
 
-	
+	Item* theKey;
+	Char* enemy;
 
 	void Ready();
 	bool actMove(HeroActionMove* action);
 	bool getCloser(int target);
+	void checkVisibleMobs();
+	boolean actInteract(HeroActionInteract* action);
+	boolean actBuy(HeroActionBuy* action);
+	boolean actPickUp(HeroActionPickUp* action);
+	boolean actOpenChest(HeroActionOpenChest* action);
+	boolean actUnlock(HeroActionUnlock* action);
+	boolean actDescend(HeroActionDescend* action);
+	boolean actAscend(HeroActionAscend* action);
+	boolean actAttack(HeroActionAttack* action);
+	boolean actCook(HeroActionCook* action);
 public:
-	std::list<Mob*> visibleEnemies;
+	ArrayList<Mob*> visibleEnemies;
 
 	static const std::string TXT_YOU_NOW_HAVE;
 	static const int STARTING_STR = 10;
@@ -58,6 +70,7 @@ public:
 	void live();
 	String className();
 	void updateAwareness();
+	boolean isStarving();
 
 	Hero();
 	int sTR() {
@@ -101,7 +114,10 @@ public:
 	void earnExp(int exp);
 	void rest(boolean tillHealthy);
 
+	float attackDelay();
+
 	virtual void spend(float time);
+	virtual int attackSkill(Char* target);
 
 	class Doom {
 	public:

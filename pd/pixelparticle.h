@@ -56,3 +56,68 @@ public:
 	void resetUp(float x, float y);
 	virtual void update();
 };
+
+class PoisonParticle :public PixelParticle{
+public:
+	static Emitter::Factory* MISSILE;
+	static Emitter::Factory* SPLASH;
+
+	PoisonParticle();
+	void resetMissile(float x, float y);
+	void resetSplash(float x, float y);
+
+	virtual void update();
+};
+
+class LeafParticle :public Shrinking{
+public:
+	static int color1;
+	static int color2;
+	static Emitter::Factory* GENERAL;
+	static Emitter::Factory* LEVEL_SPECIFIC;
+
+	LeafParticle();
+
+	void reset(float x, float y);
+};
+
+class SnowParticle :public PixelParticle{
+public:
+	static Emitter::Factory* FACTORY;
+
+	SnowParticle();
+
+	void reset(float x, float y);
+	virtual void update();
+};
+
+class ShaftParticle :public PixelParticle{
+private:
+	float offs;
+public:
+	static Emitter::Factory* FACTORY;
+	ShaftParticle();
+	void reset(float x, float y);
+	virtual void update();
+};
+
+class EarthParticle :public PixelParticle{
+public:
+	static Emitter::Factory* FACTORY;
+	EarthParticle();
+	void reset(float x, float y);
+	virtual void update();
+};
+
+class BlastParticle :public Shrinking{
+public:
+	BlastParticle();
+	void reset(float x, float y);
+	virtual void update()
+	{
+		Shrinking::update();
+		am = _left > 0.8f ? (1 - _left) * 5 : 1;
+	}
+
+	static Emitter::Factory* FACTORY;
+};

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "char.h"
+#include "wndbag.h"
+#include "bpt.h"
 
 class Mob :public Char{
 public:
@@ -28,9 +30,9 @@ public:
 	void aggro(Char* ch);
 	virtual void notice();
 	virtual void beckon(int cell);
-	//virtual void damage(int dmg, Object src);
+	virtual void damage(int dmg, Object* src);
 	void yell(const std::string& str);
-	virtual std::string description() { return "Real description is coming soon!"; }
+	virtual std::string description() { return BPT::getText("lang.Mob_description"); }
 	virtual void destroy();
 
 	int exp();
@@ -126,6 +128,8 @@ private:
 	};
 };
 
+FACTORY(Mob);
+
 typedef Mob* (*CreateMob)();
 
 class NPC :public Mob{
@@ -136,4 +140,71 @@ public:
 	virtual void interact() = 0;
 protected:
 	void throwItem();
+};
+
+class Shopkeeper :public NPC{
+public:
+	Shopkeeper();
+	CLASSNAME(Shopkeeper);
+
+	virtual CharSprite* Sprite();
+
+	virtual void damage(int dmg, Object* src) {
+		flee();
+	}
+
+	virtual void add(Buff* buff){ flee(); }
+
+	virtual boolean reset() {
+		return true;
+	}
+	virtual String description() {
+		return BPT::getText("lang.Shopkeeper_description");
+	}
+	static WndBag* sell();
+
+	virtual void interact(){ sell(); }
+protected:
+	virtual boolean act();
+
+	void flee();
+
+private:
+	static WndBag::Listener* itemSelector;
+};
+
+class MirrorImage :public NPC{
+public:
+	int tier;
+
+private:
+	int attack;
+	int damage;
+
+	static const String TIER;
+	static const String ATTACK;
+	static const String DAMAGE;
+public:
+	virtual CharSprite* Sprite();
+	MirrorImage();
+
+	virtual void storeInBundle(Bundle* bundle);
+	virtual void restoreFromBundle(Bundle* bundle);
+	void duplicate(Hero* hero);
+	virtual int attackSkill(Char* target) {
+		return attack;
+	}
+	virtual int damageRoll() {
+		return damage;
+	}
+	virtual int attackProc(Char* enemy, int damage);
+	virtual String description() {
+		return BPT::getText("lang.MirrorImage_description");
+			//"This illusion bears a close resemblance to you, " +
+			//"but it's paler and twitches a little.";
+	}
+	virtual void interact();
+	CLASSNAME(MirrorImage);
+protected:
+	Char* chooseEnemy();
 };

@@ -31,6 +31,9 @@
 #include "chasm.h"
 #include "potion.h"
 #include "plant.h"
+#include "quickslot.h"
+#include "bannersprites.h"
+#include "banner.h"
 
 const std::string GameScene::TXT_WELCOME = BPT::getText("lang.welcom_to_level"); //"Welcome to the level %d of Pixel Dungeon!";
 const std::string GameScene::TXT_WELCOME_BACK = BPT::getText("lang.welcom_back_to_level"); //"Welcome back to the level %d of Pixel Dungeon!";
@@ -78,26 +81,28 @@ void GameScene::addMobSprite(Mob* mob)
 
 void GameScene::addPlantSprite(Plant* plant)
 {
-	plant->sprite = (PlantSprite*)plants->recycle("PlantSprite");
-	if (plant->sprite == NULL)
-	{
-		plant->sprite = new PlantSprite();
-		plants->add(plant->sprite);
-	}
+	RECYCLE(plant->sprite, plants, PlantSprite);
+	//plant->sprite = (PlantSprite*)plants->recycle("PlantSprite");
+	//f (plant->sprite == NULL)
+	//
+	//	plant->sprite = new PlantSprite();
+	//	plants->add(plant->sprite);
+	//
 	plant->sprite->reset(plant);
 }
 
 void GameScene::addHeapSprite(Heap* heap)
 {
-	ItemSprite* sprite = heap->sprite = (ItemSprite*)heaps->recycle("ItemSprite");
-	if (sprite == NULL)
-	{
-		sprite = heap->sprite = new ItemSprite();
-		heaps->add(sprite);
-	}
+	RECYCLE(heap->sprite, heaps, ItemSprite);
+	//ItemSprite* sprite = heap->sprite = (ItemSprite*)heaps->recycle("ItemSprite");
+	//if (sprite == NULL)
+	//{
+	//	sprite = heap->sprite = new ItemSprite();
+	//	heaps->add(sprite);
+	//}
+	ItemSprite* sprite = heap->sprite;
 	sprite->revive();
 	sprite->link(heap);
-	//heaps.add(sprite);
 }
 
 namespace{
@@ -202,7 +207,7 @@ void GameScene::init()
 	add(plants);
 
 	int size = Dungeon::level->plants.size();
-	for (std::map<std::string, Plant*>::iterator itr = Dungeon::level->plants.begin();
+	for (HashMap<int, Plant*>::iterator itr = Dungeon::level->plants.begin();
 		itr != Dungeon::level->plants.end(); itr++)
 	{
 		addPlantSprite(itr->second);
@@ -435,23 +440,25 @@ FloatingText* GameScene::status()
 {
 	if (scene == NULL) return NULL;
 
-	FloatingText* txt = (FloatingText*)scene->statuses->recycle("FloatingText");
-	if (txt == NULL)
-	{
-		txt = new FloatingText();
-	}
+	RECYCLE2(txt, scene->statuses, FloatingText);
+	//FloatingText* txt = (FloatingText*)scene->statuses->recycle("FloatingText");
+	//if (txt == NULL)
+	//{
+	//	txt = new FloatingText();
+	//}
 	
 	return txt;
 }
 
 Ripple* GameScene::ripple(int pos)
 {
-	Ripple* ripple = (Ripple*)scene->ripples->recycle("Ripple");
-	if (ripple == NULL)
-	{
-		ripple = new Ripple();
-		scene->ripples->add(ripple);
-	}
+	RECYCLE2(ripple, scene->ripples, Ripple);
+	//Ripple* ripple = (Ripple*)scene->ripples->recycle("Ripple");
+	//if (ripple == NULL)
+	//{
+	//	ripple = new Ripple();
+	//	scene->ripples->add(ripple);
+	//}
 	ripple->reset(pos);
 	return ripple;
 }
@@ -563,9 +570,9 @@ void GameScene::bossSlain()
 {
 	if (Dungeon::hero->isAlive()) 
 	{
-		//Banner bossSlain = new Banner(BannerSprites.get(BannerSprites.Type.BOSS_SLAIN));
-		//bossSlain.show(0xFFFFFF, 0.3f, 5f);
-		//scene->showBanner(bossSlain);
+		Banner* bossSlain = new Banner(BannerSprites::get(BannerSprites::Type::BOSS_SLAIN));
+		bossSlain->show(0xFFFFFF, 0.3f, 5.0f);
+		scene->showBanner(bossSlain);
 
 		//Sample.INSTANCE.play(Assets.SND_BOSS);
 	}
@@ -594,12 +601,19 @@ void GameScene::pickUp(Item* item)
 WndBag* GameScene::selectItem(WndBag::Listener* listener, WndBag::Mode mode, const std::string& title)
 {
 	cancelCellSelector();
-	//
-	//WndBag* wnd = mode == WndBag::Mode::SEED ?
-	//	WndBag::seedPouch(listener, mode, title) :
-	//	WndBag::lastBag(listener, mode, title);
-	//scene->add(wnd);
-	//
-	//return wnd;
-	return NULL;
+
+	WndBag* wnd = mode == WndBag::Mode::SEED ?
+		WndBag::seedPouch(listener, mode, title) :
+		WndBag::LastBag(listener, mode, title);
+	scene->add(wnd);
+
+	return wnd;
+}
+
+void GameScene::showBanner(Banner* banner)
+{
+	banner->camera = uiCamera;
+	banner->x = align(uiCamera, (uiCamera->width - banner->width) / 2);
+	banner->y = align(uiCamera, (uiCamera->height - banner->height) / 3);
+	add(banner);
 }

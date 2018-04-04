@@ -6,6 +6,10 @@
 #include "ninepatch.h"
 #include "toucharea.h"
 #include "shadowbox.h"
+#include "typedefine.h"
+#include "component.h"
+#include "itemsprite.h"
+#include "journal.h"
 
 class Window:public Group, public Signal<Keys::Key>::Listener{
 public:
@@ -54,6 +58,10 @@ public:
 	WndInfoCell(int cell);
 };
 
+class BitmapText;
+class Image;
+class ScrollPane;
+
 class WndJournal :public Window{
 private:
 	class ListItem :public Component{
@@ -64,7 +72,7 @@ private:
 		Image* icon;
 
 	public:
-		ListItem(/*Journal.Feature f, int d*/);
+		ListItem(Journal::Feature f, int d);
 
 	protected:
 		virtual void createChildren();
@@ -80,7 +88,7 @@ private:
 	static const String TXT_TITLE;
 
 	BitmapText* txtTitle;
-	//ScrollPane* list;
+	ScrollPane* list;
 
 public:
 	WndJournal();

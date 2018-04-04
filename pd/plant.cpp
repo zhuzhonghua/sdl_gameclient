@@ -20,12 +20,15 @@
 #include "scroll.h"
 #include "mob.h"
 #include "glog.h"
+#include "blob.h"
+#include "gamescene.h"
+#include "buffpoison.h"
 
 void Plant::activate(Char* ch)
 {
 	if (dynamic_cast<Hero*>(ch) != NULL && ((Hero*)ch)->subClass == HeroSubClass::WARDEN) 
 	{
-		//Buff.affect(ch, Barkskin.class).level(ch.HT / 3);
+		((Barkskin*)Buff::affect(ch, "Barkskin"))->Level(ch->HT / 3);
 	}
 
 	wither();
@@ -38,7 +41,7 @@ void Plant::wither()
 	sprite->kill();
 	if (Dungeon::visible[pos]) 
 	{
-		//CellEmitter.get(pos).burst(LeafParticle.GENERAL, 6);
+		CellEmitter::get(pos)->burst(LeafParticle::GENERAL, 6);
 	}
 
 	if (Dungeon::hero->subClass == HeroSubClass::WARDEN) 
@@ -109,7 +112,7 @@ Plant* Plant::Seed::couch(int pos)
 
 std::string Plant::Seed::info()
 {
-	return GameMath::format(TXT_INFO.c_str(), p->plantName.c_str(), desc());
+	return GameMath::format(TXT_INFO.c_str(), plantName.c_str(), desc());
 }
 
 void Plant::Seed::onThrow(int cell)
@@ -124,11 +127,11 @@ void Plant::Seed::onThrow(int cell)
 	}
 }
 
-const std::string Plant::Seed::TXT_INFO = "Throw this seed to the place where you want to grow %s.\n\n%s";
+const std::string Plant::Seed::TXT_INFO = BPT::getText("lang.Plant_Seed_Info");// "Throw this seed to the place where you want to grow %s.\n\n%s";
 
 const float Plant::Seed::TIME_TO_PLANT = 1.0f;
 
-const String Firebloom::TXT_DESC = "When something touches a Firebloom, it bursts into flames.";
+const String Firebloom::TXT_DESC = BPT::getText("lang.Firebloom_Desc");// "When something touches a Firebloom, it bursts into flames.";
 Firebloom::Firebloom()
 {
 	image = 0;
@@ -139,7 +142,7 @@ void Firebloom::activate(Char* ch)
 {
 	Plant::activate(ch);
 
-	//GameScene.add(Blob.seed(pos, 2, Fire.class));
+	GameScene::addBlob(Blob::seed(pos, 2, "BlobFire"));
 
 	if (Dungeon::visible[pos]) {
 		CellEmitter::get(pos)->burst(FlameParticle::FACTORY, 5);
@@ -154,10 +157,10 @@ Firebloom::Seed::Seed()
 	image = ItemSpriteSheet::SEED_FIREBLOOM;
 
 	plantClass = Firebloom::Create;
-	//alchemyClass = PotionOfLiquidFlame.class;
+	alchemyClass = "PotionOfLiquidFlame";
 }
 
-const String Icecap::TXT_DESC = "Upon touching an Icecap excretes a pollen, which freezes everything in its vicinity.";
+const String Icecap::TXT_DESC = BPT::getText("lang.Icecap_Desc");// "Upon touching an Icecap excretes a pollen, which freezes everything in its vicinity.";
 
 Icecap::Icecap()
 {
@@ -171,11 +174,11 @@ void Icecap::activate(Char* ch)
 
 	PathFinder::buildDistanceMap(pos, BArray::not(Level::losBlocking, std::vector<bool>()), 1);
 
-	//Fire fire = (Fire)Dungeon.level.blobs.get(Fire.class);
+	BlobFire* fire = (BlobFire*)Dungeon::level->blobs.get("BlobFire");
 
 	for (int i = 0; i < Level::LENGTH; i++) {
 		if (PathFinder::distance[i] < std::numeric_limits<int>::max()) {
-			//Freezing.affect(i, fire);
+			Freezing::affect(i, fire);
 		}
 	}
 }
@@ -188,11 +191,11 @@ Icecap::Seed::Seed()
 	image = ItemSpriteSheet::SEED_ICECAP;
 
 	plantClass = Icecap::Create;
-	//alchemyClass = PotionOfFrost.class;
+	alchemyClass = "PotionOfFrost";
 }
 
-const String Sorrowmoss::TXT_DESC =
-"A Sorrowmoss is a flower (not a moss) with razor-sharp petals, coated with a deadly venom.";
+const String Sorrowmoss::TXT_DESC = BPT::getText("lang.Sorrowmoss_Desc");
+//"A Sorrowmoss is a flower (not a moss) with razor-sharp petals, coated with a deadly venom.";
 
 Sorrowmoss::Sorrowmoss()
 {
@@ -205,11 +208,11 @@ void Sorrowmoss::activate(Char* ch)
 	Plant::activate(ch);
 
 	if (ch != NULL) {
-		//Buff.affect(ch, Poison.class).set(Poison.durationFactor(ch) * (4 + Dungeon.depth / 2));
+		((BuffPoison*)Buff::affect(ch, "BuffPoison"))->set(BuffPoison::durationFactor(ch) * (4 + Dungeon::depth / 2));
 	}
 
 	if (Dungeon::visible[pos]) {
-		//CellEmitter::center(pos)->burst(PoisonParticle.SPLASH, 3);
+		CellEmitter::center(pos)->burst(PoisonParticle::SPLASH, 3);
 	}
 }
 
@@ -221,11 +224,11 @@ Sorrowmoss::Seed::Seed()
 	image = ItemSpriteSheet::SEED_SORROWMOSS;
 
 	plantClass = Sorrowmoss::Create;
-	//alchemyClass = PotionOfToxicGas.class;
+	alchemyClass = "PotionOfToxicGas";
 }
 
-const String Dreamweed::TXT_DESC =
-"Upon touching a Dreamweed it secretes a glittering cloud of confusing gas.";
+const String Dreamweed::TXT_DESC = BPT::getText("lang.Dreamweed_Desc");
+//"Upon touching a Dreamweed it secretes a glittering cloud of confusing gas.";
 
 Dreamweed::Dreamweed()
 {
@@ -238,7 +241,7 @@ void Dreamweed::activate(Char* ch)
 	Plant::activate(ch);
 
 	if (ch != NULL) {
-		//GameScene.add(Blob.seed(pos, 400, ConfusionGas.class));
+		GameScene::addBlob(Blob::seed(pos, 400, "ConfusionGas"));
 	}
 }
 
@@ -250,10 +253,10 @@ Dreamweed::Seed::Seed()
 	image = ItemSpriteSheet::SEED_DREAMWEED;
 
 	plantClass = Dreamweed::Create;
-	//alchemyClass = PotionOfInvisibility.class;
+	alchemyClass = "PotionOfInvisibility";
 }
 
-const String Sungrass::TXT_DESC = "Sungrass is renowned for its sap's healing properties.";
+const String Sungrass::TXT_DESC = BPT::getText("lang.Sungrass_Desc");// "Sungrass is renowned for its sap's healing properties.";
 
 Sungrass::Sungrass()
 {
@@ -266,11 +269,11 @@ void Sungrass::activate(Char* ch)
 	Plant::activate(ch);
 
 	if (ch != NULL) {
-		//Buff.affect(ch, Health.class);
+		Buff::affect(ch, "Health");
 	}
 
 	if (Dungeon::visible[pos]) {
-		//CellEmitter.get(pos).start(ShaftParticle.FACTORY, 0.2f, 3);
+		CellEmitter::get(pos)->start(ShaftParticle::FACTORY, 0.2f, 3);
 	}
 }
 
@@ -282,12 +285,14 @@ Sungrass::Seed::Seed()
 	image = ItemSpriteSheet::SEED_SUNGRASS;
 
 	plantClass = Sungrass::Create;
-	//alchemyClass = PotionOfHealing.class;
+	alchemyClass = "PotionOfHealing";
 }
 
 const float Sungrass::Health::STEP=5.0f;
 
 const String Sungrass::Health::POS = "pos";
+
+REFLECTBUFF2(Health, Sungrass::Health);
 
 bool Sungrass::Health::attachTo(Char* target)
 {
@@ -325,9 +330,9 @@ void Sungrass::Health::restoreFromBundle(Bundle* bundle)
 	pos = bundle->getInt(POS);
 }
 
-const String Earthroot::TXT_DESC =
-std::string("When a creature touches an Earthroot, its roots ") +
-std::string("create a kind of natural armor around it.");
+const String Earthroot::TXT_DESC = BPT::getText("lang.Earthroot_Desc");
+//std::string("When a creature touches an Earthroot, its roots ") +
+//std::string("create a kind of natural armor around it.");
 
 Earthroot::Earthroot()
 {
@@ -340,11 +345,11 @@ void Earthroot::activate(Char* ch)
 	Plant::activate(ch);
 
 	if (ch != NULL) {
-		//Buff.affect(ch, Armor.class).level = ch.HT;
+		((Earthroot::Armor*)Buff::affect(ch, "Armor"))->level = ch->HT;
 	}
 
 	if (Dungeon::visible[pos]) {
-		//CellEmitter.bottom(pos).start(EarthParticle.FACTORY, 0.05f, 8);
+		CellEmitter::bottom(pos)->start(EarthParticle::FACTORY, 0.05f, 8);
 		Camera::mainCamera->shake(1, 0.4f);
 	}
 }
@@ -357,7 +362,7 @@ Earthroot::Seed::Seed()
 	image = ItemSpriteSheet::SEED_EARTHROOT;
 
 	plantClass = Earthroot::Create;
-	//alchemyClass = PotionOfParalyticGas.class;
+	alchemyClass = "PotionOfParalyticGas";
 }
 
 const float Earthroot::Armor::STEP = 1.0f;
@@ -365,6 +370,7 @@ const float Earthroot::Armor::STEP = 1.0f;
 const String Earthroot::Armor::POS = "pos";
 const String Earthroot::Armor::LEVEL = "level";
 
+REFLECTBUFF2(Armor, Earthroot::Armor);
 bool Earthroot::Armor::attachTo(Char* target)
 {
 	pos = target->pos;
@@ -410,10 +416,11 @@ void Earthroot::Armor::restoreFromBundle(Bundle* bundle)
 	pos = bundle->getInt(POS);
 	level = bundle->getInt(LEVEL);
 }
+REFLECTBUFF2(Armor, Earthroot::Armor);
 
-const String Fadeleaf::TXT_DESC =
-std::string("Touching a Fadeleaf will teleport any creature ") +
-std::string("to a random place on the current level.");
+const String Fadeleaf::TXT_DESC = BPT::getText("lang.Fadeleaf_Desc");
+//std::string("Touching a Fadeleaf will teleport any creature ") +
+//std::string("to a random place on the current level.");
 
 Fadeleaf::Fadeleaf()
 {
@@ -465,11 +472,11 @@ Fadeleaf::Seed::Seed()
 	image = ItemSpriteSheet::SEED_FADELEAF;
 
 	plantClass = Fadeleaf::Create;
-	//alchemyClass = PotionOfMindVision.class;
+	alchemyClass = "PotionOfMindVision";
 }
 
-const String Rotberry::TXT_DESC =
-"Berries of this shrub taste like sweet, sweet death.";
+const String Rotberry::TXT_DESC = BPT::getText("lang.Rotberry_Desc");
+//"Berries of this shrub taste like sweet, sweet death.";
 
 Rotberry::Rotberry()
 {
@@ -481,12 +488,12 @@ void Rotberry::activate(Char* ch)
 {
 	Plant::activate(ch);
 
-	//GameScene.add(Blob.seed(pos, 100, ToxicGas.class));
+	GameScene::addBlob(Blob::seed(pos, 100, "ToxicGas"));
 
 	Dungeon::level->drop(new Seed(), pos)->sprite->drop();
 
 	if (ch != NULL) {
-		//Buff.prolong(ch, Roots.class, Roots.TICK * 3);
+		Buff::prolong(ch, "Roots", Roots::TICK * 3);
 	}
 }
 
@@ -498,7 +505,7 @@ Rotberry::Seed::Seed()
 	image = ItemSpriteSheet::SEED_ROTBERRY;
 
 	plantClass = Rotberry::Create;
-	//alchemyClass = PotionOfStrength.class;
+	alchemyClass = "PotionOfStrength";
 }
 
 boolean Rotberry::Seed::collect(Bag* container)
@@ -513,7 +520,7 @@ boolean Rotberry::Seed::collect(Bag* container)
 				mob->beckon(Dungeon::hero->pos);
 			}
 
-			GLog::w("The seed emits a roar that echoes throughout the dungeon!");
+			GLog::w(BPT::getText("lang.Rotberry_Seed_collect").c_str());// "The seed emits a roar that echoes throughout the dungeon!");
 			CellEmitter::center(Dungeon::hero->pos)->start(Speck::factory(Speck::SCREAM), 0.3f, 3);
 			//Sample.INSTANCE.play(Assets.SND_CHALLENGE);
 		}

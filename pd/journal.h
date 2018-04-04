@@ -45,9 +45,9 @@ public:
 		Record();
 		Record(Feature feature, int depth);
 
-		//public int compareTo(Record another) {
-		//	return another.depth - depth;
-		//}
+		bool operator <(const Record& another) {
+			return another.depth - depth < 0;
+		}
 
 		virtual void restoreFromBundle(Bundle* bundle);
 		virtual void storeInBundle(Bundle* bundle);

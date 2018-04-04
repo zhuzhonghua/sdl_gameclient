@@ -183,6 +183,11 @@ public:
 	static void validateDeathFromPoison();
 	static void validateDeathFromFalling();
 	static void validateNightHunter();
-
+	static void validateDeathFromGas();
+	static void validateDeathFromGlyph();
+	static void validateDeathFromHunger();
 	static bool isUnlocked(Badge badge);
+	static void validateVictory();
+	static void validateChampion();
+	static void validateHappyEnd();
 };

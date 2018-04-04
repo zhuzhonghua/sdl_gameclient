@@ -6,6 +6,12 @@
 #include "wound.h"
 #include "glog.h"
 #include "statistics.h"
+#include "heap.h"
+#include "cellemitter.h"
+#include "gamescene.h"
+#include "flare.h"
+
+FACTORYIMPL(Mob);
 
 Mob::Mob()
 {
@@ -88,32 +94,33 @@ void Mob::restoreFromBundle(Bundle* bundle)
 
 void Mob::add(Buff* buff)
 {
-	//super.add(buff);
-	//if (buff instanceof Amok) {
-	//	if (sprite != null) {
-	//		sprite.showStatus(CharSprite.NEGATIVE, TXT_RAGE);
-	//	}
-	//	state = HUNTING;
-	//}
-	//else if (buff instanceof Terror) {
-	//	state = FLEEING;
-	//}
-	//else if (buff instanceof Sleep) {
-	//	if (sprite != null) {
-	//		new Flare(4, 32).color(0x44ffff, true).show(sprite, 2f);
-	//	}
-	//	state = SLEEPEING;
-	//	postpone(Sleep.SWS);
-	//}
+	Char::add(buff);
+	if (dynamic_cast<Amok*>(buff)) {
+		if (sprite != NULL) {
+			sprite->showStatus(CharSprite::NEGATIVE, TXT_RAGE);
+		}
+		state = HUNTING;
+	}
+	else if (dynamic_cast<Terror*>(buff)) {
+		state = FLEEING;
+	}
+	else if (dynamic_cast<Sleep*>(buff)) {
+		if (sprite != NULL) {
+			// TODO: MemoryLeak
+			new Flare(4, 32)->color(0x44ffff, true)->show(sprite, 2.0f);
+		}
+		state = SLEEPEING;
+		postpone(Sleep::SWS);
+	}
 }
 
 void Mob::remove(Buff* buff)
 {
-	//super.remove(buff);
-	//if (buff instanceof Terror) {
-	//	sprite.showStatus(CharSprite.NEGATIVE, TXT_RAGE);
-	//	state = HUNTING;
-	//}
+	Char::remove(buff);
+	if (dynamic_cast<Terror*>(buff)) {
+		sprite->showStatus(CharSprite::NEGATIVE, TXT_RAGE);
+		state = HUNTING;
+	}
 }
 
 void Mob::move(int step)
@@ -218,7 +225,7 @@ void Mob::die(Object* cause)
 	}
 }
 
-const String Mob::TXT_DIED = "You hear something died in the distance";
+const String Mob::TXT_DIED = BPT::getText("lang.mob_died");// "You hear something died in the distance";
 
 const std::string Mob::STATE = "state";
 const std::string Mob::TARGET = "target";
@@ -257,29 +264,33 @@ bool Mob::act()
 
 Char* Mob::chooseEnemy()
 {
-	//if (buff(Amok.class) != null) {
-	//	if (enemy == Dungeon.hero || enemy == null) {
-	//
-	//		HashSet<Mob> enemies = new HashSet<Mob>();
-	//		for (Mob mob : Dungeon.level.mobs) {
-	//			if (mob != this && Level.fieldOfView[mob.pos]) {
-	//				enemies.add(mob);
-	//			}
-	//		}
-	//		if (enemies.size() > 0) {
-	//			return Random.element(enemies);
-	//		}
-	//
-	//	}
-	//}
-	//
-	//Terror terror = (Terror)buff(Terror.class);
-	//if (terror != null) {
-	//	Char source = (Char)Actor.findById(terror.object);
-	//	if (source != null) {
-	//		return source;
-	//	}
-	//}
+	if (buff("Amok") != NULL) {
+		if (enemy == Dungeon::hero || enemy == NULL) {
+
+			std::set<Mob*> enemies;
+			for (HashSet<Mob*>::iterator itr = Dungeon::level->mobs.begin();
+				itr != Dungeon::level->mobs.end(); itr++)
+			{
+				Mob* mob = *itr;
+				if (mob != this && Level::fieldOfView[mob->pos]) {
+					enemies.insert(mob);
+				}
+			}
+
+			if (enemies.size() > 0) {
+				return RandomT<Mob*>::element(enemies);
+			}
+
+		}
+	}
+
+	Terror* terror = (Terror*)buff("Terror");
+	if (terror != NULL) {
+		Char* source = (Char*)Actor::findById(terror->object);
+		if (source != NULL) {
+			return source;
+		}
+	}
 
 	return enemy != NULL && enemy->isAlive() ? enemy : Dungeon::hero;
 }
@@ -358,6 +369,18 @@ bool Mob::doAttack(Char* enemy)
 	return !visible;
 }
 
+void Mob::damage(int dmg, Object* src)
+{
+	Terror::recover(this);
+
+	if (state == SLEEPEING) {
+		state = WANDERING;
+	}
+	alerted = true;
+
+	Char::damage(dmg, src);
+}
+
 const std::string Mob::Fleeing::TAG = "FLEEING";
 
 bool Mob::Fleeing::act(bool enemyInFOV, bool justAlerted)
@@ -385,7 +408,7 @@ bool Mob::Fleeing::act(bool enemyInFOV, bool justAlerted)
 
 std::string Mob::Fleeing::status()
 {
-	return GameMath::format("This %s is fleeing", owner->name);
+	return GameMath::format(BPT::getText("lang.mob_flee_status").c_str(), owner->name);
 }
 
 const std::string Mob::Sleeping::TAG = "SLEEPING";
@@ -426,7 +449,7 @@ bool Mob::Sleeping::act(bool enemyInFOV, bool justAlerted)
 
 std::string Mob::Sleeping::status()
 {
-	return GameMath::format("This %s is sleeping", owner->name);
+	return GameMath::format(BPT::getText("lang.mob_sleeping_status").c_str(), owner->name);
 }
 
 
@@ -465,7 +488,7 @@ bool Mob::Wandering::act(bool enemyInFOV, bool justAlerted)
 
 std::string Mob::Wandering::status()
 {
-	return GameMath::format("This %s is wandering", owner->name);
+	return GameMath::format(BPT::getText("lang.mob_wandering_status").c_str(), owner->name);
 }
 
 const std::string Mob::Hunting::TAG = "HUNTING";
@@ -502,7 +525,7 @@ bool Mob::Hunting::act(bool enemyInFOV, bool justAlerted)
 
 std::string Mob::Hunting::status()
 {
-	return GameMath::format("This %s is hunting", owner->name);
+	return GameMath::format(BPT::getText("lang.mob_huning_status").c_str(), owner->name);
 }
 
 const std::string Mob::Passive::TAG = "PASSIVE";
@@ -516,7 +539,7 @@ bool Mob::Passive::act(bool enemyInFOV, bool justAlerted)
 
 std::string Mob::Passive::status()
 {
-	return GameMath::format("This %s is passive", owner->name);
+	return GameMath::format(BPT::getText("lang.mob_passive_status").c_str(), owner->name);
 }
 
 NPC::NPC()
@@ -530,12 +553,159 @@ NPC::NPC()
 
 void NPC::throwItem()
 {
-	//Heap heap = Dungeon.level.heaps.get(pos);
-	//if (heap != null) {
-	//	int n;
-	//	do {
-	//		n = pos + Level.NEIGHBOURS8[Random.Int(8)];
-	//	} while (!Level.passable[n] && !Level.avoid[n]);
-	//	Dungeon.level.drop(heap.pickUp(), n).sprite.drop(pos);
-	//}
+	Heap* heap = Dungeon::level->heaps.get(pos);
+	if (heap != NULL) {
+		int n;
+		do {
+			n = pos + Level::NEIGHBOURS8[Random::Int(8)];
+		} while (!Level::passable[n] && !Level::avoid[n]);
+		Dungeon::level->drop(heap->pickUp(), n)->sprite->drop(pos);
+	}
 }
+
+Shopkeeper::Shopkeeper()
+{
+	name = "shopkeeper";
+	//spriteClass = ShopkeeperSprite.class;
+}
+
+CharSprite* Shopkeeper::Sprite()
+{
+	return new ShopkeeperSprite();
+}
+
+boolean Shopkeeper::act()
+{
+	throwItem();
+
+	sprite->turnTo(pos, Dungeon::hero->pos);
+	spend(TICK);
+	return true;
+}
+
+void Shopkeeper::flee()
+{
+	std::list<Heap*> re = Dungeon::level->heaps.values();
+
+	for (std::list<Heap*>::iterator itr = re.begin();
+		itr != re.end(); itr++)
+	{
+		Heap* heap = *itr;
+		if (heap->type == Heap::Type::FOR_SALE) {
+			CellEmitter::get(heap->pos)->burst(ElmoParticle::FACTORY, 4);
+			heap->destroy();
+		}
+	}
+
+	sprite->killAndErase();
+	delete sprite;
+	sprite = NULL;
+
+	CellEmitter::get(pos)->burst(ElmoParticle::FACTORY, 6);
+
+	destroy();
+}
+
+WndBag* Shopkeeper::sell()
+{
+	return GameScene::selectItem(itemSelector, WndBag::Mode::FOR_SALE, "Select an item to sell");
+}
+
+REFLECMOB(Shopkeeper);
+
+namespace{
+	class WndBagListenerNew :public WndBag::Listener{
+	public:
+		virtual void onSelect(Item* item){
+			if (item != NULL){
+				WndBag* parentWnd = Shopkeeper::sell();
+				GameScene::show(new WndTradeItem(item, parentWnd));
+			}
+		}
+	};
+}
+WndBag::Listener* itemSelector = new WndBagListenerNew();
+
+MirrorImage::MirrorImage()
+{
+	name = "mirror image";
+	//spriteClass = MirrorSprite.class;
+
+	state = HUNTING;
+}
+
+CharSprite* MirrorImage::Sprite()
+{
+	MirrorSprite* ms = new MirrorSprite();
+	ms->updateArmor(tier);
+	return ms;
+}
+
+void MirrorImage::storeInBundle(Bundle* bundle)
+{
+	NPC::storeInBundle(bundle);
+	bundle->put(TIER, tier);
+	bundle->put(ATTACK, attack);
+	bundle->put(DAMAGE, damage);
+}
+
+void MirrorImage::restoreFromBundle(Bundle* bundle)
+{
+	NPC::restoreFromBundle(bundle);
+	tier = bundle->getInt(TIER);
+	attack = bundle->getInt(ATTACK);
+	damage = bundle->getInt(DAMAGE);
+}
+
+void MirrorImage::duplicate(Hero* hero)
+{
+	tier = hero->tier();
+	attack = hero->attackSkill(hero);
+	damage = hero->damageRoll();
+}
+
+int MirrorImage::attackProc(Char* enemy, int damage)
+{
+	int dmg = NPC::attackProc(enemy, damage);
+
+	destroy();
+	sprite->Die();
+
+	return dmg;
+}
+
+Char* MirrorImage::chooseEnemy()
+{
+	if (enemy == NULL || !enemy->isAlive()) {
+		std::set<Mob*> enemies;
+		for (HashSet<Mob*>::iterator itr = Dungeon::level->mobs.begin();
+			itr != Dungeon::level->mobs.end(); itr++) {
+			Mob* mob = *itr;
+			if (mob->hostile && Level::fieldOfView[mob->pos]) {
+				enemies.insert(mob);
+			}
+		}
+
+		return enemies.size() > 0 ? RandomT<Mob*>::element(enemies) : NULL;
+	}
+
+	return enemy;
+}
+
+void MirrorImage::interact()
+{
+	int curPos = pos;
+
+	moveSprite(pos, Dungeon::hero->pos);
+	move(Dungeon::hero->pos);
+
+	Dungeon::hero->sprite->move(Dungeon::hero->pos, curPos);
+	Dungeon::hero->move(curPos);
+
+	Dungeon::hero->spend(1 / Dungeon::hero->speed());
+	Dungeon::hero->busy();
+}
+
+const String MirrorImage::DAMAGE = "damage";
+const String MirrorImage::ATTACK = "attack";
+const String MirrorImage::TIER = "tier";

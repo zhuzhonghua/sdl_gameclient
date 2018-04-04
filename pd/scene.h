@@ -16,7 +16,7 @@ public:
 	{
 		return Camera::mainCamera;
 	}
-protected:
+
 	virtual void onBackPressed(){}
 	virtual void onMenuPressed(){}
 };

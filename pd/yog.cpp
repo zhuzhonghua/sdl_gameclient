@@ -4,6 +4,14 @@
 #include "statistics.h"
 #include "glog.h"
 #include "gamescene.h"
+#include "pushing.h"
+#include "level.h"
+#include "key.h"
+#include "heap.h"
+#include "simpleresource.h"
+#include "blob.h"
+
+REFLECMOB(Yog);
 
 CharSprite* Yog::Sprite()
 {
@@ -17,7 +25,7 @@ Mob* Yog::CreateYog()
 
 Yog::Yog()
 {
-	name = Dungeon::depth == Statistics::deepestFloor ? "Yog-Dzewa" : "echo of Yog-Dzewa";
+	name = Dungeon::depth == Statistics::deepestFloor ? BPT::getText("lang.Yog_Dzewa") : BPT::getText("lang.echo_Yog_Dzewa");
 	//spriteClass = YogSprite.class;
 
 	HP = HT = 300;
@@ -41,7 +49,7 @@ void Yog::spawnFists()
 	GameScene::addMob(fist2);
 }
 
-void Yog::damage(int dmg, const std::string& src)
+void Yog::damage(int dmg, Object* src)
 {
 	if (fistsCount > 0) 
 	{
@@ -80,13 +88,13 @@ int Yog::defenseProc(Char* enemy, int damage)
 		larva->pos = RandomT<int>::element(spawnPoints);
 
 		GameScene::addMob(larva);
-		//Actor::addDelayed(new Pushing(larva, pos, larva.pos), -1);
+		Actor::addDelayed(new Pushing(larva, pos, larva->pos), -1);
 	}
 
 	return Mob::defenseProc(enemy, damage);
 }
 
-void Yog::die(const std::string& cause)
+void Yog::die(Object* cause)
 {
 	for (std::set<Mob*>::iterator itr = Dungeon::level->mobs.begin();
 		itr != Dungeon::level->mobs.end(); itr++)
@@ -100,7 +108,7 @@ void Yog::die(const std::string& cause)
 	}
 
 	GameScene::bossSlain();
-	//Dungeon::level.drop(new SkeletonKey(), pos).sprite.drop();
+	Dungeon::level->drop(new SkeletonKey(), pos)->sprite->drop();
 	Mob::die(cause);
 
 	yell("...");
@@ -112,10 +120,7 @@ void Yog::notice()
 	yell("Hope is an illusion...");
 }
 
-const std::string Yog::TXT_DESC =
-std::string("Yog-Dzewa is an Old God, a powerful entity from the realms of chaos. A century ago, the ancient dwarves ") +
-std::string("barely won the war against its army of demons, but were unable to kill the god itself. Instead, they then ") +
-std::string("imprisoned it in the halls below their city, believing it to be too weak to rise ever again.");
+const std::string Yog::TXT_DESC = BPT::getText("lang.yog_desc");
 
 int Yog::fistsCount = 0;
 
@@ -131,7 +136,7 @@ Mob* Yog::RottingFist::CreateRottingFist()
 
 Yog::RottingFist::RottingFist()
 {
-	name = "rotting fist";
+	name = BPT::getText("lang.rotting_fist");
 	//spriteClass = RottingFistSprite.class;
 
 	HP = HT = 300;
@@ -144,7 +149,7 @@ Yog::RottingFist::RottingFist()
 	fistsCount++;
 }
 
-void Yog::RottingFist::die(const std::string& cause)
+void Yog::RottingFist::die(Object* cause)
 {
 	Mob::die(cause);
 	fistsCount--;
@@ -159,7 +164,7 @@ int Yog::RottingFist::attackProc(Char* enemy, int damage)
 {
 	if (Random::Int(3) == 0) 
 	{
-		//Buff.affect(enemy, Ooze.class);
+		Buff::affect(enemy, "Ooze");
 		enemy->sprite->burst(0xFF000000, 5);
 	}
 
@@ -169,7 +174,7 @@ int Yog::RottingFist::attackProc(Char* enemy, int damage)
 bool Yog::RottingFist::act()
 {
 	if (Level::water[pos] && HP < HT) {
-		//sprite.emitter().burst(ShadowParticle.UP, 2);
+		sprite->emitter()->burst(ShadowParticle::UP, 2);
 		HP += REGENERATION;
 	}
 
@@ -188,7 +193,7 @@ Mob* Yog::BurningFist::CreateBurningFist()
 
 Yog::BurningFist::BurningFist()
 {
-	name = "burning fist";
+	name = BPT::getText("lang.burning_fist");;
 	//spriteClass = BurningFistSprite.class;
 
 	HP = HT = 200;
@@ -201,7 +206,7 @@ Yog::BurningFist::BurningFist()
 	fistsCount++;
 }
 
-void Yog::BurningFist::die(const std::string& cause)
+void Yog::BurningFist::die(Object* cause)
 {
 	Mob::die(cause);
 	fistsCount--;
@@ -221,14 +226,14 @@ bool Yog::BurningFist::attack(Char* enemy)
 		if (hit(this, enemy, true)) 
 		{
 			int dmg = damageRoll();
-			//enemy.damage(dmg, this);
+			enemy->damage(dmg, this);
 
 			enemy->sprite->bloodBurstA(sprite->center(), dmg);
 			enemy->sprite->flash();
 
 			if (!enemy->isAlive() && enemy == Dungeon::hero) 
 			{
-				//Dungeon.fail(Utils.format(ResultDescriptions.BOSS, name, Dungeon.depth));
+				Dungeon::fail(GameMath::format(ResultDescriptions::BOSS.c_str(), name, Dungeon::depth));
 				GLog::n(TXT_KILL, name);
 			}
 			return true;
@@ -247,16 +252,16 @@ bool Yog::BurningFist::attack(Char* enemy)
 
 bool Yog::BurningFist::act()
 {
-	//for (int i = 0; i < Level.NEIGHBOURS9.length; i++) {
-	//	GameScene.add(Blob.seed(pos + Level.NEIGHBOURS9[i], 2, Fire.class));
-	//}
+	for (int i = 0; i < 9/*Level.NEIGHBOURS9.length*/; i++) {
+		GameScene::addBlob(Blob::seed(pos + Level::NEIGHBOURS9[i], 2, "BlobFire"));
+	}
 
 	return Mob::act();
 }
 
 bool Yog::BurningFist::canAttack(Char* enemy)
 {
-	return true;// Ballistica.cast(pos, enemy.pos, false, true) == enemy.pos;
+	return Ballistica::cast(pos, enemy->pos, false, true) == enemy->pos;
 }
 
 CharSprite* Yog::Larva::Sprite()
@@ -271,7 +276,7 @@ Mob* Yog::Larva::CreateLarva()
 
 Yog::Larva::Larva()
 {
-	name = "god's larva";
+	name = BPT::getText("lang.gods_larva");;
 	//spriteClass = LarvaSprite.class;
 
 	HP = HT = 25;

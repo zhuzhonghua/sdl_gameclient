@@ -18,6 +18,8 @@
 #include "belongings.h"
 #include "gold.h"
 #include "redbutton.h"
+#include "journal.h"
+#include "scrollpane.h"
 
 namespace{
 	class NewTouchArea :public TouchArea{
@@ -203,39 +205,43 @@ WndJournal::WndJournal()
 
 	Component* content = new Component();
 
-	//Collections.sort(Journal.records);
-	//
-	//float pos = 0;
-	//for (Journal.Record rec : Journal.records) {
-	//	ListItem item = new ListItem(rec.feature, rec.depth);
-	//	item.setRect(0, pos, WIDTH, ITEM_HEIGHT);
-	//	content.add(item);
-	//
-	//	pos += item.height();
-	//}
-	//
-	//content.setSize(WIDTH, pos);
-	//
-	//list = new ScrollPane(content);
-	//add(list);
-	//
-	//list.setRect(0, txtTitle.height(), WIDTH, height - txtTitle.height());
+	Journal::records.sort();
+	float pos = 0;
+	for (ArrayList<Journal::Record>::iterator itr = Journal::records.begin();
+		itr != Journal::records.end(); itr++)
+	{
+		ListItem* item = new ListItem(itr->feature, itr->depth);
+		item->setRect(0, pos, WIDTH, ITEM_HEIGHT);
+		content->add(item);
+
+		pos += item->height();
+	}
+	
+	content->setSize(WIDTH, pos);
+
+	list = new ScrollPane(content);
+	add(list);
+
+	list->setRect(0, txtTitle->Height(), WIDTH, height - txtTitle->Height());
 }
 
-WndJournal::ListItem::ListItem( /*Journal.Feature f, int d*/)
+WndJournal::ListItem::ListItem( Journal::Feature f, int d)
 {
 	init();
 
-	//feature.text(f.desc);
-	//feature.measure();
-	//
-	//depth.text(Integer.toString(d));
-	//depth.measure();
-	//
-	//if (d == Dungeon.depth) {
-	//	feature.hardlight(TITLE_COLOR);
-	//	depth.hardlight(TITLE_COLOR);
-	//}
+	feature->text(f.desc);
+	feature->measure();
+	
+	std::stringstream ss;
+	ss << d;
+
+	depth->text(ss.str());
+	depth->measure();
+	
+	if (d == Dungeon::depth) {
+		feature->hardlight(TITLE_COLOR);
+		depth->hardlight(TITLE_COLOR);
+	}
 }
 
 void WndJournal::ListItem::createChildren()

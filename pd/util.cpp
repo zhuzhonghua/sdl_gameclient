@@ -622,6 +622,18 @@ std::string GameMath::format(const char* format, ...)
 	return buf;
 }
 
+void GameMath::MATRIXSkewX(Matrix& mat, float a)
+{
+	double t = std::tan(a * G2RAD);
+	//m[4] += -m[0] * t;
+	//m[5] += -m[1] * t;
+
+	mat[1][0] += -mat[0][0] * t;
+	mat[1][1] += -mat[0][1] * t;
+}
+
+const float GameMath::G2RAD = 0.01745329251994329576923690768489f;
+
 int ColorMath::interpolate(int A, int B, float p)
 {
 	if (p <= 0)
@@ -958,4 +970,11 @@ void ShortBuffer::put(const std::vector<short>& indices)
 void ShortBuffer::put(short s)
 {
 	buf[pos++] = s;
+}
+
+std::string Integer::toString(int i)
+{
+	std::stringstream ss;
+	ss << i;
+	return ss.str();
 }

@@ -7,12 +7,12 @@ public:
 	class RottingFist :public Mob{
 	public:
 		virtual CharSprite* Sprite();
-		virtual std::string getClassName(){ return "YogRottingFist"; }
+		virtual std::string getClassName(){ return "RottingFist"; }
 		static Mob* CreateRottingFist();
 
 		RottingFist();
 
-		virtual void die(const std::string& cause);
+		virtual void die(Object* cause);
 		virtual int attackSkill(Char* target) { return 36; }
 		virtual int damageRoll();
 		virtual int dr() { return 15; }
@@ -23,15 +23,16 @@ public:
 		static const int REGENERATION = 4;
 	};
 
-	class BurningFist :public Mob{
+	class BurningFist :public Mob, public Object{
 	public:
 		virtual CharSprite* Sprite();
-		virtual std::string getClassName(){ return "YogBurningFist"; }
+		virtual std::string getClassName(){ return "BurningFist"; }
+		CLASSOBJECT(BurningFist);
 		static Mob* CreateBurningFist();
 
 		BurningFist();
 
-		virtual void die(const std::string& cause);
+		virtual void die(Object* cause);
 		virtual int attackSkill(Char* target) { return 36; }
 		virtual int damageRoll();
 		virtual int dr() { return 15; }
@@ -45,7 +46,7 @@ public:
 	class Larva :public Mob{
 	public:
 		virtual CharSprite* Sprite();
-		virtual std::string getClassName(){ return "YogLarva"; }
+		virtual std::string getClassName(){ return "Larva"; }
 		static Mob* CreateLarva();
 
 		Larva();
@@ -63,10 +64,10 @@ public:
 	Yog();
 	void spawnFists();
 
-	virtual void damage(int dmg, const std::string& src);
+	virtual void damage(int dmg, Object* src);
 	virtual int defenseProc(Char* enemy, int damage);
 	virtual void beckon(int cell) { }
-	virtual void die(const std::string& cause);
+	virtual void die(Object* cause);
 	virtual void notice();
 	virtual std::string description() { return TXT_DESC; }
 private:

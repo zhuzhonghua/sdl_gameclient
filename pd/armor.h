@@ -87,9 +87,7 @@ public:
 	}
 
 	int proc(Char* attacker, Char* defender, int damage);
-	//public String toString() {
-	//	return levelKnown ? Utils.format(isBroken() ? TXT_BROKEN : TXT_TO_STRING, super.toString(), STR) : super.toString();
-	//}
+	virtual String toString(); 
 
 	virtual String Name() {
 		return glyph == NULL ? EquipableItem::Name() : glyph->name(EquipableItem::Name());
@@ -119,11 +117,14 @@ public:
 	}
 };
 
+__FACTORY__(Glyph, Armor::Glyph);
+
 class Bounce :public Armor::Glyph{
 private:
 	static const String TXT_BOUNCE;
 
 public:
+	CLASSNAME(Bounce);
 	virtual int proc(Armor* armor, Char* attacker, Char* defender, int damage);
 
 	virtual String name(const String& weaponName);
@@ -135,6 +136,7 @@ private:
 
 	static ItemSprite::Glowing* PINK;
 public:
+	CLASSNAME(Affection);
 	virtual int proc(Armor* armor, Char* attacker, Char* defender, int damage);
 	virtual String name(const String& weaponName);
 	virtual ItemSprite::Glowing* glowing() {
@@ -148,6 +150,7 @@ private:
 
 	static ItemSprite::Glowing* BLUE;
 public:
+	CLASSNAME(AntiEntropy);
 	virtual int proc(Armor* armor, Char* attacker, Char* defender, int damage);
 	virtual String name(const String& weaponName);
 	virtual ItemSprite::Glowing* glowing() {
@@ -155,12 +158,14 @@ public:
 	}
 };
 
-class Multiplicity :public Armor::Glyph{
+class Multiplicity :public Armor::Glyph, public Object{
 private:
 	static const String TXT_MULTIPLICITY;
 
 	static ItemSprite::Glowing* PINK;
 public:
+	CLASSNAME(Multiplicity);
+	CLASSOBJECT(Multiplicity);
 	virtual int proc(Armor* armor, Char* attacker, Char* defender, int damage);
 	virtual String name(const String& weaponName);
 	virtual ItemSprite::Glowing* glowing() {
@@ -175,6 +180,7 @@ private:
 	static ItemSprite::Glowing* BLUE;
 
 public:
+	CLASSNAME(Potential);
 	virtual int proc(Armor* armor, Char* attacker, Char* defender, int damage);
 	virtual String name(const String& weaponName);
 	virtual ItemSprite::Glowing* glowing() {
@@ -188,6 +194,7 @@ private:
 
 	static ItemSprite::Glowing* RED;
 public:
+	CLASSNAME(Metabolism);
 	virtual int proc(Armor* armor, Char* attacker, Char* defender, int damage);
 	virtual String name(const String& weaponName);
 	virtual ItemSprite::Glowing* glowing() {
@@ -202,6 +209,7 @@ private:
 	static ItemSprite::Glowing* GREEN;
 
 public:
+	CLASSNAME(Stench);
 	virtual int proc(Armor* armor, Char* attacker, Char* defender, int damage);
 	virtual String name(const String& weaponName);
 	virtual ItemSprite::Glowing* glowing() {
@@ -216,13 +224,15 @@ private:
 	static ItemSprite::Glowing* PURPLE;
 
 public:
+	CLASSNAME(Viscosity);
+
 	virtual int proc(Armor* armor, Char* attacker, Char* defender, int damage);
 	virtual String name(const String& weaponName);
 	virtual ItemSprite::Glowing* glowing() {
 		return PURPLE;
 	}
 
-	class DeferedDamage :public Buff{
+	class DeferedDamage :public Buff, public Object{
 	protected:
 		int damage;
 
@@ -231,6 +241,7 @@ public:
 
 	public:
 		DeferedDamage();
+		CLASSOBJECT(DeferedDamage);
 		virtual std::string getClassName() { return "DeferedDamage"; }
 		virtual void storeInBundle(Bundle* bundle);
 		virtual void restoreFromBundle(Bundle* bundle);
@@ -242,9 +253,7 @@ public:
 		};
 		virtual int icon();
 
-		//public String toString() {
-		//	return Utils.format("Defered damage (%d)", damage);
-		//}
+		virtual String toString();
 		virtual boolean act();
 	};
 };
@@ -256,6 +265,7 @@ private:
 	static ItemSprite::Glowing* BLUE;
 
 public:
+	CLASSNAME(Displacement);
 	virtual int proc(Armor* armor, Char* attacker, Char* defender, int damage);
 	virtual String name(const String& weaponName);
 	virtual ItemSprite::Glowing* glowing() {
@@ -269,6 +279,8 @@ private:
 
 	static ItemSprite::Glowing* GREEN;
 public:
+	CLASSNAME(Entanglement);
+
 	virtual int proc(Armor* armor, Char* attacker, Char* defender, int damage);
 	virtual String name(const String& weaponName);
 	virtual ItemSprite::Glowing* glowing() {
@@ -283,6 +295,8 @@ private:
 	static ItemSprite::Glowing* GRAY;
 
 public:
+	CLASSNAME(AutoRepair);
+
 	virtual int proc(Armor* armor, Char* attacker, Char* defender, int damage);
 	virtual String name(const String& weaponName);
 	virtual ItemSprite::Glowing* glowing() {
@@ -297,7 +311,7 @@ public:
 	static Item* Create() { return new ClothArmor(); }
 
 	virtual String desc() {
-		return "This lightweight armor offers basic protection.";
+		return BPT::getText("lang.ClothArmor_Desc");// "This lightweight armor offers basic protection.";
 	}
 };
 
@@ -308,7 +322,7 @@ public:
 	static Item* Create() { return new LeatherArmor(); }
 
 	virtual String desc() {
-		return "Armor made from tanned monster hide. Not as light as cloth armor but provides better protection.";
+		return BPT::getText("lang.LeatherArmor_Desc");// "Armor made from tanned monster hide. Not as light as cloth armor but provides better protection.";
 	}
 };
 
@@ -319,8 +333,8 @@ public:
 	static Item* Create() { return new MailArmor(); }
 
 	virtual String desc() {
-		return
-			"Interlocking metal links make for a tough but flexible suit of armor.";
+		return BPT::getText("lang.MailArmor_Desc");
+			//"Interlocking metal links make for a tough but flexible suit of armor.";
 	}
 };
 
@@ -331,8 +345,8 @@ public:
 	static Item* Create() { return new ScaleArmor(); }
 
 	virtual String desc() {
-		return
-			"The metal scales sewn onto a leather vest create a flexible, yet protective armor.";
+		return BPT::getText("lang.ScaleArmor_Desc");
+			//"The metal scales sewn onto a leather vest create a flexible, yet protective armor.";
 	}
 };
 
@@ -343,8 +357,8 @@ public:
 	static Item* Create() { return new PlateArmor(); }
 
 	virtual String desc() {
-		return
-			std::string("Enormous plates of metal are joined together into a suit that provides ") +
-			std::string("unmatched protection to any adventurer strong enough to bear its staggering weight.");
+		return BPT::getText("lang.PlateArmor_Desc");
+			//std::string("Enormous plates of metal are joined together into a suit that provides ") +
+			//std::string("unmatched protection to any adventurer strong enough to bear its staggering weight.");
 	}
 };

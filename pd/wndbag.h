@@ -55,7 +55,8 @@ private:
 
 public:
 	WndBag(Bag* bag, Listener* listener, Mode mode, const std::string& title);
-
+	static WndBag* seedPouch(Listener* listener, Mode mode, const String& title);
+	static WndBag* LastBag(Listener* listener, Mode mode, const String& title);
 protected:
 	void placeItems(Bag* container);
 };

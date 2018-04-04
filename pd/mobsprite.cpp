@@ -8,6 +8,7 @@
 #include "dungeontilemap.h"
 #include "lightning.h"
 #include "shaman.h"
+#include "herosprite.h"
 
 const float MobSprite::FADE_TIME = 3.0f;
 const float MobSprite::FALL_TIME = 1.0f;
@@ -1163,4 +1164,74 @@ WraithSprite::WraithSprite()
 	die->Frames(&frames, arry4, sizeof(arry4) / sizeof(int));
 
 	play(idle);
+}
+
+ShopkeeperSprite::ShopkeeperSprite()
+{
+	texture(Assets::KEEPER);
+	TextureFilm film(tex, 14, 14);
+
+	idle = new Animation(10, true);
+	int arry1[] = { 1, 1, 1, 1, 1, 0, 0, 0, 0 };
+	idle->Frames(&film, arry1, sizeof(arry1) / sizeof(int));
+
+	die = new Animation(20, false);
+	int arry2[] = { 0 };
+	die->Frames(&film, arry2, sizeof(arry2) / sizeof(int));
+
+	run = idle->clone();
+	attack = idle->clone();
+
+	Idle();
+}
+
+void ShopkeeperSprite::onComplete(Animation* anim)
+{
+	MobSprite::onComplete(anim);
+
+	if (visible && anim == idle) {
+		if (coin == NULL) {
+			coin = new PixelParticle();
+			parent->add(coin);
+		}
+		coin->reset(x + (flipHorizontal ? 0 : 13), y + 7, 0xFFFF00, 1, 0.5f);
+		coin->speed.y = -40;
+		coin->acc.y = +160;
+	}
+}
+
+MirrorSprite::MirrorSprite()
+{
+	texture(Dungeon::hero->heroClass.spritesheet());
+	updateArmor(0);
+	Idle();
+}
+
+void MirrorSprite::link(Char* ch)
+{
+	MobSprite::link(ch);
+	updateArmor(((MirrorImage*)ch)->tier);
+}
+
+void MirrorSprite::updateArmor(int tier)
+{
+	TextureFilm film (HeroSprite::Tiers(), tier, FRAME_WIDTH, FRAME_HEIGHT);
+
+	idle = new Animation(1, true);
+	int arry1[] = { 0, 0, 0, 1, 0, 0, 1, 1 };
+	idle->Frames(&film, arry1, sizeof(arry1) / sizeof(int));
+
+	run = new Animation(20, true);
+	int arry2[] = { 2, 3, 4, 5, 6, 7 };
+	run->Frames(&film, arry2, sizeof(arry2) / sizeof(int));
+
+	die = new Animation(20, false);
+	int arry3[] = { 0 };
+	die->Frames(&film, arry3, sizeof(arry3) / sizeof(int));
+
+	attack = new Animation(15, false);
+	int arry4[] = { 13, 14, 15, 0 };
+	attack->Frames(&film, arry4, sizeof(arry4) / sizeof(int));
+
+	Idle();
 }

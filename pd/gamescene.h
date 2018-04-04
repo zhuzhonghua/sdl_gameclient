@@ -19,6 +19,7 @@ class Toast;
 class Blob;
 class Mob;
 class Plant;
+class Banner;
 
 class GameScene :public PixelScene{
 private:
@@ -65,6 +66,7 @@ private:
 	void addPlantSprite(Plant* plant);
 	void addHeapSprite(Heap* heap);
 
+	void showBanner(Banner* banner);
 	void Prompt(const std::string& text);
 
 	static bool cancelCellSelector();

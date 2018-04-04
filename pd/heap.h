@@ -7,7 +7,7 @@
 class Item;
 class ItemSprite;
 
-class Heap :public Bundlable{
+class Heap :public Bundlable, public Object{
 private:
 	static const String TXT_MIMIC;
 	static const int SEEDS_TO_POTION = 3;
@@ -49,6 +49,8 @@ public:
 	virtual void restoreFromBundle(Bundle* bundle);
 	virtual void storeInBundle(Bundle* bundle);
 	virtual std::string getClassName() { return "Heap"; }
+	CLASSOBJECT(Heap);
+
 	Item* pickUp();
 	void drop(Item* item);
 	void replace(Item* a, Item* b);
@@ -58,7 +60,4 @@ public:
 	Item* transmute();
 	static void burnFX(int pos);
 	static void evaporateFX(int pos);
-	boolean isEmpty() {
-		return items.size() == 0;
-	}
 };

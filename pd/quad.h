@@ -13,6 +13,7 @@ public:
 		float x1, float x2, float y1, float y2,
 		float u1, float u2, float v1, float v2);
 
+	static FloatBuffer* create();
 	static FloatBuffer* createSet(int size);
 private:
 	static std::vector<short> _indices;

@@ -499,3 +499,73 @@ bool Badges::isUnlocked(Badges::Badge badge)
 {
 	return global.find(badge) != global.end();
 }
+
+void Badges::validateDeathFromGas()
+{
+	Badge badge = Badges::DEATH_FROM_GAS;
+	local.add(badge);
+	displayBadge(&badge);
+
+	validateYASD();
+}
+
+void Badges::validateDeathFromGlyph()
+{
+	Badge badge = Badges::DEATH_FROM_GLYPH;
+	local.add(badge);
+	displayBadge(&badge);
+}
+
+void Badges::validateDeathFromHunger()
+{
+	Badge badge = Badges::DEATH_FROM_HUNGER;
+	local.add(badge);
+	displayBadge(&badge);
+
+	validateYASD();
+}
+
+void Badges::validateVictory()
+{
+	Badge badge = Badges::VICTORY;
+	displayBadge(&badge);
+
+	switch (Dungeon::hero->heroClass.type()) {
+	case HeroClass::E_WARRIOR:
+		badge = Badges::VICTORY_WARRIOR;
+		break;
+	case HeroClass::E_MAGE:
+		badge = Badges::VICTORY_MAGE;
+		break;
+	case HeroClass::E_ROGUE:
+		badge = Badges::VICTORY_ROGUE;
+		break;
+	case HeroClass::E_HUNTRESS:
+		badge = Badges::VICTORY_HUNTRESS;
+		break;
+	}
+	local.add(badge);
+	if (!global.contains(badge)) {
+		global.add(badge);
+		saveNeeded = true;
+	}
+
+	if (global.contains(Badges::VICTORY_WARRIOR) &&
+		global.contains(Badges::VICTORY_MAGE) &&
+		global.contains(Badges::VICTORY_ROGUE) &&
+		global.contains(Badges::VICTORY_HUNTRESS)) {
+
+		badge = Badges::VICTORY_ALL_CLASSES;
+		displayBadge(&badge);
+	}
+}
+
+void Badges::validateChampion()
+{
+	displayBadge(&Badges::CHAMPION);
+}
+
+void Badges::validateHappyEnd()
+{
+	displayBadge(&Badges::HAPPY_END);
+}

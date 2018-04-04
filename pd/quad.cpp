@@ -54,3 +54,8 @@ FloatBuffer* Quad::createSet(int size)
 {
 	return new FloatBuffer(size*16);
 }
+
+FloatBuffer* Quad::create()
+{
+	return new FloatBuffer(16);
+}

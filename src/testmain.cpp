@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "ninja/game.h"
 
 struct Position
 {

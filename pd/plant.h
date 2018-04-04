@@ -15,7 +15,7 @@ public:
 	class Seed :public Item{
 	public:
 		static const std::string AC_PLANT;
-		//std::string alchemyClass;
+		std::string alchemyClass;
 
 		Seed();
 		virtual void actions(Hero* hero, std::vector<std::string>& actions);
@@ -190,10 +190,10 @@ public:
 		virtual boolean act();
 		virtual int icon();
 		virtual String toString() {
-			return "Herbal healing";
+			return BPT::getText("lang.Sungrass_Health_toString");// "Herbal healing";
 		}
 
-		virtual std::string getClassName() { return "Sungrass::Health"; }
+		virtual std::string getClassName() { return "Health"; }
 		virtual void storeInBundle(Bundle* bundle);
 		virtual void restoreFromBundle(Bundle* bundle);
 	};
@@ -228,10 +228,11 @@ public:
 		static const float STEP;
 
 		int pos;
-		int level;
+		
 		static const String POS;
 		static const String LEVEL;
 	public:
+		int level;
 		virtual bool attachTo(Char* target);
 		virtual boolean act();
 
@@ -246,7 +247,7 @@ public:
 		virtual String toString() {
 			return "Herbal armor";
 		}
-		virtual std::string getClassName() { return "Earthroot::Armor"; }
+		virtual std::string getClassName() { return "Armor"; }
 		virtual void storeInBundle(Bundle* bundle);
 		virtual void restoreFromBundle(Bundle* bundle);
 	};

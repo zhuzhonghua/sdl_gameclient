@@ -82,7 +82,7 @@ public:
 	int exit;
 
 	HashSet<Mob*> mobs;
-	std::map<std::string, Blob*> blobs;
+	HashMap<std::string, Blob*> blobs;
 	HashMap<int, Heap*> heaps;
 	HashMap<int, Plant*> plants;
 

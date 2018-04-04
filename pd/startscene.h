@@ -122,6 +122,5 @@ public:
 	StartScene();
 	~StartScene();
 
-protected:
-	void onBackPressed();
+	virtual void onBackPressed();
 };

@@ -221,6 +221,7 @@ void Potion::splash(int cell)
 	int color = ItemSprite::pick(image, 8, 10);
 	Splash::at(cell, color, 5);
 }
+REFLECTITEM(PotionOfHealing);
 
 PotionOfHealing::PotionOfHealing()
 {
@@ -256,6 +257,8 @@ void PotionOfExperience::apply(Hero* hero)
 	hero->earnExp(hero->maxExp() - hero->exp);
 }
 
+REFLECTITEM(PotionOfToxicGas);
+
 PotionOfToxicGas::PotionOfToxicGas()
 {
 	name = "Potion of Toxic Gas";
@@ -277,6 +280,7 @@ PotionOfLiquidFlame::PotionOfLiquidFlame()
 {
 	name = "Potion of Liquid Flame";
 }
+REFLECTITEM(PotionOfLiquidFlame);
 
 void PotionOfLiquidFlame::shatter(int cell)
 {
@@ -289,6 +293,7 @@ void PotionOfLiquidFlame::shatter(int cell)
 
 	//GameScene.add(Blob.seed(cell, 2, Fire.class));
 }
+REFLECTITEM(PotionOfStrength);
 
 PotionOfStrength::PotionOfStrength()
 {
@@ -305,6 +310,8 @@ void PotionOfStrength::apply(Hero* hero)
 
 	//Badges.validateStrengthAttained();
 }
+
+REFLECTITEM(PotionOfParalyticGas);
 
 PotionOfParalyticGas::PotionOfParalyticGas()
 {
@@ -339,6 +346,7 @@ PotionOfMindVision::PotionOfMindVision()
 {
 	name = "Potion of Mind Vision";
 }
+REFLECTITEM(PotionOfMindVision);
 
 void PotionOfMindVision::apply(Hero* hero)
 {
@@ -452,6 +460,8 @@ void PotionOfInvisibility::melt(Char* ch)
 	}
 }
 
+REFLECTITEM(PotionOfInvisibility);
+
 void PotionOfInvisibility::apply(Hero* hero)
 {
 	setKnown();
@@ -477,6 +487,8 @@ void PotionOfMight::apply(Hero* hero)
 
 	//Badges.validateStrengthAttained();
 }
+
+REFLECTITEM(PotionOfFrost);
 
 PotionOfFrost::PotionOfFrost()
 {

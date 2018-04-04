@@ -86,3 +86,23 @@ void WndBag::placeItems(Bag* container)
 	//	placeItem(new Gold(Dungeon.gold));
 	//}
 }
+
+WndBag* WndBag::seedPouch(Listener* listener, Mode mode, const String& title)
+{
+	SeedPouch* pouch = (SeedPouch*)Dungeon::hero->belongings->getItem("SeedPouch");
+	return pouch != NULL ?
+		new WndBag(pouch, listener, mode, title) :
+		new WndBag(Dungeon::hero->belongings->backpack, listener, mode, title);
+}
+
+WndBag* WndBag::LastBag(Listener* listener, Mode mode, const String& title)
+{
+	if (mode == lastMode && lastBag != NULL &&
+		Dungeon::hero->belongings->backpack->contains(lastBag)) {
+
+		return new WndBag(lastBag, listener, mode, title);
+	}
+	else {
+		return new WndBag(Dungeon::hero->belongings->backpack, listener, mode, title);
+	}
+}
