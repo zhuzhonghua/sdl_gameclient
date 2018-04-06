@@ -1,0 +1,502 @@
+Signature-Version: 1.0
+Created-By: 1.0 (Android)
+SHA1-Digest-Manifest: PmdwZ/aFOSNp4GzACFvPM54Om+M=
+
+Name: com/badlogic/gdx/graphics/g3d/particles/particles.fragment.glsl
+SHA1-Digest: HcrAcuBE0S5aKfEh9pSnSkZ/aDk=
+
+Name: res/drawable-xxxhdpi-v4/ic_launcher.png
+SHA1-Digest: +3sNkno78V6OeMppGHlWYJfmR8c=
+
+Name: assets/spinner.png
+SHA1-Digest: aS5KcB2v7IrtT5U7T8n3+waOgDc=
+
+Name: assets/dashboard.png
+SHA1-Digest: Pe9s7PCOFDYyaOepTk3FnLcxWxY=
+
+Name: assets/eye.png
+SHA1-Digest: xesRH5rIWK+rpvAZJF/fGAqsOVI=
+
+Name: assets/undead.png
+SHA1-Digest: qfPOVQIirEpLwOYM1zbwsuoNGcU=
+
+Name: assets/rotting_fist.png
+SHA1-Digest: eMHLU8thBa7O/WVfZxLP0YNIhLA=
+
+Name: assets/font2x.fnt
+SHA1-Digest: Y9yYSpioKqWOnfGXV32lBlSbsdY=
+
+Name: res/drawable-mdpi-v4/ic_launcher.png
+SHA1-Digest: 4smqbsGQQi31Snbq/pG5PFKVIXM=
+
+Name: assets/snd_levelup.mp3
+SHA1-Digest: dRSBtPjIRayResPD63ExU1VsObY=
+
+Name: assets/rat.png
+SHA1-Digest: OG1gdgafIHAEV7N65d4rqU3UMpU=
+
+Name: assets/snd_water.mp3
+SHA1-Digest: vtWKiCd6BxtpLbV7cissGYS9c+4=
+
+Name: lib/x86/libgdx.so
+SHA1-Digest: FJC48E0L5gRp1fB+GdVqhSLYzAQ=
+
+Name: assets/warlock.png
+SHA1-Digest: VEIKopsiz/aNgwQNItY0Hqygzko=
+
+Name: assets/translation/font25x_chs.png
+SHA1-Digest: 60gS6kR6jL1D5KVt3DEfIx8VzWk=
+
+Name: assets/sheep.png
+SHA1-Digest: 55OTOLUIzW4tKr56XXDoSp2Zzmw=
+
+Name: assets/snd_step.mp3
+SHA1-Digest: qS3E8C+DQSOZ68EhlFj6w/DAyeI=
+
+Name: assets/snd_death.mp3
+SHA1-Digest: p9+I0q8DT35i2Z/LGCPU72V7MyY=
+
+Name: assets/amulet.png
+SHA1-Digest: wyLpmlI7W88KeXVS9abRR+6NYMY=
+
+Name: assets/king.png
+SHA1-Digest: gwpXwNW2JuhSciZLPwrDku2fsmA=
+
+Name: assets/bat.png
+SHA1-Digest: ZixFoMW/hNvgs76U4jTkpDAmKgY=
+
+Name: assets/snd_boss.mp3
+SHA1-Digest: Qn9YRQC3fPqZ8rUAD9WYLm3XEP0=
+
+Name: assets/snd_eat.mp3
+SHA1-Digest: 8klmi5Qgpk2HiVmmvUl8phX5Hwg=
+
+Name: assets/wraith.png
+SHA1-Digest: 70BOP3Ijf/zqzhJYsiDeIo42hLQ=
+
+Name: assets/snd_plant.mp3
+SHA1-Digest: fH097pi2ZwaGNMO9nZuWk5wY2JM=
+
+Name: assets/rogue.png
+SHA1-Digest: FlNOPKeAeXY8IZWJcmpqq/tXip0=
+
+Name: assets/snd_item.mp3
+SHA1-Digest: GI7p2tEv2bErQrOXfKNmP+MSLG8=
+
+Name: assets/snd_badge.mp3
+SHA1-Digest: LEwkeCpV7z0IVZggqqsJ/8dVNrE=
+
+Name: assets/icons.png
+SHA1-Digest: 3pnn652ff4ybWvWaKURCGDb1g1o=
+
+Name: com/badlogic/gdx/utils/arial-15.png
+SHA1-Digest: zcxc3DgP9Ynv4SOhoUV2qAKs6oo=
+
+Name: assets/arcs2.png
+SHA1-Digest: EZXASdmi4dOYiThJfu7LvXOcHJI=
+
+Name: assets/translation/chs.txt
+SHA1-Digest: 1mC5ch5fz4UpOGnavBwuvVV6nRk=
+
+Name: assets/snd_rocks.mp3
+SHA1-Digest: ggcKlUJBly+HRosZ97EcQ8w3FgA=
+
+Name: assets/translation/font15x_chs.fnt
+SHA1-Digest: /uIoSAe3qkSTLpbxvbb2c0xUxAI=
+
+Name: com/badlogic/gdx/graphics/g3d/particles/particles.vertex.glsl
+SHA1-Digest: y+2eMYdcM4wCQXqeGv8AgxbfR+c=
+
+Name: assets/snd_cursed.mp3
+SHA1-Digest: ibB731uLksb/jxLcPp/Xd2uE+cA=
+
+Name: assets/font1x.png
+SHA1-Digest: e2sCxRhQq5YiJYofqMKKTazYnog=
+
+Name: assets/banners.png
+SHA1-Digest: Pp4OxZmCBT9V1CiM7V/LzFh4o0s=
+
+Name: assets/snd_gold.mp3
+SHA1-Digest: DCdnuoBBhwVtmW/T5UyUBMZ0x/U=
+
+Name: assets/ranger.png
+SHA1-Digest: YGZcvb+6OTr4C9hX26NEDmKxd/o=
+
+Name: assets/snd_read.mp3
+SHA1-Digest: 2WDsz8OJtG9FOMrfzscnA0y9fKQ=
+
+Name: assets/snd_shatter.mp3
+SHA1-Digest: pVu7+04jnGFbESwF6o2SnumGCwc=
+
+Name: assets/tiles1.png
+SHA1-Digest: 7ucPprxA9mM66c6GJsn8cutqnYw=
+
+Name: res/drawable-xxhdpi-v4/ic_launcher.png
+SHA1-Digest: UzOCLyeIEkG5zOgdC/L3aosaeBI=
+
+Name: assets/font15x.png
+SHA1-Digest: GlAwI+aFphytYDpE+DC6s0tfvkY=
+
+Name: assets/toolbar.png
+SHA1-Digest: TEvgUia2rhGmzzJFNrTvXcaAohY=
+
+Name: assets/wandmaker.png
+SHA1-Digest: 1lvGX4PdY99HyGUgvq8wvcMuGVY=
+
+Name: assets/tiles0.png
+SHA1-Digest: hORv4l0voc/U7xkYmFx6sNvAIm0=
+
+Name: com/badlogic/gdx/graphics/g3d/shaders/default.fragment.glsl
+SHA1-Digest: B7Syss3zu86U1ZFVLp0aU7dm5b0=
+
+Name: resources.arsc
+SHA1-Digest: yMxUa/t+wWk0Pjk3YvtV8HbpYAE=
+
+Name: assets/surface.mp3
+SHA1-Digest: j+TgH+a+eJCuJYSOeWYFfO8ki1A=
+
+Name: assets/hp_bar.png
+SHA1-Digest: M6irkiGNdY0fWCoQ6garUIJ9BkY=
+
+Name: assets/ratking.png
+SHA1-Digest: NTUH5U0RootjS+my97hLarkEVtg=
+
+Name: com/badlogic/gdx/graphics/g3d/shaders/depth.fragment.glsl
+SHA1-Digest: oDfQkYNflB57q8y2Bqrrwcvphlg=
+
+Name: AndroidManifest.xml
+SHA1-Digest: WynNSMEJ3CIYng9eUc9mTradbQA=
+
+Name: assets/snd_secret.mp3
+SHA1-Digest: 8XW6M/vUt32DzCSWuU5kWiYbQr0=
+
+Name: assets/snd_tomb.mp3
+SHA1-Digest: pP12DUxvoQvBX7nh31yHIiMay8Q=
+
+Name: assets/yog.png
+SHA1-Digest: /Xt+1rC5+GoXSpq6henXAnijwhc=
+
+Name: assets/ic_launcher_128.png
+SHA1-Digest: jwa/ucQDxMcL2cdBfcc/Zzo4mKU=
+
+Name: assets/golem.png
+SHA1-Digest: AxsufyqJZ3ZXiKobIJiWWF44zlY=
+
+Name: assets/avatars.png
+SHA1-Digest: hDB1luMy90ivgF3hgT8qIHT/Jp0=
+
+Name: assets/snd_beacon.mp3
+SHA1-Digest: QmnozQp34vzZPEIgEd6Wi3vNREs=
+
+Name: assets/snd_teleport.mp3
+SHA1-Digest: wSMEjfhnCEGIcASEtiq/ilGt4xc=
+
+Name: assets/snd_meld.mp3
+SHA1-Digest: 8qJXf6C4K5JxxHch4UwLwHz7SNw=
+
+Name: assets/snd_blast.mp3
+SHA1-Digest: E8J6TAIGiQVdy12FQbkucku2hQk=
+
+Name: com/badlogic/gdx/utils/XmlReader.rl
+SHA1-Digest: 1wpP5g6N/Lspjbf9ozGM8y2GWPY=
+
+Name: classes.dex
+SHA1-Digest: zC29eC5+vI2lzhbtuTZdq3H4OC0=
+
+Name: assets/translation/font3x_chs.fnt
+SHA1-Digest: Qpj+9kEoyBBfkhNNl9xQvuVbMZQ=
+
+Name: assets/thief.png
+SHA1-Digest: xa2oe/d9QPACtgrVgQNSeLneM1k=
+
+Name: assets/shaman.png
+SHA1-Digest: WZNOTY7veq/D1eEywmFPmuueJrY=
+
+Name: assets/snd_ray.mp3
+SHA1-Digest: s6Af3LKNzRKcSnByrLqqHMAFPys=
+
+Name: assets/ic_launcher_32.png
+SHA1-Digest: dFGsmawsvVuOCrQBUD678yZ2iUE=
+
+Name: assets/tengu.png
+SHA1-Digest: QKj609A56neDlkelWRL+TGWGvO0=
+
+Name: assets/snd_alert.mp3
+SHA1-Digest: aLrNx8iJ2nRZZJ8oava1tldtzY0=
+
+Name: assets/snd_evoke.mp3
+SHA1-Digest: mgVa/5dUu/6AO/y8ObnFQ0EqipE=
+
+Name: assets/specks.png
+SHA1-Digest: XGwIoW1FsEFfTlh1wdeKnk/pmGk=
+
+Name: assets/arcs1.png
+SHA1-Digest: JsGL3gzpxoWm22WuT/afTJ+v5hQ=
+
+Name: assets/shopkeeper.png
+SHA1-Digest: gv/0Xjf0tkL8WODtPw9kniVTCwQ=
+
+Name: assets/snd_mastery.mp3
+SHA1-Digest: tDekPjNu4RdOCQQkD87jZr/4bzE=
+
+Name: assets/burning_fist.png
+SHA1-Digest: VcM/Qim16U/GSDgPgyo7GDQTNUc=
+
+Name: assets/buffs.png
+SHA1-Digest: g2s/Y1dva8I//EKtrekvwdG+xt4=
+
+Name: assets/water2.png
+SHA1-Digest: i3ncwVa5EfhFDGkGIAUt4v3fheU=
+
+Name: assets/gnoll.png
+SHA1-Digest: ju046k4f3mlA9AddnqMidk/LbLA=
+
+Name: assets/translation/font1x_chs.png
+SHA1-Digest: Cfo4ZFYRk8yBYpN8UAt9aYOxYQU=
+
+Name: assets/translation/font25x_chs.fnt
+SHA1-Digest: IRWu78QgaFfKvxvHQvU2PgeTBp8=
+
+Name: assets/snd_zap.mp3
+SHA1-Digest: /2aijLGrT63YR6Ca2lm2E2YTRb0=
+
+Name: assets/translation/font2x_chs.fnt
+SHA1-Digest: TRrDNP0QkcKx9j4rPSNZeRWH+88=
+
+Name: assets/crab.png
+SHA1-Digest: PYYiQml7D2ho5KBi3N4NdfNCYCM=
+
+Name: assets/snd_bones.mp3
+SHA1-Digest: TFZAzeIzQgMuQ+QKkf1fMsmykYY=
+
+Name: assets/translation/font1x_chs.fnt
+SHA1-Digest: 01DGJpr34oLQTp1tAe4P06Z3rr8=
+
+Name: assets/large_buffs.png
+SHA1-Digest: YECQk98OSDqIH7IHvj3EyQ+rSCY=
+
+Name: assets/monk.png
+SHA1-Digest: yBJzJ2HaPKBe8o/aEcqBb1QdyS4=
+
+Name: assets/spell_icons.png
+SHA1-Digest: Y6Jxn6gVI/+8SKNjMvS9BEOwmks=
+
+Name: assets/translation/font15x_chs.png
+SHA1-Digest: r/+DsAJcr/lJN+vhAl7VJXMfitE=
+
+Name: assets/larva.png
+SHA1-Digest: lR/1bBVC8eilrVR2hGQThePZ8pc=
+
+Name: com/badlogic/gdx/graphics/g3d/shaders/depth.vertex.glsl
+SHA1-Digest: AqRJA/2OFee7amNQ5NZn77eUCYE=
+
+Name: assets/snd_unlock.mp3
+SHA1-Digest: FUU79gNn/B72ozm66jZkaS4lzUM=
+
+Name: assets/scorpio.png
+SHA1-Digest: Pz2sJvFgnFNNERQxOfKY5ytCUh0=
+
+Name: assets/goo.png
+SHA1-Digest: Sz3z2ayC4hkcYLUebQQNGC61XjM=
+
+Name: assets/plants.png
+SHA1-Digest: Z4r3k5Cs1jp1GXuqFIQR+wuzW1k=
+
+Name: lib/armeabi/libgdx.so
+SHA1-Digest: 3hxXnAE2dHOOAm9dmgBpXMQ+hS0=
+
+Name: assets/snd_lightning.mp3
+SHA1-Digest: 8O996N+zI+dWqJKLjxcyzvlh3uk=
+
+Name: assets/fireball.png
+SHA1-Digest: n0KxZrKWSR3FLQ9sIpkoywu3mg4=
+
+Name: res/drawable-xhdpi-v4/ic_launcher.png
+SHA1-Digest: nAveqjDO2K7RBQCw8EdsRizaF1w=
+
+Name: assets/snd_miss.mp3
+SHA1-Digest: KU+4nKD2ySM+kZdJzB6xNhR6/kY=
+
+Name: assets/status_pane.png
+SHA1-Digest: CuW4AJoGujfRXWRqC80mXyH+eMo=
+
+Name: assets/snd_door_open.mp3
+SHA1-Digest: n4xzIseUETULdA8CtNBKGkAQ0x8=
+
+Name: assets/ghost.png
+SHA1-Digest: D+ob1wwpCvGQNtLxYzTzWXMD8Pw=
+
+Name: com/badlogic/gdx/utils/arial-15.fnt
+SHA1-Digest: h1kLe7EvHfziUMbjLZoi18Hi4UI=
+
+Name: assets/badges.png
+SHA1-Digest: OwmbF9z5wip0hYEQaZVOoD3O89o=
+
+Name: assets/translation/font2x_chs.png
+SHA1-Digest: o6J1FxXHCKzmGtiwmxcR3yG7tc8=
+
+Name: assets/font1x.fnt
+SHA1-Digest: ChJDK3I58FHRfperZEUz9R3WNec=
+
+Name: assets/snd_hit.mp3
+SHA1-Digest: ALwjMOLnXoJraIJjl67wIXPb7Tg=
+
+Name: assets/tiles4.png
+SHA1-Digest: 4DvVhxXwf55VzlMvNopPBTx2OOs=
+
+Name: assets/water4.png
+SHA1-Digest: 26XFXe3VgOk2Ea8FmSG+OBc43lg=
+
+Name: assets/translation/language.settings
+SHA1-Digest: m20cgRQwmx5WVXYkgCo5r2Ld+Zo=
+
+Name: assets/font3x.png
+SHA1-Digest: LWmNP836TQDhSgWeZvMX2KVd4bA=
+
+Name: assets/snd_ghost.mp3
+SHA1-Digest: BzRsnC04nd72yBQlwrsYydSBpHw=
+
+Name: assets/pet.png
+SHA1-Digest: HLPBftX50z2l8zVJSNkNlfq1+Zs=
+
+Name: assets/snd_challenge.mp3
+SHA1-Digest: sxolSZ4ZcMzHqD95HspChdnTt7s=
+
+Name: assets/items.png
+SHA1-Digest: 44JebYGusR6vdp2kFe43u34FeVc=
+
+Name: assets/dm300.png
+SHA1-Digest: 5n2P4RHGwNyNYUPQN0RB//xBGEE=
+
+Name: res/drawable-hdpi-v4/ic_launcher.png
+SHA1-Digest: eeHZnggMm/7Ns15y2VlsxaWpEUI=
+
+Name: assets/demon.png
+SHA1-Digest: rqxnsMw00ka3ZYnrgorUsoO5Nho=
+
+Name: assets/blacksmith.png
+SHA1-Digest: dFmE71s1mmWw71ZrdNTnInhv8qs=
+
+Name: assets/water3.png
+SHA1-Digest: 1B142P53DAj1eOuv3tVpm63Abgk=
+
+Name: assets/warrior.png
+SHA1-Digest: AHxWVj9Q2cha6Jh97SN86TzIg5k=
+
+Name: assets/piranha.png
+SHA1-Digest: ZpEN8INUrulCIZzi1x+H3phIEtA=
+
+Name: assets/snd_dewdrop.mp3
+SHA1-Digest: ETARVsidWehEU0oG4/aZY8egQCs=
+
+Name: assets/snd_lullaby.mp3
+SHA1-Digest: BE7B6VB+y7WkJuq/JXpVo40zwhA=
+
+Name: assets/statue.png
+SHA1-Digest: Be3t2Arkef86MxEQe7KGxxZdwPA=
+
+Name: assets/mage.png
+SHA1-Digest: DM3HD2lZx7gZCOUYELJUfoSzzLQ=
+
+Name: assets/theme.mp3
+SHA1-Digest: KBS8jaR+5WuD/vwOJQ/TMU99DhY=
+
+Name: assets/effects.png
+SHA1-Digest: hiLtxWGcPQUrjjmzFHL6mCC9Qng=
+
+Name: assets/font15x.fnt
+SHA1-Digest: eN/IXG11a+yfQOrGXG6fYCxkJVs=
+
+Name: assets/snd_falling.mp3
+SHA1-Digest: YhM9/VnqDQTKtb8MYjwHwaI2gmg=
+
+Name: assets/elemental.png
+SHA1-Digest: y2HnmScqDrBur7JkL2JiwVKmXEo=
+
+Name: assets/skeleton.png
+SHA1-Digest: 7dzSA62z/ztovCHRnsFP7udozB0=
+
+Name: assets/game.mp3
+SHA1-Digest: jgXpDwx+V43U//dt8rNVJMEf+JE=
+
+Name: assets/snd_charms.mp3
+SHA1-Digest: kvKlv+ShiyePD2rXZqbmJO6wRmo=
+
+Name: assets/ic_launcher_16.png
+SHA1-Digest: SGMo6OaXg0iJoUVDlo1mFqcmnh4=
+
+Name: assets/font25x.png
+SHA1-Digest: hNUVJp4quty0NISK2oWMk7LhCXo=
+
+Name: assets/snd_click.mp3
+SHA1-Digest: PXHyxv280Gvzq7hTO9QH+U83dp8=
+
+Name: com/badlogic/gdx.gwt.xml
+SHA1-Digest: 3X8ka3d/3fAdXl9B+voWKCAKpd0=
+
+Name: com/badlogic/gdx/utils/JsonReader.rl
+SHA1-Digest: A/Gm7GmbkaMVlq9IWgu7r9UVFuc=
+
+Name: assets/succubus.png
+SHA1-Digest: ZQPYH+WPF5dtMbd7/O7mIrMBfxk=
+
+Name: assets/snd_descend.mp3
+SHA1-Digest: I7g3uZl+TDk4YWH9zmOlhgq1kPg=
+
+Name: assets/tiles3.png
+SHA1-Digest: WR47I9W1gYT4lgrlDnQef7IVCeU=
+
+Name: com/badlogic/gdx/graphics/g3d/shaders/default.vertex.glsl
+SHA1-Digest: //peP3ieaLy1IvnfuExcDIjsfSg=
+
+Name: assets/swarm.png
+SHA1-Digest: lByKV+6O7SLpIzeblFIaWsJIQYI=
+
+Name: assets/snd_trap.mp3
+SHA1-Digest: TFCOTTYxxpjueTGBiXVvWMMdMQo=
+
+Name: assets/brute.png
+SHA1-Digest: JGqcZZ5ly1xqjhb0a7yj2iQgugk=
+
+Name: assets/exp_bar.png
+SHA1-Digest: x3yhRZ+Wk/WKHkltv1IEV2gvKB4=
+
+Name: assets/font2x.png
+SHA1-Digest: ldLgahS6b4mH8Hz7C5z5hP0Ewhg=
+
+Name: assets/tiles2.png
+SHA1-Digest: K/iZwu1SYcllTEO7KtbSbEt9n2k=
+
+Name: assets/font25x.fnt
+SHA1-Digest: /lYn+e4q4zCmZn7PcWQ9k4iP6/0=
+
+Name: assets/snd_drink.mp3
+SHA1-Digest: M+ipxcvXy8wvr+6trO6s0UP5oYE=
+
+Name: assets/snd_burning.mp3
+SHA1-Digest: kaSfv8+biNKsuy2U7wkejd/0RQg=
+
+Name: assets/water0.png
+SHA1-Digest: df+jK+b4EZRrimnQ1gRGbfHyuMM=
+
+Name: assets/translation/font3x_chs.png
+SHA1-Digest: F03w1QPjFBUdaQTZXiKEwRXShWM=
+
+Name: assets/chrome.png
+SHA1-Digest: csx3Sd6EAGbpb9HJ6m2RHf1UkZ0=
+
+Name: assets/snd_puff.mp3
+SHA1-Digest: 0izyo5PDyq7H2i3F9lC1uqKrfrI=
+
+Name: assets/water1.png
+SHA1-Digest: dWeIQuW7XGw83QMnsCnLcquaoIo=
+
+Name: lib/armeabi-v7a/libgdx.so
+SHA1-Digest: XNkkmSpF7I2Bk9z0IOraUu/ge1w=
+
+Name: assets/font3x.fnt
+SHA1-Digest: lMg+MSy4hHFhgkQL9uFjcV/jySk=
+
+Name: assets/surface.png
+SHA1-Digest: M0YRvmVuCphg3W5d/LCk/ou1EUA=
+
