@@ -9,15 +9,15 @@
 #include "interlevelscene.h"
 #include "speck.h"
 
-final String AmuletScene::TXT_EXIT = BPT::getText("lang.AmuletScene_Exit");// "Let's call it a day";
+const String AmuletScene::TXT_EXIT = BPT::getText("lang.AmuletScene_Exit");// "Let's call it a day";
 
-final String AmuletScene::TXT_STAY = BPT::getText("lang.AmuletScene_Stay");// "I'm not done yet";
+const String AmuletScene::TXT_STAY = BPT::getText("lang.AmuletScene_Stay");// "I'm not done yet";
 
-final float AmuletScene::SMALL_GAP = 2;
+const float AmuletScene::SMALL_GAP = 2;
 
-final float AmuletScene::LARGE_GAP = 8;
+const float AmuletScene::LARGE_GAP = 8;
 
-final String AmuletScene::TXT = BPT::getText("lang.AmuletScene_Txt");
+const String AmuletScene::TXT = BPT::getText("lang.AmuletScene_Txt");
 //"You finally hold it in your hands, the Amulet of Yendor. Using its power " +
 //"you can take over the world or bring peace and prosperity to people or whatever. " +
 //"Anyway, your life will change forever and this game will end here. " +

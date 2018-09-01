@@ -7,7 +7,8 @@
 typedef std::string String;
 typedef bool boolean;
 
-#define final const
+// 与boost中某些final定义冲突
+//#define final const
 #define null NULL
 
 template<class T>

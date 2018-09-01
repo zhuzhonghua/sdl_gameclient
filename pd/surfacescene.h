@@ -6,8 +6,8 @@ class SurfaceScene :public PixelScene{
 private:
 	class GrassPatch :public Image{
 	public:
-		static final int WIDTH = 16;
-		static final int HEIGHT = 14;
+		static const int WIDTH = 16;
+		static const int HEIGHT = 14;
 	private:
 		float tx;
 		float ty;
@@ -25,8 +25,8 @@ private:
 
 	class Avatar :public Image{
 	private:
-		static final int WIDTH = 24;
-		static final int HEIGHT = 28;
+		static const int WIDTH = 24;
+		static const int HEIGHT = 28;
 
 	public:
 		Avatar(HeroClass cl);
@@ -49,27 +49,27 @@ private:
 		}
 	};
 private:
-	static final int FRAME_WIDTH = 88;
-	static final int FRAME_HEIGHT = 125;
+	static const int FRAME_WIDTH = 88;
+	static const int FRAME_HEIGHT = 125;
 
-	static final int FRAME_MARGIN_TOP = 9;
-	static final int FRAME_MARGIN_X = 4;
+	static const int FRAME_MARGIN_TOP = 9;
+	static const int FRAME_MARGIN_X = 4;
 
-	static final int BUTTON_HEIGHT = 20;
+	static const int BUTTON_HEIGHT = 20;
 
-	static final int SKY_WIDTH = 80;
-	static final int SKY_HEIGHT = 112;
+	static const int SKY_WIDTH = 80;
+	static const int SKY_HEIGHT = 112;
 
-	static final int NSTARS = 100;
-	static final int NCLOUDS = 5;
+	static const int NSTARS = 100;
+	static const int NCLOUDS = 5;
 
 	Camera* viewport;
 
 private:
 	class Sky :public Visual{
 	private:
-		static final int _day[];
-		static final int _night[];
+		static const int _day[];
+		static const int _night[];
 		static std::vector<int> day;
 		static std::vector<int> night;
 

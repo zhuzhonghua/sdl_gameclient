@@ -2,15 +2,15 @@
 
 class AmuletScene :public PixelScene{
 private:
-	static final String TXT_EXIT;
-	static final String TXT_STAY;
+	static const String TXT_EXIT;
+	static const String TXT_STAY;
 
-	static final int WIDTH = 120;
-	static final int BTN_HEIGHT = 18;
-	static final float SMALL_GAP;
-	static final float LARGE_GAP;
+	static const int WIDTH = 120;
+	static const int BTN_HEIGHT = 18;
+	static const float SMALL_GAP;
+	static const float LARGE_GAP;
 
-	static final String TXT;
+	static const String TXT;
 
 	Image* amulet;
 

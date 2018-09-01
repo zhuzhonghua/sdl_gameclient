@@ -4,7 +4,7 @@
 class Hero;
 class AlchemyPot{
 private:
-	static final String TXT_SELECT_SEED;
+	static const String TXT_SELECT_SEED;
 
 	static Hero* hero;
 	static int pos;

@@ -128,9 +128,9 @@ void SurfaceScene::init()
 	fadeIn();
 }
 
-final int SurfaceScene::Sky::_day[] = { 0xFF4488FF, 0xFFCCEEFF };
+const int SurfaceScene::Sky::_day[] = { 0xFF4488FF, 0xFFCCEEFF };
 
-final int SurfaceScene::Sky::_night[] = { 0xFF001155, 0xFF335980 };
+const int SurfaceScene::Sky::_night[] = { 0xFF001155, 0xFF335980 };
 std::vector<int> SurfaceScene::Sky::day = std::vector<int>(_day, _day+sizeof(_day)/sizeof(int));
 std::vector<int> SurfaceScene::Sky::night = std::vector<int>(_night, _night + sizeof(_night) / sizeof(int));
 

@@ -4,7 +4,7 @@
 #include "gamescene.h"
 #include "item.h"
 
-final String AlchemyPot::TXT_SELECT_SEED = BPT::getText("lang.AlchemyPot_Select_Seed");// "Select a seed to throw";
+const String AlchemyPot::TXT_SELECT_SEED = BPT::getText("lang.AlchemyPot_Select_Seed");// "Select a seed to throw";
 
 Hero* AlchemyPot::hero;
 
