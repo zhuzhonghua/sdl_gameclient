@@ -1,7 +1,7 @@
 #pragma once
 
 #include "blob.h"
-#include "hero.h"
+//#include "hero.h"
 
 class ToxicGas :public Blob, public Hero::Doom, public Object{
 public:

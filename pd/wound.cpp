@@ -7,6 +7,7 @@
 #include "char.h"
 #include "charsprite.h"
 #include "dungeon.h"
+#include "hero.h"
 
 const float Wound::TIME_TO_FADE = 0.8f;
 

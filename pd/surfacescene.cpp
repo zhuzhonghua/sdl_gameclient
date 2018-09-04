@@ -6,6 +6,7 @@
 #include "game.h"
 #include "redbutton.h"
 #include "titlescene.h"
+#include "hero.h"
 
 void SurfaceScene::init()
 {
@@ -32,7 +33,7 @@ void SurfaceScene::init()
 	Camera::add(viewport);
 
 	Group* window = new Group();
-	window->camera = viewport;
+	window->cameraf = viewport;
 	add(window);
 
 	boolean dayTime = !Dungeon::nightMode;
@@ -272,7 +273,8 @@ void SurfaceScene::GrassPatch::updateMatrix()
 SurfaceScene::Avatar::Avatar(HeroClass cl)
 :Image(Assets::AVATARS)
 {
-	frame(new TextureFilm(tex, WIDTH, HEIGHT)->get(cl.ordinal()));
+	TextureFilm tf(tex, WIDTH, HEIGHT);
+	frame(tf.get(cl.ordinal()));
 }
 
 SurfaceScene::Pet::Pet()

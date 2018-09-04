@@ -20,6 +20,7 @@
 #include "lightning.h"
 #include "blob.h"
 #include "plant.h"
+#include "hero.h"
 
 const String Armor::TXT_EQUIP_CURSED = BPT::getText("lang.Armor_Equip_Cursed");// "your %s constricts around you painfully";
 const String Armor::TXT_IDENTIFY = BPT::getText("lang.Armor_Identify");// "you are now familiar enough with your %s to identify it. It is %s.";

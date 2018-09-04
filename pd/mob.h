@@ -4,6 +4,8 @@
 #include "wndbag.h"
 #include "bpt.h"
 
+class Hero;
+
 class Mob :public Char{
 public:
 	class AiState 
@@ -30,7 +32,7 @@ public:
 	void aggro(Char* ch);
 	virtual void notice();
 	virtual void beckon(int cell);
-	virtual void damage(int dmg, Object* src);
+	virtual void damage(int dmg, const std::string& src);
 	void yell(const std::string& str);
 	virtual std::string description() { return BPT::getText("lang.Mob_description"); }
 	virtual void destroy();
@@ -149,7 +151,7 @@ public:
 
 	virtual CharSprite* Sprite();
 
-	virtual void damage(int dmg, Object* src) {
+	virtual void damage(int dmg, const std::string& src) {
 		flee();
 	}
 

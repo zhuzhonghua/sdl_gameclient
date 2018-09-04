@@ -118,9 +118,4 @@ public:
 
 	virtual void spend(float time);
 	virtual int attackSkill(Char* target);
-
-	class Doom {
-	public:
-		virtual void onDeath() = 0;
-	};
 };

@@ -80,7 +80,7 @@ public:
 	}
 	virtual Item* degrade() {
 		STR++;
-		return EquipableItem::degrade();
+		return Item::degrade();
 	}
 	virtual int maxDurability(int lvl) {
 		return 6 * (lvl < 16 ? 16 - lvl : 1);
@@ -90,7 +90,7 @@ public:
 	virtual String toString(); 
 
 	virtual String Name() {
-		return glyph == NULL ? EquipableItem::Name() : glyph->name(EquipableItem::Name());
+		return glyph == NULL ? Item::Name() : glyph->name(Item::Name());
 	}
 
 	virtual String info();
@@ -154,7 +154,7 @@ public:
 	virtual int proc(Armor* armor, Char* attacker, Char* defender, int damage);
 	virtual String name(const String& weaponName);
 	virtual ItemSprite::Glowing* glowing() {
-		return BLUE;
+		return AntiEntropy::BLUE;
 	}
 };
 
@@ -184,7 +184,7 @@ public:
 	virtual int proc(Armor* armor, Char* attacker, Char* defender, int damage);
 	virtual String name(const String& weaponName);
 	virtual ItemSprite::Glowing* glowing() {
-		return BLUE;
+		return Potential::BLUE;
 	}
 };
 
@@ -269,7 +269,7 @@ public:
 	virtual int proc(Armor* armor, Char* attacker, Char* defender, int damage);
 	virtual String name(const String& weaponName);
 	virtual ItemSprite::Glowing* glowing() {
-		return BLUE;
+		return Displacement::BLUE;
 	}
 };
 

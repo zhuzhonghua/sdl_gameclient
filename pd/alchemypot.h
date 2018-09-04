@@ -1,5 +1,7 @@
 #pragma once
 #include "typedefine.h"
+#include "wndbag.h"
+#include "item.h"
 
 class Hero;
 class AlchemyPot{

@@ -13,6 +13,7 @@
 #include "simpleresource.h"
 #include "bestiary.h"
 #include "door.h"
+#include "hero.h"
 
 const std::string Char::TXT_HIT = BPT::getText("lang.s_hit_s");// "%s hit %s";
 const std::string Char::TXT_KILL = BPT::getText("lang.killed_you");// "%s killed you...";
@@ -268,7 +269,7 @@ bool Char::attack(Char* enemy)
 	
 		effectiveDamage = attackProc(enemy, effectiveDamage);
 		effectiveDamage = enemy->defenseProc(this, effectiveDamage);
-		enemy->damage(effectiveDamage, this);
+		enemy->damage(effectiveDamage, this->getClassName());
 	
 		if (visibleFight) {
 			//Sample.INSTANCE.play(Assets.SND_HIT, 1, 1, Random.Float(0.8f, 1.25f));
@@ -346,7 +347,7 @@ float Char::speed()
 	return buff("Cripple") == NULL ? baseSpeed : baseSpeed * 0.5f;
 }
 
-void Char::damage(int dmg, Object* src)
+void Char::damage(int dmg, const std::string& src)
 {
 	if (HP <= 0) {
 		return;
@@ -354,10 +355,10 @@ void Char::damage(int dmg, Object* src)
 
 	Buff::detach(this, "Frost");
 	
-	if (immunities().contains(src->getObject())) {
+	if (immunities().contains(src)) {
 		dmg = 0;
 	}
-	else if (resistances().contains(src->getObject())) {
+	else if (resistances().contains(src)) {
 		dmg = Random::IntRange(0, dmg);
 	}
 	
@@ -371,14 +372,14 @@ void Char::damage(int dmg, Object* src)
 	}
 	
 	HP -= dmg;
-	if (dmg > 0 || dynamic_cast<Char*>(src)) {
-		std::stringstream ss;
-		ss << dmg;
-		sprite->showStatus(HP > HT / 2 ?
-			CharSprite::WARNING :
-			CharSprite::NEGATIVE,
-			ss.str());
-	}
+	//if (dmg > 0 || dynamic_cast<Char*>(src)) {
+	//	std::stringstream ss;
+	//	ss << dmg;
+	//	sprite->showStatus(HP > HT / 2 ?
+	//		CharSprite::WARNING :
+	//		CharSprite::NEGATIVE,
+	//		ss.str());
+	//}
 	if (HP <= 0) {
 		die(src);
 	}
@@ -391,7 +392,7 @@ void Char::destroy()
 	Actor::freeCell(pos);
 }
 
-void Char::die(Object* src)
+void Char::die(const std::string& src)
 {
 	destroy();
 	sprite->Die();

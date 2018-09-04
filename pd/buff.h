@@ -3,6 +3,7 @@
 #include "actor.h"
 #include "typedefine.h"
 #include "bpt.h"
+#include "herodoom.h"
 
 class FlavourBuff;
 
@@ -336,7 +337,7 @@ public:
 	CLASSNAME(Barkskin);
 };
 
-class Hunger :public Buff ,public Hero::Doom, public Object{
+class Hunger :public Buff ,public HeroDoom, public Object{
 private:
 	static const float STEP;
 	static const String TXT_HUNGRY;

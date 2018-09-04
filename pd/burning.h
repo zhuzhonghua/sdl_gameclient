@@ -1,10 +1,10 @@
 #pragma once
 
 #include "buff.h"
-#include "hero.h"
+#include "herodoom.h"
 #include "typedefine.h"
 
-class Burning :public Buff, public Hero::Doom{
+class Burning :public Buff, public HeroDoom{
 public:
 	CLASSNAME(Burning);
 

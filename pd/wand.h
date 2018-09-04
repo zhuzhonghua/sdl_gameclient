@@ -5,13 +5,14 @@
 #include "buff.h"
 #include "mob.h"
 #include "wndbag.h"
+#include "callback.h"
 
 class Wand :public KindOfWeapon{
 protected:
 	class Charger :public Buff{
 	public:
 		virtual std::string getClassName() { return "Charger"; }
-
+		virtual std::string toString() { return "Charger"; };
 		virtual bool attachTo(Char* target) {
 			Buff::attachTo(target);
 			delay();
@@ -86,9 +87,8 @@ public:
 
 	virtual void actions(Hero* hero, std::vector<std::string>& actions);
 	virtual bool doUnequip(Hero* hero, bool collect, bool single);
-	virtual void activate(Hero* hero) {
-		charge(hero);
-	}
+	virtual void activate(Hero* hero);
+
 	virtual void execute(Hero* hero, const std::string& action);
 	virtual bool collect(Bag* container);
 
@@ -319,7 +319,7 @@ public:
 	protected:
 		virtual bool act();
 	private:
-		static const std::string QUOTES[];
+		static const std::string QUOTES[4];
 		bool initialized;
 	};
 public:

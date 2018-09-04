@@ -4,7 +4,7 @@
 #include "bundle.h"
 #include "heroclass.h"
 #include "gamesinprogress.h"
-#include "hero.h"
+//#include "hero.h"
 #include "level.h"
 
 class Char;

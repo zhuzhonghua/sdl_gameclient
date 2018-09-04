@@ -310,6 +310,7 @@
     <ClInclude Include="pd\hero.h" />
     <ClInclude Include="pd\heroaction.h" />
     <ClInclude Include="pd\heroclass.h" />
+    <ClInclude Include="pd\herodoom.h" />
     <ClInclude Include="pd\herosprite.h" />
     <ClInclude Include="pd\highlightedtext.h" />
     <ClInclude Include="pd\highlighter.h" />

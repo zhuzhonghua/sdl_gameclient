@@ -3,6 +3,8 @@
 #include "window.h"
 #include "image.h"
 #include "component.h"
+#include "charsprite.h"
+#include "mob.h"
 
 class WndTitledMessage :public Window{
 private:

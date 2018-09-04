@@ -2,6 +2,7 @@
 
 #include "bundlable.h"
 #include "item.h"
+#include "buff.h"
 
 class PlantSprite;
 class Char;

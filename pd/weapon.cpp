@@ -19,6 +19,8 @@
 #include "wndoptions.h"
 #include "missilesprite.h"
 #include "blob.h"
+#include "char.h"
+#include "hero.h"
 
 const String Weapon::TXT_IDENTIFY = BPT::getText("lang.weapon_identity");
 //"You are now familiar enough with your %s to identify it. It is %s.";
@@ -93,6 +95,7 @@ float Weapon::acuracyFactor(Hero* hero)
 			 encumbrance -= 2;
 			 break;
 		 default:
+			 break;
 		 }
 	}
 	
@@ -636,6 +639,7 @@ String MeleeWeapon::info()
 		info << BPT::getText("lang.balanced_accurate");
 		break;
 	case NONE:
+		break;
 	}
 	
 	if (enchantment != NULL) {

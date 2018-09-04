@@ -64,7 +64,7 @@ public:
 	Yog();
 	void spawnFists();
 
-	virtual void damage(int dmg, Object* src);
+	virtual void damage(int dmg, const std::string& src);
 	virtual int defenseProc(Char* enemy, int damage);
 	virtual void beckon(int cell) { }
 	virtual void die(Object* cause);

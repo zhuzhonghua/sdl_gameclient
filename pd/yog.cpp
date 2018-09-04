@@ -10,6 +10,7 @@
 #include "heap.h"
 #include "simpleresource.h"
 #include "blob.h"
+#include "hero.h"
 
 REFLECMOB(Yog);
 
@@ -49,7 +50,7 @@ void Yog::spawnFists()
 	GameScene::addMob(fist2);
 }
 
-void Yog::damage(int dmg, Object* src)
+void Yog::damage(int dmg, const std::string& src)
 {
 	if (fistsCount > 0) 
 	{
@@ -226,7 +227,7 @@ bool Yog::BurningFist::attack(Char* enemy)
 		if (hit(this, enemy, true)) 
 		{
 			int dmg = damageRoll();
-			enemy->damage(dmg, this);
+			enemy->damage(dmg, this->getClassName());
 
 			enemy->sprite->bloodBurstA(sprite->center(), dmg);
 			enemy->sprite->flash();

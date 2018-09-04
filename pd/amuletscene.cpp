@@ -8,6 +8,7 @@
 #include "flare.h"
 #include "interlevelscene.h"
 #include "speck.h"
+#include "hero.h"
 
 const String AmuletScene::TXT_EXIT = BPT::getText("lang.AmuletScene_Exit");// "Let's call it a day";
 
@@ -94,7 +95,10 @@ void AmuletScene::init()
 		btnStay->setPos(btnExit->left(), btnExit->bottom() + SMALL_GAP);
 	}
 
-	new Flare(8, 48)->color(0xFFDDBB, true)->show(amulet, 0)->angularSpeed = +30;
+	Flare* flare = new Flare(8, 48);
+	flare->color(0xFFDDBB, true);
+	flare->show(amulet, 0);
+	flare->angularSpeed = +30;
 
 	fadeIn();
 }

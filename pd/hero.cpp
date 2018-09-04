@@ -113,6 +113,7 @@ Hero::Hero()
 
 	theKey = NULL;
 	enemy = NULL;
+	killerGlyph = NULL;
 }
 
 void Hero::resurrect(int resetLevel)

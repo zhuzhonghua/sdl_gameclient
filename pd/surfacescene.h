@@ -1,6 +1,8 @@
 #pragma once
 
 #include "pixelscene.h"
+#include "heroclass.h"
+#include "movieclip.h"
 
 class SurfaceScene :public PixelScene{
 private:

@@ -13,7 +13,7 @@
 #include "belongings.h"
 #include "gamescene.h"
 #include "scroll.h"
-
+#include "hero.h"
 
 const std::string Wand::AC_ZAP = "ZAP";
 
@@ -85,6 +85,10 @@ bool Wand::doUnequip(Hero* hero, bool collect, bool single)
 	return KindOfWeapon::doUnequip(hero, collect, single);
 }
 
+void Wand::activate(Hero* hero) {
+	charge(hero);
+}
+
 void Wand::execute(Hero* hero, const std::string& action)
 {
 	if (action.compare(AC_ZAP) == 0) 
@@ -110,7 +114,7 @@ bool Wand::collect(Bag* container)
 	//	return true;
 	//}
 	//else {
-	//	return false;
+		return false;
 	//}
 }
 
@@ -939,7 +943,7 @@ void WandOfFlock::Sheep::interact()
 {
 	yell(RandomT<std::string>::element(
 		std::list<std::string>(
-			QUOTES, QUOTES+sizeof(QUOTES)/sizeof(std::string))));
+			QUOTES, QUOTES+4)));
 }
 
 bool WandOfFlock::Sheep::act()
@@ -959,7 +963,7 @@ bool WandOfFlock::Sheep::act()
 	return true;
 }
 
-const std::string WandOfFlock::Sheep::QUOTES[] = { "Baa!", "Baa?", "Baa.", "Baa..." };
+const std::string WandOfFlock::Sheep::QUOTES[4] = { "Baa!", "Baa?", "Baa.", "Baa..." };
 
 WandOfDisintegration::WandOfDisintegration()
 {

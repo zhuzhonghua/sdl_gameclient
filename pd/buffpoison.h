@@ -1,9 +1,9 @@
 #pragma once
 
 #include "buff.h"
-#include "hero.h"
+#include "herodoom.h"
 
-class BuffPoison :public Buff, public Hero::Doom{
+class BuffPoison :public Buff, public HeroDoom{
 public:
 	CLASSNAME(BuffPoison);
 

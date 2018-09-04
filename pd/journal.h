@@ -51,6 +51,7 @@ public:
 
 		virtual void restoreFromBundle(Bundle* bundle);
 		virtual void storeInBundle(Bundle* bundle);
+		virtual std::string getClassName() { return "Journal::Record";  };
 	};
 
 	static ArrayList<Record> records;

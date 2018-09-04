@@ -1,7 +1,7 @@
 #pragma once
 
 #include "bundlable.h"
-#include "hero.h"
+//#include "hero.h"
 #include "itemsprite.h"
 #include "cellselector.h"
 #include <string>
@@ -9,6 +9,8 @@
 #include "typedefine.h"
 
 class Bag;
+class Hero;
+class Char;
 
 class Item :public Bundlable, public Object{
 private:

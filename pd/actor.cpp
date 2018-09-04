@@ -8,6 +8,7 @@
 #include "charsprite.h"
 #include "mob.h"
 #include "blob.h"
+#include "hero.h"
 
 const std::string Actor::TIME = "time";
 const std::string Actor::ID = "id";
