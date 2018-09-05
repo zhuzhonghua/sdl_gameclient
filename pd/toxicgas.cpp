@@ -5,6 +5,7 @@
 #include "speck.h"
 #include "glog.h"
 #include "simpleresource.h"
+#include "char.h"
 
 void ToxicGas::evolve()
 {
@@ -22,7 +23,7 @@ void ToxicGas::evolve()
 				damage++;
 			}
 
-			ch->damage(damage, this);
+			ch->damage(damage, this->getClassName());
 		}
 	}
 

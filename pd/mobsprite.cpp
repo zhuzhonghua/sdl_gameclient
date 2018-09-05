@@ -9,6 +9,7 @@
 #include "lightning.h"
 #include "shaman.h"
 #include "herosprite.h"
+#include "hero.h"
 
 const float MobSprite::FADE_TIME = 3.0f;
 const float MobSprite::FALL_TIME = 1.0f;

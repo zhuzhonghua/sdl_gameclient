@@ -9,6 +9,7 @@
 #include "wndstory.h"
 #include "gamelog.h"
 #include "statistics.h"
+#include "hero.h"
 
 const float InterlevelScene::TIME_TO_FADE = 0.3f;
 

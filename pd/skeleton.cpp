@@ -5,7 +5,9 @@
 #include "dungeon.h"
 #include "glog.h"
 #include <algorithm>
-
+#include "char.h"
+#include "hero.h"
+#include "char.h"
 
 const std::string Skeleton::TXT_HERO_KILLED = "You were killed by the explosion of bones...";
 

@@ -2,6 +2,7 @@
 
 #include "component.h"
 #include "toucharea.h"
+#include "typedefine.h"
 
 class ColorBlock;
 

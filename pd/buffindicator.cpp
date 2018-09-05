@@ -6,6 +6,8 @@
 #include "buff.h"
 #include "util.h"
 #include "alphatweener.h"
+#include "char.h"
+#include "hero.h"
 
 BuffIndicator* BuffIndicator::heroInstance;
 

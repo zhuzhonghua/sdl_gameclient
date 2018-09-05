@@ -11,6 +11,7 @@
 #include "dungeontilemap.h"
 #include "healthindicator.h"
 #include "toolbar.h"
+#include "hero.h"
 
 const String QuickSlot::TXT_SELECT_ITEM = "Select an item for the quickslot";
 
@@ -67,7 +68,7 @@ namespace{
 			}
 			else {
 				qs->useTargeting();
-				qs->select()->execute(Dungeon::hero);
+				qs->select()->execute(Dungeon::hero, "");
 			}
 		}
 		virtual boolean onLongClick() {

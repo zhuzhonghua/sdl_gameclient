@@ -1,6 +1,8 @@
 #include "monk.h"
 #include "mobsprite.h"
 #include "dungeon.h"
+#include "char.h"
+#include "hero.h"
 
 const std::string Monk::TXT_DISARM = "%s has knocked the %s from your hands!";
 

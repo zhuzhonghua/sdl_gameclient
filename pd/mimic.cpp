@@ -7,6 +7,7 @@
 #include "gamescene.h"
 #include "cellemitter.h"
 #include "speck.h"
+#include "hero.h"
 
 const String Mimic::LEVEL = "level";
 const String Mimic::ITEMS = "items";

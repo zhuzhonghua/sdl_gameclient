@@ -73,6 +73,12 @@ bool Bundle::isNull()
 	return isnull;
 }
 
+bool Bundle::contains(const std::string& key)
+{
+	//return !data.isNull(key);
+	return false;
+}
+
 bool Bundle::getBoolean(const std::string& key)
 {
 	return data.get<bool>(key);
@@ -107,7 +113,7 @@ Bundlable* Bundle::getBundlable(const std::string& className)
 {
 	if (allBundlables.size() <= 0)
 	{
-		init();
+		//init();
 	}
 	return allBundlables[className]();
 }

@@ -95,7 +95,7 @@ int Yog::defenseProc(Char* enemy, int damage)
 	return Mob::defenseProc(enemy, damage);
 }
 
-void Yog::die(Object* cause)
+void Yog::die(const std::string& cause)
 {
 	for (std::set<Mob*>::iterator itr = Dungeon::level->mobs.begin();
 		itr != Dungeon::level->mobs.end(); itr++)
@@ -150,7 +150,7 @@ Yog::RottingFist::RottingFist()
 	fistsCount++;
 }
 
-void Yog::RottingFist::die(Object* cause)
+void Yog::RottingFist::die(const std::string& cause)
 {
 	Mob::die(cause);
 	fistsCount--;
@@ -207,7 +207,7 @@ Yog::BurningFist::BurningFist()
 	fistsCount++;
 }
 
-void Yog::BurningFist::die(Object* cause)
+void Yog::BurningFist::die(const std::string& cause)
 {
 	Mob::die(cause);
 	fistsCount--;

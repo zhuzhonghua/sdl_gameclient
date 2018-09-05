@@ -89,7 +89,7 @@ void ScrollPane::TouchController::onDrag(TouchScreen::Touch* t)
 		Camera* c = sp->content->cameraf;
 
 		PointF tmp = GameMath::PointFDiff(lastPos, t->current);
-		GameMath::PointFInvScale(&tmp, c->zoom);
+		GameMath::PointFInvScale(&tmp, c->zoomf);
 		GameMath::PointFOffSet(&c->scroll, &tmp);
 
 		//c->scroll.offset(PointF.diff(lastPos, t.current).invScale(c->zoom));

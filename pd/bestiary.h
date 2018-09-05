@@ -1,6 +1,9 @@
 #pragma once
 
+#include "typedefine.h"
+
 class Mob;
+class Char;
 
 class Bestiary{
 public:

@@ -6,6 +6,8 @@
 #include "glog.h"
 #include "belongings.h"
 #include "cellemitter.h"
+#include "char.h"
+#include "hero.h"
 
 const std::string LightningTrap::name = "lightning trap";
 

@@ -13,6 +13,8 @@
 #include "blob.h"
 #include "cellemitter.h"
 #include "alphatweener.h"
+#include "char.h"
+#include "hero.h"
 
 const String Potion::AC_DRINK = "DRINK";
 

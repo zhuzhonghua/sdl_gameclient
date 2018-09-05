@@ -2,6 +2,7 @@
 #include "icon.h"
 #include "pixelscene.h"
 #include "dungeon.h"
+#include "hero.h"
 
 ResumeButton::ResumeButton()
 :Tag(0xCDD5C0)

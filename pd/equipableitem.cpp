@@ -1,5 +1,6 @@
 #include "equipableitem.h"
 #include "glog.h"
+#include "hero.h"
 
 const std::string EquipableItem::TXT_UNEQUIP_CURSED = "You can't remove cursed %s!";
 const std::string EquipableItem::AC_EQUIP = "EQUIP";

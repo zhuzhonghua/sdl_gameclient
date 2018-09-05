@@ -16,6 +16,7 @@
 #include "blob.h"
 #include "simpleresource.h"
 #include "bpt.h"
+#include "hero.h"
 
 const std::string Burning::TXT_BURNS_UP = BPT::getText("lang.burning_burns_up");
 const std::string Burning::TXT_BURNED_TO_DEATH = BPT::getText("lang.burning_burned_to_death");

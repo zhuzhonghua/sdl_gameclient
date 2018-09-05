@@ -13,21 +13,24 @@
 #include "food.h"
 #include "plant.h"
 #include "items.h"
+#include "hero.h"
 
 std::map<Generator::Category::Type, Generator::Category*> Generator::Category::cats;
 
 bool Generator::Category::initFlag = false;
 
-static Generator::Category WEAPON(Generator::Category::WEAPON);
-static Generator::Category ARMOR(Generator::Category::ARMOR);
-static Generator::Category POTION(Generator::Category::POTION);
-static Generator::Category SCROLL(Generator::Category::SCROLL);
-static Generator::Category WAND(Generator::Category::WAND);
-static Generator::Category RING(Generator::Category::RING);
-static Generator::Category SEED(Generator::Category::SEED);
-static Generator::Category FOOD(Generator::Category::FOOD);
-static Generator::Category GOLD(Generator::Category::GOLD);
-static Generator::Category MISC(Generator::Category::MISC);
+std::map<Generator::Category::Type, float> Generator::categoryProbs;
+
+Generator::Category Generator::WEAPON(Generator::Category::WEAPON);
+Generator::Category Generator::ARMOR(Generator::Category::ARMOR);
+Generator::Category Generator::POTION(Generator::Category::POTION);
+Generator::Category Generator::SCROLL(Generator::Category::SCROLL);
+Generator::Category Generator::WAND(Generator::Category::WAND);
+Generator::Category Generator::RING(Generator::Category::RING);
+Generator::Category Generator::SEED(Generator::Category::SEED);
+Generator::Category Generator::FOOD(Generator::Category::FOOD);
+Generator::Category Generator::GOLD(Generator::Category::GOLD);
+Generator::Category Generator::MISC(Generator::Category::MISC);
 
 Item* Generator::random()
 {

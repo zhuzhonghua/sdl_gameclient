@@ -4,6 +4,7 @@
 #include "postweener.h"
 #include "group.h"
 #include "item.h"
+#include "callback.h"
 
 const float MissileSprite::SPEED = 240.0f;
 

@@ -10,6 +10,7 @@
 #include "cellemitter.h"
 #include "gamescene.h"
 #include "flare.h"
+#include "hero.h"
 
 FACTORYIMPL(Mob);
 
@@ -107,7 +108,9 @@ void Mob::add(Buff* buff)
 	else if (dynamic_cast<Sleep*>(buff)) {
 		if (sprite != NULL) {
 			// TODO: MemoryLeak
-			new Flare(4, 32)->color(0x44ffff, true)->show(sprite, 2.0f);
+			Flare* f = new Flare(4, 32);
+			f->color(0x44ffff, true);
+			f->show(sprite, 2.0f);
 		}
 		state = SLEEPEING;
 		postpone(Sleep::SWS);
@@ -212,7 +215,7 @@ int Mob::exp()
 	return Dungeon::hero->lvl <= maxLvl ? EXP : 0;
 }
 
-void Mob::die(Object* cause)
+void Mob::die(const std::string& cause)
 {
 	Char::die(cause);
 
@@ -369,7 +372,7 @@ bool Mob::doAttack(Char* enemy)
 	return !visible;
 }
 
-void Mob::damage(int dmg, Object* src)
+void Mob::damage(int dmg, const std::string& src)
 {
 	Terror::recover(this);
 
@@ -562,6 +565,8 @@ void NPC::throwItem()
 		Dungeon::level->drop(heap->pickUp(), n)->sprite->drop(pos);
 	}
 }
+
+WndBag::Listener* Shopkeeper::itemSelector;
 
 Shopkeeper::Shopkeeper()
 {

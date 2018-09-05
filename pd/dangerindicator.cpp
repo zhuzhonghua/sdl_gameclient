@@ -5,6 +5,7 @@
 #include "healthindicator.h"
 #include "mob.h"
 #include "charsprite.h"
+#include "hero.h"
 
 void DangerIndicator::placeNumber()
 {

@@ -370,7 +370,7 @@ const float Earthroot::Armor::STEP = 1.0f;
 const String Earthroot::Armor::POS = "pos";
 const String Earthroot::Armor::LEVEL = "level";
 
-REFLECTBUFF2(Armor, Earthroot::Armor);
+//REFLECTBUFF2(Armor, Earthroot::Armor);
 bool Earthroot::Armor::attachTo(Char* target)
 {
 	pos = target->pos;

@@ -2,6 +2,7 @@
 
 #include "item.h"
 #include "typedefine.h"
+#include "bpt.h"
 
 class Char;
 

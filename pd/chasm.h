@@ -1,4 +1,8 @@
 #pragma once
+#include <string>
+
+class Hero;
+class Mob;
 
 class Chasm{
 private:

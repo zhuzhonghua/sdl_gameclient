@@ -1,6 +1,7 @@
 #pragma once
 
 #include "gizmo.h"
+#include "visual.h"
 
 class Tweener :public Gizmo{
 public:

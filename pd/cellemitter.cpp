@@ -21,3 +21,13 @@ Emitter* CellEmitter::center(int cell)
 
 	return emitter;
 }
+
+Emitter* CellEmitter::bottom(int cell) 
+{
+	PointF p = DungeonTilemap::tileToWorld(cell);
+
+	Emitter* emitter = GameScene::emitter();
+	emitter->pos(p.x, p.y + DungeonTilemap::SIZE, DungeonTilemap::SIZE, 0);
+
+	return emitter;
+}

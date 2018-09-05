@@ -17,6 +17,7 @@ public:
 	static float duration(Char* ch);
 
 	virtual void onDeath();
+	virtual std::string toString() { return ""; };
 private:
 	static const std::string TXT_BURNS_UP;
 	static const std::string TXT_BURNED_TO_DEATH;

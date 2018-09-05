@@ -3,6 +3,7 @@
 #include "actor.h"
 #include "visual.h"
 #include "typedefine.h"
+#include "charsprite.h"
 
 class Pushing :public Actor{
 public:

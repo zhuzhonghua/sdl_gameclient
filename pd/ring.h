@@ -279,7 +279,7 @@ public:
 	public:
 		Haggling(Ring* r) :RingBuff(r){}
 		virtual std::string getClassName(){ return className(); }
-		static std::string className() { return "Haggling"; }
+		static std::string className() { return "RingOfHagglerHaggling"; }
 		virtual std::string toString() { return ""; }
 	};
 

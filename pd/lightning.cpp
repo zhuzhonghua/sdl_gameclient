@@ -5,6 +5,7 @@
 #include "dungeontilemap.h"
 #include "util.h"
 #include "game.h"
+#include "callback.h"
 
 const float Lightning::DURATION = 0.3f;
 

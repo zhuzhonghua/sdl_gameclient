@@ -5,6 +5,7 @@
 #include "armor.h"
 #include "weapon.h"
 #include "dungeon.h"
+#include "hero.h"
 
 namespace{
 	class ItemChest :public Item{

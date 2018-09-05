@@ -4,6 +4,8 @@
 #include "dungeon.h"
 #include "glog.h"
 #include "camera.h"
+#include "char.h"
+#include "hero.h"
 
 bool Shaman::canAttack(Char* enemy)
 {

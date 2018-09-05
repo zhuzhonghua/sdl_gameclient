@@ -51,7 +51,7 @@ boolean Dewdrop::doPickUp(Hero* hero)
 
 const String DewVial::AC_DRINK = "DRINK";
 
-const float TIME_TO_DRINK = 1.0f;
+const float DewVial::TIME_TO_DRINK = 1.0f;
 
 const String DewVial::TXT_VALUE = "%+dHP";
 const String DewVial::TXT_STATUS = "%d/%d";

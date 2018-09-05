@@ -102,12 +102,19 @@ protected:\
 }; \
 namespace{ Factory##type##name reg##name; }
 
-#define REFLECTBUFF(name) REFLECT(name, name, Buff)
-#define REFLECTBUFF2(name, clsName) REFLECT(name, clsName, Buff)
-#define REFLECTBLOB(name) REFLECT(name, name, Blob)
-#define REFLECTITEM(name) REFLECT(name, name, Item)
-#define REFLECMOB(name) REFLECT(name, name, Mob)
-#define REFLECTGLYPH(name) REFLECT(name, name, Glyph)
+//#define REFLECTBUFF(name) REFLECT(name, name, Buff)
+//#define REFLECTBUFF2(name, clsName) REFLECT(name, clsName, Buff)
+//#define REFLECTBLOB(name) REFLECT(name, name, Blob)
+//#define REFLECTITEM(name) REFLECT(name, name, Item)
+//#define REFLECMOB(name) REFLECT(name, name, Mob)
+//#define REFLECTGLYPH(name) REFLECT(name, name, Glyph)
+
+#define REFLECTBUFF(name) 
+#define REFLECTBUFF2(name, clsName) 
+#define REFLECTBLOB(name) 
+#define REFLECTITEM(name) 
+#define REFLECMOB(name) 
+#define REFLECTGLYPH(name) 
 
 #define RECYCLE(var, parent, cls) \
 	var = (cls*)(parent)->recycle(#cls);\

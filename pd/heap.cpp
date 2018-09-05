@@ -21,6 +21,7 @@
 #include "burning.h"
 #include "flameparticle.h"
 #include "generator.h"
+#include "hero.h"
 
 const String Heap::TXT_MIMIC = "This is a mimic!";
 const float Heap::FADE_TIME = 0.6f;
@@ -87,7 +88,7 @@ void Heap::open(Hero* hero)
 			if (item->cursed) {
 				if (Wraith::spawnAt(pos) == NULL) {
 					hero->sprite->emitter()->burst(ShadowParticle::CURSE, 6);
-					hero->damage(hero->HP / 2, this);
+					hero->damage(hero->HP / 2, this->getClassName());
 				}
 				//Sample.INSTANCE.play(Assets.SND_CURSED);
 				break;
@@ -99,6 +100,7 @@ void Heap::open(Hero* hero)
 		sprite->parent->add(new AlphaTweener(sprite, 1, FADE_TIME));
 		break;
 	default:
+		break;
 	}
 
 	if (type != Type::MIMIC) {

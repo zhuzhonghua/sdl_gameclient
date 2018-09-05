@@ -9,6 +9,7 @@
 #include "speck.h"
 #include "bag.h"
 #include "quickslot.h"
+#include "hero.h"
 
 const char* Item::TXT_PACK_FULL = "lang.item_packfull";
 

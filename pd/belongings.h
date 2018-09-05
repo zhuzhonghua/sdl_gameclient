@@ -9,6 +9,7 @@ class KindOfWeapon;
 class Armor;
 class Ring;
 class Key;
+class Item;
 
 class Belongings{
 public:

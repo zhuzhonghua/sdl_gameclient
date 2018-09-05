@@ -39,7 +39,7 @@ public:
 
 	int exp();
 
-	virtual void die(Object* cause);
+	virtual void die(const std::string& str);
 
 	bool hostile;
 

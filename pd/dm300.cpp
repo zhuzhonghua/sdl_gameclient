@@ -7,6 +7,7 @@
 #include "cellemitter.h"
 #include "speck.h"
 #include "gamescene.h"
+#include "hero.h"
 
 CharSprite* DM300::Sprite()
 {

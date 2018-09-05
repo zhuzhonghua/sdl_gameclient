@@ -3,6 +3,8 @@
 #include "level.h"
 #include "dungeon.h"
 #include "glog.h"
+#include "char.h"
+#include "hero.h"
 
 CharSprite* Warlock::Sprite()
 {

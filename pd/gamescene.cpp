@@ -34,6 +34,7 @@
 #include "quickslot.h"
 #include "bannersprites.h"
 #include "banner.h"
+#include "hero.h"
 
 const std::string GameScene::TXT_WELCOME = BPT::getText("lang.welcom_to_level"); //"Welcome to the level %d of Pixel Dungeon!";
 const std::string GameScene::TXT_WELCOME_BACK = BPT::getText("lang.welcom_back_to_level"); //"Welcome back to the level %d of Pixel Dungeon!";
@@ -305,11 +306,14 @@ void GameScene::init()
 	busy->y = sb->bottom() + 1;
 	add(busy);
 
+	Flare* f = NULL;
 	switch (InterlevelScene::mode) 
 	{
 	case InterlevelScene::RESURRECT:
 		WandOfBlink::appear(Dungeon::hero, Dungeon::level->entrance);
-		new Flare(8, 32)->color(0xFFFF66, true)->show(hero, 2.0f);
+		f = new Flare(8, 32);
+		f->color(0xFFFF66, true);
+		f->show(hero, 2.0f);
 		break;
 	case InterlevelScene::RETURN:
 		WandOfBlink::appear(Dungeon::hero, Dungeon::hero->pos);
@@ -612,7 +616,7 @@ WndBag* GameScene::selectItem(WndBag::Listener* listener, WndBag::Mode mode, con
 
 void GameScene::showBanner(Banner* banner)
 {
-	banner->camera = uiCamera;
+	banner->cameraf = uiCamera;
 	banner->x = align(uiCamera, (uiCamera->width - banner->width) / 2);
 	banner->y = align(uiCamera, (uiCamera->height - banner->height) / 3);
 	add(banner);

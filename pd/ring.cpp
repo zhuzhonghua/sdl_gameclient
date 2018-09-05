@@ -3,6 +3,7 @@
 #include "util.h"
 #include "glog.h"
 #include "dungeon.h"
+#include "hero.h"
 
 const float Ring::TIME_TO_EQUIP = 1.0f;
 
@@ -468,7 +469,7 @@ bool RingOfHaggler::doPickUp(Hero* hero)
 	return Ring::doPickUp(hero);
 }
 
-REFLECTBUFF(RingOfHaggler::Haggling);
+//REFLECTBUFF2(RingOfHagglerHaggling, RingOfHaggler::Haggling);
 
 RingOfElements::RingOfElements()
 {

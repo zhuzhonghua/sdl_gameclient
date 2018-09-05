@@ -12,6 +12,7 @@
 #include "simpleresource.h"
 #include "mob.h"
 #include "mobsprite.h"
+#include "herodoom.h"
 
 const std::string Chasm::TXT_CHASM = "Chasm";
 const std::string Chasm::TXT_YES = "Yes, I know what I'm doing";
@@ -70,7 +71,7 @@ void Chasm::heroFall(int pos)
 }
 
 namespace{
-	class HeroDoomNew :public Hero::Doom, public Object{
+	class HeroDoomNew :public HeroDoom, public Object{
 	public:
 		virtual void onDeath()
 		{
@@ -92,7 +93,7 @@ void Chasm::heroLand()
 	Buff::prolong(hero, "Cripple", Cripple::DURATION);
 
 	HeroDoomNew src;
-	hero->damage(Random::IntRange(hero->HT / 3, hero->HT / 2), &src);
+	hero->damage(Random::IntRange(hero->HT / 3, hero->HT / 2), "");
 }
 
 void Chasm::mobFall(Mob* mob)

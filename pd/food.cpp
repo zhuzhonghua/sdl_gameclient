@@ -124,7 +124,7 @@ Food* ChargrilledMeat::cook(MysteryMeat* ingredient)
 FrozenCarpaccio::FrozenCarpaccio()
 {
 	name = "frozen carpaccio";
-	image = ItemSpriteSheet.CARPACCIO;
+	image = ItemSpriteSheet::CARPACCIO;
 	//energy = Hunger.STARVING - Hunger.HUNGRY;
 }
 

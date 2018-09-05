@@ -5,6 +5,7 @@
 #include "simpleresource.h"
 #include "dungeon.h"
 #include "util.h"
+#include "char.h"
 
 const std::string BuffPoison::LEFT = "left";
 

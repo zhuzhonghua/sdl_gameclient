@@ -4,6 +4,7 @@
 #include "dungeon.h"
 #include "texturecache.h"
 #include "util.h"
+#include "hero.h"
 
 TextureFilm* HeroSprite::tiers;
 

@@ -13,6 +13,7 @@
 #include "dungeon.h"
 #include "simpleresource.h"
 #include "glog.h"
+#include "hero.h"
 
 std::map<std::string, FactoryBuff*> FactoryBuff::facs;
 
@@ -317,7 +318,7 @@ boolean Bleeding::act()
 
 		if ((level = Random::Int(level / 2, level)) > 0) {
 
-			target->damage(level, this);
+			target->damage(level, this->getClassName());
 			if (target->sprite->visible) {
 				Splash::at(target->sprite->center(), -GameMath::POINTF_PI / 2, GameMath::POINTF_PI / 6,
 					target->sprite->blood(), std::min(10 * level / target->HT, 10));
@@ -372,7 +373,7 @@ int Ooze::icon()
 boolean Ooze::act()
 {
 	if (target->isAlive()) {
-		target->damage(damage, this);
+		target->damage(damage, this->getClassName());
 		if (!target->isAlive() && target == Dungeon::hero) {
 			Dungeon::fail(GameMath::format(ResultDescriptions::OOZE.c_str(), Dungeon::depth));
 			GLog::n(TXT_HERO_KILLED.c_str(), toString());
@@ -641,7 +642,7 @@ boolean Hunger::act()
 			if (Random::Float() < 0.3f && (target->HP > 1 || !target->paralysed)) {
 
 				GLog::n(TXT_STARVING.c_str());
-				hero->damage(1, this);
+				hero->damage(1, this->getClassName());
 
 				hero->interrupt();
 			}

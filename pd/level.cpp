@@ -6,6 +6,7 @@
 #include "painter.h"
 #include "glog.h"
 #include "gamescene.h"
+#include "hero.h"
 
 std::vector<bool> Level::fieldOfView(LENGTH);
 

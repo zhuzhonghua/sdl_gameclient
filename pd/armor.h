@@ -14,7 +14,7 @@ public:
 		static std::string _glyphs[];
 		static std::vector<std::string> glyphs;
 	public:
-		Glyph();
+		Glyph(){}
 		virtual std::string getClassName() { return "Glyph"; }
 
 		virtual int proc(Armor* armor, Char* attacker, Char* defender, int damage) = 0;

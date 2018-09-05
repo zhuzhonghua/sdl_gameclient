@@ -1,6 +1,7 @@
 #pragma once
 
 #include "item.h"
+#include "bpt.h"
 
 class Key :public Item{
 public:

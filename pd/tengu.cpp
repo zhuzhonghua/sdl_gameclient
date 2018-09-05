@@ -6,6 +6,7 @@
 #include "terrain.h"
 #include "speck.h"
 #include "cellemitter.h"
+#include "hero.h"
 
 CharSprite* Tengu::Sprite()
 {

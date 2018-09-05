@@ -34,7 +34,7 @@ void Key::restoreFromBundle(Bundle* bundle)
 
 String Key::status()
 {
-	return GameMath::format("%d\u007F", depth);
+	return GameMath::format("%d", depth);
 }
 
 const String Key::DEPTH = "depth";

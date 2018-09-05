@@ -20,6 +20,7 @@
 #include "redbutton.h"
 #include "journal.h"
 #include "scrollpane.h"
+#include "hero.h"
 
 namespace{
 	class NewTouchArea :public TouchArea{
@@ -434,7 +435,8 @@ void WndTradeItem::sell(Item* item)
 	
 	int price = item->price();
 	
-	new Gold(price)->doPickUp(hero);
+	Gold* g = new Gold(price);
+	g->doPickUp(hero);
 	GLog::i(TXT_SOLD.c_str(), item->Name().c_str(), price);
 }
 
@@ -451,7 +453,8 @@ void WndTradeItem::sellOne(Item* item)
 		int price = item->price();
 	
 		// TODO: Check Memory Leak
-		new Gold(price)->doPickUp(hero);
+		Gold* g = new Gold(price);
+		g->doPickUp(hero);
 		GLog::i(TXT_SOLD.c_str(), item->Name().c_str(), price);
 	}
 }

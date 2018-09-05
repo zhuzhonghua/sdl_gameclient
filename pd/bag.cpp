@@ -80,7 +80,7 @@ bool Bag::HasNext()
 }
 
 
-REFLECTITEM(Bag);
+//REFLECTITEM(Bag);
 
 SeedPouch::SeedPouch()
 {

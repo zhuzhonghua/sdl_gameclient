@@ -6,6 +6,7 @@
 #include "level.h"
 #include "pathfinder.h"
 #include "gamescene.h"
+#include "hero.h"
 
 int King::Undead::count = 0;
 

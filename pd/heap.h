@@ -1,11 +1,12 @@
 #pragma once
-
+#include <vector>
 #include "bundlable.h"
 #include "itemsprite.h"
 #include "typedefine.h"
 
 class Item;
 class ItemSprite;
+class Hero;
 
 class Heap :public Bundlable, public Object{
 private:

@@ -5,6 +5,9 @@
 #include "kindofweapon.h"
 #include "ring.h"
 #include "dungeon.h"
+#include "armor.h"
+#include "hero.h"
+#include "char.h"
 
 const std::string Belongings::WEAPON = "weapon";
 const std::string Belongings::ARMOR = "armor";

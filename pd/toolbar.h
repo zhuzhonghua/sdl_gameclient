@@ -3,6 +3,9 @@
 #include "component.h"
 #include "button.h"
 #include "itemsprite.h"
+#include "typedefine.h"
+#include "quickslot.h"
+#include "cellselector.h"
 
 class Image;
 
@@ -49,9 +52,11 @@ public:
 
 		virtual void update();
 	};
-	static CellSelector::Listener* informer;
+	
 
 	virtual void update();
+public:
+	static CellSelector::Listener* informer;
 private:
 	static Toolbar* instance;
 

@@ -1,9 +1,9 @@
 #pragma once
 
 #include "blob.h"
-//#include "hero.h"
+#include "herodoom.h"
 
-class ToxicGas :public Blob, public Hero::Doom, public Object{
+class ToxicGas :public Blob, public HeroDoom, public Object{
 public:
 	virtual std::string getClassName() { return "ToxicGas"; }
 	CLASSOBJECT(ToxicGas);

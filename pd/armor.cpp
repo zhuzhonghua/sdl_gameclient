@@ -428,7 +428,7 @@ int Multiplicity::proc(Armor* armor, Char* attacker, Char* defender, int damage)
 			GameScene::addMob(mob);
 			WandOfBlink::appear(mob, RandomT<int>::element(respawnPoints));
 
-			defender->damage(Random::IntRange(1, defender->HT / 6), this);
+			defender->damage(Random::IntRange(1, defender->HT / 6), this->getClassName());
 			checkOwner(defender);
 		}
 
@@ -453,9 +453,9 @@ int Potential::proc(Armor* armor, Char* attacker, Char* defender, int damage)
 	if (Level::adjacent(attacker->pos, defender->pos) && Random::Int(level + 7) >= 6) {
 	
 		int dmg = Random::IntRange(1, damage);
-		attacker->damage(dmg, LightningTrap::LIGHTNING);
+		attacker->damage(dmg, LightningTrap::LIGHTNING->getObject());
 		dmg = Random::IntRange(1, dmg);
-		defender->damage(dmg, LightningTrap::LIGHTNING);
+		defender->damage(dmg, LightningTrap::LIGHTNING->getObject());
 	
 		checkOwner(defender);
 		if (defender == Dungeon::hero) {
@@ -607,7 +607,7 @@ boolean Viscosity::DeferedDamage::act()
 {
 	if (target->isAlive()) {
 
-		target->damage(1, this);
+		target->damage(1, this->getClassName());
 		if (target == Dungeon::hero && !target->isAlive()) {
 			// FIXME
 			//Dungeon.fail(Utils.format(ResultDescriptions.GLYPH, "enchantment of viscosity", Dungeon.depth));
@@ -634,7 +634,7 @@ String Viscosity::DeferedDamage::toString()
 {
 	return GameMath::format(BPT::getText("lang.DeferedDamage_toString").c_str(), damage);
 }
-REFLECTBUFF2(DeferedDamage, Viscosity::DeferedDamage);
+//REFLECTBUFF2(DeferedDamage, Viscosity::DeferedDamage);
 
 const String Displacement::TXT_DISPLACEMENT = BPT::getText("lang.Displacement_Txt_Displacement");// "%s of displacement";
 ItemSprite::Glowing* Displacement::BLUE = new ItemSprite::Glowing(0x66AAFF);

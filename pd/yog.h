@@ -12,7 +12,7 @@ public:
 
 		RottingFist();
 
-		virtual void die(Object* cause);
+		virtual void die(const std::string& cause);
 		virtual int attackSkill(Char* target) { return 36; }
 		virtual int damageRoll();
 		virtual int dr() { return 15; }
@@ -32,7 +32,7 @@ public:
 
 		BurningFist();
 
-		virtual void die(Object* cause);
+		virtual void die(const std::string& cause);
 		virtual int attackSkill(Char* target) { return 36; }
 		virtual int damageRoll();
 		virtual int dr() { return 15; }
@@ -67,7 +67,7 @@ public:
 	virtual void damage(int dmg, const std::string& src);
 	virtual int defenseProc(Char* enemy, int damage);
 	virtual void beckon(int cell) { }
-	virtual void die(Object* cause);
+	virtual void die(const std::string& cause);
 	virtual void notice();
 	virtual std::string description() { return TXT_DESC; }
 private:

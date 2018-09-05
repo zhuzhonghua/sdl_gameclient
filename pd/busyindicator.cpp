@@ -2,6 +2,7 @@
 #include "icon.h"
 #include "util.h"
 #include "dungeon.h"
+#include "hero.h"
 
 BusyIndicator::BusyIndicator()
 :Image(Icons::get(Icons::BUSY))

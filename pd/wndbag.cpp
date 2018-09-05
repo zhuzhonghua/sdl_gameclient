@@ -4,6 +4,7 @@
 #include "pixelscene.h"
 #include "bag.h"
 #include "dungeon.h"
+#include "hero.h"
 
 WndBag::Mode WndBag::lastMode;
 Bag* WndBag::lastBag;

@@ -6,6 +6,7 @@
 #include "bpt.h"
 #include "glog.h"
 #include "pixelscene.h"
+#include "hero.h"
 
 #include <sstream>
 

@@ -198,5 +198,6 @@ void Texture::setPixel(int x, int y, int color)
 
 	default:
 		//return 0;       /* shouldn't happen, but avoids warnings */
+		break;
 	}
 }

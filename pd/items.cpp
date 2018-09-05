@@ -48,7 +48,7 @@ void Bomb::onThrow(int cell)
 			int c = cell + n;
 			if (c >= 0 && c < Level::LENGTH) {
 				if (Dungeon::visible[c]) {
-					CellEmitter::get(c)->burst(SmokeParticle.FACTORY, 4);
+					//CellEmitter::get(c)->burst(SmokeParticle.FACTORY, 4);
 				}
 
 				if (Level::flamable[c]) {
@@ -61,7 +61,7 @@ void Bomb::onThrow(int cell)
 				if (ch != NULL) {
 					int dmg = Random::Int(1 + Dungeon::depth, 10 + Dungeon::depth * 2) - Random::Int(ch->dr());
 					if (dmg > 0) {
-						ch->damage(dmg, this);
+						ch->damage(dmg, this->getClassName());
 						if (ch->isAlive()) {
 							//Buff.prolong(ch, Paralysis.class, 2);
 						}

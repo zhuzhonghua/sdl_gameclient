@@ -4,6 +4,7 @@
 #include <random>
 #include <set>
 #include <list>
+#include <map>
 #include "define.h"
 #include "regex/pcrecpp.h"
 
@@ -65,20 +66,20 @@ public:
 		}
 		return (T)NULL;
 	}
-	static T chances(const std::map < T, float >& chances)
+	static T chances(const std::map < T, float >& chs)
 	{
-		int size = chances.size();
+		int size = chs.size();
 		std::vector<T> values(size);
 		int c = 0;
-		for (std::map < T, float >::iterator itr = chances.begin();
-			itr != chances.end(); itr++){
+		for (std::map < T, float >::const_iterator itr = chs.begin();
+			itr != chs.end(); itr++){
 			values[c++] = itr->first;
 		}
 
 		std::vector<float> probs(size);
 		float sum = 0;
 		for (int i = 0; i < size; i++) {
-			probs[i] = chances[values[i]];
+			probs[i] = chs.find(values[i])->second;
 			sum += probs[i];
 		}
 
