@@ -91,22 +91,6 @@ GLSLProgram::GLSLProgram()
 	ASSERT(_inst == NULL);
 	_inst = this;
 	loadShaders();
-
-	_vertexData[0].setPos(0, 0);
-	_vertexData[0].setUV(1, 0);
-
-	_vertexData[1].setPos(-1, 0);
-	_vertexData[1].setUV(0, 0);
-
-	_vertexData[2].setPos(-1, -1);
-	_vertexData[2].setUV(0, 1);
-
-	_vertexData[3].setPos(0, -1);
-	_vertexData[3].setUV(1, 1);
-
-	glGenBuffers(1, &vertexBuffer);
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(_vertexData), _vertexData, GL_STATIC_DRAW);
 }
 
 GLSLProgram* GLSLProgram::_inst;
@@ -135,27 +119,9 @@ void GLSLProgram::use()
 
 void GLSLProgram::drawQuad(Vertex* buffer)
 {
-	float* ptr = (float*)buffer;
+	char* ptr = (char*)buffer;
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(ptr + offsetof(Vertex, pos)));
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(ptr + offsetof(Vertex, uv)));
-
-	short indices[] = { 0, 1, 2, 0, 2, 3 };
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void*)indices);
-}
-
-void GLSLProgram::drawQuad()
-{
-	//float* ptr = (float*)&_vertexData[0];
-	//glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(ptr + offsetof(Vertex, pos)));
-	//glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(ptr + offsetof(Vertex, uv)));
-	//
-	//short indices[] = { 0, 1, 2, 0, 2, 3 };
-	//glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void*)indices);
-
-	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
-
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(GLSLProgram::Vertex), (void*)offsetof(GLSLProgram::Vertex, pos));
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(GLSLProgram::Vertex), (void*)offsetof(GLSLProgram::Vertex, uv));
 
 	short indices[] = { 0, 1, 2, 0, 2, 3 };
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, (void*)indices);

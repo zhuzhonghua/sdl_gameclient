@@ -27,7 +27,6 @@ public:
 	void init();
 	void use();
 	void drawQuad(Vertex* buffer);
-	void drawQuad();
 
 	GLuint programID() { return _programID; }
 protected:
@@ -40,9 +39,5 @@ protected:
 	GLuint _programID;
 	GLuint _vertexShaderID;
 	GLuint _fragShaderID;
-
-	// all same vertex
-	Vertex _vertexData[4];
-	GLuint vertexBuffer;
 };
 }

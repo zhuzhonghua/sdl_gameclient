@@ -11,6 +11,9 @@ public:
 	virtual ~Image();
 	void draw();
 protected:
+	void updateVertex();
+protected:
 	Texture* _tex;
+	std::vector<GLSLProgram::Vertex> _vertexData;
 };
 }
