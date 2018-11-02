@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "glslprogram.h"
+#include "camera2d.h"
 
 namespace Zengine{
 
@@ -8,10 +9,12 @@ const char* VERT_SHADER_SRC = R"(
 attribute vec2 aPos;
 attribute vec2 aUV;
 
+uniform mat4 uCamera;
+
 varying vec2 vUV;
 
 void main(){
-	gl_Position.xy = aPos;
+	gl_Position.xy = (uCamera * vec4(aPos, 0, 1)).xy;
 	gl_Position.z = 0.0;
 	gl_Position.w = 1.0;
 
@@ -91,6 +94,14 @@ GLSLProgram::GLSLProgram()
 	ASSERT(_inst == NULL);
 	_inst = this;
 	loadShaders();
+
+	int attr = 0;
+	glBindAttribLocation(_programID, attr, "aPos");
+	_aPos = Attribute(attr++);
+	glBindAttribLocation(_programID, attr, "aUV");
+	_aUV = Attribute(attr++);
+	
+	_uCamera = Uniform(glGetUniformLocation(_programID, "uCamera"));
 }
 
 GLSLProgram* GLSLProgram::_inst;
@@ -113,12 +124,14 @@ void GLSLProgram::use()
 {
 	glUseProgram(_programID);
 
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
+	_aPos.enable();
+	_aUV.enable();
 }
 
 void GLSLProgram::drawQuad(Vertex* buffer)
 {
+	_uCamera.valueM4(Camera2D::mainCamera->cameraMatrix);
+
 	char* ptr = (char*)buffer;
 	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(ptr + offsetof(Vertex, pos)));
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(ptr + offsetof(Vertex, uv)));

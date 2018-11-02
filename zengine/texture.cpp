@@ -27,7 +27,9 @@ void Texture::init()
 Texture::~Texture()
 {
 	// TODO: MemoryLeak
-	destroy();
+	// DONE: texture cache
+	// Or texture ref count
+	//destroy();
 }
 
 void Texture::bind()

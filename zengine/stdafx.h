@@ -12,6 +12,8 @@
 #include "SDL_image.h"
 #include "SDL_ttf.h"
 #include "SDL_mixer.h"
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
 //#include <GL/gl.h>
 //#include <GL/glu.h>
 
@@ -36,5 +38,7 @@ static inline void fatalError(std::string info)
 }
 
 typedef unsigned char byte;
+
+typedef glm::mat4 Matrix;
 
 #endif // !__STDAFX_H__

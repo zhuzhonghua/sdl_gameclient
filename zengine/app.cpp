@@ -3,7 +3,8 @@
 #include "app.h"
 #include "timing.h"
 #include "glslprogram.h"
-#include "image.h"
+#include "sprite.h"
+#include "camera2d.h"
 
 namespace Zengine{
 App* App::inst;
@@ -14,7 +15,7 @@ int App::height = 960;
 float App::timeScale = 1.0f;
 float App::elapsed = 0.0f;
 
-Image* img;
+Sprite* img;
 
 App::App()
 {
@@ -52,26 +53,36 @@ void App::init(const std::string& title)
 
 	glClearColor(0.0, 0.0, 1.0, 1.0);
 
-	//TTF_Init();
-	//
-	//// setup sound
-	//int flag = MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG;
-	//if (Mix_Init(flag) & flag != flag)
-	//{
-	//	std::string err = Mix_GetError();
-	//	fatalError("Mix_Init error " + err);
-	//}
-	//
-	//// 44100 cd rate, more cpu power
-	//if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
-	//{
-	//	std::string err = Mix_GetError();
-	//	fatalError("Mix_OpenAudio error " + err);
-	//}
-	//
+	TTF_Init();
+
+	// setup sound
+	int flag = MIX_INIT_FLAC | MIX_INIT_MOD | MIX_INIT_MP3 | MIX_INIT_OGG;
+	if (Mix_Init(flag) & flag != flag)
+	{
+		std::string err = Mix_GetError();
+		fatalError("Mix_Init error " + err);
+	}
+
+	// 44100 cd rate, more cpu power
+	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) == -1)
+	{
+		std::string err = Mix_GetError();
+		fatalError("Mix_OpenAudio error " + err);
+	}
+
 	GLSLProgram::inst()->init();
 	//
-	img = new Image("workground.jpg");
+	img = new Sprite("gllogo.png");
+	float x = App::width - img->getWidth();
+	x /= 2;
+	x -= App::width / 2;
+	float y = App::height - img->getHeight();
+	y /= 2;
+	y -= App::height / 2;
+	img->setPosition(x, y);
+
+	Camera2D::mainCamera = new Camera2D();
+	Camera2D::mainCamera->init(width, height);
 }
 
 
@@ -137,6 +148,7 @@ void App::update()
 {
 	App::elapsed = App::timeScale * _step * 0.001f;
 
+	Camera2D::mainCamera->update();
 	//_scene->update();	
 }
 
