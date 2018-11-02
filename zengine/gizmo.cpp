@@ -4,6 +4,7 @@
 
 #include "group.h"
 
+namespace Zengine{
 Gizmo::Gizmo()
 {
 	exists = true;
@@ -12,7 +13,7 @@ Gizmo::Gizmo()
 	visible = true;
 
 	parent = NULL;
-	cameraf = NULL;
+	camera = NULL;
 }
 
 bool Gizmo::isVisible()
@@ -56,18 +57,20 @@ void Gizmo::remove()
 	}
 }
 
-Camera* Gizmo::camera()
+Camera2D* Gizmo::camera()
 {
-	if (cameraf != NULL) 
+	if (camera != NULL)
 	{
-		return cameraf;
+		return camera;
 	}
-	else if (parent != NULL) 
+	else if (parent != NULL)
 	{
 		return parent->camera();
 	}
-	else 
+	else
 	{
 		return NULL;
 	}
+}
+
 }

@@ -2,6 +2,7 @@
 
 #include "group.h"
 
+namespace Zengine{
 Group::Group()
 {
 	_members.clear();
@@ -30,7 +31,7 @@ void Group::destroy()
 
 void Group::update()
 {
-	for (int i=0; i<_members.size();i++)
+	for (int i = 0; i < _members.size(); i++)
 	{
 		Gizmo* g = _members[i];
 		if (g != NULL && g->exists && g->active)
@@ -143,7 +144,7 @@ Gizmo* Group::add(Gizmo* g)
 Gizmo* Group::recycle(const std::string& tag)
 {
 	Gizmo* g = getFirstAvailable(tag);
-	if (g != NULL) 
+	if (g != NULL)
 	{
 		return g;
 	}
@@ -157,7 +158,7 @@ Gizmo* Group::getFirstAvailable(const std::string& tag)
 	{
 		Gizmo* g = _members[i];
 		std::string name = typeid(*g).name();
-		if (g != NULL && !g->exists && name.compare(tag) == 0) 
+		if (g != NULL && !g->exists && name.compare(tag) == 0)
 		{
 			return g;
 		}
@@ -175,7 +176,7 @@ Gizmo* Group::erase(Gizmo* g)
 		g->parent = NULL;
 		return g;
 	}
-	
+
 	return NULL;
 }
 
@@ -265,7 +266,7 @@ Gizmo* Group::bringToFront(Gizmo* g)
 		_members.push_back(g);
 		return g;
 	}
-	
+
 	return NULL;
 }
 
@@ -280,4 +281,5 @@ Gizmo* Group::sendToBack(Gizmo* g)
 	}
 
 	return NULL;
+}
 }

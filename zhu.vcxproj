@@ -14,7 +14,9 @@
     <ClCompile Include="icongenerator\main.cpp" />
     <ClCompile Include="zengine\app.cpp" />
     <ClCompile Include="zengine\camera2d.cpp" />
+    <ClCompile Include="zengine\gizmo.cpp" />
     <ClCompile Include="zengine\glslprogram.cpp" />
+    <ClCompile Include="zengine\group.cpp" />
     <ClCompile Include="zengine\sprite.cpp" />
     <ClCompile Include="zengine\texture.cpp" />
     <ClCompile Include="zengine\timing.cpp" />
@@ -23,7 +25,9 @@
     <ClInclude Include="icongenerator\pixelgenerator.h" />
     <ClInclude Include="zengine\app.h" />
     <ClInclude Include="zengine\camera2d.h" />
+    <ClInclude Include="zengine\gizmo.h" />
     <ClInclude Include="zengine\glslprogram.h" />
+    <ClInclude Include="zengine\group.h" />
     <ClInclude Include="zengine\sprite.h" />
     <ClInclude Include="zengine\stdafx.h" />
     <ClInclude Include="zengine\texture.h" />

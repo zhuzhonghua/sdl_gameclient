@@ -2,8 +2,9 @@
 
 #include <string>
 
+namespace Zengine{
 class Group;
-class Camera;
+class Camera2D;
 
 class Gizmo{
 public:
@@ -14,7 +15,7 @@ public:
 	virtual void destroy(){}
 	virtual void update(){}
 	virtual void draw(){}
-	
+
 	virtual void kill()
 	{
 		alive = false;
@@ -31,7 +32,7 @@ public:
 	void killAndErase();
 	void remove();
 
-	virtual Camera* camera();
+	virtual Camera2D* getCamera();
 public:
 	bool exists;
 	bool alive;
@@ -39,7 +40,6 @@ public:
 	bool visible;
 
 	Group* parent;
-	Camera* cameraf;
-
-	std::string tag;
+	Camera2D* camera;
 };
+}

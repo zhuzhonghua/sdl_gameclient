@@ -30,6 +30,12 @@
     <ClCompile Include="zengine\sprite.cpp">
       <Filter>zengine</Filter>
     </ClCompile>
+    <ClCompile Include="zengine\gizmo.cpp">
+      <Filter>zengine</Filter>
+    </ClCompile>
+    <ClCompile Include="zengine\group.cpp">
+      <Filter>zengine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="zengine\app.h">
@@ -54,6 +60,12 @@
       <Filter>zengine</Filter>
     </ClInclude>
     <ClInclude Include="zengine\sprite.h">
+      <Filter>zengine</Filter>
+    </ClInclude>
+    <ClInclude Include="zengine\gizmo.h">
+      <Filter>zengine</Filter>
+    </ClInclude>
+    <ClInclude Include="zengine\group.h">
       <Filter>zengine</Filter>
     </ClInclude>
   </ItemGroup>

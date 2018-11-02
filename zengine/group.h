@@ -4,7 +4,8 @@
 
 #include <vector>
 
-class Group:public Gizmo{
+namespace Zengine{
+class Group :public Gizmo{
 public:
 	Group();
 	~Group();
@@ -30,7 +31,7 @@ public:
 	Gizmo* getFirstAvailable(const std::string& tag);
 
 	Gizmo* erase(Gizmo* g);
-	Gizmo* remove(Gizmo* g, bool autoDel=false);
+	Gizmo* remove(Gizmo* g, bool autoDel = false);
 
 	Gizmo* replace(Gizmo* oldOne, Gizmo* newOne);
 	int countLiving();
@@ -44,3 +45,4 @@ protected:
 	std::vector<Gizmo*> _members;
 	std::vector<Gizmo*> _toDel;
 };
+}
