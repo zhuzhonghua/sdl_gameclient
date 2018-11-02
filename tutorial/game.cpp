@@ -190,17 +190,17 @@ void Game::drawGame()
 
 	_spriteBatch.begin();
 
-	//glm::vec4 pos(0.0f,0.0f,50.0f,50.0f);
-	//glm::vec4 uv(0.0f, 0.0f, 1.0f, 1.0f);
+	glm::vec4 pos(0.0f,0.0f,50.0f,50.0f);
+	glm::vec4 uv(0.0f, 0.0f, 1.0f, 1.0f);
 	//
-	//static Zhu::Texture tex = Zhu::ResourceManager::getTexture("data/jimmyJump_pack/PNG/CharacterRight_Standing.png");
-	//Zhu::Color color;
-	//color.r = 255;
-	//color.g = 255;
-	//color.b = 255;
-	//color.a = 255;
+	static Zhu::Texture tex = Zhu::ResourceManager::getTexture("data/jimmyJump_pack/PNG/CharacterRight_Standing.png");
+	Zhu::Color color;
+	color.r = 255;
+	color.g = 255;
+	color.b = 255;
+	color.a = 255;
 	//
-	//_spriteBatch.draw(pos, uv, tex.id, 0.0f, color);
+	_spriteBatch.draw(pos, uv, tex.id, 0.0f, color);
 	//
 	//for (int i = 0; i < _bullets.size(); i++)
 	//{

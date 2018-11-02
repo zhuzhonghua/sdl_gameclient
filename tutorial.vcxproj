@@ -11,28 +11,67 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="icongenerator\main.cpp" />
-    <ClCompile Include="zengine\app.cpp" />
-    <ClCompile Include="zengine\camera2d.cpp" />
-    <ClCompile Include="zengine\glslprogram.cpp" />
-    <ClCompile Include="zengine\sprite.cpp" />
-    <ClCompile Include="zengine\texture.cpp" />
-    <ClCompile Include="zengine\timing.cpp" />
+    <ClCompile Include="library\audioengine.cpp" />
+    <ClCompile Include="library\button.cpp" />
+    <ClCompile Include="library\camera2d.cpp" />
+    <ClCompile Include="library\debugrenderer.cpp" />
+    <ClCompile Include="library\engine.cpp" />
+    <ClCompile Include="library\glslprogram.cpp" />
+    <ClCompile Include="library\imageloader.cpp" />
+    <ClCompile Include="library\input.cpp" />
+    <ClCompile Include="library\inputmanager.cpp" />
+    <ClCompile Include="library\iomanager.cpp" />
+    <ClCompile Include="library\particlebatch2d.cpp" />
+    <ClCompile Include="library\particleengine2d.cpp" />
+    <ClCompile Include="library\picoPNG.cpp" />
+    <ClCompile Include="library\resourcemanager.cpp" />
+    <ClCompile Include="library\scene.cpp" />
+    <ClCompile Include="library\sprite.cpp" />
+    <ClCompile Include="library\spritebatch.cpp" />
+    <ClCompile Include="library\spritefont.cpp" />
+    <ClCompile Include="library\texturecache.cpp" />
+    <ClCompile Include="library\timing.cpp" />
+    <ClCompile Include="library\toucharea.cpp" />
+    <ClCompile Include="library\window.cpp" />
+    <ClCompile Include="tutorial\bullet.cpp" />
+    <ClCompile Include="tutorial\game.cpp" />
+    <ClCompile Include="tutorial\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="icongenerator\pixelgenerator.h" />
-    <ClInclude Include="zengine\app.h" />
-    <ClInclude Include="zengine\camera2d.h" />
-    <ClInclude Include="zengine\glslprogram.h" />
-    <ClInclude Include="zengine\sprite.h" />
-    <ClInclude Include="zengine\stdafx.h" />
-    <ClInclude Include="zengine\texture.h" />
-    <ClInclude Include="zengine\timing.h" />
+    <ClInclude Include="library\audioengine.h" />
+    <ClInclude Include="library\button.h" />
+    <ClInclude Include="library\camera2d.h" />
+    <ClInclude Include="library\debugrenderer.h" />
+    <ClInclude Include="library\engine.h" />
+    <ClInclude Include="library\eventlistener.h" />
+    <ClInclude Include="library\gizmo.h" />
+    <ClInclude Include="library\glslprogram.h" />
+    <ClInclude Include="library\imageloader.h" />
+    <ClInclude Include="library\input.h" />
+    <ClInclude Include="library\inputmanager.h" />
+    <ClInclude Include="library\iomanager.h" />
+    <ClInclude Include="library\particlebatch2d.h" />
+    <ClInclude Include="library\particleengine2d.h" />
+    <ClInclude Include="library\picoPNG.h" />
+    <ClInclude Include="library\resourcemanager.h" />
+    <ClInclude Include="library\scene.h" />
+    <ClInclude Include="library\sprite.h" />
+    <ClInclude Include="library\spritebatch.h" />
+    <ClInclude Include="library\spritefont.h" />
+    <ClInclude Include="library\stdafx.h" />
+    <ClInclude Include="library\texture.h" />
+    <ClInclude Include="library\texturecache.h" />
+    <ClInclude Include="library\tilesheet.h" />
+    <ClInclude Include="library\timing.h" />
+    <ClInclude Include="library\toucharea.h" />
+    <ClInclude Include="library\vertex.h" />
+    <ClInclude Include="library\window.h" />
+    <ClInclude Include="tutorial\bullet.h" />
+    <ClInclude Include="tutorial\game.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{92B1ABC6-BDD8-4A44-AF57-9085F9645941}</ProjectGuid>
+    <ProjectGuid>{39D373FC-04D4-4AE2-8B77-0CA026471B9B}</ProjectGuid>
     <RootNamespace>zhu</RootNamespace>
-    <ProjectName>icongenerator</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -67,7 +106,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)deps\include;$(ProjectDir)deps\include\SDL2_mixer;$(ProjectDir)deps\include\SDL2_ttf;$(ProjectDir)deps\include\SDL2_Image;$(ProjectDir)deps\lpng1630;$(ProjectDir)deps\zlib;$(ProjectDir)deps\include\SDL2;$(ProjectDir)icongenerator;$(ProjectDir)zengine;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)deps\include;$(ProjectDir)deps\include\SDL2_mixer;$(ProjectDir)deps\include\SDL2_ttf;$(ProjectDir)deps\include\SDL2_Image;$(ProjectDir)deps\lpng1630;$(ProjectDir)deps\zlib;$(ProjectDir)deps\include\SDL2;$(ProjectDir)tutorial;$(ProjectDir)library;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;WIN32;HAVE_CONFIG_H;PCRE_STATIC;SUPPORT_UTF;SUPPORT_UTF8;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>

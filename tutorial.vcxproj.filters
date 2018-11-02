@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="library\audioengine.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\button.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\camera2d.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\debugrenderer.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\engine.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\glslprogram.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\imageloader.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\input.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\inputmanager.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\iomanager.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\particlebatch2d.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\particleengine2d.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\picoPNG.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\resourcemanager.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\scene.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\sprite.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\spritebatch.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\spritefont.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\texturecache.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\timing.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\toucharea.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="library\window.cpp">
+      <Filter>library</Filter>
+    </ClCompile>
+    <ClCompile Include="tutorial\bullet.cpp" />
+    <ClCompile Include="tutorial\game.cpp" />
+    <ClCompile Include="tutorial\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="library\audioengine.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\button.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\camera2d.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\debugrenderer.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\engine.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\eventlistener.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\gizmo.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\glslprogram.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\imageloader.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\input.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\inputmanager.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\iomanager.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\particlebatch2d.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\particleengine2d.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\picoPNG.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\resourcemanager.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\scene.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\sprite.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\spritebatch.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\spritefont.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\stdafx.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\texture.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\texturecache.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\tilesheet.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\timing.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\toucharea.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\vertex.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="library\window.h">
+      <Filter>library</Filter>
+    </ClInclude>
+    <ClInclude Include="tutorial\bullet.h" />
+    <ClInclude Include="tutorial\game.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="library">
+      <UniqueIdentifier>{0f71a5f1-9c3a-4f17-8869-00fd34643ebe}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

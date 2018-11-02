@@ -21,10 +21,13 @@
     <ClCompile Include="zengine\glslprogram.cpp">
       <Filter>zengine</Filter>
     </ClCompile>
-    <ClCompile Include="zengine\image.cpp">
+    <ClCompile Include="zengine\texture.cpp">
       <Filter>zengine</Filter>
     </ClCompile>
-    <ClCompile Include="zengine\texture.cpp">
+    <ClCompile Include="zengine\camera2d.cpp">
+      <Filter>zengine</Filter>
+    </ClCompile>
+    <ClCompile Include="zengine\sprite.cpp">
       <Filter>zengine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,10 +47,13 @@
     <ClInclude Include="zengine\glslprogram.h">
       <Filter>zengine</Filter>
     </ClInclude>
-    <ClInclude Include="zengine\image.h">
+    <ClInclude Include="zengine\texture.h">
       <Filter>zengine</Filter>
     </ClInclude>
-    <ClInclude Include="zengine\texture.h">
+    <ClInclude Include="zengine\camera2d.h">
+      <Filter>zengine</Filter>
+    </ClInclude>
+    <ClInclude Include="zengine\sprite.h">
       <Filter>zengine</Filter>
     </ClInclude>
   </ItemGroup>
