@@ -8,6 +8,11 @@
 using namespace Zengine;
 PixelScene::PixelScene()
 {
+	Sprite* bg = new Sprite("icongenerator/bg.png");
+	bg->setPosition(-App::width / 2, -App::height / 2);
+	bg->setSize(App::width, App::height);
+	add(bg);
+
 	//
 	img = new Sprite("gllogo.png");
 	float x = App::width - img->getWidth();
