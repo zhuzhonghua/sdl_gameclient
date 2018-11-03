@@ -1,6 +1,7 @@
 #pragma once
 
 namespace Zengine{
+class Scene;
 class App{
 public:
 	static App* inst;
@@ -8,8 +9,8 @@ public:
 	App();	
 	virtual ~App();
 
-	void init(const std::string& tile);
-	void run();
+	virtual void init(const std::string& tile, int w = 640, int h = 960);
+	virtual void run();
 	void processInput();
 	void update();
 	void draw();
@@ -38,6 +39,8 @@ protected:
 	float	_fps;
 
 	long	_now;
-	long	_step;	
+	long	_step;
+
+	Scene*	_scene;
 };
 };

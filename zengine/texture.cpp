@@ -8,6 +8,14 @@ Texture::Texture()
 	init();
 }
 
+Texture::Texture(SDL_Surface* tx)
+{
+	init();
+	bitmap(tx);
+	filter(GL_NEAREST, GL_NEAREST);
+	wrap(GL_CLAMP, GL_CLAMP);
+}
+
 Texture::Texture(const std::string& tx)
 {
 	init();

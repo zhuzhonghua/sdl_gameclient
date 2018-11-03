@@ -7,6 +7,9 @@
     <Filter Include="zengine">
       <UniqueIdentifier>{b643ba44-aee3-4442-98af-b45e0d74bae5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="regex">
+      <UniqueIdentifier>{aca70650-6a9e-406c-80d0-3d3ec762f4f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="icongenerator\main.cpp">
@@ -34,6 +37,108 @@
       <Filter>zengine</Filter>
     </ClCompile>
     <ClCompile Include="zengine\group.cpp">
+      <Filter>zengine</Filter>
+    </ClCompile>
+    <ClCompile Include="zengine\button.cpp">
+      <Filter>zengine</Filter>
+    </ClCompile>
+    <ClCompile Include="zengine\toucharea.cpp">
+      <Filter>zengine</Filter>
+    </ClCompile>
+    <ClCompile Include="zengine\input.cpp">
+      <Filter>zengine</Filter>
+    </ClCompile>
+    <ClCompile Include="icongenerator\pixelscene.cpp">
+      <Filter>icon</Filter>
+    </ClCompile>
+    <ClCompile Include="icongenerator\pixelgenerator.cpp">
+      <Filter>icon</Filter>
+    </ClCompile>
+    <ClCompile Include="zengine\bitmaptext.cpp">
+      <Filter>zengine</Filter>
+    </ClCompile>
+    <ClCompile Include="zengine\bitmaptextmultiline.cpp">
+      <Filter>zengine</Filter>
+    </ClCompile>
+    <ClCompile Include="zengine\texturecache.cpp">
+      <Filter>zengine</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_byte_order.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_chartables.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_compile.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_config.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_dfa_exec.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_exec.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_fullinfo.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_get.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_globals.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_jit_compile.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_maketables.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_newline.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_ord2utf8.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_refcount.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_string_utils.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_study.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_tables.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_ucd.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_valid_utf8.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_version.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_xclass.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcreposix.c">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_scanner.cc">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcre_stringpiece.cc">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="regex\pcrecpp.cc">
+      <Filter>regex</Filter>
+    </ClCompile>
+    <ClCompile Include="zengine\util.cpp">
       <Filter>zengine</Filter>
     </ClCompile>
   </ItemGroup>
@@ -66,6 +171,39 @@
       <Filter>zengine</Filter>
     </ClInclude>
     <ClInclude Include="zengine\group.h">
+      <Filter>zengine</Filter>
+    </ClInclude>
+    <ClInclude Include="zengine\eventlistener.h">
+      <Filter>zengine</Filter>
+    </ClInclude>
+    <ClInclude Include="zengine\button.h">
+      <Filter>zengine</Filter>
+    </ClInclude>
+    <ClInclude Include="zengine\toucharea.h">
+      <Filter>zengine</Filter>
+    </ClInclude>
+    <ClInclude Include="zengine\input.h">
+      <Filter>zengine</Filter>
+    </ClInclude>
+    <ClInclude Include="zengine\scene.h">
+      <Filter>zengine</Filter>
+    </ClInclude>
+    <ClInclude Include="icongenerator\pixelscene.h">
+      <Filter>icon</Filter>
+    </ClInclude>
+    <ClInclude Include="zengine\bitmaptext.h">
+      <Filter>zengine</Filter>
+    </ClInclude>
+    <ClInclude Include="zengine\bitmaptextmultiline.h">
+      <Filter>zengine</Filter>
+    </ClInclude>
+    <ClInclude Include="zengine\texturecache.h">
+      <Filter>zengine</Filter>
+    </ClInclude>
+    <ClInclude Include="zengine\rect.h">
+      <Filter>zengine</Filter>
+    </ClInclude>
+    <ClInclude Include="zengine\util.h">
       <Filter>zengine</Filter>
     </ClInclude>
   </ItemGroup>

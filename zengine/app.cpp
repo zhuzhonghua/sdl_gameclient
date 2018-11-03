@@ -3,8 +3,8 @@
 #include "app.h"
 #include "timing.h"
 #include "glslprogram.h"
-#include "sprite.h"
 #include "camera2d.h"
+#include "scene.h"
 
 namespace Zengine{
 App* App::inst;
@@ -15,8 +15,6 @@ int App::height = 960;
 float App::timeScale = 1.0f;
 float App::elapsed = 0.0f;
 
-Sprite* img;
-
 App::App()
 {
 	ASSERT(inst == NULL);
@@ -25,14 +23,19 @@ App::App()
 	state = State::PLAY;
 	_now = 0;
 	_step = 0;
+
+	_scene = NULL;
 }
 
 App::~App()
 {
 }
 
-void App::init(const std::string& title)
+void App::init(const std::string& title, int w, int h)
 {
+	App::width = w;
+	App::height = h;
+
 	SDL_Init(SDL_INIT_EVERYTHING);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
 	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 1);
@@ -71,16 +74,7 @@ void App::init(const std::string& title)
 	}
 
 	GLSLProgram::inst()->init();
-	//
-	img = new Sprite("gllogo.png");
-	float x = App::width - img->getWidth();
-	x /= 2;
-	x -= App::width / 2;
-	float y = App::height - img->getHeight();
-	y /= 2;
-	y -= App::height / 2;
-	img->setPosition(x, y);
-
+	
 	Camera2D::mainCamera = new Camera2D();
 	Camera2D::mainCamera->init(width, height);
 }
@@ -149,7 +143,7 @@ void App::update()
 	App::elapsed = App::timeScale * _step * 0.001f;
 
 	Camera2D::mainCamera->update();
-	//_scene->update();	
+	_scene->update();	
 }
 
 void App::draw()
@@ -158,7 +152,7 @@ void App::draw()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glActiveTexture(GL_TEXTURE0);
-	img->draw();
+	_scene->draw();
 }
 
 }

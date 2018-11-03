@@ -12,26 +12,71 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="icongenerator\main.cpp" />
+    <ClCompile Include="icongenerator\pixelgenerator.cpp" />
+    <ClCompile Include="icongenerator\pixelscene.cpp" />
+    <ClCompile Include="regex\pcrecpp.cc" />
+    <ClCompile Include="regex\pcreposix.c" />
+    <ClCompile Include="regex\pcre_byte_order.c" />
+    <ClCompile Include="regex\pcre_chartables.c" />
+    <ClCompile Include="regex\pcre_compile.c" />
+    <ClCompile Include="regex\pcre_config.c" />
+    <ClCompile Include="regex\pcre_dfa_exec.c" />
+    <ClCompile Include="regex\pcre_exec.c" />
+    <ClCompile Include="regex\pcre_fullinfo.c" />
+    <ClCompile Include="regex\pcre_get.c" />
+    <ClCompile Include="regex\pcre_globals.c" />
+    <ClCompile Include="regex\pcre_jit_compile.c" />
+    <ClCompile Include="regex\pcre_maketables.c" />
+    <ClCompile Include="regex\pcre_newline.c" />
+    <ClCompile Include="regex\pcre_ord2utf8.c" />
+    <ClCompile Include="regex\pcre_refcount.c" />
+    <ClCompile Include="regex\pcre_scanner.cc" />
+    <ClCompile Include="regex\pcre_stringpiece.cc" />
+    <ClCompile Include="regex\pcre_string_utils.c" />
+    <ClCompile Include="regex\pcre_study.c" />
+    <ClCompile Include="regex\pcre_tables.c" />
+    <ClCompile Include="regex\pcre_ucd.c" />
+    <ClCompile Include="regex\pcre_valid_utf8.c" />
+    <ClCompile Include="regex\pcre_version.c" />
+    <ClCompile Include="regex\pcre_xclass.c" />
     <ClCompile Include="zengine\app.cpp" />
+    <ClCompile Include="zengine\bitmaptext.cpp" />
+    <ClCompile Include="zengine\bitmaptextmultiline.cpp" />
+    <ClCompile Include="zengine\button.cpp" />
     <ClCompile Include="zengine\camera2d.cpp" />
     <ClCompile Include="zengine\gizmo.cpp" />
     <ClCompile Include="zengine\glslprogram.cpp" />
     <ClCompile Include="zengine\group.cpp" />
+    <ClCompile Include="zengine\input.cpp" />
     <ClCompile Include="zengine\sprite.cpp" />
     <ClCompile Include="zengine\texture.cpp" />
+    <ClCompile Include="zengine\texturecache.cpp" />
     <ClCompile Include="zengine\timing.cpp" />
+    <ClCompile Include="zengine\toucharea.cpp" />
+    <ClCompile Include="zengine\util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="icongenerator\pixelgenerator.h" />
+    <ClInclude Include="icongenerator\pixelscene.h" />
     <ClInclude Include="zengine\app.h" />
+    <ClInclude Include="zengine\bitmaptext.h" />
+    <ClInclude Include="zengine\bitmaptextmultiline.h" />
+    <ClInclude Include="zengine\button.h" />
     <ClInclude Include="zengine\camera2d.h" />
+    <ClInclude Include="zengine\eventlistener.h" />
     <ClInclude Include="zengine\gizmo.h" />
     <ClInclude Include="zengine\glslprogram.h" />
     <ClInclude Include="zengine\group.h" />
+    <ClInclude Include="zengine\input.h" />
+    <ClInclude Include="zengine\rect.h" />
+    <ClInclude Include="zengine\scene.h" />
     <ClInclude Include="zengine\sprite.h" />
     <ClInclude Include="zengine\stdafx.h" />
     <ClInclude Include="zengine\texture.h" />
+    <ClInclude Include="zengine\texturecache.h" />
     <ClInclude Include="zengine\timing.h" />
+    <ClInclude Include="zengine\toucharea.h" />
+    <ClInclude Include="zengine\util.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{92B1ABC6-BDD8-4A44-AF57-9085F9645941}</ProjectGuid>
@@ -71,7 +116,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>false</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)deps\include;$(ProjectDir)deps\include\SDL2_mixer;$(ProjectDir)deps\include\SDL2_ttf;$(ProjectDir)deps\include\SDL2_Image;$(ProjectDir)deps\lpng1630;$(ProjectDir)deps\zlib;$(ProjectDir)deps\include\SDL2;$(ProjectDir)icongenerator;$(ProjectDir)zengine;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)deps\include;$(ProjectDir)deps\include\SDL2_mixer;$(ProjectDir)deps\include\SDL2_ttf;$(ProjectDir)deps\include\SDL2_Image;$(ProjectDir)deps\lpng1630;$(ProjectDir)deps\zlib;$(ProjectDir)deps\include\SDL2;$(ProjectDir)icongenerator;$(ProjectDir)regex;$(ProjectDir)zengine;$(ProjectDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_DEPRECATE;_CRT_SECURE_NO_WARNINGS;WIN32;HAVE_CONFIG_H;PCRE_STATIC;SUPPORT_UTF;SUPPORT_UTF8;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>

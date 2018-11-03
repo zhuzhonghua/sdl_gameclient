@@ -14,6 +14,11 @@ Gizmo::Gizmo()
 
 	parent = NULL;
 	camera = NULL;
+
+	_x = 0; 
+	_y = 0; 
+	_width = 0; 
+	_height = 0;
 }
 
 bool Gizmo::isVisible()
@@ -57,7 +62,7 @@ void Gizmo::remove()
 	}
 }
 
-Camera2D* Gizmo::camera()
+Camera2D* Gizmo::getCamera()
 {
 	if (camera != NULL)
 	{
@@ -65,7 +70,7 @@ Camera2D* Gizmo::camera()
 	}
 	else if (parent != NULL)
 	{
-		return parent->camera();
+		return parent->getCamera();
 	}
 	else
 	{

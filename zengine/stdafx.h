@@ -4,6 +4,7 @@
 #define NULL 0
 
 #define ASSERT(expr) do {if(!(expr)){ std::printf("assert fail! %s:%d, %s", __FILE__, __LINE__, #expr);*(int*)0 = 0; }} while (0);
+#define INT_MAX_VALUE 0x3FFFFFFF
 
 #include "GL/glew.h"
 
@@ -14,6 +15,8 @@
 #include "SDL_mixer.h"
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "regex/pcrecpp.h"
+#include "util.h"
 //#include <GL/gl.h>
 //#include <GL/glu.h>
 
@@ -40,5 +43,8 @@ static inline void fatalError(std::string info)
 typedef unsigned char byte;
 
 typedef glm::mat4 Matrix;
+typedef glm::vec2 Point;
+
+#include "rect.h"
 
 #endif // !__STDAFX_H__

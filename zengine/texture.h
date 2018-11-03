@@ -18,6 +18,7 @@ public:
 	SDL_Surface* texSrc;
 
 	Texture();
+	Texture(SDL_Surface* img);
 	Texture(const std::string& bitmap);
 	virtual ~Texture();
 
