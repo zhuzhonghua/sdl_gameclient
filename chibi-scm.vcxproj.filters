@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="chibi">
+      <UniqueIdentifier>{cc0c013b-6526-4b9a-8189-87307023659b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sdl">
+      <UniqueIdentifier>{ded95c2d-e5c5-48f6-9695-ea3c06c94271}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="chibi-scheme\include\chibi\bignum.h">
+      <Filter>chibi</Filter>
+    </ClInclude>
+    <ClInclude Include="chibi-scheme\include\chibi\eval.h">
+      <Filter>chibi</Filter>
+    </ClInclude>
+    <ClInclude Include="chibi-scheme\include\chibi\features.h">
+      <Filter>chibi</Filter>
+    </ClInclude>
+    <ClInclude Include="chibi-scheme\include\chibi\gc_heap.h">
+      <Filter>chibi</Filter>
+    </ClInclude>
+    <ClInclude Include="chibi-scheme\include\chibi\sexp.h">
+      <Filter>chibi</Filter>
+    </ClInclude>
+    <ClInclude Include="chibi-scheme\include\chibi\sexp-huff.h">
+      <Filter>chibi</Filter>
+    </ClInclude>
+    <ClInclude Include="chibi-scheme\include\chibi\sexp-hufftabdefs.h">
+      <Filter>chibi</Filter>
+    </ClInclude>
+    <ClInclude Include="chibi-scheme\include\chibi\sexp-hufftabs.h">
+      <Filter>chibi</Filter>
+    </ClInclude>
+    <ClInclude Include="chibi-scheme\include\chibi\sexp-unhuff.h">
+      <Filter>chibi</Filter>
+    </ClInclude>
+    <ClInclude Include="chibi-scheme\sdl_h.h">
+      <Filter>sdl</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="chibi-scheme\include\chibi\sexp-hufftabs.c">
+      <Filter>chibi</Filter>
+    </ClCompile>
+    <ClCompile Include="chibi-scheme\bignum.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="chibi-scheme\eval.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="chibi-scheme\gc.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="chibi-scheme\main.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="chibi-scheme\opcodes.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="chibi-scheme\sexp.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="chibi-scheme\vm.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
